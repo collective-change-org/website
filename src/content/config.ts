@@ -5,7 +5,7 @@ import { getPages } from "./loaders/kirby/getPages";
 import { getPageContent } from "./loaders/kirby/getPageContent";
 
 const knowledgebase = defineCollection({
-	loader: getKnowledgeBase,
+	loader: () => getKnowledgeBase("knowledgebase"),
 	schema: docsSchema({
 		extend: z.object({
 			blocks: z.array(z.object({
@@ -20,7 +20,6 @@ const knowledgebase = defineCollection({
 
 export const collections = {
 	docs: knowledgebase,
-	// docs: defineCollection({ loader: docsLoader(), schema: docsSchema() }),
 };
 
 export type KnowledgebasePage = {
@@ -33,9 +32,9 @@ type Block = {
 	value: string;
 }
 
-async function getKnowledgeBase(): Promise<KnowledgebasePage[]> {
+async function getKnowledgeBase(basePage: string): Promise<KnowledgebasePage[]> {
 	// Getting all the leaf pages/pages with content
-	const leafPages = await getPages("knowledgebase").catch((e) => {
+	const leafPages = await getPages(basePage).catch((e) => {
 		console.error("catch", e)
 		throw new Error(e);
 	})
