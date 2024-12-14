@@ -6,7 +6,7 @@ import { getPageContent } from "./loaders/kirby/getPageContent";
 
 const block = z.object({
 	id: z.string(),
-	type: z.enum(["heading", "image", "card"]),
+	type: z.enum(["heading", "image", "card", "link-card"]),
 	isHidden: z.boolean(),
 	content: z.any(),
 });

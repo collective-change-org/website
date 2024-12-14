@@ -1,5 +1,5 @@
 ---
-import { Card } from "@astrojs/starlight/components";
+import { Card, LinkCard } from "@astrojs/starlight/components";
 import type { Block } from "../content/config";
 
 const { blocks }: {blocks: Block[]} = Astro.props.entry.data;
@@ -23,6 +23,8 @@ const { blocks }: {blocks: Block[]} = Astro.props.entry.data;
 				}
 			case 'card':
 				return <Card title={block.content.title} icon={block.content.icon}>{block.content.content}</Card>
+			case 'link-card':
+				return <LinkCard title={block.content.title} href={block.content.href} description={block.content.description} />
 			default:
 				return JSON.stringify(block);
 		}
