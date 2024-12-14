@@ -1,10 +1,4 @@
-// {
-// 	"query": "page('knowledgebase').children"
-//   }
-
-import { getHeaders } from "./getHeaders";
-
-const api = "https://eric.test/api/query";
+import { getApiUrl, getHeaders } from "./getHeaders";
 
 export async function getPages(page: string): Promise<string[]> {
 	const query = {
@@ -13,7 +7,7 @@ export async function getPages(page: string): Promise<string[]> {
 
 	const headers = getHeaders();
 	process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0';
-	const res = await fetch(api, {
+	const res = await fetch(getApiUrl(), {
 		method: "POST",
 		headers,
 		body: JSON.stringify(query),

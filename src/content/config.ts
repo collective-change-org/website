@@ -4,19 +4,25 @@ import { docsLoader } from "@astrojs/starlight/loaders";
 import { getPages } from "./loaders/kirby/getPages";
 import { getPageContent } from "./loaders/kirby/getPageContent";
 
+const block = z.object({
+	id: z.string(),
+	type: z.enum(["heading", "image"]),
+	isHidden: z.boolean(),
+	content: z.any(),
+});
+
+export type Block = z.infer<typeof block>;
+
 const knowledgebase = defineCollection({
 	loader: () => getKnowledgeBase("knowledgebase"),
 	schema: docsSchema({
 		extend: z.object({
-			blocks: z.array(z.object({
-				id: z.string(),
-				type: z.enum(["heading", "image"]),
-				isHidden: z.boolean(),
-				content: z.any(),
-			}))
+			blocks: z.array(block)
 		})
 	}),
 });
+
+
 
 export const collections = {
 	docs: knowledgebase,
@@ -26,10 +32,6 @@ export type KnowledgebasePage = {
 	id: string;
 	title: string;
 	blocks: Block[]
-}
-type Block = {
-	type: "text" | "code";
-	value: string;
 }
 
 async function getKnowledgeBase(basePage: string): Promise<KnowledgebasePage[]> {

@@ -7,6 +7,7 @@ export default defineConfig({
 		schema: {
 			KIRBY_USERNAME: envField.string({ context: "server", access: "secret" }),
 			KIRBY_PASSWORD: envField.string({ context: "server", access: "secret" }),
+			KIRBY_URL: envField.string({ context: "server", access: "public" }),
 		},
 	},
 	integrations: [
@@ -14,6 +15,9 @@ export default defineConfig({
 			title: 'Capslock 2',
 			social: {
 				github: 'https://github.com/withastro/starlight',
+			},
+			components: {
+				MarkdownContent: './src/components/MarkdownContent.astro',
 			},
 			sidebar: [
 

@@ -1,16 +1,5 @@
-// {
-// 	"query": "page('knowledgebase/software/photoshop')",
-// 	"select": {
-// 	  "url": true,
-// 	  "title": true,
-// 	  "text": true
-// 	  }
-//   }
-
 import type { KnowledgebasePage } from "../../config";
-import { getHeaders } from "./getHeaders";
-
-const api = "https://eric.test/api/query";
+import { getApiUrl, getHeaders } from "./getHeaders";
 
 export async function getPageContent(page: string): Promise<KnowledgebasePage> {
 	const query = {
@@ -23,7 +12,7 @@ export async function getPageContent(page: string): Promise<KnowledgebasePage> {
 
 	const headers = getHeaders();
 
-	const res = await fetch(api, {
+	const res = await fetch(getApiUrl(), {
 		method: "POST",
 		headers,
 		body: JSON.stringify(query),
