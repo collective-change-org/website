@@ -1,28 +1,30 @@
 ---
+import { Card } from "@astrojs/starlight/components";
 import type { Block } from "../content/config";
 
 const { blocks }: {blocks: Block[]} = Astro.props.entry.data;
 ---
 
 {
-	  blocks.map((block) => {
-	switch (block.type) {
-	  case 'heading':
-		console.log(block.content)
-		switch (block.content.level) {
-			case "h1":
-				return <h1>{block.content.text}</h1>
-			case "h2":
-				return <h2>{block.content.text}</h2>
-			case "h3":
-				return <h3>{block.content.text}</h3>
-			case "h4":
-				return <h4>{block.content.text}</h4>
+	blocks.map((block) => {
+		switch (block.type) {
+			case 'heading':
+				switch (block.content.level) {
+					case "h1":
+						return <h1>{block.content.text}</h1>
+					case "h2":
+						return <h2>{block.content.text}</h2>
+					case "h3":
+						return <h3>{block.content.text}</h3>
+					case "h4":
+						return <h4>{block.content.text}</h4>
+					default:
+						return <h1>{block.content.text}</h1>
+				}
+			case 'card':
+				return <Card title={block.content.title} icon={block.content.icon}>{block.content.content}</Card>
 			default:
-				return <h1>{block.content.text}</h1>
+				return JSON.stringify(block);
 		}
-	  default:
-		return JSON.stringify(block);
-	}
-})
+	})
 }
