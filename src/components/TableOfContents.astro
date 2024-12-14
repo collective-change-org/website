@@ -1,0 +1,41 @@
+---
+import type { Block } from '../content/config';
+import { generateToC, headingToSlug } from '../content/loaders/kirby/generateToC';
+import TableOfContentsList from './TableOfContents/TableOfContentsList.astro';
+
+
+const { toc } = Astro.props;
+const { blocks, title }: {blocks: Block[], title: string} = Astro.props.entry.data;
+
+// Generate ToC
+const headings = blocks.filter(({ type }: { type: string }) => type === "heading");
+	// Kirby Headings to Astro Headings
+	const astroHeadings = headings.map(({ content }) => {
+		const depth = parseInt(content.level.replace("h", ""));
+		return {
+			depth,
+			slug: headingToSlug(content.text),
+			text: content.text,
+		};
+	});
+
+	const items = generateToC(astroHeadings, {
+		minHeadingLevel: 2,
+		maxHeadingLevel: 3,
+		title: title,
+	});
+
+toc.items = items;
+---
+{
+	toc && (
+		<starlight-toc data-min-h={toc.minHeadingLevel} data-max-h={toc.maxHeadingLevel}>
+			<nav aria-labelledby="starlight__on-this-page">
+				<h2 id="starlight__on-this-page">{Astro.locals.t('tableOfContents.onThisPage')}</h2>
+				<TableOfContentsList toc={toc.items} />
+			</nav>
+		</starlight-toc>
+	)
+}
+
+<!-- <script src="./TableOfContents/starlight-toc"></script> -->

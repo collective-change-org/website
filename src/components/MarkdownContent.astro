@@ -1,6 +1,7 @@
 ---
 import { Card, LinkCard } from "@astrojs/starlight/components";
 import type { Block } from "../content/config";
+import { headingToSlug } from "../content/loaders/kirby/generateToC";
 
 const { blocks }: {blocks: Block[]} = Astro.props.entry.data;
 ---
@@ -11,20 +12,24 @@ const { blocks }: {blocks: Block[]} = Astro.props.entry.data;
 			case 'heading':
 				switch (block.content.level) {
 					case "h1":
-						return <h1>{block.content.text}</h1>
+						return <h1 id={headingToSlug(block.content.text)}>{block.content.text}</h1>
 					case "h2":
-						return <h2>{block.content.text}</h2>
+						return <h2 id={headingToSlug(block.content.text)}>{block.content.text}</h2>
 					case "h3":
-						return <h3>{block.content.text}</h3>
+						return <h3 id={headingToSlug(block.content.text)}>{block.content.text}</h3>
 					case "h4":
-						return <h4>{block.content.text}</h4>
+						return <h4 id={headingToSlug(block.content.text)}>{block.content.text}</h4>
 					default:
-						return <h1>{block.content.text}</h1>
+						return <h1 id={headingToSlug(block.content.text)}>{block.content.text}</h1>
 				}
 			case 'card':
 				return <Card title={block.content.title} icon={block.content.icon}>{block.content.content}</Card>
 			case 'link-card':
 				return <LinkCard title={block.content.title} href={block.content.href} description={block.content.description} />
+			case 'image':
+				return <p>TODO: Image Component</p>
+			case "text":
+				return <div set:html={block.content.text} />
 			default:
 				return JSON.stringify(block);
 		}

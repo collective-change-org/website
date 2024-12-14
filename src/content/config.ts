@@ -6,7 +6,7 @@ import { getPageContent } from "./loaders/kirby/getPageContent";
 
 const block = z.object({
 	id: z.string(),
-	type: z.enum(["heading", "image", "card", "link-card"]),
+	type: z.enum(["heading", "image", "card", "link-card", "text"]),
 	isHidden: z.boolean(),
 	content: z.any(),
 });
@@ -22,8 +22,6 @@ const knowledgebase = defineCollection({
 	}),
 });
 
-
-
 export const collections = {
 	docs: knowledgebase,
 };
@@ -31,7 +29,8 @@ export const collections = {
 export type KnowledgebasePage = {
 	id: string;
 	title: string;
-	blocks: Block[]
+	blocks: Block[];
+	// tableOfContents?: ;
 }
 
 async function getKnowledgeBase(basePage: string): Promise<KnowledgebasePage[]> {
@@ -46,5 +45,6 @@ async function getKnowledgeBase(basePage: string): Promise<KnowledgebasePage[]> 
 		console.error("catch", e)
 		throw new Error(e);
 	})
+	console.dir(content, { depth: Infinity })
 	return content;
 }
