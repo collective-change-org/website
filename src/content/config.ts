@@ -96,7 +96,6 @@ async function getSidebar(): Promise<SidebarEntry[]> {
 		console.dir(res, { depth: Infinity })
 		return res;
 	})
-	console.log("Sidebar", sidebarObj)
 	return sidebarObj;
 }
 

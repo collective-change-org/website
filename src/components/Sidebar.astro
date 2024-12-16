@@ -7,7 +7,6 @@ const sidebar = await getCollection('sidebar').then((collection) => {
 		return item.data
 	})
 })
-console.log("sidebar", sidebar)
 ---
 
 <Default {...Astro.props} sidebar={sidebar}>

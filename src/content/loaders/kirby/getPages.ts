@@ -40,7 +40,7 @@ export async function getPages(page: string): Promise<string[]> {
 }
 
 type Page = {
-	guid: string;
+	slug: string;
 	title: string;
 	children: Page[];
 }
@@ -50,19 +50,19 @@ async function grabPages(page: string): Promise<Page[]> {
   "query": "page('knowledgebase').children",
   "select": {
 	"title": true,
-    "guid": "page.id",
+    "slug": "page.id",
     "children": {
       "select": {
 		"title": true,
-        "guid": "page.id",
+        "slug": "page.id",
         "children": {
           "select": {
 			"title": true,
-            "guid": "page.id",
+            "slug": "page.id",
             "children": {
               "select": {
 				"title": true,
-                "guid": "page.id",
+                "slug": "page.id",
                 "children": true
               }
             }
@@ -125,7 +125,7 @@ function pageToSidebarEntry(page: Page): SidebarEntry {
 	if (page.children.length > 0) {
 		// Route is a group
 		const group: Group = {
-			id: page.guid,
+			id: page.slug,
 			type: "group",
 			label: page.title,
 			entries: page.children.map((child) => {
@@ -137,10 +137,10 @@ function pageToSidebarEntry(page: Page): SidebarEntry {
 	}
 	// Route is a link
 	return {
-		id: page.guid,
+		id: page.slug,
 		type: "link",
 		label: page.title,
-		href: `${page.guid}`,
+		href: `/${page.slug}`,
 		isCurrent: false,
 		attrs: {},
 	}
