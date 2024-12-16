@@ -1,4 +1,5 @@
 import type { KnowledgebasePage } from "../../config";
+import { generateToC, headingToSlug } from "./generateToC";
 import { getApiUrl, getHeaders } from "./getHeaders";
 
 export async function getPageContent(page: string): Promise<KnowledgebasePage> {
@@ -31,5 +32,31 @@ export async function getPageContent(page: string): Promise<KnowledgebasePage> {
 		console.error(e)
 	}
 
-	return { id: page, title: data.result.title, blocks };
+
+	// Generate ToC
+	const headings = blocks.filter(({ type }: { type: string }) => type === "heading");
+	// Kirby Headings to Astro Headings
+	const astroHeadings = headings.map(({ content }: {
+		content: {
+			level: string;
+			text: string;
+		};
+	}) => {
+		const depth = parseInt(content.level.replace("h", ""));
+		return {
+			depth,
+			slug: headingToSlug(content.text),
+			text: content.text,
+		};
+	});
+
+	const items = generateToC(astroHeadings, {
+		minHeadingLevel: 2,
+		maxHeadingLevel: 3,
+		title: data.result.title,
+	});
+
+	console.log(items)
+
+	return { id: page, title: data.result.title, blocks, tableOfContents: { items } };
 }

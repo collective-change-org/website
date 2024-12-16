@@ -1,7 +1,7 @@
 ---
+import Default from '@astrojs/starlight/components/TableOfContents.astro';
 import type { Block } from '../content/config';
 import { generateToC, headingToSlug } from '../content/loaders/kirby/generateToC';
-import TableOfContentsList from './TableOfContents/TableOfContentsList.astro';
 
 
 const { toc } = Astro.props;
@@ -27,15 +27,6 @@ const headings = blocks.filter(({ type }: { type: string }) => type === "heading
 
 toc.items = items;
 ---
-{
-	toc && (
-		<starlight-toc data-min-h={toc.minHeadingLevel} data-max-h={toc.maxHeadingLevel}>
-			<nav aria-labelledby="starlight__on-this-page">
-				<h2 id="starlight__on-this-page">{Astro.locals.t('tableOfContents.onThisPage')}</h2>
-				<TableOfContentsList toc={toc.items} />
-			</nav>
-		</starlight-toc>
-	)
-}
 
-<!-- <script src="./TableOfContents/starlight-toc"></script> -->
+	<Default {...Astro.props} toc={toc}>
+    </Default>
