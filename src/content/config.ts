@@ -1,10 +1,9 @@
 import { defineCollection, z } from "astro:content";
 import { docsSchema } from "@astrojs/starlight/schema";
 import { docsLoader } from "@astrojs/starlight/loaders";
-import { getPages } from "./loaders/kirby/getPages";
+import { getGroupsAndLinks, getPages } from "./loaders/kirby/getPages";
 import { getPageContent } from "./loaders/kirby/getPageContent";
-import type { Badge } from "../schemas/badge";
-import type { LinkHTMLAttributes } from "../schemas/sidebar";
+import { linkHTMLAttributesSchema, type LinkHTMLAttributes } from "../schemas/sidebar";
 
 const block = z.object({
 	id: z.string(),
@@ -15,24 +14,6 @@ const block = z.object({
 
 export type Block = z.infer<typeof block>;
 
-export interface Link {
-	type: 'link';
-	label: string;
-	href: string;
-	isCurrent: boolean;
-	badge: Badge | undefined;
-	attrs: LinkHTMLAttributes;
-}
-
-interface Group {
-	type: 'group';
-	label: string;
-	entries: (Link | Group)[];
-	collapsed: boolean;
-	badge: Badge | undefined;
-}
-
-export type SidebarEntry = Link | Group;
 
 const knowledgebase = defineCollection({
 	loader: () => getKnowledgeBase("knowledgebase"),
@@ -43,9 +24,50 @@ const knowledgebase = defineCollection({
 	}),
 });
 
-export const collections = {
-	docs: knowledgebase,
-};
+export interface Link {
+	id: string
+	type: 'link';
+	label: string;
+	href: string;
+	isCurrent: boolean;
+	// badge: Badge | undefined;
+	attrs: LinkHTMLAttributes;
+}
+
+interface Group {
+	id: string
+	type: 'group';
+	label: string;
+	entries: (Link | Group)[];
+	collapsed: boolean;
+	// badge: Badge | undefined;
+}
+
+export type SidebarEntry = Link | Group;
+
+export const linkSchema = z.object({
+	id: z.string(),
+	type: z.literal("link"),
+	label: z.string(),
+	href: z.string(),
+	isCurrent: z.boolean(),
+	attrs: linkHTMLAttributesSchema
+})
+
+const groupSchema: z.ZodSchema<Group> = z.lazy(() =>
+	z.object({
+		id: z.string(),
+		type: z.literal("group"),
+		label: z.string(),
+		entries: z.array(z.union([linkSchema, groupSchema])),
+		collapsed: z.boolean(),
+	})
+)
+
+const sidebar = defineCollection({
+	loader: getSidebar,
+	schema: z.array(z.union([linkSchema, groupSchema]))
+});
 
 export type KnowledgebasePage = {
 	id: string;
@@ -66,6 +88,14 @@ async function getKnowledgeBase(basePage: string): Promise<KnowledgebasePage[]> 
 		console.error("catch", e)
 		throw new Error(e);
 	})
-	console.dir(content, { depth: Infinity })
 	return content;
 }
+
+async function getSidebar(): Promise<SidebarEntry[]> {
+	return getGroupsAndLinks("knowledgebase");
+}
+
+export const collections = {
+	docs: knowledgebase,
+	sidebar
+};

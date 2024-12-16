@@ -56,7 +56,5 @@ export async function getPageContent(page: string): Promise<KnowledgebasePage> {
 		title: data.result.title,
 	});
 
-	console.log(items)
-
 	return { id: page, title: data.result.title, blocks, tableOfContents: { items } };
 }
