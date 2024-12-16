@@ -41,6 +41,7 @@ export async function getPages(page: string): Promise<string[]> {
 
 type Page = {
 	guid: string;
+	title: string;
 	children: Page[];
 }
 
@@ -48,15 +49,19 @@ async function grabPages(page: string): Promise<Page[]> {
 	const query = `{
   "query": "page('knowledgebase').children",
   "select": {
+	"title": true,
     "guid": "page.id",
     "children": {
       "select": {
+		"title": true,
         "guid": "page.id",
         "children": {
           "select": {
+			"title": true,
             "guid": "page.id",
             "children": {
               "select": {
+				"title": true,
                 "guid": "page.id",
                 "children": true
               }
@@ -122,7 +127,7 @@ function pageToSidebarEntry(page: Page): SidebarEntry {
 		const group: Group = {
 			id: page.guid,
 			type: "group",
-			label: page.guid,
+			label: page.title,
 			entries: page.children.map((child) => {
 				return pageToSidebarEntry(child)
 			}),
@@ -134,8 +139,8 @@ function pageToSidebarEntry(page: Page): SidebarEntry {
 	return {
 		id: page.guid,
 		type: "link",
-		label: page.guid,
-		href: `/knowledgebase/${page.guid}`,
+		label: page.title,
+		href: `${page.guid}`,
 		isCurrent: false,
 		attrs: {},
 	}
