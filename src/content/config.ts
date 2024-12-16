@@ -16,7 +16,7 @@ export type Block = z.infer<typeof block>;
 
 
 const knowledgebase = defineCollection({
-	loader: () => getKnowledgeBase("knowledgebase"),
+	loader: () => getKnowledgeBase("ROOT"),
 	schema: docsSchema({
 		extend: z.object({
 			blocks: z.array(block)
@@ -72,6 +72,7 @@ const sidebar = defineCollection({
 export type KnowledgebasePage = {
 	id: string;
 	title: string;
+	template: "splash" | "doc";
 	blocks: Block[];
 	tableOfContents?: any;
 }

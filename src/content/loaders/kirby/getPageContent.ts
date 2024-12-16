@@ -56,5 +56,11 @@ export async function getPageContent(page: string): Promise<KnowledgebasePage> {
 		title: data.result.title,
 	});
 
-	return { id: page, title: data.result.title, blocks, tableOfContents: { items } };
+	return {
+		id: page === "home" ? "/" : page,
+		title: data.result.title,
+		template: page.includes("knowledgebase") ? "doc" : "splash",
+		blocks,
+		tableOfContents: { items }
+	};
 }

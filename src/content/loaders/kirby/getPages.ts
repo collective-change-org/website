@@ -1,9 +1,9 @@
 import type { Group, SidebarEntry } from "../../config";
 import { getApiUrl, getHeaders } from "./getHeaders";
 
-export async function getPages(page: string): Promise<string[]> {
+export async function getPages(page: "ROOT" | string): Promise<string[]> {
 	const query = {
-		query: `page('${page}').children`,
+		query: page === "ROOT" ? "site.children" : `page('${page}').children`,
 	};
 
 	const headers = getHeaders();
