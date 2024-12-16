@@ -19,6 +19,7 @@ export default defineConfig({
 			components: {
 				MarkdownContent: './src/components/MarkdownContent.astro',
 				TableOfContents: './src/components/TableOfContents.astro',
+				Sidebar: './src/components/Sidebar.astro',
 			},
 			sidebar: [
 

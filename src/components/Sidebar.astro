@@ -1,0 +1,15 @@
+---
+import Default from "@astrojs/starlight/components/Sidebar.astro"
+import { getCollection } from "astro:content"
+
+const sidebar = await getCollection('sidebar').then((collection) => {
+	return collection.map((item) => {
+		return item.data
+	})
+})
+console.log("sidebar", sidebar)
+---
+
+<Default {...Astro.props} sidebar={sidebar}>
+	<!-- <slot /> -->
+</Default>

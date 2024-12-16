@@ -1,4 +1,4 @@
-import type { SidebarEntry } from "../../config";
+import type { Group, SidebarEntry } from "../../config";
 import { getApiUrl, getHeaders } from "./getHeaders";
 
 export async function getPages(page: string): Promise<string[]> {
@@ -39,7 +39,12 @@ export async function getPages(page: string): Promise<string[]> {
 	return [page];
 }
 
-async function grabPages(page: string) {
+type Page = {
+	guid: string;
+	children: Page[];
+}
+
+async function grabPages(page: string): Promise<Page[]> {
 	const query = `{
   "query": "page('knowledgebase').children",
   "select": {
@@ -80,13 +85,13 @@ async function grabPages(page: string) {
 	}
 
 	const data = await res.json();
-	const children = data.result as string[];
+	const children = data.result;
 	// return children
 
 	if (children.length > 0) {
 		return Promise.all(
-			children.map(async (child) => {
-				console.log(child)
+			children.map(async (child: Page) => {
+				// console.log(child)
 				if (!child) return
 				return child
 			})
@@ -102,11 +107,36 @@ export async function getGroupsAndLinks(page: string): Promise<SidebarEntry[]> {
 
 	// If the page has children, recursively fetch the children
 	if (children.length > 0) {
-		const childContent = await Promise.all(
-			children.map(async (child) => {
-				if (!child) return
-			})
-		);
+		for (const route of children) {
+			const entry = pageToSidebarEntry(route)
+			array.push(entry)
+		}
 	}
-	return []
+	// console.dir(array, { depth: Infinity })
+	return array
+}
+
+function pageToSidebarEntry(page: Page): SidebarEntry {
+	if (page.children.length > 0) {
+		// Route is a group
+		const group: Group = {
+			id: page.guid,
+			type: "group",
+			label: page.guid,
+			entries: page.children.map((child) => {
+				return pageToSidebarEntry(child)
+			}),
+			collapsed: true,
+		}
+		return group
+	}
+	// Route is a link
+	return {
+		id: page.guid,
+		type: "link",
+		label: page.guid,
+		href: `/knowledgebase/${page.guid}`,
+		isCurrent: false,
+		attrs: {},
+	}
 }
