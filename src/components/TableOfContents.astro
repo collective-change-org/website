@@ -1,4 +1,5 @@
 ---
+import type { Props } from '@astrojs/starlight/props';
 import Default from '@astrojs/starlight/components/TableOfContents.astro';
 import type { Block } from '../content/config';
 import { generateToC, headingToSlug } from '../content/loaders/kirby/generateToC';
@@ -25,7 +26,9 @@ const headings = blocks.filter(({ type }: { type: string }) => type === "heading
 		title: title,
 	});
 
-toc.items = items;
+if (toc) {
+	toc.items = items;
+}
 ---
 
 	<Default {...Astro.props} toc={toc}>

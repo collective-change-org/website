@@ -1,4 +1,5 @@
 ---
+import type { Props } from '@astrojs/starlight/props';
 import Default from "@astrojs/starlight/components/Sidebar.astro"
 import { getCollection } from "astro:content"
 import type { SidebarEntry } from "../content/config"
@@ -26,7 +27,6 @@ function checkActive(path: string, item: SidebarEntry) {
 
 Astro.props.sidebar = sidebar
 ---
-
 <Default {...Astro.props}>
 	<!-- <slot /> -->
 </Default>
