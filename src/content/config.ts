@@ -45,7 +45,7 @@ export interface Group {
 
 export type SidebarEntry = Link | Group;
 
-export const linkSchema = z.object({
+export const linkSchema: z.ZodSchema<Link> = z.object({
 	id: z.string(),
 	type: z.literal("link"),
 	label: z.string(),
@@ -66,6 +66,7 @@ const groupSchema: z.ZodSchema<Group> = z.lazy(() =>
 
 const sidebar = defineCollection({
 	loader: getSidebar,
+	// TODO: Fix schema
 	// schema: z.array(z.union([linkSchema, groupSchema]))
 });
 
@@ -94,7 +95,6 @@ async function getKnowledgeBase(basePage: string): Promise<KnowledgebasePage[]> 
 
 async function getSidebar(): Promise<SidebarEntry[]> {
 	const sidebarObj = getGroupsAndLinks("knowledgebase").then((res) => {
-		console.dir(res, { depth: Infinity })
 		return res;
 	})
 	return sidebarObj;

@@ -1,4 +1,4 @@
-import type { Group, SidebarEntry } from "../../config";
+import type { Group, Link, SidebarEntry } from "../../config";
 import { getApiUrl, getHeaders } from "./getHeaders";
 
 export async function getPages(page: "ROOT" | string): Promise<string[]> {
@@ -106,7 +106,6 @@ async function grabPages(page: string): Promise<Page[]> {
 }
 
 export async function getGroupsAndLinks(page: string): Promise<SidebarEntry[]> {
-	console.log("Getting Sidebar Groups and Links")
 	const array = []
 	const children = await grabPages(page);
 
@@ -136,7 +135,7 @@ function pageToSidebarEntry(page: Page): SidebarEntry {
 		return group
 	}
 	// Route is a link
-	return {
+	const link: Link = {
 		id: page.slug,
 		type: "link",
 		label: page.title,
@@ -144,4 +143,5 @@ function pageToSidebarEntry(page: Page): SidebarEntry {
 		isCurrent: false,
 		attrs: {},
 	}
+	return link
 }

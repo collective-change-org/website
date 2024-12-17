@@ -25,7 +25,9 @@ const { blocks }: {blocks: Block[]} = Astro.props.entry.data;
 			case 'card':
 				return <Card title={block.content.title} icon={block.content.icon}>{block.content.content}</Card>
 			case 'link-card':
-				return <LinkCard title={block.content.title} href={block.content.href} description={block.content.description} />
+				console.log(block.content)
+				const href = block.content.type === 'internal' ? `/${block.content.url[0]}` : block.content.href;
+				return <LinkCard title={block.content.title} href={href} description={block.content.description} target={block.content.type === 'internal' ? "_self" : "_blank"} />
 			case 'image':
 				return <p>TODO: Image Component</p>
 			case "text":
