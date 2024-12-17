@@ -1,11 +1,9 @@
 ---
 import type { Props } from '@astrojs/starlight/props';
-import Default from '@astrojs/starlight/components/TableOfContents.astro';
+import Default from '@astrojs/starlight/components/PageSidebar.astro';
 import type { Block } from '../content/config';
 import { generateToC, headingToSlug } from '../content/loaders/kirby/generateToC';
 
-
-const { toc } = Astro.props;
 const { blocks, title }: {blocks: Block[], title: string} = Astro.props.entry.data;
 
 // Generate ToC
@@ -26,10 +24,10 @@ const headings = blocks.filter(({ type }: { type: string }) => type === "heading
 		title: title,
 	});
 
-if (toc) {
-	toc.items = items;
+if (Astro.props.toc) {
+	Astro.props.toc.items = items;
 }
 ---
-
-	<Default {...Astro.props} toc={toc}>
-    </Default>
+<Default {...Astro.props}>
+	<slot />
+</Default>
