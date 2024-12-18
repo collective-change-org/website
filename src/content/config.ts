@@ -4,6 +4,8 @@ import { docsLoader } from "@astrojs/starlight/loaders";
 import { getGroupsAndLinks, getPages } from "./loaders/kirby/getPages";
 import { getPageContent } from "./loaders/kirby/getPageContent";
 import { linkHTMLAttributesSchema, type LinkHTMLAttributes } from "../schemas/sidebar";
+import { MOCKDATA } from "astro:env/server"
+import { mockdata } from "./mockdata";
 
 const block = z.object({
 	id: z.string(),
@@ -79,6 +81,9 @@ export type KnowledgebasePage = {
 }
 
 async function getKnowledgeBase(basePage: string): Promise<KnowledgebasePage[]> {
+	// This throws ts errors, but I cant be bothered to fix it right now
+	// @ts-ignore
+	if (MOCKDATA) return new Promise((resolve) => resolve(mockdata.knowledgebase));
 	// Getting all the leaf pages/pages with content
 	const leafPages = await getPages(basePage).catch((e) => {
 		console.error("catch", e)
@@ -94,6 +99,9 @@ async function getKnowledgeBase(basePage: string): Promise<KnowledgebasePage[]> 
 }
 
 async function getSidebar(): Promise<SidebarEntry[]> {
+	// @ts-ignore
+	if (MOCKDATA) return new Promise((resolve) => resolve(mockdata.sidebar));
+	console.log("sidebar loader")
 	const sidebarObj = getGroupsAndLinks("knowledgebase").then((res) => {
 		return res;
 	})

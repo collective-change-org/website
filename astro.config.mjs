@@ -8,6 +8,7 @@ export default defineConfig({
 			KIRBY_USERNAME: envField.string({ context: "server", access: "secret" }),
 			KIRBY_PASSWORD: envField.string({ context: "server", access: "secret" }),
 			KIRBY_URL: envField.string({ context: "server", access: "public" }),
+			MOCKDATA: envField.boolean({ context: "server", access: "public", optional: true, default: false }),
 		},
 	},
 	integrations: [
