@@ -95,6 +95,9 @@ async function getKnowledgeBase(basePage: string): Promise<KnowledgebasePage[]> 
 		console.error("catch", e)
 		throw new Error(e);
 	})
+
+	console.log("Knowledgebase: ")
+	console.dir(content, { depth: Infinity })
 	return content;
 }
 
@@ -103,6 +106,8 @@ async function getSidebar(): Promise<SidebarEntry[]> {
 	if (MOCKDATA) return new Promise((resolve) => resolve(mockdata.sidebar));
 	console.log("sidebar loader")
 	const sidebarObj = getGroupsAndLinks("knowledgebase").then((res) => {
+		console.log("Sidebar: ")
+		console.dir(res, { depth: Infinity })
 		return res;
 	})
 	return sidebarObj;
