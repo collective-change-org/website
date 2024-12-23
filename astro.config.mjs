@@ -27,4 +27,9 @@ export default defineConfig({
 			],
 		}),
 	],
+	site: 'https://changecollective.woven.design',
+	server: {
+		port: 3000,
+		host: true
+	}
 });
