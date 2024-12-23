@@ -1,6 +1,8 @@
 import { defineConfig, envField } from 'astro/config';
 import starlight from '@astrojs/starlight';
 
+import tailwind from "@astrojs/tailwind";
+
 // https://astro.build/config
 export default defineConfig({
 	env: {
@@ -22,11 +24,11 @@ export default defineConfig({
 				PageSidebar: './src/components/PageSidebar.astro',
 				Sidebar: './src/components/Sidebar.astro',
 			},
-			sidebar: [
-
-			],
+			customCss: ["./src/tailwind.css"]
 		}),
-	],
+		tailwind({
+			applyBaseStyles: false,
+		})],
 	site: 'https://changecollective.woven.design',
 	server: {
 		port: 3000,

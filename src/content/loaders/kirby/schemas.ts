@@ -24,8 +24,13 @@ const image = z.object({
 	type: z.literal("image"),
 	isHidden: z.boolean(),
 	content: z.object({
-		url: z.string(),
+		location: z.string(),
+		src: z.string(),
 		alt: z.string(),
+		caption: z.string(),
+		link: z.string(),
+		ratio: z.string(),
+		crop: z.string(),
 	}),
 });
 
