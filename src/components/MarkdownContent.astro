@@ -3,6 +3,7 @@ import type { Props } from '@astrojs/starlight/props';
 import { Card, LinkCard } from "@astrojs/starlight/components";
 import type { Block } from "../content/config";
 import { headingToSlug } from "../content/loaders/kirby/generateToC";
+import BecomeMember from './BecomeMember.astro';
 
 const { blocks }: {blocks: Block[]} = Astro.props.entry.data;
 ---
@@ -33,6 +34,8 @@ const { blocks }: {blocks: Block[]} = Astro.props.entry.data;
 				return <p>TODO: Image Component</p>
 			case "text":
 				return <div set:html={block.content.text} />
+			case "become-member":
+				return <BecomeMember {...block} />
 			default:
 				return JSON.stringify(block);
 		}

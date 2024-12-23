@@ -1,0 +1,12 @@
+---
+import { z } from 'astro:content'
+import type { becomeMember } from '../content/loaders/kirby/schemas'
+
+
+export interface Props extends z.infer<typeof becomeMember> {}
+const props = Astro.props
+---
+
+<div>
+	{props.content.apiurl}
+</div>
