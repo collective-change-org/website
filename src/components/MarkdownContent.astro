@@ -24,6 +24,7 @@ const { blocks }: {blocks: Block[]} = Astro.props.entry.data;
 						return <h1 id={headingToSlug(block.content.text)}>{block.content.text}</h1>
 				}
 			case 'card':
+				// @ts-ignore
 				return <Card title={block.content.title} icon={block.content.icon}>{block.content.content}</Card>
 			case 'link-card':
 				const href = block.content.type === 'internal' ? `/${block.content.url[0]}` : block.content.href;

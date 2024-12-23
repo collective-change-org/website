@@ -6,13 +6,7 @@ import { getPageContent } from "./loaders/kirby/getPageContent";
 import { linkHTMLAttributesSchema, type LinkHTMLAttributes } from "../schemas/sidebar";
 import { MOCKDATA } from "astro:env/server"
 import { mockdata } from "./mockdata";
-
-const block = z.object({
-	id: z.string(),
-	type: z.enum(["heading", "image", "card", "link-card", "text"]),
-	isHidden: z.boolean(),
-	content: z.any(),
-});
+import { block } from "./loaders/kirby/schemas";
 
 export type Block = z.infer<typeof block>;
 
