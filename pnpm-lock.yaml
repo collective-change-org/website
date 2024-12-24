@@ -20,18 +20,33 @@ importers:
       '@astrojs/tailwind':
         specifier: ^5.1.4
         version: 5.1.4(astro@5.0.9(jiti@1.21.7)(rollup@4.28.1)(typescript@5.7.2)(yaml@2.6.1))(tailwindcss@3.4.17)
+      '@corvu/dialog':
+        specifier: ^0.2.3
+        version: 0.2.3(solid-js@1.9.3)
+      '@corvu/tailwind':
+        specifier: ^0.1.5
+        version: 0.1.5(tailwindcss@3.4.17)
       astro:
         specifier: ^5.0.9
         version: 5.0.9(jiti@1.21.7)(rollup@4.28.1)(typescript@5.7.2)(yaml@2.6.1)
+      clsx:
+        specifier: ^2.1.1
+        version: 2.1.1
       sharp:
         specifier: ^0.32.6
         version: 0.32.6
       solid-js:
         specifier: ^1.9.3
         version: 1.9.3
+      tailwind-merge:
+        specifier: ^2.6.0
+        version: 2.6.0
       tailwindcss:
         specifier: ^3.4.17
         version: 3.4.17
+      tailwindcss-animate:
+        specifier: ^1.0.7
+        version: 1.0.7(tailwindcss@3.4.17)
 
 packages:
 
@@ -177,6 +192,26 @@ packages:
   '@babel/types@7.26.3':
     resolution: {integrity: sha512-vN5p+1kl59GVKMvTHt55NzzmYVxprfJD+ql7U9NFIfKCBkYE55LYtS+WtPlaYOyzydrKI8Nezd+aZextrd+FMA==}
     engines: {node: '>=6.9.0'}
+
+  '@corvu/dialog@0.2.3':
+    resolution: {integrity: sha512-1p1lG2Pdu7CtDYw0FP+gdU0Db4zsB2ljOP7UxszZIQpvVvnrAYhNPfu/8IpscB38c0hZCodEnv5hR0NaEEA/Ag==}
+    peerDependencies:
+      solid-js: ^1.8
+
+  '@corvu/tailwind@0.1.5':
+    resolution: {integrity: sha512-+rTTveZVTfUM6z6w83A2IWCSob33EFxAuazn1bzd8/T1t1FhpzV1Jt/Sn3awH4muDAuDaZujzebueB/t3u03hw==}
+    peerDependencies:
+      tailwindcss: ^3
+
+  '@corvu/utils@0.3.2':
+    resolution: {integrity: sha512-ZWlyWEE8qV9+CB9OAyo2bTrZGXQN9ZeM+JfYv89zoR+lRACKTDuoOZEdiyL8Uc7U5dUSH1uTqKhTTnaHWb+wZA==}
+    peerDependencies:
+      solid-js: ^1.8
+
+  '@corvu/utils@0.4.2':
+    resolution: {integrity: sha512-Ox2kYyxy7NoXdKWdHeDEjZxClwzO4SKM8plAaVwmAJPxHMqA0rLOoAsa+hBDwRLpctf+ZRnAd/ykguuJidnaTA==}
+    peerDependencies:
+      solid-js: ^1.8
 
   '@ctrl/tinycolor@4.1.0':
     resolution: {integrity: sha512-WyOx8cJQ+FQus4Mm4uPIZA64gbk3Wxh0so5Lcii0aJifqwoVOlfFtorjLE0Hen4OYyHZMXDWqMmaQemBhgxFRQ==}
@@ -478,6 +513,15 @@ packages:
 
   '@expressive-code/plugin-text-markers@0.38.3':
     resolution: {integrity: sha512-dPK3+BVGTbTmGQGU3Fkj3jZ3OltWUAlxetMHI6limUGCWBCucZiwoZeFM/WmqQa71GyKRzhBT+iEov6kkz2xVA==}
+
+  '@floating-ui/core@1.6.8':
+    resolution: {integrity: sha512-7XJ9cPU+yI2QeLS+FCSlqNFZJq8arvswefkZrYI1yQBbftw6FyrZOxYSh+9S7z7TpeWlRt9zJ5IhM1WIL334jA==}
+
+  '@floating-ui/dom@1.6.12':
+    resolution: {integrity: sha512-NP83c0HjokcGVEMeoStg317VD9W7eDlGK7457dMBANbKA6GJZdc7rjujdgqzTaz93jkGgc5P/jeWbaCHnMNc+w==}
+
+  '@floating-ui/utils@0.2.8':
+    resolution: {integrity: sha512-kym7SodPp8/wloecOpcmSnWJsK7M0E5Wg8UcFA+uO4B9s5d0ywXOEro/8HM9x0rW+TljRzul/14UYz3TleT3ig==}
 
   '@img/sharp-darwin-arm64@0.33.5':
     resolution: {integrity: sha512-UT4p+iz/2H4twwAoLCqfA9UH5pI6DggwKEGuaPy7nCVQ8ZsiY5PIcrRvD1DzuY3qYL07NtIQcWnBSY/heikIFQ==}
@@ -2132,8 +2176,28 @@ packages:
     engines: {node: '>=14.0.0', npm: '>=6.0.0'}
     hasBin: true
 
+  solid-dismissible@0.1.1:
+    resolution: {integrity: sha512-9kcKBJIMdS+586cA1g63HYWxKh3h89leeNHbPZ1csYjuni+NvPBtNr11l0iEX2AKKEt6FHk6qNhc/gjoYAW1pA==}
+    peerDependencies:
+      solid-js: ^1.8
+
+  solid-focus-trap@0.1.7:
+    resolution: {integrity: sha512-NSJiIkL+WTWGgca+OKQA9rV3bD51lT23iLn1Z+Ap1Qk3rJBxQ8SoEAQ0FvXoQThtyXFKAK1ibcVBBMMEcu6YMw==}
+    peerDependencies:
+      solid-js: ^1.8
+
   solid-js@1.9.3:
     resolution: {integrity: sha512-5ba3taPoZGt9GY3YlsCB24kCg0Lv/rie/HTD4kG6h4daZZz7+yK02xn8Vx8dLYBc9i6Ps5JwAbEiqjmKaLB3Ag==}
+
+  solid-presence@0.1.8:
+    resolution: {integrity: sha512-pWGtXUFWYYUZNbg5YpG5vkQJyOtzn2KXhxYaMx/4I+lylTLYkITOLevaCwMRN+liCVk0pqB6EayLWojNqBFECA==}
+    peerDependencies:
+      solid-js: ^1.8
+
+  solid-prevent-scroll@0.1.10:
+    resolution: {integrity: sha512-KplGPX2GHiWJLZ6AXYRql4M127PdYzfwvLJJXMkO+CMb8Np4VxqDAg5S8jLdwlEuBis/ia9DKw2M8dFx5u8Mhw==}
+    peerDependencies:
+      solid-js: ^1.8
 
   solid-refresh@0.6.3:
     resolution: {integrity: sha512-F3aPsX6hVw9ttm5LYlth8Q15x6MlI/J3Dn+o3EQyRTtTxidepSTwAYdozt01/YA+7ObcciagGEyXIopGZzQtbA==}
@@ -2208,6 +2272,14 @@ packages:
   supports-preserve-symlinks-flag@1.0.0:
     resolution: {integrity: sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==}
     engines: {node: '>= 0.4'}
+
+  tailwind-merge@2.6.0:
+    resolution: {integrity: sha512-P+Vu1qXfzediirmHOC3xKGAYeZtPcV9g76X+xg2FD4tYgR71ewMA35Y3sCz3zhiN/dwefRpJX0yBcgwi1fXNQA==}
+
+  tailwindcss-animate@1.0.7:
+    resolution: {integrity: sha512-bl6mpH3T7I3UFxuvDEXLxy/VuFxBk5bbzplh7tXI68mwMokNYd1t9qPBHlnyTwfa4JGC4zP516I1hYYtQ/vspA==}
+    peerDependencies:
+      tailwindcss: '>=3.0.0 || insiders'
 
   tailwindcss@3.4.17:
     resolution: {integrity: sha512-w33E2aCvSDP0tW9RZuNXadXlkHXqFzSkQew/aIa2i/Sj8fThxwovwlXHSPXTbAHwEIhBFXAedUhP2tueAKP8Og==}
@@ -2769,6 +2841,29 @@ snapshots:
       '@babel/helper-string-parser': 7.25.9
       '@babel/helper-validator-identifier': 7.25.9
 
+  '@corvu/dialog@0.2.3(solid-js@1.9.3)':
+    dependencies:
+      '@corvu/utils': 0.4.2(solid-js@1.9.3)
+      solid-dismissible: 0.1.1(solid-js@1.9.3)
+      solid-focus-trap: 0.1.7(solid-js@1.9.3)
+      solid-js: 1.9.3
+      solid-presence: 0.1.8(solid-js@1.9.3)
+      solid-prevent-scroll: 0.1.10(solid-js@1.9.3)
+
+  '@corvu/tailwind@0.1.5(tailwindcss@3.4.17)':
+    dependencies:
+      tailwindcss: 3.4.17
+
+  '@corvu/utils@0.3.2(solid-js@1.9.3)':
+    dependencies:
+      '@floating-ui/dom': 1.6.12
+      solid-js: 1.9.3
+
+  '@corvu/utils@0.4.2(solid-js@1.9.3)':
+    dependencies:
+      '@floating-ui/dom': 1.6.12
+      solid-js: 1.9.3
+
   '@ctrl/tinycolor@4.1.0': {}
 
   '@emnapi/runtime@1.3.1':
@@ -2941,6 +3036,17 @@ snapshots:
   '@expressive-code/plugin-text-markers@0.38.3':
     dependencies:
       '@expressive-code/core': 0.38.3
+
+  '@floating-ui/core@1.6.8':
+    dependencies:
+      '@floating-ui/utils': 0.2.8
+
+  '@floating-ui/dom@1.6.12':
+    dependencies:
+      '@floating-ui/core': 1.6.8
+      '@floating-ui/utils': 0.2.8
+
+  '@floating-ui/utils@0.2.8': {}
 
   '@img/sharp-darwin-arm64@0.33.5':
     optionalDependencies:
@@ -5163,11 +5269,31 @@ snapshots:
       arg: 5.0.2
       sax: 1.4.1
 
+  solid-dismissible@0.1.1(solid-js@1.9.3):
+    dependencies:
+      '@corvu/utils': 0.4.2(solid-js@1.9.3)
+      solid-js: 1.9.3
+
+  solid-focus-trap@0.1.7(solid-js@1.9.3):
+    dependencies:
+      '@corvu/utils': 0.3.2(solid-js@1.9.3)
+      solid-js: 1.9.3
+
   solid-js@1.9.3:
     dependencies:
       csstype: 3.1.3
       seroval: 1.1.1
       seroval-plugins: 1.1.1(seroval@1.1.1)
+
+  solid-presence@0.1.8(solid-js@1.9.3):
+    dependencies:
+      '@corvu/utils': 0.4.2(solid-js@1.9.3)
+      solid-js: 1.9.3
+
+  solid-prevent-scroll@0.1.10(solid-js@1.9.3):
+    dependencies:
+      '@corvu/utils': 0.4.2(solid-js@1.9.3)
+      solid-js: 1.9.3
 
   solid-refresh@0.6.3(solid-js@1.9.3):
     dependencies:
@@ -5254,6 +5380,12 @@ snapshots:
       ts-interface-checker: 0.1.13
 
   supports-preserve-symlinks-flag@1.0.0: {}
+
+  tailwind-merge@2.6.0: {}
+
+  tailwindcss-animate@1.0.7(tailwindcss@3.4.17):
+    dependencies:
+      tailwindcss: 3.4.17
 
   tailwindcss@3.4.17:
     dependencies:

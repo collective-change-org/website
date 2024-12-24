@@ -1,5 +1,7 @@
 import starlightPlugin from '@astrojs/starlight-tailwind';
 import colors from 'tailwindcss/colors';
+import corvuPlugin from '@corvu/tailwind'
+import animatePlugin from 'tailwindcss-animate'
 
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -20,5 +22,5 @@ export default {
 			},
 		},
 	},
-	plugins: [starlightPlugin()],
+	plugins: [starlightPlugin(), animatePlugin, corvuPlugin],
 }

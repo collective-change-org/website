@@ -9,6 +9,8 @@ export const becomeMember = z.object({
 	}),
 });
 
+export type BecomeMemberType = z.infer<typeof becomeMember>
+
 const heading = z.object({
 	id: z.string(),
 	type: z.literal("heading"),

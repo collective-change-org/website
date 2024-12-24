@@ -3,7 +3,8 @@ import type { Props } from '@astrojs/starlight/props';
 import { Card, LinkCard } from "@astrojs/starlight/components";
 import type { Block } from "../content/config";
 import { headingToSlug } from "../content/loaders/kirby/generateToC";
-import BecomeMember from './BecomeMember.astro';
+import { BecomeMember } from './BecomeMember';
+import { LISTMONK_API_KEY } from 'astro:env/client';
 
 const { blocks }: {blocks: Block[]} = Astro.props.entry.data;
 ---
@@ -35,7 +36,7 @@ const { blocks }: {blocks: Block[]} = Astro.props.entry.data;
 			case "text":
 				return <div set:html={block.content.text} />
 			case "become-member":
-				return <BecomeMember {...block} />
+				return <BecomeMember listmonk_api_key={LISTMONK_API_KEY} {...block} client:load />
 			default:
 				return JSON.stringify(block);
 		}
