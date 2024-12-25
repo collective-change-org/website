@@ -1,0 +1,85 @@
+services:
+    # listmonk app
+    app:
+        image: listmonk/listmonk:latest
+        container_name: listmonk_app
+        restart: unless-stopped
+        ports:
+            - 9000 # To change the externally exposed port, change to: $custom_port:9000
+        networks:
+            - listmonk
+        environment: # The same params as in config.toml are passed as env vars here.
+            LISTMONK_app__address: 0.0.0.0:9000
+            LISTMONK_db__user: listmonk
+            LISTMONK_db__password: LPpvPSxYLUWrEBcy
+            LISTMONK_db__database: listmonk
+            LISTMONK_db__host: listmonk_db
+            LISTMONK_db__port: 5432
+            LISTMONK_db__ssl_mode: disable
+            LISTMONK_db__max_open: 25
+            LISTMONK_db__max_idle: 25
+            LISTMONK_db__max_lifetime: 300s
+            TZ: Etc/UTC
+        hostname: listmonk.example.com # Recommend using FQDN for hostname
+        depends_on:
+            - db
+        command:
+            [
+                sh,
+                -c,
+                "./listmonk --install --idempotent --yes --config '' && ./listmonk --upgrade --yes --config '' && ./listmonk --config ''",
+            ]
+            # --config (file) param is set to empty so that listmonk only uses the env vars (below) for config.
+            # --install --idempotent ensures that DB installation happens only once on an empty DB, on the first ever start.
+            # --upgrade automatically runs any DB migrations when a new image is pulled.
+        volumes:
+            - ./uploads:/listmonk/uploads:rw # Mount an uploads directory on the host to /listmonk/uploads inside the container.
+              # To use this, change directory path in Admin -> Settings -> Media to /listmonk/uploads
+
+    # Postgres database
+    db:
+        image: postgres:17-alpine
+        container_name: listmonk_db
+        restart: unless-stopped
+        ports:
+            - 5432:5432
+        networks:
+            - listmonk
+        environment:
+            - POSTGRES_USER=listmonk
+            - POSTGRES_PASSWORD=LPpvPSxYLUWrEBcy
+            - POSTGRES_DB=listmonk
+        healthcheck:
+            test: ["CMD-SHELL", "pg_isready -U listmonk"]
+            interval: 10s
+            timeout: 5s
+            retries: 6
+        volumes:
+            - type: volume
+              source: listmonk-data
+              target: /var/lib/postgresql/data
+
+    # Caddy reverse proxy
+    caddy:
+        image: caddy:latest
+        container_name: listmonk_caddy
+        restart: unless-stopped
+        ports:
+            - 8080:80
+            - 8443:443
+        networks:
+            - listmonk
+        volumes:
+            - ./Caddyfile:/etc/caddy/Caddyfile:ro
+            - caddy_data:/data
+            - caddy_config:/config
+        environment:
+            ORIGIN_0: "http://localhost:3000"
+
+networks:
+    listmonk:
+
+volumes:
+    listmonk-data:
+    caddy_data:
+    caddy_config:

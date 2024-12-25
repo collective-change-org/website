@@ -5,6 +5,7 @@ import { cn } from "../lib/cn"
 
 interface Props extends BecomeMemberType {
 	listmonk_api_key: string
+	listmonk_api: string
 }
 
 export const BecomeMember: Component<Props> = (props) => {
@@ -24,22 +25,22 @@ export const BecomeMember: Component<Props> = (props) => {
 		validateEmail(email())
 		if (emailError()) return
 
-		await fetch(
-			"https://changecollective-mail.woven.design/api/subscribers",
-			{
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-					Authorization: `token starlight:${props.listmonk_api_key}`,
-				},
-				body: JSON.stringify({
-					email: email(),
-					name: name(),
-					status: "enabled",
-					lists: [3],
-				}),
-			}
-		).catch((e) => {
+		const apiURL = new URL(props.listmonk_api)
+		console.log(apiURL)
+
+		await fetch(`${apiURL.origin}/api/subscribers`, {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+				Authorization: `token starlight:${props.listmonk_api_key}`,
+			},
+			body: JSON.stringify({
+				email: email(),
+				name: name(),
+				status: "enabled",
+				lists: [3],
+			}),
+		}).catch((e) => {
 			console.error(e)
 			setSignupError(
 				"Ein Fehler ist aufgetreten. Bitte versuche es später erneut."

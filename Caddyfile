@@ -1,0 +1,39 @@
+(cors) {
+	@cors_preflight_{args[0]} {
+		method OPTIONS
+		header Origin {args[0]}
+	}
+
+	@cors_{args[0]} header Origin {args[0]}
+
+	handle @cors_preflight_{args[0]} {
+		header {
+			Access-Control-Allow-Origin "{args[0]}"
+			Access-Control-Allow-Methods "GET, POST, PUT, PATCH, DELETE, OPTIONS"
+			Access-Control-Allow-Headers *
+			Access-Control-Max-Age "3600"
+			defer
+		}
+		respond "" 204
+	}
+
+	handle @cors_{args[0]} {
+		header {
+			Access-Control-Allow-Origin "{args[0]}"
+			Access-Control-Expose-Headers *
+			defer
+		}
+	}
+}
+
+# site block, listens on the $PORT environment variable, automatically assigned by railway
+:80 {
+	import cors {$ORIGIN_0}
+
+	reverse_proxy app:9000 {
+		header_up Host {upstream_hostport}
+
+		header_down Upgrade-Insecure-Requests "1"
+		header_down Content-Security-Policy "upgrade-insecure-requests"
+	}
+}
