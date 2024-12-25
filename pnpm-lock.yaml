@@ -35,6 +35,9 @@ importers:
       sharp:
         specifier: ^0.32.6
         version: 0.32.6
+      solid-confetti-explosion:
+        specifier: ^1.1.8
+        version: 1.1.8(solid-js@1.9.3)
       solid-js:
         specifier: ^1.9.3
         version: 1.9.3
@@ -2175,6 +2178,11 @@ packages:
     resolution: {integrity: sha512-+AbdxhM9kJsHtruUF39bwS/B0Fytw6Fr1o4ZAIAEqA6cke2xcoO2GleBw9Zw7nRzILVEgz7zBM5GiTJjie1G9A==}
     engines: {node: '>=14.0.0', npm: '>=6.0.0'}
     hasBin: true
+
+  solid-confetti-explosion@1.1.8:
+    resolution: {integrity: sha512-12NF74moHhy6sUts4+5+a5dz0+NLtBx9rViFmChfJYb6xaKPRgbs+zTv/9jT1rNRa5ZhEgEiuUCzoBdcBE64/Q==}
+    peerDependencies:
+      solid-js: ^1.6.9
 
   solid-dismissible@0.1.1:
     resolution: {integrity: sha512-9kcKBJIMdS+586cA1g63HYWxKh3h89leeNHbPZ1csYjuni+NvPBtNr11l0iEX2AKKEt6FHk6qNhc/gjoYAW1pA==}
@@ -5268,6 +5276,10 @@ snapshots:
       '@types/sax': 1.2.7
       arg: 5.0.2
       sax: 1.4.1
+
+  solid-confetti-explosion@1.1.8(solid-js@1.9.3):
+    dependencies:
+      solid-js: 1.9.3
 
   solid-dismissible@0.1.1(solid-js@1.9.3):
     dependencies:
