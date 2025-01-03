@@ -1,10 +1,11 @@
 import { defineConfig, envField } from 'astro/config';
 import starlight from '@astrojs/starlight';
-import deno from "@deno/astro-adapter";
 
 import tailwind from "@astrojs/tailwind";
 
 import solidJs from "@astrojs/solid-js";
+
+import node from "@astrojs/node";
 
 // https://astro.build/config
 export default defineConfig({
@@ -18,6 +19,7 @@ export default defineConfig({
 			LISTMONK_API_KEY: envField.string({ context: "server", access: "secret" })
 		},
 	},
+
 	integrations: [starlight({
 		title: 'Capslock 2',
 		social: {
@@ -32,13 +34,15 @@ export default defineConfig({
 	}), tailwind({
 		applyBaseStyles: false,
 	}), solidJs()],
+
 	site: 'https://changecollective.woven.design',
+
 	server: {
 		port: 3000,
 		host: true
 	},
-	output: "server",
-	adapter: deno({
-		port: 3000,
+
+	adapter: node({
+		mode: "standalone",
 	}),
 });

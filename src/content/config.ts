@@ -86,22 +86,15 @@ async function getKnowledgeBase(basePage: string): Promise<KnowledgebasePage[]> 
 
 	// Fetch content for all leaf pages
 	const content = await Promise.all(leafPages.map(getPageContent)).catch((e) => {
-		console.error("catch", e)
 		throw new Error(e);
 	})
-
-	console.log("Knowledgebase: ")
-	console.dir(content, { depth: Infinity })
 	return content;
 }
 
 async function getSidebar(): Promise<SidebarEntry[]> {
 	// @ts-ignore
 	if (MOCKDATA) return new Promise((resolve) => resolve(mockdata.sidebar));
-	console.log("sidebar loader")
 	const sidebarObj = getGroupsAndLinks("knowledgebase").then((res) => {
-		console.log("Sidebar: ")
-		console.dir(res, { depth: Infinity })
 		return res;
 	})
 	return sidebarObj;
