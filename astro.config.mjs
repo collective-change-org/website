@@ -1,5 +1,6 @@
 import { defineConfig, envField } from 'astro/config';
 import starlight from '@astrojs/starlight';
+import deno from "@deno/astro-adapter";
 
 import tailwind from "@astrojs/tailwind";
 
@@ -35,5 +36,9 @@ export default defineConfig({
 	server: {
 		port: 3000,
 		host: true
-	}
+	},
+	output: "server",
+	adapter: deno({
+		port: 3000,
+	}),
 });
