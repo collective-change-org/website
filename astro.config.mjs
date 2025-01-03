@@ -13,8 +13,8 @@ export default defineConfig({
 			KIRBY_PASSWORD: envField.string({ context: "server", access: "secret" }),
 			KIRBY_URL: envField.string({ context: "server", access: "public" }),
 			MOCKDATA: envField.boolean({ context: "server", access: "public", optional: true, default: false }),
-			LISTMONK_API: envField.string({ context: "client", access: "public" }),
-			LISTMONK_API_KEY: envField.string({ context: "client", access: "public" })
+			LISTMONK_API: envField.string({ context: "server", access: "public" }),
+			LISTMONK_API_KEY: envField.string({ context: "server", access: "secret" })
 		},
 	},
 	integrations: [starlight({

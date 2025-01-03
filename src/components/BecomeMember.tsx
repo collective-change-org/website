@@ -5,12 +5,7 @@ import { cn } from "../lib/cn"
 
 import config from "../assets/confetti.json"
 
-interface Props extends BecomeMemberType {
-	listmonk_api_key: string
-	listmonk_api: string
-}
-
-export const BecomeMember: Component<Props> = (props) => {
+export const BecomeMember: Component<BecomeMemberType> = (props) => {
 	const [name, setName] = createSignal<string>("")
 	const [email, setEmail] = createSignal<string>("")
 	const [emailError, setEmailError] = createSignal<string>("")
@@ -29,22 +24,16 @@ export const BecomeMember: Component<Props> = (props) => {
 		validateEmail(email())
 		if (emailError()) return
 
-		const apiURL = new URL(props.listmonk_api)
+		// const apiURL = new URL(props.listmonk_api)
 
 		setSignupError("")
 		setSubmitting(true)
 
-		await fetch(`${apiURL.origin}/api/subscribers`, {
+		await fetch("/subscribe", {
 			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-				Authorization: `token starlight:${props.listmonk_api_key}`,
-			},
 			body: JSON.stringify({
 				email: email(),
 				name: name(),
-				status: "enabled",
-				lists: [3],
 			}),
 		})
 			.catch((e) => {
