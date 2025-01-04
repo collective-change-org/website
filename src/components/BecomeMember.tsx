@@ -29,7 +29,7 @@ export const BecomeMember: Component<BecomeMemberType> = (props) => {
 		setSignupError("")
 		setSubmitting(true)
 
-		await fetch("/subscribe", {
+		await fetch("/api/subscribe", {
 			method: "POST",
 			body: JSON.stringify({
 				email: email(),
