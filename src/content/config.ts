@@ -53,9 +53,10 @@ const sidebar = defineCollection({
 });
 
 
-import { layoutUnion, lexicalRoot, type LexicalRoot } from "./loaders/payload/schema";
+import { lexicalRoot, type LexicalRoot } from "./loaders/payload/schemas/lexical";
 import { getKnowledgeBase } from "./loaders/payload/getKnowledgebase";
 import { getPages, type CallToActionBlock, type ContentBlock } from "./loaders/payload/getPages";
+import { layoutUnion } from "./loaders/payload/schema";
 
 async function loadAllPages() {
 	const knowledgebase = getKnowledgeBase();

@@ -1,7 +1,7 @@
 import { CMS_URL } from "astro:env/server"
 import { authenticatePayload } from "./authenticate"
 import type { KnowledgebasePage, Page } from "../../config"
-import type { LexicalRootContainer } from "./schema"
+import type { LexicalRootContainer } from "./schemas/lexical"
 
 
 

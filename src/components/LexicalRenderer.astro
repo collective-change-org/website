@@ -1,5 +1,6 @@
 ---
-import type { LexicalComponents } from "../content/loaders/payload/schema";
+import type { LexicalComponents } from '../content/loaders/payload/schemas/lexical'
+
 
 export interface Props {
     children: LexicalComponents[]
@@ -12,15 +13,24 @@ const {children} = Astro.props
     children.map((child) => {
         switch (child.type) {
             case "text":
-                switch (child.format) {
-                    case 0:
-                        return child.text;
-                    case 1:
-                        return <strong>{child.text}</strong>;
-                    case 2:
-                        return <em>{child.text}</em>;
-                }
-                return child.text;
+            switch (child.format) {
+			case 1: // bold
+				return <strong>{child.text}</strong>
+			case 2: // italic
+				return <em>{child.text}</em>
+			case 3: // strikethrough
+				return <s>{child.text}</s>
+			case 4: // underline
+				return <u>{child.text}</u>
+			case 5: // code
+				return <code>{child.text}</code>
+			case 6: // subscript
+				return <sub>{child.text}</sub>
+			case 7: // superscript
+				return <sup>{child.text}</sup>
+			default:
+				return child.text ?? ""
+		}
             case "paragraph":
                 return <p><Astro.self children={child.children} /></p>;
             default:
