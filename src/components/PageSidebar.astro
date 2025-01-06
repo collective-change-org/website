@@ -1,33 +1,49 @@
 ---
-import type { Props } from '@astrojs/starlight/props';
-import Default from '@astrojs/starlight/components/PageSidebar.astro';
-import type { Block } from '../content/config';
-import { generateToC, headingToSlug } from '../content/loaders/payload/generateToC';
+import type { Props } from "@astrojs/starlight/props"
+import Default from "@astrojs/starlight/components/PageSidebar.astro"
+import {
+	generateToC,
+	headingToSlug,
+} from "../content/loaders/payload/generateToC"
+import type { LexicalText } from "../content/loaders/payload/schemas/lexical"
 
-const { blocks, title }: {blocks: Block[], title: string} = Astro.props.entry.data;
+const page = Astro.props.entry.data
 
-// Generate ToC
-const headings = blocks.filter(({ type }: { type: string }) => type === "heading");
-	// Kirby Headings to Astro Headings
-	const astroHeadings = headings.map(({ content }) => {
-		const depth = parseInt(content.level.replace("h", ""));
-		return {
+if (page.template === "splash") {
+	console.error("returning")
+	return
+}
+
+function extractTextFromLexical(textArray: LexicalText[]): string {
+	return textArray.map(({ text }) => text).join("")
+}
+
+const astroHeadings = []
+
+for (const lexicalElements of page.lexical.children) {
+	if (lexicalElements.type === "heading") {
+		const tag = lexicalElements.tag
+		const depth = parseInt(tag.replace("h", ""))
+		const text = extractTextFromLexical(lexicalElements.children)
+		astroHeadings.push({
 			depth,
-			slug: headingToSlug(content.text),
-			text: content.text,
-		};
-	});
+			slug: headingToSlug(text),
+			text: text,
+		})
+	}
+}
 
-	const items = generateToC(astroHeadings, {
-		minHeadingLevel: 2,
-		maxHeadingLevel: 3,
-		title: title,
-	});
+const items = generateToC(astroHeadings, {
+	minHeadingLevel: 2,
+	maxHeadingLevel: 3,
+	title: page.title,
+})
 
 if (Astro.props.toc) {
-	Astro.props.toc.items = items;
+	Astro.props.toc.items = items
 }
 ---
+
 <Default {...Astro.props}>
 	<slot />
 </Default>

@@ -1,47 +1,69 @@
 ---
-import type { Props } from '@astrojs/starlight/props';
-import { Card, LinkCard } from "@astrojs/starlight/components";
-import { headingToSlug } from "../content/loaders/kirby/generateToC";
-import { BecomeMember } from './BecomeMember';
-import type { LayoutUnion } from '../content/loaders/payload/schema';
-import LexicalRenderer from './LexicalRenderer.astro';
-import type { LexicalRoot } from '../content/loaders/payload/schemas/lexical';
+import type { Props } from "@astrojs/starlight/props"
+import { Card, LinkCard } from "@astrojs/starlight/components"
+import { headingToSlug } from "../content/loaders/kirby/generateToC"
+import { BecomeMember } from "./BecomeMember"
+import type { LayoutUnion } from "../content/loaders/payload/schema"
+import LexicalRenderer from "./LexicalRenderer.astro"
+import type { LexicalRoot } from "../content/loaders/payload/schemas/lexical"
 
-const page = Astro.props.entry.data;
+const page = Astro.props.entry.data
 
-let content;
+let content
 
 if (page.template === "splash") {
-  content = page.layout as LayoutUnion[];
+	content = page.layout as LayoutUnion[]
 } else if (page.template === "doc") {
-  content = page.lexical as LexicalRoot;
+	content = page.lexical as LexicalRoot
 }
-
 ---
 
 {
-	page.template === "splash" ? page.layout.map((layoutElement) => {
-		switch (layoutElement.blockType) {
-			case "content":
-				return <div class="flex">
-					{
-						layoutElement.columns.map(colunm => (
-							<div class={colunm.size === "full" ? "basis-full"
-								: colunm.size === "half" ? "basis-1/2"
-									: colunm.size === "oneThird" ? "basis-1/3"
-										: "basis-full"
-							}>
-								{
-									colunm.richText && <LexicalRenderer children={colunm.richText?.root.children} />
-				}
-							</div>
-						))
-					}
-				</div>;
-			case "cta":
-				return <LexicalRenderer children={layoutElement.richText.root.children} />
-			default:
-				return JSON.stringify(layoutElement);
-		}
-	}) : page.template === "doc" ? <LexicalRenderer children={page.lexical.children} /> : <p>No content</p>
+	page.title === "404" ? (
+		<div class="flex h-screen items-center justify-center">
+			<h1 class="text-4xl">404</h1>
+		</div>
+	) : page.template === "splash" ? (
+		page.layout.map((layoutElement) => {
+			switch (layoutElement.blockType) {
+				case "content":
+					return (
+						<div class="flex">
+							{layoutElement.columns.map((colunm) => (
+								<div
+									class={
+										colunm.size === "full"
+											? "basis-full"
+											: colunm.size === "half"
+												? "basis-1/2"
+												: colunm.size === "oneThird"
+													? "basis-1/3"
+													: "basis-full"
+									}>
+									{colunm.richText && (
+										<LexicalRenderer
+											children={
+												colunm.richText?.root.children
+											}
+										/>
+									)}
+								</div>
+							))}
+						</div>
+					)
+				case "cta":
+					return (
+						<LexicalRenderer
+							children={layoutElement.richText.root.children}
+						/>
+					)
+				default:
+					return JSON.stringify(layoutElement)
+			}
+		})
+	) : page.template === "doc" ? (
+		<LexicalRenderer children={page.lexical.children} />
+	) : (
+		<p>No content</p>
+	)
 }

@@ -12,6 +12,35 @@ const { children } = Astro.props
 {
 	children.map((child) => {
 		switch (child.type) {
+			case "heading":
+				switch (child.tag) {
+					case "h1":
+						return (
+							<h1>
+								<Astro.self children={child.children} />
+							</h1>
+						)
+					case "h2":
+						return (
+							<h2>
+								<Astro.self children={child.children} />
+							</h2>
+						)
+					case "h3":
+						return (
+							<h3>
+								<Astro.self children={child.children} />
+							</h3>
+						)
+					case "h4":
+						return (
+							<h4>
+								<Astro.self children={child.children} />
+							</h4>
+						)
+					default:
+						return <Astro.self children={child.children} /> ?? ""
+				}
 			case "text":
 				switch (child.format) {
 					case 1: // bold

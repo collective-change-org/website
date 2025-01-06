@@ -1,29 +1,17 @@
 import { CMS_URL } from "astro:env/server"
 import { authenticatePayload } from "./authenticate"
 import type { KnowledgebasePage } from "../../config"
-import type { LexicalRootContainer } from "./schemas/lexical"
+import type { LexicalRootContainer, LexicalText } from "./schemas/lexical"
+import { generateToC, headingToSlug } from "./generateToC"
+import type { PayloadPageResponseItem } from "./getSidebar"
 
 type PayloadResponse = {
 	data: {
 		Knowledgebases: {
-			docs: Array<{
-				id: number
-				title: string
-				group?: {
-					title: string
-					breadcrumbs: Array<{
-						doc: {
-							slug: string
-						}
-					}>
-				}
-				slug: string
-				content: LexicalRootContainer
-			}>
+			docs: Array<PayloadPageResponseItem>
 		}
 	}
 }
-
 
 export async function getKnowledgeBase(): Promise<KnowledgebasePage[]> {
 	const bearerToken = await authenticatePayload()
@@ -64,18 +52,50 @@ export async function getKnowledgeBase(): Promise<KnowledgebasePage[]> {
 		}),
 	})
 
-	const data = await response.json() as PayloadResponse
+	const data = (await response.json()) as PayloadResponse
 
-	return data.data.Knowledgebases.docs.map(doc => {
+	return data.data.Knowledgebases.docs.map((doc, i) => {
+		function extractTextFromLexical(textArray: LexicalText[]): string {
+			return textArray.map(({ text }) => text).join("")
+		}
+
+		const astroHeadings = []
+
+		for (const lexicalElements of doc.content.root.children) {
+			if (lexicalElements.type === "heading") {
+				const tag = lexicalElements.tag
+				const depth = parseInt(tag.replace("h", ""))
+				const text = extractTextFromLexical(lexicalElements.children)
+				astroHeadings.push({
+					depth,
+					slug: headingToSlug(text),
+					text: text,
+				})
+			}
+		}
+
+		const items = generateToC(astroHeadings, {
+			minHeadingLevel: 2,
+			maxHeadingLevel: 3,
+			title: doc.title,
+		})
+
 		return {
-			id: "knowledgebase/" + doc.slug,
+			id: "knowledgebase/" + getPageSlug(doc),
 			title: doc.title,
 			template: "doc",
 			lexical: doc.content.root,
-			tableOfContents: false,
+			tableOfContents: { items },
 			sidebar: {
-				order: 0,
-			}
+				order: i,
+			},
 		}
 	})
+}
+
+export function getPageSlug(page: PayloadPageResponseItem): string {
+	const baseSlug = page.group
+		? page.group.breadcrumbs.map((b) => b.doc.slug).join("/")
+		: ""
+	return baseSlug ? `${baseSlug}/${page.slug}` : page.slug
 }

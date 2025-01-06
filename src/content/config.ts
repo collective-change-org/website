@@ -66,6 +66,7 @@ import {
 	type ContentBlock,
 } from "./loaders/payload/getPages"
 import { layoutUnion } from "./loaders/payload/schema"
+import { getKnowledgebaseSidebar } from "./loaders/payload/getSidebar"
 
 async function loadAllPages() {
 	const knowledgebase = getKnowledgeBase()
@@ -109,12 +110,10 @@ export interface Page extends BaseSchema {
 async function getSidebar(): Promise<SidebarEntry[]> {
 	// @ts-ignore
 	if (MOCKDATA) return new Promise((resolve) => resolve(mockdata.sidebar))
-
-	return []
+	return await getKnowledgebaseSidebar()
 }
 
 export const collections = {
-	// docs: defineCollection({ loader: docsLoader(), schema: docsSchema() }),
 	docs: knowledgebase,
 	sidebar,
 }
