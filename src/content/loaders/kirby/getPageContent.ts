@@ -62,7 +62,7 @@ export async function getPageContent(page: string, order: number): Promise<Knowl
 		template: page.includes("knowledgebase") ? "doc" : "splash",
 		blocks,
 		sidebar: {
-			order
+			order,
 		},
 		tableOfContents: { items }
 	};
