@@ -43,5 +43,5 @@ if (page.template === "splash") {
 			default:
 				return JSON.stringify(layoutElement);
 		}
-	}) : page.template === "doc" ? JSON.stringify(page.lexical) : <p>No content</p>
+	}) : page.template === "doc" ? <LexicalRenderer children={page.lexical.children} /> : <p>No content</p>
 }

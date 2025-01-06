@@ -10,5 +10,6 @@
   "compilerOptions": {
     "jsx": "preserve",
     "jsxImportSource": "solid-js"
-  }
+  },
+  "types": ["astro/env"],
 }

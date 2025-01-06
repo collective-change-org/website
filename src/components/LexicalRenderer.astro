@@ -1,40 +1,73 @@
 ---
-import type { LexicalComponents } from '../content/loaders/payload/schemas/lexical'
-
+import { Aside, Code } from "@astrojs/starlight/components"
+import type { LexicalComponents } from "../content/loaders/payload/schemas/lexical"
 
 export interface Props {
-    children: LexicalComponents[]
+	children: LexicalComponents[]
 }
 
-const {children} = Astro.props 
+const { children } = Astro.props
 ---
 
 {
-    children.map((child) => {
-        switch (child.type) {
-            case "text":
-            switch (child.format) {
-			case 1: // bold
-				return <strong>{child.text}</strong>
-			case 2: // italic
-				return <em>{child.text}</em>
-			case 3: // strikethrough
-				return <s>{child.text}</s>
-			case 4: // underline
-				return <u>{child.text}</u>
-			case 5: // code
-				return <code>{child.text}</code>
-			case 6: // subscript
-				return <sub>{child.text}</sub>
-			case 7: // superscript
-				return <sup>{child.text}</sup>
+	children.map((child) => {
+		switch (child.type) {
+			case "text":
+				switch (child.format) {
+					case 1: // bold
+						return <strong>{child.text}</strong>
+					case 2: // italic
+						return <em>{child.text}</em>
+					case 3: // strikethrough
+						return <s>{child.text}</s>
+					case 4: // underline
+						return <u>{child.text}</u>
+					case 5: // code
+						return <code>{child.text}</code>
+					case 6: // subscript
+						return <sub>{child.text}</sub>
+					case 7: // superscript
+						return <sup>{child.text}</sup>
+					default:
+						return child.text ?? ""
+				}
+			case "paragraph":
+				return (
+					<p>
+						<Astro.self children={child.children} />
+					</p>
+				)
+			case "block":
+				switch (child.fields.blockType) {
+					case "code":
+						return (
+							<Code
+								code={child.fields.code}
+								lang={child.fields.language}
+							/>
+						)
+					case "banner":
+						return (
+							<Aside
+								type={
+									child.fields.style === "warning"
+										? "caution"
+										: child.fields.style === "info"
+											? "note"
+											: "note"
+								}>
+								<Astro.self
+									children={
+										child.fields.content.root.children
+									}
+								/>
+							</Aside>
+						)
+					default:
+						return JSON.stringify(child)
+				}
 			default:
-				return child.text ?? ""
+				return JSON.stringify(child)
 		}
-            case "paragraph":
-                return <p><Astro.self children={child.children} /></p>;
-            default:
-                return JSON.stringify(child);
-        }
-    })
+	})
 }

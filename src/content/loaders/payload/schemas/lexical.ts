@@ -1,5 +1,5 @@
 import { z } from "astro:schema";
-import { blockBanner } from "./lexicalBlocks";
+import { blockBanner, blockCode } from "./lexicalBlocks";
 
 const lexicalText = z.object({
 	version: z.number(),
@@ -16,28 +16,33 @@ const lexicalParagraph = z.object({
 	children: z.array(lexicalText),
 });
 
-const lexicalCode = z.object({
-	version: z.number(),
-	type: z.literal("block"),
-	fields: z.object({
-		id: z.string(),
-		code: z.string(),
-		language: z.string(),
-		blockName: z.string(),
-		blockType: z.literal("code"),
-	}),
-});
-
 const lexicalBlock = z.object({
 	version: z.number(),
 	type: z.literal("block"),
-	fields: blockBanner,
+	fields: z.union([
+        blockBanner,
+        blockCode
+    ]),
+});
+
+const lexicalHeading = z.object({
+    version: z.number(),
+    type: z.literal("heading"),
+    indent: z.number(),
+    tag: z.union([
+        z.literal("h1"),
+        z.literal("h2"),
+        z.literal("h3"),
+        z.literal("h4"),
+    ]),
+    children: z.array(lexicalText),
 });
 
 const lexicalComponents = z.union([
 	lexicalParagraph,
-	lexicalCode,
-	lexicalText
+	lexicalText,
+    lexicalBlock,
+    lexicalHeading
 ])
 
 export type LexicalComponents = z.infer<typeof lexicalComponents>;

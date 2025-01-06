@@ -7,6 +7,14 @@ export const blockBanner = z.object({
         z.literal("info"),
         z.literal("warning"),
     ]),
-    content: lexicalRootContainer,
+    content: z.any(),
     blockType: z.literal("banner"),
 });
+
+export const blockCode = z.object({
+    id: z.string(),
+    code: z.string(),
+    language: z.string(),
+    blockName: z.string(),
+    blockType: z.literal("code"),
+})

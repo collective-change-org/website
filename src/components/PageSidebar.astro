@@ -2,7 +2,7 @@
 import type { Props } from '@astrojs/starlight/props';
 import Default from '@astrojs/starlight/components/PageSidebar.astro';
 import type { Block } from '../content/config';
-import { generateToC, headingToSlug } from '../content/loaders/kirby/generateToC';
+import { generateToC, headingToSlug } from '../content/loaders/payload/generateToC';
 
 const { blocks, title }: {blocks: Block[], title: string} = Astro.props.entry.data;
 
