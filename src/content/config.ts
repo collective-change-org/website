@@ -53,7 +53,7 @@ const sidebar = defineCollection({
 });
 
 
-import { layoutBlock, lexicalRoot, type LexicalRoot } from "./loaders/payload/schema";
+import { layoutUnion, lexicalRoot, type LexicalRoot } from "./loaders/payload/schema";
 import { getKnowledgeBase } from "./loaders/payload/getKnowledgebase";
 import { getPages, type CallToActionBlock, type ContentBlock } from "./loaders/payload/getPages";
 
@@ -67,15 +67,17 @@ async function loadAllPages() {
 const knowledgebase = defineCollection({
 	loader: () => loadAllPages(),
 	schema: docsSchema({
-		extend: z.union([
-			z.object({
-				lexical: lexicalRoot,
-			}),
-			z.object({
-				layout: z.array(layoutBlock),
-			}),
-		])
-	}),
+				extend: z.union([
+					z.object({
+						template: z.literal("doc"),
+						lexical: lexicalRoot,
+					}),
+					z.object({
+						template: z.literal("splash"),
+						layout: z.array(layoutUnion),
+					}),
+				]),
+			})
 });
 
 export interface KnowledgebasePage extends BaseSchema {

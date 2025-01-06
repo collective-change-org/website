@@ -57,10 +57,12 @@ export async function getPages(): Promise<Page[]> {
 						layout {
 							... on CallToActionBlock {
 								id
+								blockType
 								richText
 							}
 							... on ContentBlock {
 								id
+								blockType
 								columns {
 									size
 									richText
@@ -68,6 +70,7 @@ export async function getPages(): Promise<Page[]> {
 							}
 							... on MediaBlock {
 								id
+								blockType
 							}
 						}
 						meta {

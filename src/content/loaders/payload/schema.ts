@@ -51,16 +51,21 @@ const columnBlock = z.object({
 	richText: lexicalRootContainer.nullable(),
 })
 
+const contentBlock = z.object({
+	blockType: z.literal("content"),
+	columns: z.array(columnBlock),
+})
+
 const callToActionBlock = z.object({
 	id: z.string(),
+	blockType: z.literal("cta"),
 	richText: lexicalRootContainer,
 })
 
-export const layoutBlock = z.object({
-	id: z.string(),
-	columns: z.union([
-		columnBlock,
-		callToActionBlock,
-	]).array()
-})
 
+export const layoutUnion = z.union([
+	contentBlock,
+	callToActionBlock,
+])
+
+export type LayoutUnion = z.infer<typeof layoutUnion>;

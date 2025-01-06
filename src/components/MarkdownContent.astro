@@ -1,43 +1,37 @@
 ---
 import type { Props } from '@astrojs/starlight/props';
 import { Card, LinkCard } from "@astrojs/starlight/components";
-import type { Block } from "../content/config";
 import { headingToSlug } from "../content/loaders/kirby/generateToC";
 import { BecomeMember } from './BecomeMember';
+import type { LayoutUnion, LexicalRoot } from '../content/loaders/payload/schema';
 
-const { blocks }: {blocks: Block[]} = Astro.props.entry.data;
+const page = Astro.props.entry.data;
+
+let content;
+
+if (page.template === "splash") {
+  content = page.layout as LayoutUnion[];
+} else if (page.template === "doc") {
+  content = page.lexical as LexicalRoot;
+}
+
 ---
 
 {
-	blocks ? blocks.map((block) => {
-		switch (block.type) {
-			case 'heading':
-				switch (block.content.level) {
-					case "h1":
-						return <h1 id={headingToSlug(block.content.text)}>{block.content.text}</h1>
-					case "h2":
-						return <h2 id={headingToSlug(block.content.text)}>{block.content.text}</h2>
-					case "h3":
-						return <h3 id={headingToSlug(block.content.text)}>{block.content.text}</h3>
-					case "h4":
-						return <h4 id={headingToSlug(block.content.text)}>{block.content.text}</h4>
-					default:
-						return <h1 id={headingToSlug(block.content.text)}>{block.content.text}</h1>
-				}
-			case 'card':
-				// @ts-ignore
-				return <Card title={block.content.title} icon={block.content.icon}>{block.content.content}</Card>
-			case 'link-card':
-				const href = block.content.type === 'internal' ? `/${block.content.url[0]}` : block.content.href;
-				return <LinkCard title={block.content.title} href={href} description={block.content.description} target={block.content.type === 'internal' ? "_self" : "_blank"} />
-			case 'image':
-				return <p>TODO: Image Component</p>
-			case "text":
-				return <div set:html={block.content.text} />
-			case "become-member":
-				return <BecomeMember {...block} client:load />
+	page.template === "splash" ? page.layout.map((layoutElement) => {
+		switch (layoutElement.blockType) {
+			case "content":
+				return <p>
+					Content <br />
+					{JSON.stringify(layoutElement)}
+				</p>;
+			case "cta":
+				return <p>
+					CTA <br />
+					{JSON.stringify(layoutElement)}
+				</p>;
 			default:
-				return JSON.stringify(block);
+				return JSON.stringify(layoutElement);
 		}
-	}) : <p>No content</p>
+	}) : page.template === "doc" ? JSON.stringify(page.lexical) : <p>No content</p>
 }
