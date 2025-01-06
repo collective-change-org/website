@@ -11,9 +11,9 @@ import node from "@astrojs/node";
 export default defineConfig({
 	env: {
 		schema: {
-			KIRBY_USERNAME: envField.string({ context: "server", access: "secret" }),
-			KIRBY_PASSWORD: envField.string({ context: "server", access: "secret" }),
-			KIRBY_URL: envField.string({ context: "server", access: "public" }),
+			PAYLOAD_EMAIL: envField.string({ context: "server", access: "secret" }),
+			PAYLOAD_PASSWORD: envField.string({ context: "server", access: "secret" }),
+			CMS_URL: envField.string({ context: "server", access: "public" }),
 			MOCKDATA: envField.boolean({ context: "server", access: "public", optional: true, default: false }),
 			LISTMONK_API: envField.string({ context: "server", access: "public" }),
 			LISTMONK_API_KEY: envField.string({ context: "server", access: "secret" })
@@ -21,7 +21,7 @@ export default defineConfig({
 	},
 
 	integrations: [starlight({
-		title: 'Capslock 2',
+		title: 'Collective Change',
 		social: {
 			github: 'https://github.com/withastro/starlight',
 		},
@@ -38,7 +38,7 @@ export default defineConfig({
 	site: 'https://changecollective.woven.design',
 
 	server: {
-		port: 3000,
+		port: 4321,
 		host: true
 	},
 	adapter: node({
