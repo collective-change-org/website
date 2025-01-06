@@ -28,7 +28,7 @@ export default defineConfig({
 		components: {
 			MarkdownContent: './src/components/MarkdownContent.astro',
 			PageSidebar: './src/components/PageSidebar.astro',
-			Sidebar: './src/components/Sidebar.astro',
+			// Sidebar: './src/components/Sidebar.astro',
 		},
 		customCss: ["./src/tailwind.css"]
 	}), tailwind({

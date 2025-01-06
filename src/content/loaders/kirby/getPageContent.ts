@@ -2,7 +2,7 @@ import type { KnowledgebasePage } from "../../config";
 import { generateToC, headingToSlug } from "./generateToC";
 import { getApiUrl, getHeaders } from "./getHeaders";
 
-export async function getPageContent(page: string): Promise<KnowledgebasePage> {
+export async function getPageContent(page: string, order: number): Promise<KnowledgebasePage> {
 	const query = {
 		query: `page('${page}')`,
 		select: {
@@ -61,6 +61,9 @@ export async function getPageContent(page: string): Promise<KnowledgebasePage> {
 		title: data.result.title,
 		template: page.includes("knowledgebase") ? "doc" : "splash",
 		blocks,
+		sidebar: {
+			order
+		},
 		tableOfContents: { items }
 	};
 }

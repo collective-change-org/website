@@ -1,4 +1,4 @@
-import { defineCollection, z } from "astro:content";
+import { defineCollection, z, type BaseSchema } from "astro:content";
 import { docsSchema } from "@astrojs/starlight/schema";
 import { docsLoader } from "@astrojs/starlight/loaders";
 import { getGroupsAndLinks, getPages } from "./loaders/kirby/getPages";
@@ -39,6 +39,14 @@ export interface Group {
 	// badge: Badge | undefined;
 }
 
+export type CustomSidebar = {
+	order?: number;
+	label?: string;
+	hidden?: boolean;
+	// badge?: BadgeConfig;
+	// attrs?: SidebarLinkItemHTMLAttributes;
+}
+
 export type SidebarEntry = Link | Group;
 
 export const linkSchema: z.ZodSchema<Link> = z.object({
@@ -66,12 +74,13 @@ const sidebar = defineCollection({
 	// schema: z.array(z.union([linkSchema, groupSchema]))
 });
 
-export type KnowledgebasePage = {
+export interface KnowledgebasePage extends BaseSchema {
 	id: string;
 	title: string;
 	template: "splash" | "doc";
 	blocks: Block[];
 	tableOfContents?: any;
+	sidebar: CustomSidebar;
 }
 
 async function getKnowledgeBase(basePage: string): Promise<KnowledgebasePage[]> {
@@ -101,6 +110,7 @@ async function getSidebar(): Promise<SidebarEntry[]> {
 }
 
 export const collections = {
+	// docs: defineCollection({ loader: docsLoader(), schema: docsSchema() }),
 	docs: knowledgebase,
 	sidebar
 };
