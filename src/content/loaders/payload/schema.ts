@@ -6,6 +6,7 @@ const lexicalText = z.object({
 	text: z.string(),
 	mode: z.string(),
 	style: z.string(),
+	format: z.number(),
 });
 
 const lexicalParagraph = z.object({
@@ -26,13 +27,18 @@ const lexicalCode = z.object({
 	}),
 });
 
+const lexicalComponents = z.union([
+	lexicalParagraph,
+	lexicalCode,
+	lexicalText
+])
+
+export type LexicalComponents = z.infer<typeof lexicalComponents>;
+
 export const lexicalRoot = z.object({
 	version: z.number(),
 	type: z.literal("root"),
-	children: z.array(z.union([
-		lexicalParagraph,
-		lexicalCode,
-	])),
+	children: z.array(lexicalComponents),
 });
 
 const lexicalRootContainer = z.object({
