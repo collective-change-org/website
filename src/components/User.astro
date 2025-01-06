@@ -1,6 +1,16 @@
 ---
-const userSession = Astro.cookies.get('kirby_session');
+import { actions } from "astro:actions";
+
+export const prerender = false; // Not needed in 'server' mode
+const userSession = Astro.cookies.get('kirby_session')?.value;
+console.log(userSession)
+
+if (!userSession) {
+	return
+}
+const { data, error } = await Astro.callAction(actions.verify, { token: userSession });
+console.log(data, error)
 ---
 <p>
-	user Session: {userSession}
+	user Session: {JSON.stringify(userSession)}
 </p>
