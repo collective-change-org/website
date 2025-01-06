@@ -16,7 +16,7 @@ export interface Link {
 export interface Group {
 	id: string
 	type: 'group';
-	label: string;
+	label: string; 
 	entries: (Link | Group)[];
 	collapsed: boolean;
 	// badge: Badge | undefined;
@@ -53,31 +53,46 @@ const sidebar = defineCollection({
 });
 
 
-import { block } from "./loaders/kirby/schemas";
-import { lexicalRoot, type LexicalRoot } from "./loaders/payload/schema";
+import { layoutBlock, lexicalRoot, type LexicalRoot } from "./loaders/payload/schema";
 import { getKnowledgeBase } from "./loaders/payload/getKnowledgebase";
+import { getPages, type CallToActionBlock, type ContentBlock } from "./loaders/payload/getPages";
 
-export type Block = z.infer<typeof block>;
+async function loadAllPages() {
+	const knowledgebase = getKnowledgeBase();
+	const pages = getPages();
 
+	return Promise.all([...await knowledgebase, ...await pages]);
+}
 
 const knowledgebase = defineCollection({
-	loader: () => getKnowledgeBase(),
+	loader: () => loadAllPages(),
 	schema: docsSchema({
-		extend: z.object({
-			lexical: lexicalRoot,
-		})
+		extend: z.union([
+			z.object({
+				lexical: lexicalRoot,
+			}),
+			z.object({
+				layout: z.array(layoutBlock),
+			}),
+		])
 	}),
 });
 
 export interface KnowledgebasePage extends BaseSchema {
 	id: string;
 	title: string;
-	template: "splash" | "doc";
+	template: "doc";
 	lexical: LexicalRoot;
 	tableOfContents?: any;
 	sidebar: CustomSidebar;
 }
 
+export interface Page extends BaseSchema {
+	id: string;
+	title: string;
+	template: "splash";
+	layout: (ContentBlock | CallToActionBlock)[];
+}
 
 
 async function getSidebar(): Promise<SidebarEntry[]> {

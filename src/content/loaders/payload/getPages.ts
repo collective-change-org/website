@@ -1,31 +1,37 @@
 import { CMS_URL } from "astro:env/server"
 import { authenticatePayload } from "./authenticate"
-import type { KnowledgebasePage } from "../../config"
+import type { KnowledgebasePage, Page } from "../../config"
 import type { LexicalRootContainer } from "./schema"
+
+
+
+export type ContentBlock = {
+	id: string
+	columns: Array<{
+		size: number
+		richText: LexicalRootContainer
+	}>
+}
+
+export type CallToActionBlock = {
+	id: string
+	richText: LexicalRootContainer
+}
 
 type PayloadResponse = {
 	data: {
-		Knowledgebases: {
+		Pages: {
 			docs: Array<{
-				id: number
 				title: string
-				group?: {
-					title: string
-					breadcrumbs: Array<{
-						doc: {
-							slug: string
-						}
-					}>
-				}
 				slug: string
-				content: LexicalRootContainer
+				layout: (ContentBlock | CallToActionBlock)[]
 			}>
 		}
 	}
 }
 
 
-export async function getKnowledgeBase(): Promise<KnowledgebasePage[]> {
+export async function getPages(): Promise<Page[]> {
 	const bearerToken = await authenticatePayload()
 	// Auth
 	const { error, result } = bearerToken
@@ -43,17 +49,34 @@ export async function getKnowledgeBase(): Promise<KnowledgebasePage[]> {
 		},
 		body: JSON.stringify({
 			query: `
-			query {
-				Knowledgebases {
+			query pages {
+				Pages {
 					docs {
-					id
-					title
-					group {
 						title
-						breadcrumbs{doc{slug}}
-					}
-					slug
-					content 
+						slug
+						layout {
+							... on CallToActionBlock {
+								id
+								richText
+							}
+							... on ContentBlock {
+								id
+								columns {
+									size
+									richText
+								}
+							}
+							... on MediaBlock {
+								id
+							}
+						}
+						meta {
+							title
+							image {
+								url
+							}
+							description
+						}
 					}
 				}
 			}
@@ -66,12 +89,12 @@ export async function getKnowledgeBase(): Promise<KnowledgebasePage[]> {
 
 	const data = await response.json() as PayloadResponse
 
-	return data.data.Knowledgebases.docs.map(doc => {
+	return data.data.Pages.docs.map(doc => {
 		return {
-			id: "knowledgebase/" + doc.slug,
+			id: doc.slug === "home" ? "/" : doc.slug,
 			title: doc.title,
-			template: "doc",
-			lexical: doc.content.root,
+			template: "splash",
+			layout: doc.layout,
 			tableOfContents: false,
 			sidebar: {
 				order: 0,

@@ -34,4 +34,33 @@ export const lexicalRoot = z.object({
 		lexicalCode,
 	])),
 });
+
+const lexicalRootContainer = z.object({
+	root: lexicalRoot,
+})
+
 export type LexicalRoot = z.infer<typeof lexicalRoot>;
+export type LexicalRootContainer = z.infer<typeof lexicalRootContainer>;
+
+const columnBlock = z.object({
+	size: z.union([
+		z.literal("full"),
+		z.literal("half"),
+		z.literal("oneThird"),
+	]),
+	richText: lexicalRootContainer.nullable(),
+})
+
+const callToActionBlock = z.object({
+	id: z.string(),
+	richText: lexicalRootContainer,
+})
+
+export const layoutBlock = z.object({
+	id: z.string(),
+	columns: z.union([
+		columnBlock,
+		callToActionBlock,
+	]).array()
+})
+
