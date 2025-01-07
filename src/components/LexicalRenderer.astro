@@ -60,6 +60,40 @@ const { children } = Astro.props
 					default:
 						return child.text ?? ""
 				}
+			case "link":
+				switch (child.fields.linkType) {
+					case "internal":
+						const url =
+							child.fields.doc.relationTo === "knowledgebase"
+								? `/knowledgebase/${child.fields.doc.value.slugWithGroup}`
+								: `/${child.fields.doc.value.slugWithGroup}`
+						return (
+							<a
+								href={url}
+								target={
+									child.fields.newTab ? "_blank" : "_self"
+								}
+								class="text-red-400">
+								<Astro.self children={child.children} />
+							</a>
+						)
+					case "custom":
+						return (
+							<a
+								class="text-red-400"
+								href={child.fields.url}
+								target={
+									child.fields.newTab ? "_blank" : "_self"
+								}
+								rel={
+									child.fields.newTab
+										? "noopener noreferrer"
+										: ""
+								}>
+								<Astro.self children={child.children} />
+							</a>
+						)
+				}
 			case "paragraph":
 				return (
 					<p>
@@ -75,16 +109,12 @@ const { children } = Astro.props
 								lang={child.fields.language}
 							/>
 						)
-					case "banner":
+
+					case "aside":
 						return (
 							<Aside
-								type={
-									child.fields.style === "warning"
-										? "caution"
-										: child.fields.style === "info"
-											? "note"
-											: "note"
-								}>
+								type={child.fields.type}
+								title={child.fields.title}>
 								<Astro.self
 									children={
 										child.fields.content.root.children

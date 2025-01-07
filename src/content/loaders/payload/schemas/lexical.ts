@@ -1,5 +1,5 @@
 import { z } from "astro:schema"
-import { blockBanner, blockCode } from "./lexicalBlocks"
+import { blockBanner, blockCode, lexicalBlock } from "./lexicalBlocks"
 
 const lexicalText = z.object({
 	version: z.number(),
@@ -12,16 +12,34 @@ const lexicalText = z.object({
 
 export type LexicalText = z.infer<typeof lexicalText>
 
-const lexicalParagraph = z.object({
+const internalLink = z.object({
+	linkType: z.literal("internal"),
+	newTab: z.boolean(),
+	doc: z.object({
+		value: z.object({
+			slugWithGroup: z.string(),
+		}),
+		relationTo: z.union([z.literal("knowledgebase"), z.literal("page")]),
+	}),
+})
+
+const externalLink = z.object({
+	linkType: z.literal("custom"),
+	newTab: z.boolean(),
+	url: z.string(),
+})
+
+const lexicalInlineLink = z.object({
 	version: z.number(),
-	type: z.literal("paragraph"),
+	type: z.literal("link"),
+	fields: z.union([internalLink, externalLink]),
 	children: z.array(lexicalText),
 })
 
-const lexicalBlock = z.object({
+const lexicalParagraph = z.object({
 	version: z.number(),
-	type: z.literal("block"),
-	fields: z.union([blockBanner, blockCode]),
+	type: z.literal("paragraph"),
+	children: z.array(z.union([lexicalText, lexicalInlineLink])),
 })
 
 const lexicalHeading = z.object({
@@ -39,6 +57,7 @@ const lexicalHeading = z.object({
 
 const lexicalComponents = z.union([
 	lexicalParagraph,
+	lexicalInlineLink,
 	lexicalText,
 	lexicalBlock,
 	lexicalHeading,
