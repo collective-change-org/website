@@ -32,7 +32,7 @@ export async function getKnowledgeBase(): Promise<KnowledgebasePage[]> {
 		body: JSON.stringify({
 			query: `
 			query {
-				Knowledgebases {
+				Knowledgebases(sort: "docOrder") {
 					docs {
 					id
 					title

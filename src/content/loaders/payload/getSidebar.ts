@@ -131,7 +131,6 @@ export async function getKnowledgebaseSidebar(): Promise<SidebarEntry[]> {
 	}
 
 	groups.sort((a, b) => a.docOrder - b.docOrder)
-	console.log(groups)
 	for (const group of groups) {
 		if (group.parentSlug) {
 			const parentGroup = groups.find((g) => g.slug === group.parentSlug)
