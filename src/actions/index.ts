@@ -109,4 +109,18 @@ export const server = {
 			return body.user
 		},
 	}),
+	logout: defineAction({
+		handler: async (_, ctx) => {
+			// const res = await fetch(`${cmsUrl}/api/users/logout`, {
+			// 	method: "POST",
+			// 	headers: {
+			// 		"Content-Type": "application/json",
+			// 	},
+			// })
+			ctx.cookies.delete("payload-token", {
+				path: "/",
+				sameSite: "lax",
+			})
+		},
+	}),
 }
