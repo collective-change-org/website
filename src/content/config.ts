@@ -13,7 +13,7 @@ export interface Link {
 	label: string
 	href: string
 	isCurrent: boolean
-	badge?: Badge;
+	badge?: Badge
 	attrs: LinkHTMLAttributes
 }
 export interface Group {
@@ -22,13 +22,13 @@ export interface Group {
 	label: string
 	entries: (Link | Group)[]
 	collapsed: boolean
-	badge?: Badge;
+	badge?: Badge
 }
 export type CustomSidebar = {
 	order?: number
 	label?: string
 	hidden?: boolean
-	// badge?: BadgeConfig;
+	// badge?: BadgeConfig
 	// attrs?: SidebarLinkItemHTMLAttributes;
 }
 export type SidebarEntry = Link | Group

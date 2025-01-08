@@ -3,6 +3,7 @@ import type { Group, Link, SidebarEntry } from "../../config"
 import { authenticatePayload } from "./authenticate"
 import type { LexicalRootContainer } from "./schemas/lexical"
 import { getPageSlug } from "./getKnowledgebase"
+import { optional, undefined } from "astro:schema"
 
 type PayloadPageResponse = {
 	data: {
@@ -22,11 +23,17 @@ export type PayloadPageResponseItem = {
 				docOrder?: number
 				title: string
 				slug: string
+				badgeText?: string
+				badgeVariant?: 'note' | 'danger' | 'success' | 'caution' | 'tip' | 'default'
 			}
 		}>
 	}
 	slug: string
 	content: LexicalRootContainer
+	// badge: BadgeType
+	badgeText?: string
+	badgeVariant?: 'note' | 'danger' | 'success' | 'caution' | 'tip' | 'default'
+
 }
 
 interface OrderedGroup extends Group {
@@ -43,6 +50,7 @@ function pageToLink(page: PayloadPageResponseItem): Link {
 		href: "/knowledgebase/" + getPageSlug(page),
 		isCurrent: false,
 		attrs: {},
+		...(page.badgeText && { badge: { text: page.badgeText, variant: page.badgeVariant } }),
 	}
 }
 
@@ -76,11 +84,15 @@ export async function getKnowledgebaseSidebar(): Promise<SidebarEntry[]> {
                                 title
                                 slug
                                 docOrder
+								badgeText
+								badgeVariant
                             }
                         }
                     }
                     slug
-                    content 
+                    content
+					badgeText
+					badgeVariant
                     }
                 }
             }
@@ -121,6 +133,7 @@ export async function getKnowledgebaseSidebar(): Promise<SidebarEntry[]> {
 							? page.group.breadcrumbs[i - 1].doc.slug
 							: undefined,
 					type: "group",
+					...(group.doc.badgeText && { badge: { text: group.doc.badgeText, variant: group.doc.badgeVariant || 'default' } }),
 				}
 				groups.push(tempGroup)
 			}
