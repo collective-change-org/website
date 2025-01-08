@@ -5,6 +5,7 @@ import LexicalRenderer from "../LexicalRenderer.astro"
 import type { LexicalRoot } from "../../content/loaders/payload/schemas/lexical"
 import RestrictedRenderer from "../RestrictedRenderer.astro"
 import type { record } from "astro:schema"
+import Login from "../Login.astro"
 
 const page = Astro.props.entry.data
 
@@ -56,6 +57,8 @@ if (page.template === "splash") {
 							children={layoutElement.richText.root.children}
 						/>
 					)
+				case "loginBlock":
+					return <Login />
 				default:
 					return JSON.stringify(layoutElement)
 			}

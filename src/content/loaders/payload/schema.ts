@@ -1,6 +1,5 @@
-import { z } from "astro:schema";
-import { lexicalRootContainer } from "./schemas/lexical";
-
+import { z } from "astro:schema"
+import { lexicalRootContainer } from "./schemas/lexical"
 
 const columnBlock = z.object({
 	size: z.union([
@@ -22,10 +21,14 @@ const callToActionBlock = z.object({
 	richText: lexicalRootContainer,
 })
 
+const loginBlock = z.object({
+	blockType: z.literal("loginBlock"),
+})
 
 export const layoutUnion = z.union([
 	contentBlock,
 	callToActionBlock,
+	loginBlock,
 ])
 
-export type LayoutUnion = z.infer<typeof layoutUnion>;
+export type LayoutUnion = z.infer<typeof layoutUnion>

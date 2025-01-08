@@ -31,6 +31,7 @@ export default defineConfig({
 			Sidebar: './src/components/overwrites/Sidebar.astro',
 			Header: './src/components/overwrites/Header.astro',
 			PageFrame: './src/components/overwrites/PageFrame.astro',
+			Footer: './src/components/overwrites/Footer.astro',
 		},
 		customCss: ["./src/tailwind.css"]
 	}), tailwind({

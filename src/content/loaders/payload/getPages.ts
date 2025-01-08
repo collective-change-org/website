@@ -3,8 +3,6 @@ import { authenticatePayload } from "./authenticate"
 import type { KnowledgebasePage, Page } from "../../config"
 import type { LexicalRootContainer } from "./schemas/lexical"
 
-
-
 export type ContentBlock = {
 	id: string
 	columns: Array<{
@@ -29,7 +27,6 @@ type PayloadResponse = {
 		}
 	}
 }
-
 
 export async function getPages(): Promise<Page[]> {
 	const bearerToken = await authenticatePayload()
@@ -72,6 +69,9 @@ export async function getPages(): Promise<Page[]> {
 								id
 								blockType
 							}
+							... on LoginBlock {
+								blockType
+							}
 						}
 						meta {
 							title
@@ -90,9 +90,9 @@ export async function getPages(): Promise<Page[]> {
 		}),
 	})
 
-	const data = await response.json() as PayloadResponse
+	const data = (await response.json()) as PayloadResponse
 
-	return data.data.Pages.docs.map(doc => {
+	return data.data.Pages.docs.map((doc) => {
 		return {
 			id: doc.slug === "home" ? "/" : doc.slug,
 			title: doc.title,
@@ -101,7 +101,7 @@ export async function getPages(): Promise<Page[]> {
 			tableOfContents: false,
 			sidebar: {
 				order: 0,
-			}
+			},
 		}
 	})
 }
