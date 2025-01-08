@@ -3,6 +3,8 @@ import type { Props } from "@astrojs/starlight/props"
 import type { LayoutUnion } from "../content/loaders/payload/schema"
 import LexicalRenderer from "./LexicalRenderer.astro"
 import type { LexicalRoot } from "../content/loaders/payload/schemas/lexical"
+import RestrictedRenderer from "./RestrictedRenderer.astro"
+import type { record } from "astro:schema"
 
 const page = Astro.props.entry.data
 
@@ -59,7 +61,15 @@ if (page.template === "splash") {
 			}
 		})
 	) : page.template === "doc" ? (
-		<LexicalRenderer children={page.lexical.children} />
+		page.restricted !== "public" ? (
+			<RestrictedRenderer
+				server:defer
+				redirect={encodeURIComponent(Astro.url.pathname)}>
+				<LexicalRenderer children={page.lexical.children} />
+			</RestrictedRenderer>
+		) : (
+			<LexicalRenderer children={page.lexical.children} />
+		)
 	) : (
 		<p>No content</p>
 	)

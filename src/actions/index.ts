@@ -28,7 +28,6 @@ export const server = {
 					message: e,
 				})
 			})
-			console.log(res.status)
 			if (res.status !== 200) {
 				console.error("Wrong status")
 				throw new ActionError({
@@ -36,7 +35,6 @@ export const server = {
 					message: "Invalid email or password",
 				})
 			}
-			console.log(res)
 			// // Log res headers
 			const setCookie = res.headers.get("set-cookie")
 
@@ -56,18 +54,12 @@ export const server = {
 					cookie[key] = val as string
 				}
 			}
-			console.log(await res.json())
 
-			const token = setCookie?.split("=")[1].split(";")[0]
-			// console.log(token)
-			// ctx.cookies.set('token', res.headers.get('Authorization') || '')
-			// cookieList?.forEach((cookie) => {
-			// 	if (!cookie[0] || !cookie[1]) return
-			// 	ctx.cookies.set(cookie[0], cookie[1], { sameSite: "strict", path: '/' })
-			// })
-			// console.log(csrf)
 			if (!cookie || !cookie["payload-token"]) {
-				return
+				throw new ActionError({
+					code: "UNAUTHORIZED",
+					message: "Couldnt parse cookie",
+				})
 			}
 			ctx.cookies.set("payload-token", cookie["payload-token"], {
 				sameSite: "lax",
@@ -75,7 +67,7 @@ export const server = {
 				httpOnly: true,
 				expires: new Date(cookie["Expires"]),
 			})
-			return ""
+			return true
 		},
 	}),
 	verify: defineAction({
@@ -86,6 +78,8 @@ export const server = {
 					? `JWT ${ctx.cookies.get("payload-token")!.value}`
 					: "",
 			})
+
+			console.log(headers)
 
 			const res = await fetch(`${cmsUrl.origin}/api/users/me`, {
 				method: "GET",

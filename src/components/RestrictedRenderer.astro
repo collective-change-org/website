@@ -1,0 +1,23 @@
+---
+export interface Props {
+	redirect: string
+}
+
+import { actions } from "astro:actions"
+
+export const prerender = false
+
+const { data, error } = await Astro.callAction(actions.verify, {})
+---
+
+{
+	data ? (
+		<>
+			<slot />
+		</>
+	) : (
+		<a href={`/login?redirect=${Astro.props.redirect}`}>
+			Leider musst du angemeldet sein um diese Seite sehen zu können
+		</a>
+	)
+}
