@@ -31,7 +31,6 @@ export const blockBadge = z.object({
 		z.literal("large"),
 	]),
 	blockType: z.literal("badge"),
-	
 })
 
 export const blockCode = z.object({

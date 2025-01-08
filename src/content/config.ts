@@ -13,7 +13,7 @@ export interface Link {
 	label: string
 	href: string
 	isCurrent: boolean
-	// badge: Badge | undefined;
+	badge?: Badge;
 	attrs: LinkHTMLAttributes
 }
 export interface Group {
@@ -22,7 +22,7 @@ export interface Group {
 	label: string
 	entries: (Link | Group)[]
 	collapsed: boolean
-	// badge: Badge | undefined;
+	badge?: Badge;
 }
 export type CustomSidebar = {
 	order?: number
@@ -67,6 +67,7 @@ import {
 } from "./loaders/payload/getPages"
 import { layoutUnion } from "./loaders/payload/schema"
 import { getKnowledgebaseSidebar } from "./loaders/payload/getSidebar"
+import type { Badge } from "../schemas/badge"
 
 async function loadAllPages() {
 	const knowledgebase = getKnowledgeBase()
