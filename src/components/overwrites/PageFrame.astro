@@ -1,12 +1,12 @@
 ---
 import MobileMenuToggle from "@astrojs/starlight/components/MobileMenuToggle.astro"
-import type { Props } from "../props"
+import type { Props } from "@astrojs/starlight/props"
 
 const { hasSidebar } = Astro.props
 ---
 
 <div class="page sl-flex">
-	<header class="header"><slot name="header" /></header>
+	<header class="z-10 bg-[#00463A]"><slot name="header" /></header>
 	{
 		hasSidebar && (
 			<nav

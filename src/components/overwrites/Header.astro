@@ -2,16 +2,14 @@
 import type { Props } from "@astrojs/starlight/props"
 import Default from "@astrojs/starlight/components/Header.astro"
 import { getCollection } from "astro:content"
-import type { SidebarEntry } from "../content/config"
-import User from "./User.astro"
-import Logo from "../assets/Logo.svg"
+import type { SidebarEntry } from "../../content/config"
+import User from "../User.astro"
+import Logo from "../../assets/Logo.svg"
 
 const { slug } = Astro.params
 ---
 
-<div
-	class="flex items-center justify-between bg-[#00463A] px-4 py-2 text-white"
->
+<div class="flex items-center justify-between px-4 py-2 text-white">
 	<Logo height={48} width={128} />
 	<User server:defer />
 	<!-- <slot /> -->

@@ -26,11 +26,11 @@ export default defineConfig({
 			github: 'https://github.com/withastro/starlight',
 		},
 		components: {
-			MarkdownContent: './src/components/MarkdownContent.astro',
-			PageSidebar: './src/components/PageSidebar.astro',
-			Sidebar: './src/components/Sidebar.astro',
-			Header: './src/components/Header.astro',
-			PageFrame: './src/components/PageFrame.astro',
+			MarkdownContent: './src/components/overwrites/MarkdownContent.astro',
+			PageSidebar: './src/components/overwrites/PageSidebar.astro',
+			Sidebar: './src/components/overwrites/Sidebar.astro',
+			Header: './src/components/overwrites/Header.astro',
+			PageFrame: './src/components/overwrites/PageFrame.astro',
 		},
 		customCss: ["./src/tailwind.css"]
 	}), tailwind({

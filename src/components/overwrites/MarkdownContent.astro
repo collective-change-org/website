@@ -1,9 +1,9 @@
 ---
 import type { Props } from "@astrojs/starlight/props"
-import type { LayoutUnion } from "../content/loaders/payload/schema"
-import LexicalRenderer from "./LexicalRenderer.astro"
-import type { LexicalRoot } from "../content/loaders/payload/schemas/lexical"
-import RestrictedRenderer from "./RestrictedRenderer.astro"
+import type { LayoutUnion } from "../../content/loaders/payload/schema"
+import LexicalRenderer from "../LexicalRenderer.astro"
+import type { LexicalRoot } from "../../content/loaders/payload/schemas/lexical"
+import RestrictedRenderer from "../RestrictedRenderer.astro"
 import type { record } from "astro:schema"
 
 const page = Astro.props.entry.data
