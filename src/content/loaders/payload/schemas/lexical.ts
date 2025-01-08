@@ -1,6 +1,7 @@
 import { z } from "astro:schema"
 import { blockBanner, blockCode, lexicalBlock } from "./lexicalBlocks"
 
+
 const lexicalText = z.object({
 	version: z.number(),
 	type: z.literal("text"),

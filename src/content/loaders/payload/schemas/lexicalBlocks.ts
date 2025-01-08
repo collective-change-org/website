@@ -14,6 +14,26 @@ export const blockBanner = z.object({
 	blockType: z.literal("aside"),
 })
 
+export const blockBadge = z.object({
+	id: z.string(),
+	text: z.string(),
+	variant: z.union([
+		z.literal("default"),
+		z.literal("note"),
+		z.literal("danger"),
+		z.literal("success"),
+		z.literal("caution"),
+		z.literal("tip"),
+	]),
+	size: z.union([
+		z.literal("small"),
+		z.literal("medium"),
+		z.literal("large"),
+	]),
+	blockType: z.literal("badge"),
+	
+})
+
 export const blockCode = z.object({
 	id: z.string(),
 	code: z.string(),
@@ -29,5 +49,5 @@ const blockSteps = z.object({
 export const lexicalBlock = z.object({
 	version: z.number(),
 	type: z.literal("block"),
-	fields: z.union([blockBanner, blockCode, blockSteps]),
+	fields: z.union([blockBanner, blockBadge, blockCode, blockSteps]),
 })

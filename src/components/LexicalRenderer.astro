@@ -1,5 +1,5 @@
 ---
-import { Aside, Code } from "@astrojs/starlight/components"
+import { Aside, Badge, Code } from "@astrojs/starlight/components"
 import type { LexicalComponents } from "../content/loaders/payload/schemas/lexical"
 
 export interface Props {
@@ -109,7 +109,14 @@ const { children } = Astro.props
 								lang={child.fields.language}
 							/>
 						)
-
+					case "badge":
+						return (
+							<Badge
+								text={child.fields.text}
+								variant={child.fields.variant}
+								size={child.fields.size}
+							/>
+						)
 					case "aside":
 						return (
 							<Aside
