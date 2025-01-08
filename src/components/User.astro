@@ -10,9 +10,9 @@ console.log(data, error)
 {
 	data ? (
 		<>
-			<p>Logged in as {data.name}</p>
+			<p>Hi {data.name}! Logout</p>
 		</>
 	) : (
-		<p>Not logged in</p>
+		<a href="/login">Einloggen</a>
 	)
 }

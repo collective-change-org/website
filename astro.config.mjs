@@ -29,6 +29,8 @@ export default defineConfig({
 			MarkdownContent: './src/components/MarkdownContent.astro',
 			PageSidebar: './src/components/PageSidebar.astro',
 			Sidebar: './src/components/Sidebar.astro',
+			Header: './src/components/Header.astro',
+			PageFrame: './src/components/PageFrame.astro',
 		},
 		customCss: ["./src/tailwind.css"]
 	}), tailwind({
@@ -36,7 +38,9 @@ export default defineConfig({
 	}), solidJs()],
 
 	site: 'https://changecollective.woven.design',
-
+	experimental: {
+		svg: true,
+	},
 	server: {
 		port: 4321,
 		host: true
