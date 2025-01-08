@@ -1,13 +1,8 @@
 import { ActionError, defineAction } from 'astro:actions';
 import { z } from 'astro:schema';
-import { getHeaders } from '../content/loaders/kirby/getHeaders';
+import { CMS_URL } from 'astro:env/server';
 
-async function getCSRF(headers: Headers) {
-	const csrf = await fetch('https://capslock-cms.test/api/csrf', {
-		headers
-	})
-	return await csrf.text()
-}
+const cmsUrl = new URL(CMS_URL)
 export const server = {
 	login: defineAction({
 		accept: 'form',
@@ -16,22 +11,17 @@ export const server = {
 			password: z.string(),
 		}),
 		handler: async ({ email, password }, ctx) => {
-			const basicAuth = Buffer.from(`${email}:${password}`).toString('base64')
-			const csrf = await getCSRF(new Headers({
-				'Authorization': `Basic ${basicAuth}`
-			}))
-
 			const headers = new Headers({
 				'Content-Type': 'application/json',
-				'X-CSRF': csrf,
-				'Authorization': `Basic ${basicAuth}`
 			})
-			console.log(headers)
 
-			const res = await fetch('https://capslock-cms.test/api/auth/login', {
+			const res = await fetch(`${cmsUrl.origin}/api/users/login`, {
 				method: 'POST',
-				body: JSON.stringify({ email, password, long: false }),
-				headers
+				headers,
+				body: JSON.stringify({
+					email,
+					password,
+				}),
 			}).catch((e) => {
 				throw new ActionError({
 					code: "UNAUTHORIZED",
@@ -46,54 +36,66 @@ export const server = {
 					message: "Invalid email or password",
 				});
 			}
-			// Log res headers
+			console.log(res)
+			// // Log res headers
 			const setCookie = res.headers.get('set-cookie')
-			const cookieList = setCookie?.split(';').map((cookie) => cookie.split('=').map((c) => c.trim()))
-			// console.log(await res.json())
+
+			let cookie
+			const values = setCookie?.split(";")
+			if (!values) return
+			for (const value of values) {
+				const pair = value.split("=")
+				const key = pair[0].trim() as string | undefined
+				const val = pair[1].trim() as string | undefined
+				if (!key || !val) continue
+				if (!cookie) {
+					cookie = {
+						[key]: val
+					}
+				} else {
+					cookie[key] = val as string
+				}
+			}
+			console.log(await res.json())
+
+			const token = setCookie?.split("=")[1].split(";")[0]
+			// console.log(token)
 			// ctx.cookies.set('token', res.headers.get('Authorization') || '')
-			cookieList?.forEach((cookie) => {
-				if (!cookie[0] || !cookie[1]) return
-				ctx.cookies.set(cookie[0], cookie[1], { sameSite: "strict", path: '/' })
-			})
-			console.log(csrf)
-			ctx.cookies.set('csrf', csrf, { sameSite: "strict", path: '/' })
+			// cookieList?.forEach((cookie) => {
+			// 	if (!cookie[0] || !cookie[1]) return
+			// 	ctx.cookies.set(cookie[0], cookie[1], { sameSite: "strict", path: '/' })
+			// })
+			// console.log(csrf)
+			if (!cookie || !cookie["payload-token"]) {
+				return
+			}
+			// ctx.cookies.set('payload-token', cookie["payload-token"], { sameSite: "lax", path: cookie["Path"], httpOnly: true, expires: new Date(cookie["Expires"]) })
 			return "";
 		},
 	}),
 	verify: defineAction({
-		accept: "json",
-		input: z.object({
-			token: z.string()
-		}),
-		handler: async ({ token }, ctx) => {
-			// console.log(ctx.cookies.get('kirby_session')?.value)
+		handler: async (_, ctx) => {
 			const headers = new Headers({
-				// 'Content-Type': 'application/json',
-				"Cookie": `kirby_session=${ctx.cookies.get('kirby_session')?.value}` || '',
+				'Content-Type': 'application/json',
+				'Authorization': ctx.cookies.get('payload-token')?.value ? `JWT ${ctx.cookies.get('payload-token')!.value}` : ''
 			})
-			const csrf = await getCSRF(headers)
-			headers.set('x-csrf', csrf)
-			console.log(headers)
-			const request = await fetch('https://capslock-cms.test/api/auth/', {
-				method: 'GET',
+
+			const res = await fetch(`${cmsUrl.origin}/api/users/me`, {
+				method: "GET",
 				headers
-			}).catch((e) => {
-				throw new ActionError({
-					code: "UNAUTHORIZED",
-					message: e,
-				});
 			})
-				.then((res) => {
-					// console.log(res)
-					if (!res.ok) {
-						throw new ActionError({
-							code: "UNAUTHORIZED",
-							message: "Invalid token",
-						});
-					}
-					return;
-				})
-			return request
+
+			const body = await res.json() as {
+				user: undefined | {
+					id: number,
+					name: string,
+					email: string,
+					loginAttempts: number,
+				}
+				message: "Account"
+			}
+
+			return body.user
 		}
 	}),
 }

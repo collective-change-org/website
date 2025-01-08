@@ -1,16 +1,18 @@
 ---
-import { actions } from "astro:actions";
+import { actions } from "astro:actions"
 
-export const prerender = false; // Not needed in 'server' mode
-const userSession = Astro.cookies.get('kirby_session')?.value;
-console.log(userSession)
+export const prerender = false // Not needed in 'server' mode
 
-if (!userSession) {
-	return
-}
-const { data, error } = await Astro.callAction(actions.verify, { token: userSession });
+const { data, error } = await Astro.callAction(actions.verify, {})
 console.log(data, error)
 ---
-<p>
-	user Session: {JSON.stringify(userSession)}
-</p>
+
+{
+	data ? (
+		<>
+			<p>Logged in as {data.name}</p>
+		</>
+	) : (
+		<p>Not logged in</p>
+	)
+}
