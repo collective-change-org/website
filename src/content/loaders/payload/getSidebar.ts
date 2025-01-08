@@ -27,6 +27,7 @@ export type PayloadPageResponseItem = {
 	}
 	slug: string
 	content: LexicalRootContainer
+	restricted: "public" | "members"
 }
 
 interface OrderedGroup extends Group {
@@ -43,6 +44,12 @@ function pageToLink(page: PayloadPageResponseItem): Link {
 		href: "/knowledgebase/" + getPageSlug(page),
 		isCurrent: false,
 		attrs: {},
+		badge: page.restricted
+			? {
+					text: "Members",
+					variant: "note",
+				}
+			: undefined,
 	}
 }
 
@@ -81,6 +88,7 @@ export async function getKnowledgebaseSidebar(): Promise<SidebarEntry[]> {
                     }
                     slug
                     content 
+					restricted
                     }
                 }
             }

@@ -80,14 +80,12 @@ export const server = {
 	}),
 	verify: defineAction({
 		handler: async (_, ctx) => {
-			console.log(ctx.cookies)
 			const headers = new Headers({
 				"Content-Type": "application/json",
 				Authorization: ctx.cookies.get("payload-token")?.value
 					? `JWT ${ctx.cookies.get("payload-token")!.value}`
 					: "",
 			})
-			console.log(headers)
 
 			const res = await fetch(`${cmsUrl.origin}/api/users/me`, {
 				method: "GET",

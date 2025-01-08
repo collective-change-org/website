@@ -42,6 +42,7 @@ export async function getKnowledgeBase(): Promise<KnowledgebasePage[]> {
 					}
 					slug
 					content 
+					restricted
 					}
 				}
 			}
