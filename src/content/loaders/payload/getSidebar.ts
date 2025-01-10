@@ -3,7 +3,7 @@ import type { Group, Link, SidebarEntry } from "../../config"
 import { authenticatePayload } from "./authenticate"
 import type { LexicalRootContainer } from "./schemas/lexical"
 import { getPageSlug } from "./getKnowledgebase"
-import { optional, undefined } from "astro:schema"
+import { undefined } from "astro:schema"
 
 type PayloadPageResponse = {
 	data: {
@@ -47,19 +47,12 @@ function pageToLink(page: PayloadPageResponseItem): Link {
 	return {
 		id: "knowledgebase/" + getPageSlug(page),
 		type: "link",
-		label: page.title,
+		label: page.restricted ===  "members" ? '🔒 ' + page.title : page.title,
 		href: "/knowledgebase/" + getPageSlug(page),
 		isCurrent: false,
 		attrs: {},
-		...(page.badgeText && { badge: { text: page.badgeText, variant: page.badgeVariant } }),
-		// switch to lock icon instead
-		badge: page.restricted ===  "members"
-			? {
-					text: "Members",
-					variant: "note",
-				}
-			: undefined,
-	}
+		badge: page.badgeText ? { text: page.badgeText, variant: page.badgeVariant } : undefined,
+		// ...(page.badgeText && { badge: { text: page.badgeText, variant: page.badgeVariant } }),
 }
 
 export async function getKnowledgebaseSidebar(): Promise<SidebarEntry[]> {
