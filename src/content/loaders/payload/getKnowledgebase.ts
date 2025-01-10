@@ -42,6 +42,7 @@ export async function getKnowledgeBase(): Promise<KnowledgebasePage[]> {
 					}
 					slug
 					content 
+					restricted
 					}
 				}
 			}
@@ -89,6 +90,7 @@ export async function getKnowledgeBase(): Promise<KnowledgebasePage[]> {
 			sidebar: {
 				order: i,
 			},
+			restricted: doc.restricted ?? "public",
 		}
 	})
 }

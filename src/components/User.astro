@@ -4,15 +4,29 @@ import { actions } from "astro:actions"
 export const prerender = false // Not needed in 'server' mode
 
 const { data, error } = await Astro.callAction(actions.verify, {})
-console.log(data, error)
 ---
+
+<script>
+	import { actions } from "astro:actions"
+
+	document.getElementById("logout")?.addEventListener("click", async () => {
+		const { data, error } = await actions.logout()
+		if (error) {
+			console.error(error)
+		} else {
+			location.reload()
+		}
+	})
+</script>
 
 {
 	data ? (
 		<>
-			<p>Logged in as {data.name}</p>
+			<p>
+				Hi {data.name}! <button id="logout">Logout</button>
+			</p>
 		</>
 	) : (
-		<p>Not logged in</p>
+		<a href="/login">Einloggen</a>
 	)
 }

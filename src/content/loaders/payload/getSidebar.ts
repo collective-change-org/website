@@ -30,9 +30,10 @@ export type PayloadPageResponseItem = {
 	}
 	slug: string
 	content: LexicalRootContainer
-	// badge: BadgeType
+	restricted: "public" | "members"
 	badgeText?: string
 	badgeVariant?: 'note' | 'danger' | 'success' | 'caution' | 'tip' | 'default'
+
 
 }
 
@@ -51,6 +52,12 @@ function pageToLink(page: PayloadPageResponseItem): Link {
 		isCurrent: false,
 		attrs: {},
 		...(page.badgeText && { badge: { text: page.badgeText, variant: page.badgeVariant } }),
+		badge: page.restricted
+			? {
+					text: "Members",
+					variant: "note",
+				}
+			: undefined,
 	}
 }
 
@@ -93,6 +100,7 @@ export async function getKnowledgebaseSidebar(): Promise<SidebarEntry[]> {
                     content
 					badgeText
 					badgeVariant
+					restricted
                     }
                 }
             }
