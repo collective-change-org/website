@@ -52,7 +52,8 @@ function pageToLink(page: PayloadPageResponseItem): Link {
 		isCurrent: false,
 		attrs: {},
 		...(page.badgeText && { badge: { text: page.badgeText, variant: page.badgeVariant } }),
-		badge: page.restricted
+		// switch to lock icon instead
+		badge: page.restricted ===  "members"
 			? {
 					text: "Members",
 					variant: "note",
