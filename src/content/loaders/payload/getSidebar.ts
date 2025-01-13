@@ -2,8 +2,8 @@ import { CMS_URL } from "astro:env/server"
 import type { Group, Link, SidebarEntry } from "../../config"
 import { authenticatePayload } from "./authenticate"
 import type { LexicalRootContainer } from "./schemas/lexical"
-import { getPageSlug } from "./getKnowledgebase"
-import { undefined } from "astro:schema"
+import { getKnowledgeBase, getPageSlug } from "./getKnowledgebase"
+import type { Badge } from "../../../schemas/badge"
 
 type PayloadPageResponse = {
 	data: {
@@ -44,15 +44,22 @@ interface OrderedGroup extends Group {
 }
 
 function pageToLink(page: PayloadPageResponseItem): Link {
+	let badge: Badge | undefined
+	if (page.badgeText) {
+		badge = {
+			text: page.badgeText,
+			variant: page.badgeVariant || 'default'
+		}
+	}
 	return {
 		id: "knowledgebase/" + getPageSlug(page),
 		type: "link",
-		label: page.restricted ===  "members" ? '🔒 ' + page.title : page.title,
+		label: page.restricted === "members" ? '🔒 ' + page.title : page.title,
 		href: "/knowledgebase/" + getPageSlug(page),
 		isCurrent: false,
 		attrs: {},
-		badge: page.badgeText ? { text: page.badgeText, variant: page.badgeVariant } : undefined,
-		// ...(page.badgeText && { badge: { text: page.badgeText, variant: page.badgeVariant } }),
+		badge: badge,
+	}
 }
 
 export async function getKnowledgebaseSidebar(): Promise<SidebarEntry[]> {
@@ -104,7 +111,8 @@ export async function getKnowledgebaseSidebar(): Promise<SidebarEntry[]> {
 			},
 		}),
 	})
-	const pageRes = (await pageResponse.json()) as PayloadPageResponse
+	const pageRes = await pageResponse.json() as PayloadPageResponse
+	console.log(pageRes)
 	const pages = pageRes.data.Knowledgebases.docs
 
 	const sidebar: SidebarEntry[] = []
