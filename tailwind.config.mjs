@@ -7,6 +7,26 @@ import animatePlugin from 'tailwindcss-animate'
 export default {
 	content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
 	theme: {
+		colors: {
+			'off-white': '#FFFEFA',
+			white: '#ffffff',
+			black: '#000000',
+			green: {
+				black: '#001A15',
+				dark: '#002922',
+				lighter: '#338073',
+			},
+			orange: {
+				dark: '#EB742F',
+				light: '#FF8640',
+			},
+			yellow: {
+				neon: '#F1FF86',
+			},
+			pink: {
+				light: '#FCCDFF',
+			}
+		},
 		extend: {
 			colors: {
 				// Your preferred accent color. Indigo is closest to Starlight’s defaults.

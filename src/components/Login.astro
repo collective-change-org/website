@@ -1,3 +1,7 @@
+---
+import Background from "../assets/login_bg.png"
+---
+
 <script>
 	import { actions } from "astro:actions"
 	import { navigate } from "astro:transitions/client"
@@ -19,15 +23,26 @@
 	})
 </script>
 
-<div class="flex h-[100svh] w-full gap-4">
-	<div class="flex basis-1/2 items-center justify-center">
-		<h1
-			class="font-poppins text-[50px] font-bold uppercase leading-none lg:text-[75px] xl:text-[100px]"
-		>
-			Dein Account
-		</h1>
+<div
+	class="relative flex h-[100svh] w-full gap-4 overflow-clip bg-white bg-[url('/login_bg.png')] bg-cover text-black"
+>
+	<div class="z-10 flex basis-1/2 flex-col items-center justify-center p-4">
+		<div class="flex flex-col">
+			<h1
+				class="font-poppins text-green-dark text-[50px] font-bold uppercase leading-none lg:text-[75px] xl:text-[100px]"
+			>
+				Dein Account
+			</h1>
+			<p>
+				Melde dich an um dein Profil zu bearbeiten oder Crew-Only<br />
+				<br />
+				Knowledgebase Artikel zu lesen! Du bist noch nicht Teil der Crew?
+			</p>
+		</div>
 	</div>
-	<div class="flex basis-1/2 items-center justify-center bg-white/30">
+	<div
+		class="z-10 flex basis-1/2 items-center justify-center border-l border-black/10 bg-white/30"
+	>
 		<form>
 			<div class="mb-4 flex flex-col items-start gap-1">
 				<label for="email" class="">Email</label>
@@ -35,7 +50,7 @@
 					type="email"
 					id="email"
 					name="email"
-					class="rounded-lg px-4 py-1"
+					class="focus:border-green-dark rounded-full border-2 border-black/30 bg-white px-4 py-1 text-black focus:outline-none"
 					required
 				/>
 			</div>
@@ -45,15 +60,15 @@
 					type="password"
 					id="password"
 					name="password"
-					class="rounded-lg px-4 py-1"
+					class="focus:border-green-dark rounded-full border-2 border-black/30 bg-white px-4 py-1 text-black focus:outline-none"
 					required
 				/>
 			</div>
 			<div class="flex items-center justify-between">
 				<button
 					type="submit"
-					class="focus:shadow-outline rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700 focus:outline-none"
-					>Login</button
+					class="bg-green-dark font-poppins rounded-full px-8 py-2 uppercase"
+					>Einloggen</button
 				>
 			</div>
 		</form>
