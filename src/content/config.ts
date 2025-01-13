@@ -28,7 +28,7 @@ export type CustomSidebar = {
 	order?: number
 	label?: string
 	hidden?: boolean
-	// badge?: BadgeConfig;
+	// badge?: BadgeConfig
 	// attrs?: SidebarLinkItemHTMLAttributes;
 }
 export type SidebarEntry = Link | Group
