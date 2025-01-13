@@ -1,3 +1,11 @@
+@font-face {
+	font-family: "Uncut";
+	src:,
+	  url("/fonts/uncut/UncutSans-Variable.woff2") format("woff2");
+	font-display: swap;
+  }
+
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

@@ -18,62 +18,65 @@ if (page.template === "splash") {
 }
 ---
 
-{
-	page.title === "404" ? (
-		<div class="flex h-screen items-center justify-center">
-			<h1 class="text-4xl">404</h1>
-		</div>
-	) : page.template === "splash" ? (
-		page.layout.map((layoutElement) => {
-			switch (layoutElement.blockType) {
-				case "content":
-					return (
-						<div class="flex">
-							{layoutElement.columns.map((colunm) => (
-								<div
-									class={
-										colunm.size === "full"
-											? "basis-full"
-											: colunm.size === "half"
-												? "basis-1/2"
-												: colunm.size === "oneThird"
-													? "basis-1/3"
-													: "basis-full"
-									}>
-									{colunm.richText && (
-										<LexicalRenderer
-											children={
-												colunm.richText?.root.children
-											}
-										/>
-									)}
-								</div>
-							))}
-						</div>
-					)
-				case "cta":
-					return (
-						<LexicalRenderer
-							children={layoutElement.richText.root.children}
-						/>
-					)
-				case "loginBlock":
-					return <Login />
-				default:
-					return JSON.stringify(layoutElement)
-			}
-		})
-	) : page.template === "doc" ? (
-		page.restricted !== "public" ? (
-			<RestrictedRenderer
-				server:defer
-				redirect={encodeURIComponent(Astro.url.pathname)}>
+<div class="font-sans">
+	{
+		page.title === "404" ? (
+			<div class="flex h-screen items-center justify-center">
+				<h1 class="text-4xl">404</h1>
+			</div>
+		) : page.template === "splash" ? (
+			page.layout.map((layoutElement) => {
+				switch (layoutElement.blockType) {
+					case "content":
+						return (
+							<div class="flex">
+								{layoutElement.columns.map((colunm) => (
+									<div
+										class={
+											colunm.size === "full"
+												? "basis-full"
+												: colunm.size === "half"
+													? "basis-1/2"
+													: colunm.size === "oneThird"
+														? "basis-1/3"
+														: "basis-full"
+										}>
+										{colunm.richText && (
+											<LexicalRenderer
+												children={
+													colunm.richText?.root
+														.children
+												}
+											/>
+										)}
+									</div>
+								))}
+							</div>
+						)
+					case "cta":
+						return (
+							<LexicalRenderer
+								children={layoutElement.richText.root.children}
+							/>
+						)
+					case "loginBlock":
+						return <Login />
+					default:
+						return JSON.stringify(layoutElement)
+				}
+			})
+		) : page.template === "doc" ? (
+			page.restricted !== "public" ? (
+				<RestrictedRenderer
+					server:defer
+					redirect={encodeURIComponent(Astro.url.pathname)}>
+					<LexicalRenderer children={page.lexical.children} />
+				</RestrictedRenderer>
+			) : (
 				<LexicalRenderer children={page.lexical.children} />
-			</RestrictedRenderer>
+			)
 		) : (
-			<LexicalRenderer children={page.lexical.children} />
+			<p>No content</p>
 		)
-	) : (
-		<p>No content</p>
-	)
-}
+	}
+</div>
