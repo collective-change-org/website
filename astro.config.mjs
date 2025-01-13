@@ -26,6 +26,7 @@ export default defineConfig({
 			github: 'https://github.com/withastro/starlight',
 		},
 		components: {
+			Head: './src/components/overwrites/Head.astro',
 			MarkdownContent: './src/components/overwrites/MarkdownContent.astro',
 			PageSidebar: './src/components/overwrites/PageSidebar.astro',
 			Sidebar: './src/components/overwrites/Sidebar.astro',

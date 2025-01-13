@@ -9,8 +9,10 @@ import Logo from "../../assets/Logo.svg"
 const { slug } = Astro.params
 ---
 
-<div class="flex items-center justify-between px-4 py-2 text-white">
+<header
+	class="absolute z-10 flex w-full items-center justify-between bg-[#00463A] px-4 py-2 text-white"
+>
 	<Logo height={48} width={128} />
 	<User server:defer />
 	<!-- <slot /> -->
-</div>
+</header>
