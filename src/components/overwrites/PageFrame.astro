@@ -6,7 +6,7 @@ const { hasSidebar } = Astro.props
 ---
 
 <div class="page sl-flex">
-	<header class="z-10 bg-[#00463A]"><slot name="header" /></header>
+	<slot name="header" />
 	{
 		hasSidebar && (
 			<nav
