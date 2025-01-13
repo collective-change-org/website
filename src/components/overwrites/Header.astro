@@ -1,18 +1,29 @@
 ---
-import type { Props } from "@astrojs/starlight/props"
 import Default from "@astrojs/starlight/components/Header.astro"
 import { getCollection } from "astro:content"
-import type { SidebarEntry } from "../../content/config"
 import User from "../User.astro"
 import Logo from "../../assets/Logo.svg"
 
-const { slug } = Astro.params
+
+const navlinks = await getCollection("header").then((collection) => {
+	return collection.map((item) => {
+		return item.data
+	})
+})
+
+
 ---
 
 <header
-	class="absolute z-10 flex w-full items-center justify-between bg-[#00463A] px-4 py-2 text-white"
+	class="absolute z-10 flex w-full items-center justify-between px-4 py-2 text-white mix-blend-difference"
 >
-	<Logo height={48} width={128} />
-	<User server:defer />
+	<a href="/"><Logo height={48} width={128} /></a>
+	{
+		navlinks.map((link) => (
+			<a href={link.href}>{link.label}</a>
+		))
+	}
 	<!-- <slot /> -->
+
+	<User server:defer />
 </header>
