@@ -29,6 +29,9 @@ importers:
       '@corvu/tailwind':
         specifier: ^0.1.5
         version: 0.1.5(tailwindcss@3.4.17)
+      '@fontsource/poppins':
+        specifier: ^5.1.1
+        version: 5.1.1
       astro:
         specifier: ^5.0.9
         version: 5.0.9(jiti@1.21.7)(rollup@4.28.1)(typescript@5.7.2)(yaml@2.6.1)
@@ -543,6 +546,9 @@ packages:
 
   '@floating-ui/utils@0.2.8':
     resolution: {integrity: sha512-kym7SodPp8/wloecOpcmSnWJsK7M0E5Wg8UcFA+uO4B9s5d0ywXOEro/8HM9x0rW+TljRzul/14UYz3TleT3ig==}
+
+  '@fontsource/poppins@5.1.1':
+    resolution: {integrity: sha512-PQVKHGQOK+UpVNPzTFF9Z9ez3CIDkunfvRXGH95hiDoqWJc1shW4JFqe4tEoqnq7RtZaYrw9aWQq58L4eny5xg==}
 
   '@img/sharp-darwin-arm64@0.33.5':
     resolution: {integrity: sha512-UT4p+iz/2H4twwAoLCqfA9UH5pI6DggwKEGuaPy7nCVQ8ZsiY5PIcrRvD1DzuY3qYL07NtIQcWnBSY/heikIFQ==}
@@ -3218,6 +3224,8 @@ snapshots:
       '@floating-ui/utils': 0.2.8
 
   '@floating-ui/utils@0.2.8': {}
+
+  '@fontsource/poppins@5.1.1': {}
 
   '@img/sharp-darwin-arm64@0.33.5':
     optionalDependencies:
