@@ -1,7 +1,7 @@
 import { CMS_URL } from "astro:env/server"
-import { authenticatePayload } from "./authenticate"
-import type { KnowledgebasePage, Page } from "../../config"
-import type { LexicalRootContainer } from "./schemas/lexical"
+import { authenticatePayload } from "../authenticate"
+import type { KnowledgebasePage, Page } from "../../../config"
+import type { LexicalRootContainer } from "../schemas/lexical"
 
 export type ContentBlock = {
 	id: string
@@ -71,6 +71,16 @@ export async function getPages(): Promise<Page[]> {
 							}
 							... on LoginBlock {
 								blockType
+							}
+							... on ManifestBlock {
+								blockType
+								sections {
+									subtitle
+									listItem {
+										title
+										description
+									}
+								}
 							}
 						}
 						meta {

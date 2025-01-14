@@ -1,5 +1,6 @@
-import { z } from "astro:schema"
-import { lexicalRootContainer } from "./schemas/lexical"
+import { docsSchema } from "@astrojs/starlight/schema";
+import { lexicalRoot, lexicalRootContainer } from "../schemas/lexical";
+import { z } from "astro:content";
 
 const columnBlock = z.object({
 	size: z.union([
@@ -32,3 +33,20 @@ export const layoutUnion = z.union([
 ])
 
 export type LayoutUnion = z.infer<typeof layoutUnion>
+
+
+export const pagesSchema = docsSchema({
+	extend: z.union([
+		z.object({
+			template: z.literal("doc"),
+			lexical: lexicalRoot,
+			restricted: z
+				.union([z.literal("public"), z.literal("members")])
+				.default("public"),
+		}),
+		z.object({
+			template: z.literal("splash"),
+			layout: z.array(layoutUnion),
+		}),
+	]),
+})

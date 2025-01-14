@@ -1,9 +1,10 @@
 import { CMS_URL } from "astro:env/server"
-import type { Group, Link, SidebarEntry } from "../../config"
 import { authenticatePayload } from "./authenticate"
 import type { LexicalRootContainer } from "./schemas/lexical"
-import { getKnowledgeBase, getPageSlug } from "./getKnowledgebase"
 import type { Badge } from "../../../schemas/badge"
+import { getPageSlug } from "./pages/getKnowledgebase"
+import { z, defineCollection } from "astro:content"
+import { type LinkHTMLAttributes, linkHTMLAttributesSchema } from "../../../schemas/sidebar"
 
 type PayloadPageResponse = {
 	data: {
@@ -168,4 +169,60 @@ export async function getKnowledgebaseSidebar(): Promise<SidebarEntry[]> {
 	}
 
 	return [...sidebar]
+}
+
+
+export interface Link {
+	id: string
+	type: "link"
+	label: string
+	href: string
+	isCurrent: boolean
+	badge?: Badge
+	attrs: LinkHTMLAttributes
+}
+export interface Group {
+	id: string
+	type: "group"
+	label: string
+	entries: (Link | Group)[]
+	collapsed: boolean
+	badge?: Badge
+}
+export type CustomSidebar = {
+	order?: number
+	label?: string
+	hidden?: boolean
+	// badge?: BadgeConfig
+	// attrs?: SidebarLinkItemHTMLAttributes;
+}
+export type SidebarEntry = Link | Group
+export const linkSchema: z.ZodSchema<Link> = z.object({
+	id: z.string(),
+	type: z.literal("link"),
+	label: z.string(),
+	href: z.string(),
+	isCurrent: z.boolean(),
+	attrs: linkHTMLAttributesSchema,
+})
+const groupSchema: z.ZodSchema<Group> = z.lazy(() =>
+	z.object({
+		id: z.string(),
+		type: z.literal("group"),
+		label: z.string(),
+		entries: z.array(z.union([linkSchema, groupSchema])),
+		collapsed: z.boolean(),
+	}),
+)
+
+export const sidebar = defineCollection({
+	loader: getSidebar,
+	// TODO: Fix schema
+	// schema: z.array(z.union([linkSchema, groupSchema]))
+})
+
+async function getSidebar(): Promise<SidebarEntry[]> {
+	// @ts-ignore
+	if (MOCKDATA) return new Promise((resolve) => resolve(mockdata.sidebar))
+	return await getKnowledgebaseSidebar()
 }

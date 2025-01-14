@@ -1,9 +1,10 @@
 import { CMS_URL } from "astro:env/server"
-import { authenticatePayload } from "./authenticate"
-import type { KnowledgebasePage } from "../../config"
-import type { LexicalRootContainer, LexicalText } from "./schemas/lexical"
-import { generateToC, headingToSlug } from "./generateToC"
-import type { PayloadPageResponseItem } from "./getSidebar"
+import { authenticatePayload } from "../authenticate"
+import { headingToSlug, generateToC } from "../generateToC"
+import type { PayloadPageResponseItem } from "../getSidebar"
+import type { LexicalText } from "../schemas/lexical"
+import type { KnowledgebasePage } from "."
+
 
 type PayloadResponse = {
 	data: {
