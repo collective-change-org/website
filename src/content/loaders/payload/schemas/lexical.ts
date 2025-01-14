@@ -37,10 +37,14 @@ const lexicalInlineLink = z.object({
 	children: z.array(lexicalText),
 })
 
+const lexicalLinebreak = z.object({
+	type: z.literal("linebreak"),
+})
+
 const lexicalParagraph = z.object({
 	version: z.number(),
 	type: z.literal("paragraph"),
-	children: z.array(z.union([lexicalText, lexicalInlineLink])),
+	children: z.array(z.union([lexicalText, lexicalInlineLink, lexicalLinebreak])),
 })
 
 const lexicalHeading = z.object({
@@ -62,6 +66,7 @@ const lexicalComponents = z.union([
 	lexicalText,
 	lexicalBlock,
 	lexicalHeading,
+	lexicalLinebreak,
 ])
 
 export type LexicalComponents = z.infer<typeof lexicalComponents>

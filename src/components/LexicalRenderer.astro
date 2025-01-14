@@ -16,7 +16,7 @@ const { children } = Astro.props
 				switch (child.tag) {
 					case "h1":
 						return (
-							<h1>
+							<h1 class="font-poppins text-green-dark text-[50px] font-bold uppercase leading-none lg:text-[75px] xl:text-[100px]">
 								<Astro.self children={child.children} />
 							</h1>
 						)
@@ -94,6 +94,8 @@ const { children } = Astro.props
 							</a>
 						)
 				}
+			case "linebreak":
+				return <br />
 			case "paragraph":
 				return (
 					<p>

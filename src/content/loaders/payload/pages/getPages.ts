@@ -71,6 +71,7 @@ export async function getPages(): Promise<Page[]> {
 							}
 							... on LoginBlock {
 								blockType
+								richText
 							}
 							... on ManifestBlock {
 								blockType
