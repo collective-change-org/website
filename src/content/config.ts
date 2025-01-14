@@ -70,6 +70,7 @@ import { getKnowledgebaseSidebar } from "./loaders/payload/getSidebar"
 import type { Badge } from "../schemas/badge"
 import { getHeader, header } from "./loaders/payload/getHeader"
 import { string } from "astro:schema"
+import { footer } from "./loaders/payload/getFooter"
 
 async function loadAllPages() {
 	const knowledgebase = getKnowledgeBase()
@@ -126,5 +127,6 @@ async function getSidebar(): Promise<SidebarEntry[]> {
 export const collections = {
 	docs: knowledgebase,
 	sidebar,
-	header
+	header,
+	footer,
 }
