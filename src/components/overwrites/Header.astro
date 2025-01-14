@@ -20,7 +20,7 @@ const navlinks = await getCollection("header").then((collection) => {
 	<a href="/"><Logo height={48} width={128} /></a>
 	{
 		navlinks.map((link) => (
-			<a href={link.href}>{link.label}</a>
+			<a href={link.href} target={(link.newTab)? "_blank" : ""} rel={(link.newTab) ? "noopener noreferrer" : ""}>{link.label}</a>
 		))
 	}
 	<!-- <slot /> -->

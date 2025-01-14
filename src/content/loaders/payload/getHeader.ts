@@ -74,8 +74,14 @@ export async function getHeader(): Promise<HeaderSchema> {
     const data = (await response.json()) as PayloadResponse
     
     const elements = data.data.Header.navItems.map((navItem) => {
-      const slug = (navItem.link.reference.value.slug) ? "/" + navItem.link.reference.value.slug : "/knowledgebase/" + navItem.link.reference.value.slugWithGroup
-        const href = (slug) ? slug : navItem.link.url
+        let href: string
+        // check if internal link
+        if (navItem.link.reference) {
+            // check if page or knowlegebase link
+            href = (navItem.link.reference.value.slug) ? "/" + navItem.link.reference.value.slug : "/knowledgebase/" + navItem.link.reference.value.slugWithGroup
+        } else {
+            href = navItem.link.url
+        }
         const item: LinkSchema = {
             id: navItem.id,
             label: navItem.link.label,
