@@ -14,7 +14,7 @@ const navlinks = await getCollection("footer").then((collection) => {
 
 ---
 
-<footer class="absolute inset-x-0 bottom-0 px-4 py-6 text-white mix-blend-multiply">
+<footer class="z-10 absolute inset-x-0 bottom-0 px-4 py-6 mix-blend-difference">
 	{
 		navlinks.map((link) => (
 			<a class="px-6 text-2xl" href={link.href} target={(link.newTab)? "_blank" : ""} rel={(link.newTab) ? "noopener noreferrer" : ""}>{link.label}</a>
