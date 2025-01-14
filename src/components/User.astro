@@ -23,10 +23,10 @@ const { data, error } = await Astro.callAction(actions.verify, {})
 	data ? (
 		<>
 			<p>
-				Hi {data.name}! <button id="logout">Logout</button>
+				<button class="px-6 text-2xl" id="logout">Logout</button>
 			</p>
 		</>
 	) : (
-		<a href="/login">Einloggen</a>
+		<a class="px-6 text-2xl" href="/login">Einloggen</a>
 	)
 }
