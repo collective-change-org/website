@@ -222,7 +222,5 @@ export const sidebar = defineCollection({
 })
 
 async function getSidebar(): Promise<SidebarEntry[]> {
-	// @ts-ignore
-	if (MOCKDATA) return new Promise((resolve) => resolve(mockdata.sidebar))
 	return await getKnowledgebaseSidebar()
 }

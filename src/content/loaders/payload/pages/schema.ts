@@ -27,10 +27,24 @@ const loginBlock = z.object({
 	richText: lexicalRootContainer,
 })
 
+const manifestBlock = z.object({
+	blockType: z.literal("manifestBlock"),
+	sections: z.array(z.object({
+		subtitle: z.string(),
+		listItem: z.array(
+			z.object({
+				title: z.string(),
+				description: z.string(),
+			})
+		)
+	}))
+})
+
 export const layoutUnion = z.union([
 	contentBlock,
 	callToActionBlock,
 	loginBlock,
+	manifestBlock
 ])
 
 export type LayoutUnion = z.infer<typeof layoutUnion>
