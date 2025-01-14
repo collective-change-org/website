@@ -4,13 +4,11 @@ import type { LayoutUnion } from "../../content/loaders/payload/schema"
 import LexicalRenderer from "../LexicalRenderer.astro"
 import type { LexicalRoot } from "../../content/loaders/payload/schemas/lexical"
 import RestrictedRenderer from "../RestrictedRenderer.astro"
-import type { record } from "astro:schema"
 import Login from "../Login.astro"
 
 const page = Astro.props.entry.data
 
 let content
-
 if (page.template === "splash") {
 	content = page.layout as LayoutUnion[]
 } else if (page.template === "doc") {
@@ -60,7 +58,15 @@ if (page.template === "splash") {
 							/>
 						)
 					case "loginBlock":
-						return <Login />
+						return (
+							<Login>
+								<LexicalRenderer
+									children={
+										layoutElement.richText.root.children
+									}
+								/>
+							</Login>
+						)
 					default:
 						return JSON.stringify(layoutElement)
 				}

@@ -93,10 +93,6 @@ const knowledgebase = defineCollection({
 			z.object({
 				template: z.literal("splash"),
 				layout: z.array(layoutUnion),
-				// restricted: z.union([
-				// 	z.literal("public"),
-				// 	z.literal("members"),
-				// ]),
 			}),
 		]),
 	}),
