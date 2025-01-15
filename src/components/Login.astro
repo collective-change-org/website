@@ -1,5 +1,6 @@
 ---
 import Background from "../assets/login_bg.png"
+import Button from "./Button.astro"
 ---
 
 <script>
@@ -29,6 +30,7 @@ import Background from "../assets/login_bg.png"
 	<div class="z-10 flex basis-1/2 flex-col items-center justify-center p-4">
 		<div class="flex flex-col">
 			<slot />
+			<Button intent="orange" size="small">Werde Teil der Crew</Button>
 		</div>
 	</div>
 	<div
