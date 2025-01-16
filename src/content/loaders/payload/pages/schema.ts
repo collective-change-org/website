@@ -27,6 +27,11 @@ const loginBlock = z.object({
 	richText: lexicalRootContainer,
 })
 
+const signupBlock = z.object({
+	blockType: z.literal("signupBlock"),
+	richText: lexicalRootContainer,
+})
+
 export const layoutUnion = z.union([
 	contentBlock,
 	callToActionBlock,
