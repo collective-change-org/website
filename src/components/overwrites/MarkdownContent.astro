@@ -6,7 +6,6 @@ import RestrictedRenderer from "../RestrictedRenderer.astro"
 import Login from "../Login.astro"
 import type { LayoutUnion } from "../../content/loaders/payload/pages/schema"
 import ManifestBlock from "../ManifestBlock.astro"
-import Signup from "../Signup.astro"
 
 const page = Astro.props.entry.data
 
@@ -72,16 +71,6 @@ if (page.template === "splash") {
 					case "manifestBlock":
 						return (
 							<ManifestBlock sections={layoutElement.sections} />
-						)
-					case "signupBlock":
-						return (
-							<Signup>
-								<LexicalRenderer
-									children={
-										layoutElement.richText.root.children
-									}
-								/>
-							</Signup>
 						)
 					default:
 						return JSON.stringify(layoutElement)

@@ -40,17 +40,11 @@ const manifestBlock = z.object({
 	}))
 })
 
-const signupBlock = z.object({
-	blockType: z.literal("signupBlock"),
-	richText: lexicalRootContainer,
-})
-
 export const layoutUnion = z.union([
 	contentBlock,
 	callToActionBlock,
 	loginBlock,
-	manifestBlock,
-	signupBlock,
+	manifestBlock
 ])
 
 export type LayoutUnion = z.infer<typeof layoutUnion>
