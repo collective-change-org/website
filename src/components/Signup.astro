@@ -40,12 +40,12 @@ import Background from "../assets/login_bg.png"
 					<legend>Art der Mitgliedschaft:</legend>
 				  
 					<div>
-					  <input type="radio" id="newsletter" name="newsletter" value="newsletter" checked />
+					  <input type="radio" id="newsletter" name="signup" value="newsletter" checked />
 					  <label for="newsletter">Ich möchte nur den Newsletter abbonieren</label>
 					</div>
 				  
 					<div>
-					  <input type="radio" id="crew" name="crew" value="crew" />
+					  <input type="radio" id="crew" name="signup" value="crew" />
 					  <label for="crew">Ich möchte Teil der Crew werden</label>
 					</div>
 				  </fieldset>
@@ -70,13 +70,6 @@ import Background from "../assets/login_bg.png"
 					required
 				/>
 			</div>
-			<div class="flex items-center justify-between">
-				<button
-					type="submit"
-					class="bg-green-dark font-poppins rounded-full px-8 py-2 uppercase"
-					>Einloggen</button
-				>
-			</div>
 			<p>Diese Formular ist sicher und wir haben keinerlei Interesse daran deine Daten anderweitig zu nutzen oder an dritte weiterzugeben.</p>
 			<fieldset>
 				<legend>Choose your monster's features:</legend>
@@ -87,6 +80,20 @@ import Background from "../assets/login_bg.png"
 				</div>
 			  
 			  </fieldset>
+			  <div class="flex items-center justify-between">
+				<button
+					type="submit"
+					class="bg-green-dark font-poppins rounded-full px-8 py-2 uppercase"
+					>Sign me up</button
+				>
+			</div>
+			<div class="flex items-center justify-between">
+				<button
+					type="submit"
+					class="bg-green-dark font-poppins rounded-full px-8 py-2 uppercase"
+					>Einloggen</button
+				>
+			</div>
 			  
 		</form>
 	</div>
