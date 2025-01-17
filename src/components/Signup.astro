@@ -1,0 +1,93 @@
+---
+import Background from "../assets/login_bg.png"
+---
+
+<script>
+	import { actions } from "astro:actions"
+	import { navigate } from "astro:transitions/client"
+
+	let params = new URLSearchParams(document.location.search)
+	let redirect = params.get("redirect")
+	const redirectUrl = new URL(redirect || "/", document.location.origin)
+	console.log("redirect", redirectUrl)
+
+	const form = document.querySelector("form")
+	form?.addEventListener("submit", async (event) => {
+		event.preventDefault()
+		const formData = new FormData(form)
+		const { data, error } = await actions.login(formData)
+		if (!error) {
+			console.log("redirecting to", redirect)
+			navigate(redirectUrl.href)
+		}
+	})
+</script>
+
+<div
+	class="y-offset-hack relative flex h-[100svh] w-full gap-4 overflow-clip bg-white bg-[url('/login_bg.png')] bg-cover text-black"
+>
+	<div class="z-10 flex basis-1/2 flex-col items-center justify-center p-4">
+		<div class="flex flex-col">
+			<slot />
+		</div>
+	</div>
+	<div
+		class="z-10 flex basis-1/2 items-center justify-center border-l border-black/10 bg-white/30"
+	>
+		<form>
+			<div class="mb-4 flex flex-col items-start gap-1">
+				<fieldset>
+					<legend>Art der Mitgliedschaft:</legend>
+				  
+					<div>
+					  <input type="radio" id="newsletter" name="newsletter" value="newsletter" checked />
+					  <label for="newsletter">Ich möchte nur den Newsletter abbonieren</label>
+					</div>
+				  
+					<div>
+					  <input type="radio" id="crew" name="crew" value="crew" />
+					  <label for="crew">Ich möchte Teil der Crew werden</label>
+					</div>
+				  </fieldset>
+			</div>
+			<div class="mb-4 flex flex-col items-start gap-1">
+				<label for="email" class="">Email</label>
+				<input
+					type="email"
+					id="email"
+					name="email"
+					class="focus:border-green-dark rounded-full border-2 border-black/30 bg-white px-4 py-1 text-black focus:outline-none"
+					required
+				/>
+			</div>
+			<div class="mb-6 flex flex-col items-start gap-1">
+				<label for="password" class="">Password</label>
+				<input
+					type="password"
+					id="password"
+					name="password"
+					class="focus:border-green-dark rounded-full border-2 border-black/30 bg-white px-4 py-1 text-black focus:outline-none"
+					required
+				/>
+			</div>
+			<div class="flex items-center justify-between">
+				<button
+					type="submit"
+					class="bg-green-dark font-poppins rounded-full px-8 py-2 uppercase"
+					>Einloggen</button
+				>
+			</div>
+			<p>Diese Formular ist sicher und wir haben keinerlei Interesse daran deine Daten anderweitig zu nutzen oder an dritte weiterzugeben.</p>
+			<fieldset>
+				<legend>Choose your monster's features:</legend>
+			  
+				<div>
+				  <input type="checkbox" id="ok" name="ok" required/>
+				  <label for="ok">Ok coolio!</label>
+				</div>
+			  
+			  </fieldset>
+			  
+		</form>
+	</div>
+</div>

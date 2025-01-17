@@ -73,6 +73,10 @@ export async function getPages(): Promise<Page[]> {
 								blockType
 								richText
 							}
+							... on signupBlock {
+								blockType
+								richText
+							}
 							... on ManifestBlock {
 								blockType
 								sections {
