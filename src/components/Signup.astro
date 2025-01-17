@@ -24,7 +24,7 @@ import Background from "../assets/login_bg.png"
 </script>
 
 <div
-	class="y-offset-hack relative flex h-[100svh] w-full gap-4 overflow-clip bg-white bg-[url('/login_bg.png')] bg-cover text-black"
+	class="y-offset-hack relative flex h-[100svh] w-full gap-4 overflow-clip bg-white bg-[url('/signup_bg.png')] bg-cover text-black"
 >
 	<div class="z-10 flex basis-1/2 flex-col items-center justify-center p-4">
 		<div class="flex flex-col">
@@ -32,7 +32,7 @@ import Background from "../assets/login_bg.png"
 		</div>
 	</div>
 	<div
-		class="z-10 flex basis-1/2 items-center justify-center border-l border-black/10 bg-white/30"
+		class="z-10 flex basis-1/2 items-center justify-center border-l border-black/10 bg-white/30 p-8"
 	>
 		<form>
 			<div class="mb-4 flex flex-col items-start gap-1">
@@ -41,12 +41,12 @@ import Background from "../assets/login_bg.png"
 				  
 					<div>
 					  <input type="radio" id="newsletter" name="signup" value="newsletter" checked />
-					  <label for="newsletter">Ich möchte nur den Newsletter abbonieren</label>
+					  <label for="newsletter" class="font-bold">Ich möchte nur den Newsletter abbonieren</label>
 					</div>
 				  
 					<div>
 					  <input type="radio" id="crew" name="signup" value="crew" />
-					  <label for="crew">Ich möchte Teil der Crew werden</label>
+					  <label for="crew" class="font-bold">Ich möchte Teil der Crew werden</label>
 					</div>
 				  </fieldset>
 			</div>
@@ -70,17 +70,17 @@ import Background from "../assets/login_bg.png"
 					required
 				/>
 			</div>
-			<p>Diese Formular ist sicher und wir haben keinerlei Interesse daran deine Daten anderweitig zu nutzen oder an dritte weiterzugeben.</p>
+			<!-- <p>Diese Formular ist sicher und wir haben keinerlei Interesse daran deine Daten anderweitig zu nutzen oder an dritte weiterzugeben.</p> -->
 			<fieldset>
-				<legend>Choose your monster's features:</legend>
+				<legend>Diese Formular ist sicher und wir haben keinerlei Interesse daran deine Daten anderweitig zu nutzen oder an dritte weiterzugeben.</legend>
 			  
-				<div>
+				<div class="mb-8">
 				  <input type="checkbox" id="ok" name="ok" required/>
 				  <label for="ok">Ok coolio!</label>
 				</div>
 			  
 			  </fieldset>
-			  <div class="flex items-center justify-between">
+			  <div class="flex items-center justify-between mb-8">
 				<button
 					type="submit"
 					class="bg-green-dark font-poppins rounded-full px-8 py-2 uppercase"
@@ -94,7 +94,6 @@ import Background from "../assets/login_bg.png"
 					>Einloggen</button
 				>
 			</div>
-			  
 		</form>
 	</div>
 </div>
