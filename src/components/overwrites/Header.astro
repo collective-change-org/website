@@ -14,13 +14,14 @@ const navlinks = await getCollection("header").then((collection) => {
 <header
 	class="absolute z-10 flex w-full items-center justify-between px-4 py-3 text-white mix-blend-difference"
 >
-	<a href="/"><Logo class="mix-blend-difference" height={80} width={190} /></a
+	<a href="/" class="text-white"
+		><Logo class="mix-blend-difference" height={80} width={190} /></a
 	>
 	<div class="inline-flex pb-6 uppercase">
 		{
 			navlinks.map((link) => (
 				<a
-					class="px-6 text-2xl no-underline"
+					class="px-6 text-2xl text-white no-underline"
 					href={link.href}
 					target={link.newTab ? "_blank" : ""}
 					rel={link.newTab ? "noopener noreferrer" : ""}>
