@@ -1,0 +1,42 @@
+---
+import { Icon } from "astro-icon/components"
+import Background from "../assets/login_bg.png"
+import Button from "../Button.astro"
+import SignUpForm from "./SignUpForm"
+---
+
+<script>
+	import { actions } from "astro:actions"
+	import { navigate } from "astro:transitions/client"
+
+	let params = new URLSearchParams(document.location.search)
+	let redirect = params.get("redirect")
+	const redirectUrl = new URL(redirect || "/", document.location.origin)
+	console.log("redirect", redirectUrl)
+
+	const form = document.querySelector("form")
+	form?.addEventListener("submit", async (event) => {
+		event.preventDefault()
+		const formData = new FormData(form)
+		const { data, error } = await actions.login(formData)
+		if (!error) {
+			console.log("redirecting to", redirect)
+			navigate(redirectUrl.href)
+		}
+	})
+</script>
+
+<div
+	class="y-offset-hack full-bleed relative flex h-[100svh] w-full flex-col gap-4 overflow-clip bg-white bg-[url('/signup_bg.png')] bg-cover text-black lg:flex-row"
+>
+	<div class="z-10 flex basis-1/2 flex-col items-center justify-center p-8">
+		<div class="flex w-full flex-col">
+			<slot />
+		</div>
+	</div>
+	<div
+		class="z-10 flex w-full basis-1/2 items-center justify-center border-l border-black/10 bg-white/30 p-8"
+	>
+		<SignUpForm client:load />
+	</div>
+</div>

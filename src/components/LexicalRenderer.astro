@@ -1,9 +1,8 @@
 ---
 import { Aside, Badge, Code } from "@astrojs/starlight/components"
 import type { LexicalComponents } from "../content/loaders/payload/schemas/lexical"
-import Button, { button } from "./Button.astro"
+import { button } from "./Button.astro"
 import { Icon } from "astro-icon/components"
-import { navigate } from "astro:transitions/client"
 
 export interface Props {
 	children: LexicalComponents[]
