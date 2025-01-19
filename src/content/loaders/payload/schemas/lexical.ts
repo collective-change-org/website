@@ -24,7 +24,7 @@ const internalLink = z.object({
 	}),
 })
 
-const externalLink = z.object({
+export const externalLink = z.object({
 	linkType: z.literal("custom"),
 	newTab: z.boolean(),
 	url: z.string(),

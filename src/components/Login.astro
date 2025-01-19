@@ -1,4 +1,5 @@
 ---
+import { Icon } from "astro-icon/components"
 import Background from "../assets/login_bg.png"
 import Button from "./Button.astro"
 ---
@@ -28,15 +29,14 @@ import Button from "./Button.astro"
 	class="y-offset-hack full-bleed relative flex h-[100svh] w-full gap-4 overflow-clip bg-white bg-[url('/login_bg.png')] bg-cover text-black"
 >
 	<div class="z-10 flex basis-1/2 flex-col items-center justify-center p-4">
-		<div class="flex flex-col">
+		<div class="flex flex-col items-start gap-2">
 			<slot />
-			<Button intent="orange" size="small">Werde Teil der Crew</Button>
 		</div>
 	</div>
 	<div
 		class="z-10 flex basis-1/2 items-center justify-center border-l border-black/10 bg-white/30"
 	>
-		<form>
+		<form class="flex flex-col items-start">
 			<div class="mb-4 flex flex-col items-start gap-1">
 				<label for="email" class="">Email</label>
 				<input
@@ -57,13 +57,10 @@ import Button from "./Button.astro"
 					required
 				/>
 			</div>
-			<div class="flex items-center justify-between">
-				<button
-					type="submit"
-					class="rounded-full bg-green-dark px-8 py-2 font-poppins uppercase"
-					>Einloggen</button
-				>
-			</div>
+			<Button type="submit" intent="green" size="small">
+				Anmelden
+				<Icon name="ph:sign-in" />
+			</Button>
 		</form>
 	</div>
 </div>

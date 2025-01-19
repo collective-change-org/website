@@ -29,7 +29,6 @@
 :root {
 	--sl-nav-height: 112px;
 	box-sizing: border-box;
-
 }
 
 .y-offset-hack {
@@ -73,39 +72,20 @@ h1 {
 		sans-serif;
 }
 
-a {
-	color: inherit;
-	text-decoration: none;
-}
-
-button {
-	background-color: inherit;
-	text-transform: inherit;
-}
-
-button:hover {
-	cursor: pointer;
-}
-
-fieldset {
-	margin: 0;
-	padding: 0;
-}
-
 input[type="radio"] {
 	appearance: none;
 	margin: 0;
 	font: inherit;
 	color: currentColor;
-	width: .8em;
-	height: .8em;
+	width: 0.8em;
+	height: 0.8em;
 	border-radius: 50%;
 	transform: translateY(0.1em);
 	box-shadow: 0 0 0 2px currentColor;
 	background-clip: content-box;
-	margin: 0 .7rem 0 .3rem;
+	margin: 0 0.7rem 0 0.3rem;
 }
-  
+
 input[type="radio"]:checked {
 	border: 0.1em solid transparent;
 	background-color: currentColor;
@@ -116,17 +96,15 @@ input[type="checkbox"] {
 	margin: 0;
 	font: inherit;
 	color: currentColor;
-	width: .8em;
-	height: .8em;
+	width: 0.8em;
+	height: 0.8em;
 	border-radius: 5%;
 	transform: translateY(0.1em);
-	margin: 0 .7rem 0 .3rem;
+	margin: 0 0.7rem 0 0.3rem;
 	box-shadow: 0 0 0 2px currentColor;
 	background-clip: content-box;
-
-
 }
-  
+
 input[type="checkbox"]:checked {
 	border: 0.1em solid transparent;
 	background-color: currentColor;

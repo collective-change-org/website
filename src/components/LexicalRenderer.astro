@@ -1,6 +1,9 @@
 ---
 import { Aside, Badge, Code } from "@astrojs/starlight/components"
 import type { LexicalComponents } from "../content/loaders/payload/schemas/lexical"
+import Button, { button } from "./Button.astro"
+import { Icon } from "astro-icon/components"
+import { navigate } from "astro:transitions/client"
 
 export interface Props {
 	children: LexicalComponents[]
@@ -16,7 +19,7 @@ const { children } = Astro.props
 				switch (child.tag) {
 					case "h1":
 						return (
-							<h1 class="font-poppins text-green-dark text-[50px] font-bold uppercase leading-none lg:text-[75px] xl:text-[100px]">
+							<h1 class="font-poppins text-[50px] font-bold uppercase leading-none text-green-dark lg:text-[75px] xl:text-[100px]">
 								<Astro.self children={child.children} />
 							</h1>
 						)
@@ -130,6 +133,47 @@ const { children } = Astro.props
 									}
 								/>
 							</Aside>
+						)
+					case "buttonBlock":
+						let url
+						if (child.fields.link.type === "reference") {
+							if (
+								child.fields.link.relationTo === "knowledgebase"
+							) {
+								url = `/knowledgebase/${child.fields.link.reference.value.slugWithGroup}`
+							} else {
+								url = `/${child.fields.link.reference.value.slug}`
+							}
+						}
+						return (
+							<a
+								href={url}
+								class={button({
+									intent: child.fields.variant,
+									size: child.fields.size,
+								})}>
+								{child.fields.hasLeftIcon && (
+									<Icon
+										size={
+											child.fields.size === "small"
+												? 24
+												: 32
+										}
+										name={`ph:${child.fields.iconLeft}`}
+									/>
+								)}
+								{child.fields.link.label}
+								{child.fields.hasRightIcon && (
+									<Icon
+										size={
+											child.fields.size === "small"
+												? 24
+												: 32
+										}
+										name={`ph:${child.fields.iconRight}`}
+									/>
+								)}
+							</a>
 						)
 					default:
 						return JSON.stringify(child)

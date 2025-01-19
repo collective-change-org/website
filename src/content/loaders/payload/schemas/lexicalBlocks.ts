@@ -1,5 +1,4 @@
 import { z } from "astro:schema"
-import { lexicalRootContainer } from "./lexical"
 
 export const blockBanner = z.object({
 	id: z.string(),
@@ -45,8 +44,37 @@ const blockSteps = z.object({
 	blockType: z.literal("steps"),
 })
 
+const internalLink = z.object({
+	type: z.literal("reference"),
+	label: z.string(),
+	reference: z.object({
+		value: z.object({
+			slugWithGroup: z.string(),
+		}),
+		relationTo: z.union([z.literal("knowledgebase"), z.literal("page")]),
+	}),
+})
+
+const buttonBlock = z.object({
+	blockType: z.literal("buttonBlock"),
+	hasRightIcon: z.boolean(),
+	hasLeftIcon: z.boolean(),
+	iconLeft: z.string().optional(),
+	iconRight: z.string().optional(),
+	variant: z.union([
+		z.literal("green"),
+		z.literal("orange"),
+		z.literal("black"),
+	]),
+	size: z.union([
+		z.literal("small"),
+		z.literal("large"),
+	]),
+	link: z.any(),
+})
+
 export const lexicalBlock = z.object({
 	version: z.number(),
 	type: z.literal("block"),
-	fields: z.union([blockBanner, blockBadge, blockCode, blockSteps]),
+	fields: z.union([blockBanner, blockBadge, blockCode, blockSteps, buttonBlock]),
 })

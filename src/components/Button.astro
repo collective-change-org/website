@@ -2,8 +2,8 @@
 import type { HTMLAttributes } from "astro/types"
 import { cva, type VariantProps } from "cva"
 
-const button = cva({
-	base: "rounded-full border-white/10 border-2",
+export const button = cva({
+	base: "rounded-full ring-white/10 ring-2 ring-inset uppercase flex items-center gap-1.5 cursor-pointer no-underline min-w-fit",
 	variants: {
 		intent: {
 			green: ["bg-green-lighter hover:bg-green-dark text-white"],
@@ -11,8 +11,8 @@ const button = cva({
 			orange: ["bg-orange-light hover:bg-orange-dark text-black"],
 		},
 		size: {
-			small: ["text-[22px]", "py-2", "px-5"],
-			large: ["text-[26px]", "py-2", "px-6"],
+			small: ["text-base", "h-11", "px-5"],
+			large: ["text-2xl", "h-14", "px-6"],
 		},
 		disabled: {
 			false: null,
