@@ -40,6 +40,7 @@ export async function authenticatePayload(): Promise<{
 	} catch (err) {
 		if (err instanceof Error) {
 			if (err.message === "Connect Timeout Error") {
+				console.log("Connect Timeout Error")
 				// Perform a ping to google.com to check if the user has internet connection
 				const ping = await fetch("https://www.google.com", {
 					method: "HEAD",
@@ -53,7 +54,11 @@ export async function authenticatePayload(): Promise<{
 					throw new Error("Ping OK, CMS connection failed")
 				}
 			}
+
+			console.error(err)
+			throw new Error(err.message)
 		} else {
+			console.log("Unknown errorrrr")
 			throw new Error(
 				JSON.stringify({
 					url: `${cmsUrl.origin}/api/users/login`,
