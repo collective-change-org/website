@@ -56,7 +56,7 @@ export async function authenticatePayload(): Promise<{
 			}
 
 			console.error(err)
-			throw new Error(err.message)
+			throw new Error(JSON.stringify(err))
 		} else {
 			console.log("Unknown errorrrr")
 			throw new Error(
