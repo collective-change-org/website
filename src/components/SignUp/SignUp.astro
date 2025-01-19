@@ -29,13 +29,15 @@ import SignUpForm from "./SignUpForm"
 <div
 	class="y-offset-hack full-bleed relative flex h-[100svh] w-full flex-col gap-4 overflow-clip bg-white bg-[url('/signup_bg.png')] bg-cover text-black lg:flex-row"
 >
-	<div class="z-10 flex basis-1/2 flex-col items-center justify-center p-8">
+	<div
+		class="z-10 flex flex-col items-center justify-center p-8 lg:basis-1/2"
+	>
 		<div class="flex w-full flex-col">
 			<slot />
 		</div>
 	</div>
 	<div
-		class="z-10 flex w-full basis-1/2 items-center justify-center border-l border-black/10 bg-white/30 p-8"
+		class="z-10 flex w-full items-center justify-center border-l border-black/10 bg-white/30 p-8 lg:basis-1/2"
 	>
 		<SignUpForm client:load />
 	</div>
