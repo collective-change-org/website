@@ -39,8 +39,10 @@ export async function authenticatePayload(): Promise<{
 		return { error: null, result: data }
 	} catch (err) {
 		if (err instanceof Error) {
+			// IMPORTANT: I currently have set `ufw default allow incoming` on the VPS
+			// which isnt ideal, but somehow the requests fail otherwise
+
 			// if (err.message === "Connect Timeout Error") {
-			console.log("Connect Timeout Error")
 			// Perform a ping to google.com to check if the user has internet connection
 			const ping = await fetch("https://www.google.com", {
 				method: "HEAD",
