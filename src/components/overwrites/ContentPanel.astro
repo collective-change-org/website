@@ -4,7 +4,7 @@ import Default from "@astrojs/starlight/components/ContentPanel.astro"
 ---
 
 {
-	Astro.props.entry.data.template === "docs" ? (
+	Astro.props.entry.data.template === "doc" ? (
 		<Default {...Astro.props} />
 	) : (
 		<slot />
