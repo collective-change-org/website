@@ -7,49 +7,51 @@ import solidJs from "@astrojs/solid-js";
 
 import node from "@astrojs/node";
 
+import icon from "astro-icon";
+
 // https://astro.build/config
 export default defineConfig({
-	env: {
-		schema: {
-			PAYLOAD_EMAIL: envField.string({ context: "server", access: "secret" }),
-			PAYLOAD_PASSWORD: envField.string({ context: "server", access: "secret" }),
-			CMS_URL: envField.string({ context: "server", access: "public" }),
-			MOCKDATA: envField.boolean({ context: "server", access: "public", optional: true, default: false }),
-			LISTMONK_API: envField.string({ context: "server", access: "public" }),
-			LISTMONK_API_KEY: envField.string({ context: "server", access: "secret" })
-		},
-	},
+    env: {
+        schema: {
+            PAYLOAD_EMAIL: envField.string({ context: "server", access: "secret" }),
+            PAYLOAD_PASSWORD: envField.string({ context: "server", access: "secret" }),
+            CMS_URL: envField.string({ context: "server", access: "public" }),
+            MOCKDATA: envField.boolean({ context: "server", access: "public", optional: true, default: false }),
+            LISTMONK_API: envField.string({ context: "server", access: "public" }),
+            LISTMONK_API_KEY: envField.string({ context: "server", access: "secret" })
+        },
+    },
 
-	integrations: [starlight({
-		title: 'Collective Change',
-		social: {
-			github: 'https://github.com/withastro/starlight',
-		},
-		components: {
-			Head: './src/components/overwrites/Head.astro',
-			MarkdownContent: './src/components/overwrites/MarkdownContent.astro',
-			PageSidebar: './src/components/overwrites/PageSidebar.astro',
-			Sidebar: './src/components/overwrites/Sidebar.astro',
-			Header: './src/components/overwrites/Header.astro',
-			PageFrame: './src/components/overwrites/PageFrame.astro',
-			Footer: './src/components/overwrites/Footer.astro',
-			ContentPanel: './src/components/overwrites/ContentPanel.astro',
-			PageTitle: './src/components/overwrites/PageTitle.astro',
-		},
-		customCss: ["./src/tailwind.css"]
-	}), tailwind({
-		applyBaseStyles: false,
-	}), solidJs()],
+    integrations: [starlight({
+        title: 'Collective Change',
+        social: {
+            github: 'https://github.com/withastro/starlight',
+        },
+        components: {
+            Head: './src/components/overwrites/Head.astro',
+            MarkdownContent: './src/components/overwrites/MarkdownContent.astro',
+            PageSidebar: './src/components/overwrites/PageSidebar.astro',
+            Sidebar: './src/components/overwrites/Sidebar.astro',
+            Header: './src/components/overwrites/Header.astro',
+            PageFrame: './src/components/overwrites/PageFrame.astro',
+            Footer: './src/components/overwrites/Footer.astro',
+            ContentPanel: './src/components/overwrites/ContentPanel.astro',
+            PageTitle: './src/components/overwrites/PageTitle.astro',
+        },
+        customCss: ["./src/tailwind.css"]
+    }), tailwind({
+        applyBaseStyles: false,
+    }), solidJs(), icon()],
 
-	site: 'https://changecollective.woven.design',
-	experimental: {
-		svg: true,
-	},
-	server: {
-		port: 4321,
-		host: true
-	},
-	adapter: node({
-		mode: "standalone",
-	}),
+    site: 'https://changecollective.woven.design',
+    experimental: {
+        svg: true,
+    },
+    server: {
+        port: 4321,
+        host: true
+    },
+    adapter: node({
+        mode: "standalone",
+    }),
 });
