@@ -4,6 +4,7 @@ import LexicalRenderer from "../LexicalRenderer.astro"
 import type { LexicalRoot } from "../../content/loaders/payload/schemas/lexical"
 import RestrictedRenderer from "../RestrictedRenderer.astro"
 import Login from "../Login.astro"
+import Signup from "../Signup.astro"
 import type { LayoutUnion } from "../../content/loaders/payload/pages/schema"
 import ManifestBlock from "../ManifestBlock.astro"
 
@@ -67,6 +68,16 @@ if (page.template === "splash") {
 									}
 								/>
 							</Login>
+						)
+					case "signupBlock":
+						return (
+							<Signup>
+								<LexicalRenderer
+									children={
+										layoutElement.richText.root.children
+									}
+								/>
+							</Signup>
 						)
 					case "manifestBlock":
 						return (

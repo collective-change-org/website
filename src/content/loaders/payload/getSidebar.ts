@@ -4,7 +4,10 @@ import type { LexicalRootContainer } from "./schemas/lexical"
 import type { Badge } from "../../../schemas/badge"
 import { getPageSlug } from "./pages/getKnowledgebase"
 import { z, defineCollection } from "astro:content"
-import { type LinkHTMLAttributes, linkHTMLAttributesSchema } from "../../../schemas/sidebar"
+import {
+	type LinkHTMLAttributes,
+	linkHTMLAttributesSchema,
+} from "../../../schemas/sidebar"
 
 type PayloadPageResponse = {
 	data: {
@@ -25,17 +28,20 @@ export type PayloadPageResponseItem = {
 				title: string
 				slug: string
 				badgeText?: string
-				badgeVariant?: 'note' | 'danger' | 'success' | 'caution' | 'tip' | 'default'
+				badgeVariant?:
+					| "note"
+					| "danger"
+					| "success"
+					| "caution"
+					| "tip"
+					| "default"
 			}
 		}>
 	}
 	slug: string
 	content: LexicalRootContainer
 	restricted: "public" | "members"
-	badgeText?: string
-	badgeVariant?: 'note' | 'danger' | 'success' | 'caution' | 'tip' | 'default'
-
-
+	badge?: Badge
 }
 
 interface OrderedGroup extends Group {
@@ -46,16 +52,16 @@ interface OrderedGroup extends Group {
 
 function pageToLink(page: PayloadPageResponseItem): Link {
 	let badge: Badge | undefined
-	if (page.badgeText) {
+	if (page.badge) {
 		badge = {
-			text: page.badgeText,
-			variant: page.badgeVariant || 'default'
+			text: page.badge.text,
+			variant: page.badge.variant || "default",
 		}
 	}
 	return {
 		id: "knowledgebase/" + getPageSlug(page),
 		type: "link",
-		label: page.restricted === "members" ? '🔒 ' + page.title : page.title,
+		label: page.restricted === "members" ? "🔒 " + page.title : page.title,
 		href: "/knowledgebase/" + getPageSlug(page),
 		isCurrent: false,
 		attrs: {},
@@ -100,8 +106,10 @@ export async function getKnowledgebaseSidebar(): Promise<SidebarEntry[]> {
                     }
                     slug
                     content
-					badgeText
-					badgeVariant
+					badge {
+						text
+						variant
+					}
 					restricted
                     }
                 }
@@ -112,7 +120,7 @@ export async function getKnowledgebaseSidebar(): Promise<SidebarEntry[]> {
 			},
 		}),
 	})
-	const pageRes = await pageResponse.json() as PayloadPageResponse
+	const pageRes = (await pageResponse.json()) as PayloadPageResponse
 	console.log(pageRes)
 	const pages = pageRes.data.Knowledgebases.docs
 
@@ -144,7 +152,12 @@ export async function getKnowledgebaseSidebar(): Promise<SidebarEntry[]> {
 							? page.group.breadcrumbs[i - 1].doc.slug
 							: undefined,
 					type: "group",
-					...(group.doc.badgeText && { badge: { text: group.doc.badgeText, variant: group.doc.badgeVariant || 'default' } }),
+					...(group.doc.badgeText && {
+						badge: {
+							text: group.doc.badgeText,
+							variant: group.doc.badgeVariant || "default",
+						},
+					}),
 				}
 				groups.push(tempGroup)
 			}
@@ -170,7 +183,6 @@ export async function getKnowledgebaseSidebar(): Promise<SidebarEntry[]> {
 
 	return [...sidebar]
 }
-
 
 export interface Link {
 	id: string

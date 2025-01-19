@@ -21,7 +21,6 @@ export async function authenticatePayload(): Promise<{
 	try {
 		const req = await fetch(`${cmsUrl.origin}/api/users/login`, {
 			method: "POST",
-			credentials: "include",
 			headers: {
 				"Content-Type": "application/json",
 			},
@@ -39,9 +38,35 @@ export async function authenticatePayload(): Promise<{
 		}
 		return { error: null, result: data }
 	} catch (err) {
-		if (typeof err === "string") {
-			return { error: err, result: null }
+		if (err instanceof Error) {
+			// IMPORTANT: I currently have set `ufw default allow incoming` on the VPS
+			// which isnt ideal, but somehow the requests fail otherwise
+
+			// if (err.message === "Connect Timeout Error") {
+			// Perform a ping to google.com to check if the user has internet connection
+			const ping = await fetch("https://www.google.com", {
+				method: "HEAD",
+			})
+			if (!ping.ok) {
+				console.error("No internet connection")
+				throw new Error("No internet connection")
+			}
+			if (ping.ok) {
+				console.log("ping ok")
+				throw new Error("Ping OK, CMS connection failed")
+			}
+			// }
+
+			console.error(err)
+			throw new Error(JSON.stringify(err))
+		} else {
+			console.log("Unknown errorrrr")
+			throw new Error(
+				JSON.stringify({
+					url: `${cmsUrl.origin}/api/users/login`,
+					err,
+				}),
+			)
 		}
-		return { error: JSON.stringify(err), result: null }
 	}
 }

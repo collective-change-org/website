@@ -1,6 +1,6 @@
 import { defineCollection, z, type BaseSchema } from "astro:content"
 import { getKnowledgeBase } from "./getKnowledgebase"
-import { getPages, type CallToActionBlock, type ContentBlock } from "./getPages"
+import { getPages, type ContentBlock } from "./getPages"
 import { pagesSchema } from "./schema"
 import type { LexicalRoot } from "../schemas/lexical"
 import type { CustomSidebar } from "../getSidebar"
@@ -18,7 +18,7 @@ export interface Page extends BaseSchema {
 	id: string
 	title: string
 	template: "splash"
-	layout: (ContentBlock | CallToActionBlock)[]
+	layout: ContentBlock[]
 }
 
 async function loadAllPages() {
@@ -30,5 +30,5 @@ async function loadAllPages() {
 
 export const knowledgebase = defineCollection({
 	loader: () => loadAllPages(),
-	schema: pagesSchema
+	schema: pagesSchema,
 })

@@ -1,6 +1,6 @@
-import { docsSchema } from "@astrojs/starlight/schema";
-import { lexicalRoot, lexicalRootContainer } from "../schemas/lexical";
-import { z } from "astro:content";
+import { docsSchema } from "@astrojs/starlight/schema"
+import { lexicalRoot, lexicalRootContainer } from "../schemas/lexical"
+import { z } from "astro:content"
 
 const columnBlock = z.object({
 	size: z.union([
@@ -16,39 +16,39 @@ const contentBlock = z.object({
 	columns: z.array(columnBlock),
 })
 
-const callToActionBlock = z.object({
-	id: z.string(),
-	blockType: z.literal("cta"),
-	richText: lexicalRootContainer,
-})
-
 const loginBlock = z.object({
 	blockType: z.literal("loginBlock"),
 	richText: lexicalRootContainer,
 })
 
+const signupBlock = z.object({
+	blockType: z.literal("signupBlock"),
+	richText: lexicalRootContainer,
+})
+
 const manifestBlock = z.object({
 	blockType: z.literal("manifestBlock"),
-	sections: z.array(z.object({
-		subtitle: z.string(),
-		listItem: z.array(
-			z.object({
-				title: z.string(),
-				description: z.string(),
-			})
-		)
-	}))
+	sections: z.array(
+		z.object({
+			subtitle: z.string(),
+			listItem: z.array(
+				z.object({
+					title: z.string(),
+					description: z.string(),
+				}),
+			),
+		}),
+	),
 })
 
 export const layoutUnion = z.union([
 	contentBlock,
-	callToActionBlock,
 	loginBlock,
-	manifestBlock
+	signupBlock,
+	manifestBlock,
 ])
 
 export type LayoutUnion = z.infer<typeof layoutUnion>
-
 
 export const pagesSchema = docsSchema({
 	extend: z.union([

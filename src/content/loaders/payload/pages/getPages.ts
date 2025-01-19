@@ -11,18 +11,13 @@ export type ContentBlock = {
 	}>
 }
 
-export type CallToActionBlock = {
-	id: string
-	richText: LexicalRootContainer
-}
-
 type PayloadResponse = {
 	data: {
 		Pages: {
 			docs: Array<{
 				title: string
 				slug: string
-				layout: (ContentBlock | CallToActionBlock)[]
+				layout: ContentBlock[]
 			}>
 		}
 	}
@@ -52,11 +47,6 @@ export async function getPages(): Promise<Page[]> {
 						title
 						slug
 						layout {
-							... on CallToActionBlock {
-								id
-								blockType
-								richText
-							}
 							... on ContentBlock {
 								id
 								blockType
@@ -70,6 +60,10 @@ export async function getPages(): Promise<Page[]> {
 								blockType
 							}
 							... on LoginBlock {
+								blockType
+								richText
+							}
+							... on signupBlock {
 								blockType
 								richText
 							}
