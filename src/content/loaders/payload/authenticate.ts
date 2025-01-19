@@ -46,18 +46,20 @@ export async function authenticatePayload(): Promise<{
 				})
 				if (!ping.ok) {
 					console.error("No internet connection")
+					throw new Error("No internet connection")
 				}
 				if (ping.ok) {
 					console.log("ping ok")
+					throw new Error("Ping OK, CMS connection failed")
 				}
 			}
+		} else {
+			throw new Error(
+				JSON.stringify({
+					url: `${cmsUrl.origin}/api/users/login`,
+					err,
+				}),
+			)
 		}
-
-		throw new Error(
-			JSON.stringify({
-				url: `${cmsUrl.origin}/api/users/login`,
-				err,
-			}),
-		)
 	}
 }
