@@ -21,7 +21,6 @@ export async function authenticatePayload(): Promise<{
 	try {
 		const req = await fetch(`${cmsUrl.origin}/api/users/login`, {
 			method: "POST",
-			credentials: "include",
 			headers: {
 				"Content-Type": "application/json",
 			},
@@ -39,6 +38,11 @@ export async function authenticatePayload(): Promise<{
 		}
 		return { error: null, result: data }
 	} catch (err) {
-		throw new Error(JSON.stringify(err))
+		throw new Error(
+			JSON.stringify({
+				url: `${cmsUrl.origin}/api/users/login`,
+				err,
+			}),
+		)
 	}
 }
