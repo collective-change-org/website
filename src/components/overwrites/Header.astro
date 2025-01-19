@@ -4,29 +4,32 @@ import { getCollection } from "astro:content"
 import User from "../User.astro"
 import Logo from "../../assets/Logo.svg"
 
-
 const navlinks = await getCollection("header").then((collection) => {
 	return collection.map((item) => {
 		return item.data
 	})
 })
-
-
 ---
 
 <header
 	class="absolute z-10 flex w-full items-center justify-between px-4 py-3 text-white mix-blend-difference"
 >
-	<a href="/"><Logo class="mix-blend-difference" height={80} width={190} /></a>
-	<div class="inline-flex uppercase pb-6">
+	<a href="/"><Logo class="mix-blend-difference" height={80} width={190} /></a
+	>
+	<div class="inline-flex pb-6 uppercase">
 		{
 			navlinks.map((link) => (
-				<a class="px-6 text-2xl" href={link.href} target={(link.newTab)? "_blank" : ""} rel={(link.newTab) ? "noopener noreferrer" : ""}>{link.label}</a>
+				<a
+					class="px-6 text-2xl no-underline"
+					href={link.href}
+					target={link.newTab ? "_blank" : ""}
+					rel={link.newTab ? "noopener noreferrer" : ""}>
+					{link.label}
+				</a>
 			))
 		}
 		<!-- <slot /> -->
 
 		<User server:defer />
 	</div>
-	
 </header>

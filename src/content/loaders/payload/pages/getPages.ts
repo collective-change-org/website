@@ -47,6 +47,10 @@ export async function getPages(): Promise<Page[]> {
 						title
 						slug
 						layout {
+							... on HeroBlock {
+								blockType
+								richText
+							}
 							... on ContentBlock {
 								id
 								blockType

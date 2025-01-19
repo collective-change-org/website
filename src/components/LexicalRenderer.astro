@@ -18,7 +18,7 @@ const { children } = Astro.props
 				switch (child.tag) {
 					case "h1":
 						return (
-							<h1 class="font-poppins text-[50px] font-bold uppercase leading-none text-green-dark lg:text-[75px] xl:text-[100px]">
+							<h1 class="font-poppins text-[50px] font-bold uppercase leading-none lg:text-[75px] xl:text-[100px]">
 								<Astro.self children={child.children} />
 							</h1>
 						)

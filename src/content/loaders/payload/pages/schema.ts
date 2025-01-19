@@ -41,7 +41,13 @@ const manifestBlock = z.object({
 	),
 })
 
+const heroBlock = z.object({
+	blockType: z.literal("heroBlock"),
+	richText: lexicalRootContainer,
+})
+
 export const layoutUnion = z.union([
+	heroBlock,
 	contentBlock,
 	loginBlock,
 	signupBlock,

@@ -53,6 +53,16 @@ if (page.template === "splash") {
 								))}
 							</div>
 						)
+					case "heroBlock":
+						return (
+							<div class="[&>h1]:typestyle-hero-h1 [&>p]:typestyle-hero-p flex flex-col items-center justify-center gap-4 pt-[20svh] [&>h1]:text-green-lighter">
+								<LexicalRenderer
+									children={
+										layoutElement.richText.root.children
+									}
+								/>
+							</div>
+						)
 					case "loginBlock":
 						return (
 							<Login>

@@ -1,5 +1,5 @@
 import starlightPlugin from '@astrojs/starlight-tailwind';
-import colors from 'tailwindcss/colors';
+import colors, { transparent } from 'tailwindcss/colors';
 import corvuPlugin from '@corvu/tailwind'
 import animatePlugin from 'tailwindcss-animate'
 
@@ -9,6 +9,7 @@ export default {
 	theme: {
 		colors: {
 			'off-white': '#FFFEFA',
+			transparent: 'transparent',
 			white: '#ffffff',
 			black: '#000000',
 			green: {
