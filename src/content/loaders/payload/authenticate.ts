@@ -39,21 +39,21 @@ export async function authenticatePayload(): Promise<{
 		return { error: null, result: data }
 	} catch (err) {
 		if (err instanceof Error) {
-			if (err.message === "Connect Timeout Error") {
-				console.log("Connect Timeout Error")
-				// Perform a ping to google.com to check if the user has internet connection
-				const ping = await fetch("https://www.google.com", {
-					method: "HEAD",
-				})
-				if (!ping.ok) {
-					console.error("No internet connection")
-					throw new Error("No internet connection")
-				}
-				if (ping.ok) {
-					console.log("ping ok")
-					throw new Error("Ping OK, CMS connection failed")
-				}
+			// if (err.message === "Connect Timeout Error") {
+			console.log("Connect Timeout Error")
+			// Perform a ping to google.com to check if the user has internet connection
+			const ping = await fetch("https://www.google.com", {
+				method: "HEAD",
+			})
+			if (!ping.ok) {
+				console.error("No internet connection")
+				throw new Error("No internet connection")
 			}
+			if (ping.ok) {
+				console.log("ping ok")
+				throw new Error("Ping OK, CMS connection failed")
+			}
+			// }
 
 			console.error(err)
 			throw new Error(JSON.stringify(err))
