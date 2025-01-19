@@ -39,9 +39,6 @@ export async function authenticatePayload(): Promise<{
 		}
 		return { error: null, result: data }
 	} catch (err) {
-		if (typeof err === "string") {
-			return { error: err, result: null }
-		}
-		return { error: JSON.stringify(err), result: null }
+		throw new Error(JSON.stringify(err))
 	}
 }
