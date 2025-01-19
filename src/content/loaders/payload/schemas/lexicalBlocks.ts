@@ -73,8 +73,16 @@ const buttonBlock = z.object({
 	link: z.any(),
 })
 
+// const linkCardBlock = z.object({
+// 	type: z.literal("linkCardBlock"),
+// 	title: z.string(),
+// 	href: z.string(),
+// 	description: z.string().optional(),
+// })
+const linkCardBlock = z.any()
+
 export const lexicalBlock = z.object({
 	version: z.number(),
 	type: z.literal("block"),
-	fields: z.union([blockBanner, blockBadge, blockCode, blockSteps, buttonBlock]),
+	fields: z.union([blockBanner, blockBadge, blockCode, blockSteps, buttonBlock, linkCardBlock]),
 })
