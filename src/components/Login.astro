@@ -2,6 +2,7 @@
 import { Icon } from "astro-icon/components"
 import Background from "../assets/login_bg.png"
 import Button from "./Button.astro"
+import { Input } from "./Input"
 ---
 
 <script>
@@ -25,42 +26,13 @@ import Button from "./Button.astro"
 	})
 </script>
 
-<div
-	class="y-offset-hack full-bleed relative flex h-[100svh] w-full gap-4 overflow-clip bg-white bg-[url('/login_bg.png')] bg-cover text-black"
->
-	<div class="z-10 flex basis-1/2 flex-col items-center justify-center p-4">
-		<div class="flex flex-col items-start gap-2">
-			<slot />
-		</div>
-	</div>
-	<div
-		class="z-10 flex basis-1/2 items-center justify-center border-l border-black/10 bg-white/30"
-	>
-		<form class="flex flex-col items-start">
-			<div class="mb-4 flex flex-col items-start gap-1">
-				<label for="email" class="">Email</label>
-				<input
-					type="email"
-					id="email"
-					name="email"
-					class="rounded-full border-2 border-black/30 bg-white px-4 py-1 text-black focus:border-green-dark focus:outline-none"
-					required
-				/>
-			</div>
-			<div class="mb-6 flex flex-col items-start gap-1">
-				<label for="password" class="">Password</label>
-				<input
-					type="password"
-					id="password"
-					name="password"
-					class="rounded-full border-2 border-black/30 bg-white px-4 py-1 text-black focus:border-green-dark focus:outline-none"
-					required
-				/>
-			</div>
-			<Button type="submit" intent="green" size="small">
-				Anmelden
-				<Icon name="ph:sign-in" />
-			</Button>
-		</form>
-	</div>
+<div class="z-10 flex w-full basis-1/2 items-center justify-center">
+	<form class="flex flex-col items-start gap-4">
+		<Input label="E-Mail" name="email" type="email" id="email" />
+		<Input label="Passwort" name="password" type="password" id="password" />
+		<Button type="submit" intent="green" size="small">
+			Anmelden
+			<Icon name="ph:sign-in" />
+		</Button>
+	</form>
 </div>

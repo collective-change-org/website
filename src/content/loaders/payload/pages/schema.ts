@@ -52,7 +52,14 @@ const manifestBlock = z.object({
 	})),
 })
 
-const baseContainerLayouts = z.discriminatedUnion("blockType", [h1Block, h2Block, emphasizedParagraphBlock, buttonBlock, largeRichTextBlock, manifestBlock])
+const loginBlock = z.object({
+	blockType: z.literal("loginBlock"),
+})
+const signUpBlock = z.object({
+	blockType: z.literal("signUpBlock"),
+})
+
+const baseContainerLayouts = z.discriminatedUnion("blockType", [h1Block, h2Block, emphasizedParagraphBlock, buttonBlock, largeRichTextBlock, manifestBlock, loginBlock, signUpBlock])
 export type BaseContainerLayouts = z.infer<typeof baseContainerLayouts>
 
 const indentedContainer = z.object({

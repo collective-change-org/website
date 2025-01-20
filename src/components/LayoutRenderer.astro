@@ -5,6 +5,7 @@ import Button, { button } from "./Button.astro"
 import LexicalRenderer from "./LexicalRenderer.astro"
 import ManifestBlock from "./ManifestBlock.astro"
 import { cn } from "../lib/cn"
+import Login from "./Login.astro"
 
 export interface Props {
 	children: ContainerLayouts[]
@@ -103,6 +104,8 @@ const { children, slug } = Astro.props
 					)
 				case "manifestBlock":
 					return <ManifestBlock sections={child.sections} />
+				case "loginBlock":
+					return <Login />
 				default:
 					return JSON.stringify(child)
 			}

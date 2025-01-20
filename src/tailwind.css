@@ -50,7 +50,9 @@
 }
 
 .y-offset-hack {
-	padding-top: calc(var(--sl-nav-height) + var(--sl-mobile-toc-height));
+	padding-top: calc(
+		var(--sl-nav-height) + var(--sl-mobile-toc-height) + 8rem
+	);
 	padding-inline-start: var(--sl-content-inline-start);
 	margin-top: calc((var(--sl-nav-height) + var(--sl-mobile-toc-height)) * -1);
 }

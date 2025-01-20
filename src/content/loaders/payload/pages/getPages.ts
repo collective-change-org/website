@@ -51,7 +51,7 @@ query pages {
           blockType
           color
           layout {
-		  ... on ManifestBlock {
+            ... on ManifestBlock {
               blockType
               sections {
                 subtitle
@@ -60,6 +60,12 @@ query pages {
                   description
                 }
               }
+            }
+            ... on LoginBlock {
+              blockType
+            }
+            ... on signupBlock {
+              blockType
             }
             ... on H1Block {
               blockType
@@ -169,6 +175,12 @@ query pages {
               blockType
               columns {
                 layout {
+                  ... on LoginBlock {
+                    blockType
+                  }
+                  ... on signupBlock {
+                    blockType
+                  }
                   ... on H1Block {
                     blockType
                     title
@@ -247,7 +259,7 @@ query pages {
                     blockType
                     title
                   }
-				... on LargeRichTextBlock {
+                  ... on LargeRichTextBlock {
                     blockType
                     title
                     richText
@@ -283,24 +295,6 @@ query pages {
             }
           }
         }
-        ... on LoginBlock {
-          blockType
-          richText
-        }
-        ... on signupBlock {
-          blockType
-          richText
-        }
-        ... on ManifestBlock {
-          blockType
-          sections {
-            subtitle
-            listItem {
-              title
-              description
-            }
-          }
-        }
       }
 
       meta {
@@ -313,6 +307,7 @@ query pages {
     }
   }
 }
+
 
 		`,
 			headers: {
