@@ -1,7 +1,7 @@
 ---
 import { Icon } from "astro-icon/components"
 import type { ContainerLayouts } from "../content/loaders/payload/pages/schema"
-import Button from "./Button.astro"
+import Button, { button } from "./Button.astro"
 import LexicalRenderer from "./LexicalRenderer.astro"
 
 export interface Props {
@@ -22,10 +22,14 @@ const { children } = Astro.props
 						</h1>
 					)
 				case "h2Block":
-					return <h2>{child.title}</h2>
+					return (
+						<h2 class="typestyle-h2 group-data-[color=green]:text-off-white group-data-[color=white]:text-green-lighter">
+							{child.title}
+						</h2>
+					)
 				case "emphasizedParagraph":
 					return (
-						<div class="[&>p]:typestyle-hero-p">
+						<div class="[&>p]:typestyle-hero-p group-data-[color=green]:text-off-white group-data-[color=white]:text-green-black">
 							<LexicalRenderer
 								children={child.richText.root.children}
 							/>
@@ -38,8 +42,25 @@ const { children } = Astro.props
 						</div>
 					)
 				case "buttonBlock":
+					let url
+					if (child.link.type === "reference") {
+						if (child.link.reference.relationTo === "pages") {
+							url = child.link.reference.value.slug
+						} else if (
+							child.link.reference.relationTo === "knowledgebase"
+						) {
+							url = child.link.reference.value.slugWithGroup
+						}
+					} else {
+						url = child.link.url
+					}
 					return (
-						<Button size={child.size} intent={child.variant}>
+						<a
+							class={button({
+								size: child.size,
+								intent: child.variant,
+							})}
+							href={url}>
 							{child.hasLeftIcon && (
 								<Icon name={`ph:${child.iconLeft}`} />
 							)}
@@ -47,7 +68,27 @@ const { children } = Astro.props
 							{child.hasRightIcon && (
 								<Icon name={`ph:${child.iconRight}`} />
 							)}
-						</Button>
+						</a>
+					)
+				case "columnContainerBlock":
+					return (
+						<div class="flex flex-col gap-8 lg:flex-row">
+							{child.columns.map((column) => {
+								return (
+									<div class="lg:base-1/2 flex w-full flex-col items-start justify-center gap-4">
+										<Astro.self children={column.layout} />
+									</div>
+								)
+							})}
+						</div>
+					)
+				case "largeRichTextBlock":
+					return (
+						<div class="[&>p]:typestyle-text-l flex flex-col items-start gap-4 group-data-[color=green]:text-off-white group-data-[color=white]:text-green-black">
+							<LexicalRenderer
+								children={child.richText.root.children}
+							/>
+						</div>
 					)
 				default:
 					return JSON.stringify(child)

@@ -17,10 +17,10 @@ const { sections } = Astro.props as Props
 		sections.map((section) => {
 			return (
 				<div class="flex flex-col items-start gap-8 md:flex-row">
-					<h2 class="sticky top-0 basis-1/2 text-[48px] leading-tight">
+					<h2 class="sticky top-0 text-[48px] leading-tight md:basis-1/3">
 						{section.subtitle}
 					</h2>
-					<ol class="flex basis-1/2 flex-col gap-8 pl-0">
+					<ol class="flex flex-col gap-8 pl-0 md:basis-2/3">
 						{section.listItem.map((item) => {
 							return (
 								<li class="flex items-baseline gap-2">

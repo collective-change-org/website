@@ -41,7 +41,7 @@ export async function getPages(): Promise<Page[]> {
 		},
 		body: JSON.stringify({
 			query: `
-			query pages {
+query pages {
   Pages {
     docs {
       title
@@ -86,7 +86,7 @@ export async function getPages(): Promise<Page[]> {
               size
             }
             ... on IndentedContainer {
-				blockType
+              blockType
               layout {
                 ... on H1Block {
                   blockType
@@ -96,33 +96,33 @@ export async function getPages(): Promise<Page[]> {
                   blockType
                   richText
                 }
-				  ... on ButtonBlock {
-              blockType
-              link {
-			  	__typename
-                type
-                newTab
-                label
-                url
-                reference {
-                  relationTo
-                  value {
-                    ... on Page {
-                      slug
-                    }
-                    ... on Knowledgebase {
-                      slugWithGroup
+                ... on ButtonBlock {
+                  blockType
+                  link {
+                    __typename
+                    type
+                    newTab
+                    label
+                    url
+                    reference {
+                      relationTo
+                      value {
+                        ... on Page {
+                          slug
+                        }
+                        ... on Knowledgebase {
+                          slugWithGroup
+                        }
+                      }
                     }
                   }
+                  hasLeftIcon
+                  iconLeft
+                  hasRightIcon
+                  iconRight
+                  variant
+                  size
                 }
-              }
-              hasLeftIcon
-              iconLeft
-              hasRightIcon
-              iconRight
-              variant
-              size
-            }
               }
             }
             ... on H2Block {
@@ -154,6 +154,122 @@ export async function getPages(): Promise<Page[]> {
               iconRight
               variant
               size
+            }
+            ... on ColumnContainerBlock {
+              blockType
+              columns {
+                layout {
+                  ... on H1Block {
+                    blockType
+                    title
+                  }
+                  ... on H2Block {
+                    blockType
+                    title
+                  }
+                  ... on ButtonBlock {
+                    blockType
+                    link {
+                      type
+                      newTab
+                      label
+                      url
+                      reference {
+                        relationTo
+                        value {
+                          ... on Page {
+                            slug
+                          }
+                          ... on Knowledgebase {
+                            slugWithGroup
+                          }
+                        }
+                      }
+                    }
+                    hasLeftIcon
+                    iconLeft
+                    hasRightIcon
+                    iconRight
+                    variant
+                    size
+                  }
+                  ... on IndentedContainer {
+                    blockType
+                    layout {
+                      ... on H1Block {
+                        blockType
+                        title
+                      }
+                      ... on EmphasizedParagraph {
+                        blockType
+                        richText
+                      }
+                      ... on ButtonBlock {
+                        blockType
+                        link {
+                          __typename
+                          type
+                          newTab
+                          label
+                          url
+                          reference {
+                            relationTo
+                            value {
+                              ... on Page {
+                                slug
+                              }
+                              ... on Knowledgebase {
+                                slugWithGroup
+                              }
+                            }
+                          }
+                        }
+                        hasLeftIcon
+                        iconLeft
+                        hasRightIcon
+                        iconRight
+                        variant
+                        size
+                      }
+                    }
+                  }
+                  ... on H2Block {
+                    blockType
+                    title
+                  }
+				... on LargeRichTextBlock {
+                    blockType
+                    title
+                    richText
+                  }
+                  ... on ButtonBlock {
+                    blockType
+                    link {
+                      type
+                      newTab
+                      label
+                      url
+                      reference {
+                        relationTo
+                        value {
+                          ... on Page {
+                            slug
+                          }
+                          ... on Knowledgebase {
+                            slugWithGroup
+                          }
+                        }
+                      }
+                    }
+                    hasLeftIcon
+                    iconLeft
+                    hasRightIcon
+                    iconRight
+                    variant
+                    size
+                  }
+                }
+              }
             }
           }
         }

@@ -17,23 +17,6 @@ const emphasizedParagraphBlock = z.object({
 	richText: lexicalRootContainer,
 })
 
-// export const buttonBlock = z.object({
-// 	blockType: z.literal("buttonBlock"),
-// 	hasRightIcon: z.boolean(),
-// 	hasLeftIcon: z.boolean(),
-// 	iconLeft: z.string().optional(),
-// 	iconRight: z.string().optional(),
-// 	variant: z.union([
-// 		z.literal("green"),
-// 		z.literal("orange"),
-// 		z.literal("black"),
-// 	]),
-// 	size: z.union([
-// 		z.literal("small"),
-// 		z.literal("large"),
-// 	]),
-// 	link: z.any(),
-// })
 const buttonBlock = z.object({
 	blockType: z.literal("buttonBlock"),
 	hasRightIcon: z.boolean(),
@@ -52,7 +35,13 @@ const buttonBlock = z.object({
 	link: z.any(),
 })
 
-const baseContainerLayouts = z.discriminatedUnion("blockType", [h1Block, h2Block, emphasizedParagraphBlock, buttonBlock])
+const largeRichTextBlock = z.object({
+	blockType: z.literal("largeRichTextBlock"),
+	title: z.string().nullable(),
+	richText: lexicalRootContainer,
+})
+
+const baseContainerLayouts = z.discriminatedUnion("blockType", [h1Block, h2Block, emphasizedParagraphBlock, buttonBlock, largeRichTextBlock])
 export type BaseContainerLayouts = z.infer<typeof baseContainerLayouts>
 
 const indentedContainer = z.object({
@@ -60,7 +49,14 @@ const indentedContainer = z.object({
 	layout: z.array(baseContainerLayouts),
 })
 
-const containerLayouts = z.union([baseContainerLayouts, indentedContainer])
+const columnContainerBlock = z.object({
+	blockType: z.literal("columnContainerBlock"),
+	columns: z.array(z.object({
+		layout: z.array(baseContainerLayouts),
+	})),
+})
+
+const containerLayouts = z.union([baseContainerLayouts, indentedContainer, columnContainerBlock])
 export type ContainerLayouts = z.infer<typeof containerLayouts>
 
 

@@ -31,6 +31,14 @@
 	.typestyle-hero-p {
 		@apply font-sans text-2xl font-semibold leading-[1.35] lg:text-4xl lg:leading-[1.25];
 	}
+
+	.typestyle-h2 {
+		@apply font-poppins text-[6.25rem] font-black uppercase leading-[1.35] lg:text-[6.26rem] lg:leading-[1.25];
+	}
+
+	.typestyle-text-l {
+		@apply font-sans text-2xl leading-[1.5];
+	}
 }
 
 :root {

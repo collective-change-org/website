@@ -33,8 +33,13 @@ if (page.template === "splash") {
 					case "containerBlock":
 						return (
 							<div
+								data-color={
+									layoutElement.color === "green"
+										? "green"
+										: "white"
+								}
 								class={cn(
-									"full-bleed default-layout gap-4 py-32",
+									"full-bleed default-layout group gap-4 py-32",
 									layoutElement.color === "green" &&
 										"bg-green-dark",
 									layoutElement.color === "white_1" &&
