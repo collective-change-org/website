@@ -2,57 +2,79 @@ import { docsSchema } from "@astrojs/starlight/schema"
 import { lexicalRoot, lexicalRootContainer } from "../schemas/lexical"
 import { z } from "astro:content"
 
-const columnBlock = z.object({
-	size: z.union([
-		z.literal("full"),
-		z.literal("half"),
-		z.literal("oneThird"),
+const h1Block = z.object({
+	blockType: z.literal("h1Block"),
+	title: z.string(),
+})
+
+const h2Block = z.object({
+	blockType: z.literal("h2Block"),
+	title: z.string(),
+})
+
+const emphasizedParagraphBlock = z.object({
+	blockType: z.literal("emphasizedParagraph"),
+	richText: lexicalRootContainer,
+})
+
+// export const buttonBlock = z.object({
+// 	blockType: z.literal("buttonBlock"),
+// 	hasRightIcon: z.boolean(),
+// 	hasLeftIcon: z.boolean(),
+// 	iconLeft: z.string().optional(),
+// 	iconRight: z.string().optional(),
+// 	variant: z.union([
+// 		z.literal("green"),
+// 		z.literal("orange"),
+// 		z.literal("black"),
+// 	]),
+// 	size: z.union([
+// 		z.literal("small"),
+// 		z.literal("large"),
+// 	]),
+// 	link: z.any(),
+// })
+const buttonBlock = z.object({
+	blockType: z.literal("buttonBlock"),
+	hasRightIcon: z.boolean(),
+	hasLeftIcon: z.boolean(),
+	iconLeft: z.string().nullable(),
+	iconRight: z.string().nullable(),
+	variant: z.union([
+		z.literal("green"),
+		z.literal("orange"),
+		z.literal("black"),
 	]),
-	richText: lexicalRootContainer.nullable(),
+	size: z.union([
+		z.literal("small"),
+		z.literal("large"),
+	]),
+	link: z.any(),
 })
 
-const contentBlock = z.object({
-	blockType: z.literal("content"),
-	columns: z.array(columnBlock),
+const baseContainerLayouts = z.discriminatedUnion("blockType", [h1Block, h2Block, emphasizedParagraphBlock, buttonBlock])
+export type BaseContainerLayouts = z.infer<typeof baseContainerLayouts>
+
+const indentedContainer = z.object({
+	blockType: z.literal("indentedContainer"),
+	layout: z.array(baseContainerLayouts),
 })
 
-const loginBlock = z.object({
-	blockType: z.literal("loginBlock"),
-	richText: lexicalRootContainer,
+const containerLayouts = z.union([baseContainerLayouts, indentedContainer])
+export type ContainerLayouts = z.infer<typeof containerLayouts>
+
+
+const containerBlock = z.object({
+	blockType: z.literal("containerBlock"),
+	color: z.union([
+		z.literal("green"),
+		z.literal("white_1"),
+		z.literal("white_2"),
+	]),
+	layout: z.array(containerLayouts),
 })
 
-const signupBlock = z.object({
-	blockType: z.literal("signupBlock"),
-	richText: lexicalRootContainer,
-})
-
-const manifestBlock = z.object({
-	blockType: z.literal("manifestBlock"),
-	sections: z.array(
-		z.object({
-			subtitle: z.string(),
-			listItem: z.array(
-				z.object({
-					title: z.string(),
-					description: z.string(),
-				}),
-			),
-		}),
-	),
-})
-
-const heroBlock = z.object({
-	blockType: z.literal("heroBlock"),
-	richText: lexicalRootContainer,
-})
-
-export const layoutUnion = z.union([
-	heroBlock,
-	contentBlock,
-	loginBlock,
-	signupBlock,
-	manifestBlock,
-])
+export const layoutUnion = containerBlock
 
 export type LayoutUnion = z.infer<typeof layoutUnion>
 

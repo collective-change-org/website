@@ -42,56 +42,152 @@ export async function getPages(): Promise<Page[]> {
 		body: JSON.stringify({
 			query: `
 			query pages {
-				Pages {
-					docs {
-						title
-						slug
-						layout {
-							... on HeroBlock {
-								blockType
-								richText
-							}
-							... on ContentBlock {
-								id
-								blockType
-								columns {
-									size
-									richText
-								}
-							}
-							... on MediaBlock {
-								id
-								blockType
-							}
-							... on LoginBlock {
-								blockType
-								richText
-							}
-							... on signupBlock {
-								blockType
-								richText
-							}
-							... on ManifestBlock {
-								blockType
-								sections {
-									subtitle
-									listItem {
-										title
-										description
-									}
-								}
-							}
-						}
-						meta {
-							title
-							image {
-								url
-							}
-							description
-						}
-					}
-				}
-			}
+  Pages {
+    docs {
+      title
+      slug
+      layout {
+        ... on ContainerBlock {
+          blockType
+          color
+          layout {
+            ... on H1Block {
+              blockType
+              title
+            }
+            ... on H2Block {
+              blockType
+              title
+            }
+            ... on ButtonBlock {
+              blockType
+              link {
+                type
+                newTab
+                label
+                url
+                reference {
+                  relationTo
+                  value {
+                    ... on Page {
+                      slug
+                    }
+                    ... on Knowledgebase {
+                      slugWithGroup
+                    }
+                  }
+                }
+              }
+              hasLeftIcon
+              iconLeft
+              hasRightIcon
+              iconRight
+              variant
+              size
+            }
+            ... on IndentedContainer {
+				blockType
+              layout {
+                ... on H1Block {
+                  blockType
+                  title
+                }
+                ... on EmphasizedParagraph {
+                  blockType
+                  richText
+                }
+				  ... on ButtonBlock {
+              blockType
+              link {
+			  	__typename
+                type
+                newTab
+                label
+                url
+                reference {
+                  relationTo
+                  value {
+                    ... on Page {
+                      slug
+                    }
+                    ... on Knowledgebase {
+                      slugWithGroup
+                    }
+                  }
+                }
+              }
+              hasLeftIcon
+              iconLeft
+              hasRightIcon
+              iconRight
+              variant
+              size
+            }
+              }
+            }
+            ... on H2Block {
+              blockType
+              title
+            }
+            ... on ButtonBlock {
+              blockType
+              link {
+                type
+                newTab
+                label
+                url
+                reference {
+                  relationTo
+                  value {
+                    ... on Page {
+                      slug
+                    }
+                    ... on Knowledgebase {
+                      slugWithGroup
+                    }
+                  }
+                }
+              }
+              hasLeftIcon
+              iconLeft
+              hasRightIcon
+              iconRight
+              variant
+              size
+            }
+          }
+        }
+        ... on LoginBlock {
+          blockType
+          richText
+        }
+        ... on signupBlock {
+          blockType
+          richText
+        }
+        ... on ManifestBlock {
+          blockType
+          sections {
+            subtitle
+            listItem {
+              title
+              description
+            }
+          }
+        }
+      }
+
+      meta {
+        title
+        image {
+          url
+        }
+        description
+      }
+    }
+  }
+}
+
 		`,
 			headers: {
 				Authorization: `Bearer ${result.token}`,

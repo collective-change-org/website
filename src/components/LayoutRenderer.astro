@@ -1,0 +1,57 @@
+---
+import { Icon } from "astro-icon/components"
+import type { ContainerLayouts } from "../content/loaders/payload/pages/schema"
+import Button from "./Button.astro"
+import LexicalRenderer from "./LexicalRenderer.astro"
+
+export interface Props {
+	children: ContainerLayouts[]
+}
+
+const { children } = Astro.props
+---
+
+{
+	children.map((child) => {
+		if ("blockType" in child) {
+			switch (child.blockType) {
+				case "h1Block":
+					return (
+						<h1 class="typestyle-hero-h1 text-yellow-300">
+							{child.title}
+						</h1>
+					)
+				case "h2Block":
+					return <h2>{child.title}</h2>
+				case "emphasizedParagraph":
+					return (
+						<div class="[&>p]:typestyle-hero-p">
+							<LexicalRenderer
+								children={child.richText.root.children}
+							/>
+						</div>
+					)
+				case "indentedContainer":
+					return (
+						<div class="flex flex-col items-start gap-4 lg:ml-[25%]">
+							<Astro.self children={child.layout} />
+						</div>
+					)
+				case "buttonBlock":
+					return (
+						<Button size={child.size} intent={child.variant}>
+							{child.hasLeftIcon && (
+								<Icon name={`ph:${child.iconLeft}`} />
+							)}
+							{child.link.label}
+							{child.hasRightIcon && (
+								<Icon name={`ph:${child.iconRight}`} />
+							)}
+						</Button>
+					)
+				default:
+					return JSON.stringify(child)
+			}
+		}
+	})
+}

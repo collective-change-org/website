@@ -12,11 +12,9 @@ const navlinks = await getCollection("header").then((collection) => {
 ---
 
 <header
-	class="absolute z-10 flex w-full flex-col items-center justify-between px-4 py-3 text-white mix-blend-difference sm:flex-row"
+	class="absolute z-10 flex w-full flex-col items-center justify-between px-4 py-3 mix-blend-difference sm:flex-row"
 >
-	<a href="/" class="text-white"
-		><Logo class="mix-blend-difference" height={80} width={190} /></a
-	>
+	<a href="/"><Logo class="text-white" height={80} width={190} /></a>
 	<div class="inline-flex pb-6 uppercase">
 		{
 			navlinks.map((link) => (

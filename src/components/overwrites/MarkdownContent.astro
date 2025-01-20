@@ -7,6 +7,9 @@ import Login from "../Login.astro"
 import Signup from "../SignUp/SignUp.astro"
 import type { LayoutUnion } from "../../content/loaders/payload/pages/schema"
 import ManifestBlock from "../ManifestBlock.astro"
+import HeroHome from "../HeroHome.astro"
+import LayoutRenderer from "../LayoutRenderer.astro"
+import { cn } from "../../lib/cn"
 
 const page = Astro.props.entry.data
 
@@ -27,65 +30,22 @@ if (page.template === "splash") {
 		) : page.template === "splash" ? (
 			page.layout.map((layoutElement) => {
 				switch (layoutElement.blockType) {
-					case "content":
+					case "containerBlock":
 						return (
-							<div class="flex">
-								{layoutElement.columns.map((colunm) => (
-									<div
-										class={
-											colunm.size === "full"
-												? "basis-full"
-												: colunm.size === "half"
-													? "basis-1/2"
-													: colunm.size === "oneThird"
-														? "basis-1/3"
-														: "basis-full"
-										}>
-										{colunm.richText && (
-											<LexicalRenderer
-												children={
-													colunm.richText?.root
-														.children
-												}
-											/>
-										)}
-									</div>
-								))}
-							</div>
-						)
-					case "heroBlock":
-						return (
-							<div class="[&>h1]:typestyle-hero-h1 [&>p]:typestyle-hero-p flex flex-col items-center justify-center gap-4 pt-[20svh] [&>h1]:text-green-lighter">
-								<LexicalRenderer
-									children={
-										layoutElement.richText.root.children
-									}
+							<div
+								class={cn(
+									"full-bleed default-layout gap-4 py-32",
+									layoutElement.color === "green" &&
+										"bg-green-dark",
+									layoutElement.color === "white_1" &&
+										"bg-white bg-[url('/login_bg.png')]",
+									layoutElement.color === "white_2" &&
+										"bg-white bg-[url('/signup_bg.png')]",
+								)}>
+								<LayoutRenderer
+									children={layoutElement.layout}
 								/>
 							</div>
-						)
-					case "loginBlock":
-						return (
-							<Login>
-								<LexicalRenderer
-									children={
-										layoutElement.richText.root.children
-									}
-								/>
-							</Login>
-						)
-					case "signupBlock":
-						return (
-							<Signup>
-								<LexicalRenderer
-									children={
-										layoutElement.richText.root.children
-									}
-								/>
-							</Signup>
-						)
-					case "manifestBlock":
-						return (
-							<ManifestBlock sections={layoutElement.sections} />
 						)
 					default:
 						return JSON.stringify(layoutElement)

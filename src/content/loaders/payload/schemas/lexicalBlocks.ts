@@ -55,24 +55,6 @@ const internalLink = z.object({
 	}),
 })
 
-const buttonBlock = z.object({
-	blockType: z.literal("buttonBlock"),
-	hasRightIcon: z.boolean(),
-	hasLeftIcon: z.boolean(),
-	iconLeft: z.string().optional(),
-	iconRight: z.string().optional(),
-	variant: z.union([
-		z.literal("green"),
-		z.literal("orange"),
-		z.literal("black"),
-	]),
-	size: z.union([
-		z.literal("small"),
-		z.literal("large"),
-	]),
-	link: z.any(),
-})
-
 // const linkCardBlock = z.object({
 // 	type: z.literal("linkCardBlock"),
 // 	title: z.string(),
@@ -84,5 +66,5 @@ const linkCardBlock = z.any()
 export const lexicalBlock = z.object({
 	version: z.number(),
 	type: z.literal("block"),
-	fields: z.union([blockBanner, blockBadge, blockCode, blockSteps, buttonBlock, linkCardBlock]),
+	fields: z.union([blockBanner, blockBadge, blockCode, blockSteps, linkCardBlock]),
 })

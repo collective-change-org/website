@@ -23,6 +23,7 @@ export default {
 			},
 			yellow: {
 				neon: '#F1FF86',
+				300: '#E3FF0C'
 			},
 			pink: {
 				light: '#FCCDFF',
