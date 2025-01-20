@@ -3,12 +3,15 @@ import { Icon } from "astro-icon/components"
 import type { ContainerLayouts } from "../content/loaders/payload/pages/schema"
 import Button, { button } from "./Button.astro"
 import LexicalRenderer from "./LexicalRenderer.astro"
+import ManifestBlock from "./ManifestBlock.astro"
+import { cn } from "../lib/cn"
 
 export interface Props {
 	children: ContainerLayouts[]
+	slug: string
 }
 
-const { children } = Astro.props
+const { children, slug } = Astro.props
 ---
 
 {
@@ -17,7 +20,12 @@ const { children } = Astro.props
 			switch (child.blockType) {
 				case "h1Block":
 					return (
-						<h1 class="typestyle-hero-h1 text-yellow-300">
+						<h1
+							class={cn(
+								slug === "/"
+									? "text-yellow-300 typestyle-hero-h1"
+									: "typestyle-h1 text-off-white",
+							)}>
 							{child.title}
 						</h1>
 					)
@@ -38,7 +46,7 @@ const { children } = Astro.props
 				case "indentedContainer":
 					return (
 						<div class="flex flex-col items-start gap-4 lg:ml-[25%]">
-							<Astro.self children={child.layout} />
+							<Astro.self children={child.layout} slug={slug} />
 						</div>
 					)
 				case "buttonBlock":
@@ -76,7 +84,10 @@ const { children } = Astro.props
 							{child.columns.map((column) => {
 								return (
 									<div class="lg:base-1/2 flex w-full flex-col items-start justify-center gap-4">
-										<Astro.self children={column.layout} />
+										<Astro.self
+											children={column.layout}
+											slug={slug}
+										/>
 									</div>
 								)
 							})}
@@ -90,6 +101,8 @@ const { children } = Astro.props
 							/>
 						</div>
 					)
+				case "manifestBlock":
+					return <ManifestBlock sections={child.sections} />
 				default:
 					return JSON.stringify(child)
 			}

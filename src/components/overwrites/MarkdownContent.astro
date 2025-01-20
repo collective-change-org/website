@@ -48,6 +48,7 @@ if (page.template === "splash") {
 										"bg-white bg-[url('/signup_bg.png')]",
 								)}>
 								<LayoutRenderer
+									slug={Astro.props.slug}
 									children={layoutElement.layout}
 								/>
 							</div>

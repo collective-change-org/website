@@ -51,6 +51,16 @@ query pages {
           blockType
           color
           layout {
+		  ... on ManifestBlock {
+              blockType
+              sections {
+                subtitle
+                listItem {
+                  title
+                  description
+                }
+              }
+            }
             ... on H1Block {
               blockType
               title

@@ -28,6 +28,9 @@
 	.typestyle-hero-h1 {
 		@apply font-poppins text-[6rem] font-black leading-none lg:text-[9.5rem];
 	}
+	.typestyle-h1 {
+		@apply font-poppins text-[5rem] font-black leading-none lg:text-[7rem];
+	}
 	.typestyle-hero-p {
 		@apply font-sans text-2xl font-semibold leading-[1.35] lg:text-4xl lg:leading-[1.25];
 	}

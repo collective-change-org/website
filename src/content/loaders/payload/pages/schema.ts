@@ -41,7 +41,18 @@ const largeRichTextBlock = z.object({
 	richText: lexicalRootContainer,
 })
 
-const baseContainerLayouts = z.discriminatedUnion("blockType", [h1Block, h2Block, emphasizedParagraphBlock, buttonBlock, largeRichTextBlock])
+const manifestBlock = z.object({
+	blockType: z.literal("manifestBlock"),
+	sections: z.array(z.object({
+		subtitle: z.string(),
+		listItem: z.array(z.object({
+			title: z.string(),
+			description: z.string(),
+		})),
+	})),
+})
+
+const baseContainerLayouts = z.discriminatedUnion("blockType", [h1Block, h2Block, emphasizedParagraphBlock, buttonBlock, largeRichTextBlock, manifestBlock])
 export type BaseContainerLayouts = z.infer<typeof baseContainerLayouts>
 
 const indentedContainer = z.object({
