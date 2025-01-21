@@ -26,25 +26,33 @@
 	}
 
 	.typestyle-hero-h1 {
-		@apply font-poppins text-[6rem] font-black leading-none lg:text-[9.5rem];
+		@apply hyphens-auto text-balance font-poppins text-[6rem] font-black leading-none lg:text-[9.5rem];
 	}
 	.typestyle-h1 {
-		@apply font-poppins text-[5rem] font-black leading-none lg:text-[7rem];
+		@apply hyphens-auto text-balance font-poppins text-[5rem] font-black leading-none lg:text-[7rem];
 	}
 	.typestyle-hero-p {
-		@apply font-sans text-2xl font-semibold leading-[1.35] lg:text-4xl lg:leading-[1.25];
+		@apply hyphens-auto text-balance font-sans text-2xl font-semibold leading-[1.35] lg:text-4xl lg:leading-[1.25];
 	}
 
 	.typestyle-h2 {
-		@apply font-poppins text-[6.25rem] font-black uppercase leading-none lg:text-[6.26rem] lg:leading-[1.25];
+		@apply hyphens-auto text-balance font-poppins text-[6.25rem] font-black uppercase leading-none lg:text-[6.26rem] lg:leading-[1.25];
+	}
+
+	.typestyle-h3 {
+		@apply hyphens-auto text-balance font-poppins text-[3rem] font-black leading-none lg:text-[3.5rem] lg:leading-[1.25];
 	}
 
 	.typestyle-h4 {
-		@apply font-poppins text-[2.5rem] font-black uppercase leading-none lg:text-5xl lg:leading-[1.2];
+		@apply hyphens-auto text-balance font-poppins text-[2rem] font-bold leading-none lg:text-[2.625rem] lg:leading-[1.2];
+	}
+
+	.typestyle-h5 {
+		@apply hyphens-auto text-balance font-poppins text-[1.5rem] font-bold leading-none lg:text-[2rem] lg:leading-[1.2];
 	}
 
 	.typestyle-text-l {
-		@apply font-sans text-2xl leading-[1.5];
+		@apply hyphens-auto text-balance font-sans text-2xl leading-[1.5];
 	}
 }
 

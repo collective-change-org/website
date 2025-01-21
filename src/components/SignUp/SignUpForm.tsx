@@ -11,6 +11,7 @@ import { button } from "../Button.astro"
 import { actions } from "astro:actions"
 import { TextInput } from "../TextInput"
 import { navigate } from "astro:transitions/client"
+import { createSignal } from "solid-js"
 
 export type SignUpFormType = {
 	name: string
@@ -34,6 +35,8 @@ export default function SignUpForm() {
 		}
 		console.log(data, error)
 	}
+
+	const [success, setSuccess] = createSignal(false)
 
 	return (
 		<div class="flex w-full flex-col gap-8 text-green-black">

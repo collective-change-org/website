@@ -25,6 +25,12 @@ export default defineConfig({
 
     integrations: [starlight({
         title: 'Collective Change',
+        locales: {
+            root: {
+                label: 'English',
+                lang: 'de',
+            },
+        },
         social: {
             github: 'https://github.com/withastro/starlight',
         },
