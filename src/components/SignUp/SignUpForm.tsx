@@ -2,12 +2,14 @@ import { ConfettiExplosion } from "solid-confetti-explosion"
 import {
 	createForm,
 	FormError,
+	minLength,
 	required,
 	type SubmitHandler,
 } from "@modular-forms/solid"
 import { createSignal, Match, Show, Switch } from "solid-js"
 import { button } from "../Button.astro"
 import { actions } from "astro:actions"
+import { TextInput } from "../TextInput"
 
 export type NewsletterFormType = {
 	name?: string
@@ -61,14 +63,14 @@ export default function SignUpForm() {
 	>(undefined)
 
 	return (
-		<div class="w-full">
+		<div class="flex w-full flex-col gap-8 text-green-black">
 			<Show when={success()}>
 				<ConfettiExplosion />
 				<Switch>
-					<Match when={success() === "newsletter"}>
+					<Match when={success() === "newsletter"} keyed>
 						<p>Subscribed to Newsletter</p>
 					</Match>
-					<Match when={success() === "signup"}>
+					<Match when={success() === "signup"} keyed>
 						<p>Subscribed to Crew</p>
 					</Match>
 				</Switch>
@@ -106,23 +108,19 @@ export default function SignUpForm() {
 					</div>
 				</fieldset>
 				<Switch>
-					<Match when={formType() === "newsletter"}>
+					<Match when={formType() === "newsletter"} keyed>
 						<Newsletter.Form
-							class="flex flex-col items-start gap-2"
+							class="flex flex-col items-start gap-5"
 							onSubmit={handleNewsletterSubmit}>
 							<Newsletter.Field name="name">
 								{(field, props) => (
-									<>
-										<label for="name">Name</label>
-										<input
-											{...props}
-											type="name"
-											class={input}
-										/>
-										{field.error && (
-											<div>{field.error}</div>
-										)}
-									</>
+									<TextInput
+										{...props}
+										value={field.value}
+										error={field.error}
+										type="text"
+										label="Name"
+									/>
 								)}
 							</Newsletter.Field>
 							<Newsletter.Field
@@ -131,17 +129,14 @@ export default function SignUpForm() {
 									required("Du musst eine E-Mail angeben"),
 								]}>
 								{(field, props) => (
-									<>
-										<label for="email">E-Mail</label>
-										<input
-											{...props}
-											type="email"
-											class={input}
-										/>
-										{field.error && (
-											<div>{field.error}</div>
-										)}
-									</>
+									<TextInput
+										{...props}
+										value={field.value}
+										error={field.error}
+										type="email"
+										label="E-Mail"
+										required
+									/>
 								)}
 							</Newsletter.Field>
 							<button
@@ -154,64 +149,8 @@ export default function SignUpForm() {
 							</button>
 						</Newsletter.Form>
 					</Match>
-					<Match when={formType() === "signup"}>
+					<Match when={formType() === "signup"} keyed>
 						<p>Noch nicht verfügbar</p>
-						{/* <SignUp.Form
-							class="flex flex-col items-start gap-2"
-							onSubmit={handleSignUpSubmit}>
-							<SignUp.Field name="name">
-								{(field, props) => (
-									<>
-										<label for="name">Name</label>
-										<input
-											{...props}
-											type="text"
-											class={input}
-										/>
-									</>
-								)}
-							</SignUp.Field>
-							<SignUp.Field
-								name="email"
-								validate={[
-									required("Du musst eine E-Mail angeben"),
-								]}>
-								{(field, props) => (
-									<>
-										<label for="email">E-Mail</label>
-										<input
-											{...props}
-											type="email"
-											class={input}
-										/>
-									</>
-								)}
-							</SignUp.Field>
-							<SignUp.Field
-								name="password"
-								validate={[
-									required("Du musst ein Passwort angeben"),
-								]}>
-								{(field, props) => (
-									<>
-										<label for="password">Passwort</label>
-										<input
-											{...props}
-											type="password"
-											class={input}
-										/>
-									</>
-								)}
-							</SignUp.Field>
-							<button
-								type="submit"
-								class={button({
-									intent: "green",
-									size: "small",
-								})}>
-								Join the crew
-							</button>
-						</SignUp.Form> */}
 					</Match>
 				</Switch>
 			</Show>
