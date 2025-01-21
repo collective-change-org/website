@@ -31,11 +31,12 @@ export default function SignUpForm() {
 		console.log(data, error)
 	}
 
-	const urlParams = new URLSearchParams(window.location.search)
-	const token = urlParams.get("token")
 	const [accountVerified, setAccountVerified] = createSignal(false)
 
 	onMount(async () => {
+		if (!window) return
+		const urlParams = new URLSearchParams(window.location.search)
+		const token = urlParams.get("token")
 		if (!token) return
 		const { data, error } = await actions.verifyAccount({ token })
 		if (!error) {
