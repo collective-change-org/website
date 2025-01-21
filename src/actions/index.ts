@@ -5,7 +5,6 @@ import { CMS_URL, LISTMONK_API_KEY, LISTMONK_API_LIST, LISTMONK_API_URL, LISTMON
 const cmsUrl = new URL(CMS_URL)
 export const server = {
 	login: defineAction({
-		accept: "form",
 		input: z.object({
 			email: z.string().email(),
 			password: z.string(),
@@ -162,6 +161,27 @@ export const server = {
 			const data = await res.json()
 			console.log(data, res.ok, res.status)
 			if (res.status !== 201) {
+				throw new ActionError({
+					code: "BAD_REQUEST",
+					message: data.message,
+				})
+			}
+			return data
+		},
+	}),
+	verifyAccount: defineAction({
+		input: z.object({
+			token: z.string(),
+		}),
+		handler: async ({ token }) => {
+			const res = await fetch(`${cmsUrl.origin}/api/users/verify/${token}`, {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+			})
+			const data = await res.json()
+			if (res.status !== 200) {
 				throw new ActionError({
 					code: "BAD_REQUEST",
 					message: data.message,
