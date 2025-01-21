@@ -55,7 +55,10 @@ const { children, slug } = Astro.props
 					let url
 					if (child.link.type === "reference") {
 						if (child.link.reference.relationTo === "pages") {
-							url = child.link.reference.value.slug
+							url =
+								child.link.reference.value.slug === "home"
+									? "/"
+									: child.link.reference.value.slug
 						} else if (
 							child.link.reference.relationTo === "knowledgebase"
 						) {
@@ -97,7 +100,8 @@ const { children, slug } = Astro.props
 					)
 				case "largeRichTextBlock":
 					return (
-						<div class="[&>p]:typestyle-text-l flex flex-col items-start gap-4 group-data-[color=green]:text-off-white group-data-[color=white]:text-green-black">
+						<div class="[&>p]:typestyle-text-l mt-16 flex flex-col items-start gap-4 group-data-[color=green]:text-off-white group-data-[color=white]:text-green-black">
+							<h4 class="typestyle-h4">{child.title}</h4>
 							<LexicalRenderer
 								children={child.richText.root.children}
 							/>

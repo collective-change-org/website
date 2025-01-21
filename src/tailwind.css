@@ -39,6 +39,10 @@
 		@apply font-poppins text-[6.25rem] font-black uppercase leading-none lg:text-[6.26rem] lg:leading-[1.25];
 	}
 
+	.typestyle-h4 {
+		@apply font-poppins text-[2.5rem] font-black uppercase leading-none lg:text-5xl lg:leading-[1.2];
+	}
+
 	.typestyle-text-l {
 		@apply font-sans text-2xl leading-[1.5];
 	}
