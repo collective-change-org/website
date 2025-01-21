@@ -30,6 +30,9 @@ export default {
 			}
 		},
 		extend: {
+			backgroundSize: {
+				full: '100% 100%',
+			},
 			colors: {
 				// Your preferred accent color. Indigo is closest to Starlight’s defaults.
 				accent: colors.indigo,
