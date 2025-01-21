@@ -63,11 +63,13 @@ export const TextInput: VoidComponent<TextInputProps> = (props) => {
 				)}
 			/>
 			<Switch>
-				<Match when={props.helpText}>
-					<p id={`${props.name}-help`}>{props.helpText}</p>
-				</Match>
 				<Match when={props.error}>
 					<p class="text-sm text-orange-dark">{props.error}</p>
+				</Match>
+				<Match when={props.helpText}>
+					<p id={`${props.name}-help`} class="text-sm">
+						{props.helpText}
+					</p>
 				</Match>
 			</Switch>
 		</div>

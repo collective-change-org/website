@@ -1,159 +1,129 @@
-import { ConfettiExplosion } from "solid-confetti-explosion"
 import {
 	createForm,
-	FormError,
+	custom,
+	email,
+	getValue,
 	minLength,
 	required,
 	type SubmitHandler,
 } from "@modular-forms/solid"
-import { createSignal, Match, Show, Switch } from "solid-js"
 import { button } from "../Button.astro"
 import { actions } from "astro:actions"
 import { TextInput } from "../TextInput"
-
-export type NewsletterFormType = {
-	name?: string
-	email: string
-}
+import { navigate } from "astro:transitions/client"
 
 export type SignUpFormType = {
 	name: string
 	email: string
 	password: string
+	verifyPassword: string
 }
 
 export default function SignUpForm() {
-	const [, SignUp] = createForm<SignUpFormType>()
-	const [, Newsletter] = createForm<NewsletterFormType>()
-
-	const [formType, setFormType] = createSignal<"newsletter" | "signup">(
-		"newsletter",
-	)
-
-	const input =
-		"rounded-full border-2 border-black/30 bg-white px-4 py-1 text-black focus:border-green-dark focus:outline-none"
+	const [signUpForm, { Form, Field, FieldArray }] =
+		createForm<SignUpFormType>()
 
 	const handleSignUpSubmit: SubmitHandler<SignUpFormType> = async (
 		values,
 		event,
 	) => {
-		const { data, error } = await actions.subscribe(values)
-		if (!error) {
-			setSuccess("signup")
-		}
-	}
+		const { data, error } = await actions.signup(values)
 
-	const handleNewsletterSubmit: SubmitHandler<NewsletterFormType> = async (
-		values,
-		event,
-	) => {
-		const { data, error } = await actions.subscribe(values)
 		if (!error) {
-			setSuccess("newsletter")
+			// Email and Password to formdata
 		}
-		if (error) {
-			throw new FormError<NewsletterFormType>("An error has occurred.", {
-				email: error.message,
-			})
-		}
+		console.log(data, error)
 	}
-
-	const [success, setSuccess] = createSignal<
-		"newsletter" | "signup" | undefined
-	>(undefined)
 
 	return (
 		<div class="flex w-full flex-col gap-8 text-green-black">
-			<Show when={success()}>
-				<ConfettiExplosion />
-				<Switch>
-					<Match when={success() === "newsletter"} keyed>
-						<p>Subscribed to Newsletter</p>
-					</Match>
-					<Match when={success() === "signup"} keyed>
-						<p>Subscribed to Crew</p>
-					</Match>
-				</Switch>
-			</Show>
-			<Show when={!success()}>
-				<fieldset class="m-0 w-full p-0">
-					<legend>Art der Mitgliedschaft:</legend>
-
-					<div>
-						<input
-							type="radio"
-							id="newsletter"
-							name="signup"
-							value="newsletter"
-							checked={formType() === "newsletter"}
-							onInput={() => setFormType("newsletter")}
+			<Form
+				onSubmit={handleSignUpSubmit}
+				class="flex flex-col items-start gap-4">
+				<Field
+					name="name"
+					validate={[required("Du musst einen Namen angeben")]}>
+					{(field, props) => (
+						<TextInput
+							{...props}
+							value={field.value}
+							error={field.error}
+							type="text"
+							label="Name"
+							required
 						/>
-						<label for="newsletter" class="font-bold">
-							Ich möchte nur den Newsletter abbonieren
-						</label>
-					</div>
-
-					<div>
-						<input
-							type="radio"
-							id="crew"
-							name="signup"
-							value="crew"
-							checked={formType() === "signup"}
-							onInput={() => setFormType("signup")}
+					)}
+				</Field>
+				<Field
+					name="email"
+					validate={[
+						required("Du musst eine E-Mail angeben."),
+						email(
+							"Der eingegebene Text scheint keine E-Mail zu sein.",
+						),
+					]}>
+					{(field, props) => (
+						<TextInput
+							{...props}
+							value={field.value}
+							error={field.error}
+							type="email"
+							label="E-Mail"
+							required
 						/>
-						<label for="crew" class="font-bold">
-							Ich möchte Teil der Crew werden
-						</label>
-					</div>
-				</fieldset>
-				<Switch>
-					<Match when={formType() === "newsletter"} keyed>
-						<Newsletter.Form
-							class="flex flex-col items-start gap-5"
-							onSubmit={handleNewsletterSubmit}>
-							<Newsletter.Field name="name">
-								{(field, props) => (
-									<TextInput
-										{...props}
-										value={field.value}
-										error={field.error}
-										type="text"
-										label="Name"
-									/>
-								)}
-							</Newsletter.Field>
-							<Newsletter.Field
-								name="email"
-								validate={[
-									required("Du musst eine E-Mail angeben"),
-								]}>
-								{(field, props) => (
-									<TextInput
-										{...props}
-										value={field.value}
-										error={field.error}
-										type="email"
-										label="E-Mail"
-										required
-									/>
-								)}
-							</Newsletter.Field>
-							<button
-								type="submit"
-								class={button({
-									intent: "green",
-									size: "small",
-								})}>
-								Newsletter Abonnieren
-							</button>
-						</Newsletter.Form>
-					</Match>
-					<Match when={formType() === "signup"} keyed>
-						<p>Noch nicht verfügbar</p>
-					</Match>
-				</Switch>
-			</Show>
+					)}
+				</Field>
+				<Field
+					name="password"
+					validate={[
+						required("Du musst ein Passwort angeben"),
+						minLength(
+							8,
+							"Das Passwort muss mindestens 8 Zeichen lang sein",
+						),
+					]}>
+					{(field, props) => (
+						<TextInput
+							{...props}
+							value={field.value}
+							error={field.error}
+							type="password"
+							label="Passwort"
+							helpText="Das Passwort muss mindestens 8 Zeichen lang sein"
+							required
+						/>
+					)}
+				</Field>
+				<Field
+					name="verifyPassword"
+					validate={[
+						required("Du musst das Passwort wiederholen"),
+						custom((value) => {
+							// Get values of a field array
+							const password = getValue(signUpForm, "password")
+							return password === value
+						}, "Die Passwörter stimmen nicht überein."),
+					]}>
+					{(field, props) => (
+						<TextInput
+							{...props}
+							value={field.value}
+							error={field.error}
+							type="password"
+							label="Passwort wiederholen"
+							required
+						/>
+					)}
+				</Field>
+				<button
+					type="submit"
+					class={button({
+						intent: "green",
+						size: "small",
+					})}>
+					Teil der crew werden
+				</button>
+			</Form>
 		</div>
 	)
 }

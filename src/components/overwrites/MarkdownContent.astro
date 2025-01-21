@@ -41,7 +41,7 @@ if (page.template === "splash") {
 								class={cn(
 									"full-bleed default-layout group gap-4 py-32",
 									i === 0 && "y-offset-hack",
-									page.layout.length === 1 && "h-screen",
+									page.layout.length === 1 && "min-h-screen",
 									layoutElement.color === "green" &&
 										"bg-green-dark",
 									layoutElement.color === "white_1" &&

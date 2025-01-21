@@ -29,7 +29,6 @@ export const server = {
 				})
 			})
 			if (res.status !== 200) {
-				console.error("Wrong status")
 				throw new ActionError({
 					code: "UNAUTHORIZED",
 					message: "Invalid email or password",
@@ -139,6 +138,36 @@ export const server = {
 				});
 			}
 			return res.json()
+		},
+	}),
+	signup: defineAction({
+		input: z.object({
+			name: z.string(),
+			email: z.string().email(),
+			password: z.string(),
+		}),
+		handler: async ({ name, email, password }) => {
+			const res = await fetch(`${cmsUrl.origin}/api/users`, {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					name,
+					email,
+					password,
+					role: "crew"
+				}),
+			})
+			const data = await res.json()
+			console.log(data, res.ok, res.status)
+			if (res.status !== 201) {
+				throw new ActionError({
+					code: "BAD_REQUEST",
+					message: data.message,
+				})
+			}
+			return data
 		},
 	}),
 }

@@ -2,7 +2,7 @@
 import { Icon } from "astro-icon/components"
 import Background from "../assets/login_bg.png"
 import Button from "./Button.astro"
-import { Input } from "./TextInput"
+import { TextInput } from "./TextInput"
 ---
 
 <script>
@@ -28,8 +28,8 @@ import { Input } from "./TextInput"
 
 <div class="z-10 flex w-full basis-1/2 items-center justify-center">
 	<form class="flex flex-col items-start gap-4">
-		<Input label="E-Mail" name="email" type="email" id="email" />
-		<Input label="Passwort" name="password" type="password" id="password" />
+		<TextInput label="E-Mail" name="email" type="email" />
+		<TextInput label="Passwort" name="password" type="password" />
 		<Button type="submit" intent="green" size="small">
 			Anmelden
 			<Icon name="ph:sign-in" />
