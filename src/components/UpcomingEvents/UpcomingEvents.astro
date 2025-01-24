@@ -1,0 +1,40 @@
+---
+const props = Astro.props
+---
+
+<script>
+	import { scroll, animate } from "motion"
+
+	const el = document.querySelector("div#upcoming") as HTMLElement
+	const width = el.offsetWidth
+	if (el) {
+		const animation = animate(
+			"div#upcoming",
+			{
+				transform: [`translateX(-50%)`, `translateX(0)`],
+			},
+			{ ease: "easeOut", repeat: Infinity, duration: 4 },
+		)
+		scroll(animation)
+	}
+</script>
+
+<div class="contents">
+	<div class="!col-start-1 !col-end-4 overflow-clip">
+		<div class="inline-flex w-[200vw] gap-8" id="upcoming">
+			<h1 class="typestyle-h3 min-w-fit text-black">
+				{props.title}
+			</h1>
+			<h1 class="typestyle-h3 min-w-fit text-black">
+				{props.title}
+			</h1>
+			<h1 class="typestyle-h3 min-w-fit text-black">
+				{props.title}
+			</h1>
+			<h1 class="typestyle-h3 min-w-fit text-black">
+				{props.title}
+			</h1>
+		</div>
+	</div>
+	<div>lol</div>
+</div>

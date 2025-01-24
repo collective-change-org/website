@@ -28,10 +28,7 @@ const buttonBlock = z.object({
 		z.literal("orange"),
 		z.literal("black"),
 	]),
-	size: z.union([
-		z.literal("small"),
-		z.literal("large"),
-	]),
+	size: z.union([z.literal("small"), z.literal("large")]),
 	link: z.any(),
 })
 
@@ -43,13 +40,17 @@ const largeRichTextBlock = z.object({
 
 const manifestBlock = z.object({
 	blockType: z.literal("manifestBlock"),
-	sections: z.array(z.object({
-		subtitle: z.string(),
-		listItem: z.array(z.object({
-			title: z.string(),
-			description: z.string(),
-		})),
-	})),
+	sections: z.array(
+		z.object({
+			subtitle: z.string(),
+			listItem: z.array(
+				z.object({
+					title: z.string(),
+					description: z.string(),
+				}),
+			),
+		}),
+	),
 })
 
 const loginBlock = z.object({
@@ -59,7 +60,22 @@ const signUpBlock = z.object({
 	blockType: z.literal("signupBlock"),
 })
 
-const baseContainerLayouts = z.discriminatedUnion("blockType", [h1Block, h2Block, emphasizedParagraphBlock, buttonBlock, largeRichTextBlock, manifestBlock, loginBlock, signUpBlock])
+const upcomingEventsBlock = z.object({
+	blockType: z.literal("upcomingEvents"),
+	title: z.string(),
+})
+
+const baseContainerLayouts = z.discriminatedUnion("blockType", [
+	h1Block,
+	h2Block,
+	emphasizedParagraphBlock,
+	buttonBlock,
+	largeRichTextBlock,
+	manifestBlock,
+	loginBlock,
+	signUpBlock,
+	upcomingEventsBlock,
+])
 export type BaseContainerLayouts = z.infer<typeof baseContainerLayouts>
 
 const indentedContainer = z.object({
@@ -69,14 +85,19 @@ const indentedContainer = z.object({
 
 const columnContainerBlock = z.object({
 	blockType: z.literal("columnContainerBlock"),
-	columns: z.array(z.object({
-		layout: z.array(baseContainerLayouts),
-	})),
+	columns: z.array(
+		z.object({
+			layout: z.array(baseContainerLayouts),
+		}),
+	),
 })
 
-const containerLayouts = z.union([baseContainerLayouts, indentedContainer, columnContainerBlock])
+const containerLayouts = z.union([
+	baseContainerLayouts,
+	indentedContainer,
+	columnContainerBlock,
+])
 export type ContainerLayouts = z.infer<typeof containerLayouts>
-
 
 const containerBlock = z.object({
 	blockType: z.literal("containerBlock"),

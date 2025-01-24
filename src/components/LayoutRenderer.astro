@@ -7,6 +7,7 @@ import ManifestBlock from "./ManifestBlock.astro"
 import { cn } from "../lib/cn"
 import Login from "./Login.tsx"
 import SignUp from "./SignUp/SignUp.astro"
+import UpcomingEvents from "./UpcomingEvents/UpcomingEvents.astro"
 
 export interface Props {
 	children: ContainerLayouts[]
@@ -113,8 +114,14 @@ const { children, slug } = Astro.props
 					return <Login client:load />
 				case "signupBlock":
 					return <SignUp />
+				case "upcomingEvents":
+					return <UpcomingEvents {...child} />
 				default:
-					return JSON.stringify(child)
+					return (
+						<p class="text-white mix-blend-difference">
+							{JSON.stringify(child)}
+						</p>
+					)
 			}
 		}
 	})

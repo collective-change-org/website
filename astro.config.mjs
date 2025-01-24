@@ -9,6 +9,8 @@ import node from "@astrojs/node";
 
 import icon from "astro-icon";
 
+import react from '@astrojs/react';
+
 // https://astro.build/config
 export default defineConfig({
     env: {
@@ -16,10 +18,6 @@ export default defineConfig({
             PAYLOAD_EMAIL: envField.string({ context: "server", access: "secret" }),
             PAYLOAD_PASSWORD: envField.string({ context: "server", access: "secret" }),
             CMS_URL: envField.string({ context: "server", access: "public" }),
-            LISTMONK_API_URL: envField.string({ context: "server", access: "public" }),
-            LISTMONK_API_USER: envField.string({ context: "server", access: "secret" }),
-            LISTMONK_API_KEY: envField.string({ context: "server", access: "secret" }),
-            LISTMONK_API_LIST: envField.string({ context: "server", access: "public" }),
         },
     },
 
