@@ -1,6 +1,17 @@
 import { ActionError, defineAction } from "astro:actions"
 import { z } from "astro:schema"
-import { CMS_URL, LISTMONK_API_KEY, LISTMONK_API_LIST, LISTMONK_API_URL, LISTMONK_API_USER } from "astro:env/server"
+import { CMS_URL } from "astro:env/server"
+import type { Event } from "../content/loaders/payload/pages/getEvents"
+
+export type User = {
+	id: number
+	name: string
+	email: string
+	loginAttempts: number
+	profileImage: {
+		url: string
+	} | null
+}
 
 const cmsUrl = new URL(CMS_URL)
 export const server = {
@@ -83,14 +94,7 @@ export const server = {
 			})
 
 			const body = (await res.json()) as {
-				user:
-				| undefined
-				| {
-					id: number
-					name: string
-					email: string
-					loginAttempts: number
-				}
+				user: User | undefined
 				message: "Account"
 			}
 
@@ -111,34 +115,6 @@ export const server = {
 			})
 		},
 	}),
-	subscribe: defineAction({
-		input: z.object({
-			name: z.string().optional(),
-			email: z.string().email(),
-		}),
-		handler: async ({ name, email }) => {
-			const apiURL = new URL(LISTMONK_API_URL)
-			const res = await fetch(`${apiURL.origin}/api/subscribers`, {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-					Authorization: `token ${LISTMONK_API_USER}:${LISTMONK_API_KEY}`,
-				},
-				body: JSON.stringify({
-					email: email,
-					name: name,
-					list_uuids: [LISTMONK_API_LIST],
-				}),
-			})
-			if (res.status !== 200) {
-				throw new ActionError({
-					code: "BAD_REQUEST",
-					message: await res.json().then((data) => data.message),
-				});
-			}
-			return res.json()
-		},
-	}),
 	signup: defineAction({
 		input: z.object({
 			name: z.string(),
@@ -155,7 +131,7 @@ export const server = {
 					name,
 					email,
 					password,
-					role: "crew"
+					role: "crew",
 				}),
 			})
 			const data = await res.json()
@@ -174,8 +150,32 @@ export const server = {
 			token: z.string(),
 		}),
 		handler: async ({ token }) => {
-			const res = await fetch(`${cmsUrl.origin}/api/users/verify/${token}`, {
-				method: "POST",
+			const res = await fetch(
+				`${cmsUrl.origin}/api/users/verify/${token}`,
+				{
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+				},
+			)
+			const data = await res.json()
+			if (res.status !== 200) {
+				throw new ActionError({
+					code: "BAD_REQUEST",
+					message: data.message,
+				})
+			}
+			return data
+		},
+	}),
+	getEventById: defineAction({
+		input: z.object({
+			id: z.string(),
+		}),
+		handler: async ({ id }) => {
+			const res = await fetch(`${cmsUrl.origin}/api/events/${id}`, {
+				method: "GET",
 				headers: {
 					"Content-Type": "application/json",
 				},
@@ -187,7 +187,7 @@ export const server = {
 					message: data.message,
 				})
 			}
-			return data
+			return data as Event
 		},
 	}),
 }

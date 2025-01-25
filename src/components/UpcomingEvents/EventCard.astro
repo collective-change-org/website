@@ -1,0 +1,36 @@
+---
+import type { Event } from "../../content/loaders/payload/pages/getEvents"
+import { EventMoreInfo } from "./EventMoreInfo"
+import { Participate } from "./Participate"
+export interface Props extends Event {}
+
+const props = Astro.props
+
+const date = new Date(props.date).toLocaleDateString("de-DE", {
+	month: "numeric",
+	day: "numeric",
+	year: "numeric",
+})
+---
+
+<div
+	class="relative flex flex-col gap-4 overflow-clip rounded-xl bg-white pt-5 text-green-black"
+>
+	<div class="flex w-full flex-col gap-4 px-5">
+		<div class="flex w-full flex-col">
+			<h3 class="typestyle-text-m">{date}</h3>
+			<h3 class="typestyle-h6">{props.title}</h3>
+		</div>
+		<div>
+			{
+				props.description ? (
+					<p>{props.description}</p>
+				) : (
+					<p>Für dieses Event gibt es keinen Beschribungstext</p>
+				)
+			}
+		</div>
+		<Participate {...props} client:load />
+	</div>
+	<EventMoreInfo {...props} client:load />
+</div>

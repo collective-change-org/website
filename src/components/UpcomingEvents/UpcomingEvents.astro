@@ -1,5 +1,11 @@
 ---
+import { getCollection } from "astro:content"
+import EventCard from "./EventCard.astro"
+
 const props = Astro.props
+
+const events = await getCollection("events")
+console.log(events)
 ---
 
 <script>
@@ -51,7 +57,9 @@ const props = Astro.props
 			</span>
 		</div>
 	</div>
-	<div>lol</div>
+	<div>
+		{events.map((event) => <EventCard {...event.data} />)}
+	</div>
 </div>
 
 <style>
