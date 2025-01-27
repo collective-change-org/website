@@ -1,7 +1,8 @@
 import { ActionError, defineAction } from "astro:actions"
 import { z } from "astro:schema"
-import { CMS_URL } from "astro:env/server"
-import type { Event } from "../content/loaders/payload/pages/getEvents"
+import { CMS_URL } from "astro:env/client"
+import { eventsQueryFields, type Event } from "../content/loaders/payload/pages/getEvents"
+import { authenticatePayload } from "../content/loaders/payload/authenticate"
 
 export type User = {
 	id: number
@@ -135,7 +136,6 @@ export const server = {
 				}),
 			})
 			const data = await res.json()
-			console.log(data, res.ok, res.status)
 			if (res.status !== 201) {
 				throw new ActionError({
 					code: "BAD_REQUEST",
@@ -174,20 +174,64 @@ export const server = {
 			id: z.string(),
 		}),
 		handler: async ({ id }) => {
-			const res = await fetch(`${cmsUrl.origin}/api/events/${id}`, {
-				method: "GET",
+			const bearerToken = await authenticatePayload()
+			const res = await fetch(`${cmsUrl.origin}/api/graphql`, {
+				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
+					Authorization: `Bearer ${bearerToken.result?.token}`,
 				},
+				body: JSON.stringify({
+					query: `{
+						Event(id: 1) {
+							${eventsQueryFields}
+						}
+					}`,
+				}),
 			})
 			const data = await res.json()
+			const event = data.data.Event as Event
+
 			if (res.status !== 200) {
 				throw new ActionError({
 					code: "BAD_REQUEST",
-					message: data.message,
+					message: res.statusText,
 				})
 			}
-			return data as Event
+
+			return {
+				...event,
+				attendees: event.attendees ? event.attendees.map((attendee) => ({
+					name: attendee.name,
+					id: attendee.id,
+					profileImage: attendee.profileImage,
+				})) : null,
+			} satisfies Event
+		},
+	}),
+	attendEvent: defineAction({
+		input: z.object({
+			id: z.number(),
+		}),
+		handler: async ({ id }, ctx) => {
+			const res = await fetch(`${cmsUrl.origin}/api/events/${id}/attend`, {
+				// const res = await fetch(`${cmsUrl.origin}/api/events/${id}`, {
+				method: "PUT",
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: ctx.cookies.get("payload-token")?.value
+						? `JWT ${ctx.cookies.get("payload-token")!.value}`
+						: "",
+				},
+			})
+			const data = await res
+			if (res.status !== 200) {
+				throw new ActionError({
+					code: "BAD_REQUEST",
+					message: data.statusText,
+				})
+			}
+			return data
 		},
 	}),
 }

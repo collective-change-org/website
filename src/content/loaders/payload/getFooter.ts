@@ -1,4 +1,4 @@
-import { CMS_URL } from "astro:env/server"
+import { CMS_URL } from "astro:env/client"
 import { authenticatePayload } from "./authenticate"
 import { defineCollection, z } from "astro:content"
 
@@ -8,17 +8,17 @@ type PayloadResponse = {
             navItems: Array<{
                 id: string
                 link: {
-                  label: string
-                  newTab: any
-                  url: any
-                  reference: {
-                    value: {
-                      slug: string
-                      slugWithGroup: string
+                    label: string
+                    newTab: any
+                    url: any
+                    reference: {
+                        value: {
+                            slug: string
+                            slugWithGroup: string
+                        }
                     }
-                  }
                 }
-              }>
+            }>
         }
     }
 }
@@ -72,7 +72,7 @@ export async function getFooter(): Promise<FooterSchema> {
     })
 
     const data = (await response.json()) as PayloadResponse
-    
+
     const elements = data.data.Footer.navItems.map((navItem) => {
         let href: string
         // check if internal link

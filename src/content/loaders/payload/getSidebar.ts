@@ -1,4 +1,4 @@
-import { CMS_URL } from "astro:env/server"
+import { CMS_URL } from "astro:env/client"
 import { authenticatePayload } from "./authenticate"
 import type { LexicalRootContainer } from "./schemas/lexical"
 import type { Badge } from "../../../schemas/badge"
@@ -29,12 +29,12 @@ export type PayloadPageResponseItem = {
 				slug: string
 				badgeText?: string
 				badgeVariant?:
-					| "note"
-					| "danger"
-					| "success"
-					| "caution"
-					| "tip"
-					| "default"
+				| "note"
+				| "danger"
+				| "success"
+				| "caution"
+				| "tip"
+				| "default"
 			}
 		}>
 	}
@@ -121,7 +121,6 @@ export async function getKnowledgebaseSidebar(): Promise<SidebarEntry[]> {
 		}),
 	})
 	const pageRes = (await pageResponse.json()) as PayloadPageResponse
-	console.log(pageRes)
 	const pages = pageRes.data.Knowledgebases.docs
 
 	const sidebar: SidebarEntry[] = []

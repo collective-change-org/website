@@ -1,7 +1,23 @@
-import type { Page } from "astro"
 import { defineCollection, z } from "astro:content"
-import { CMS_URL } from "astro:env/server"
+import { CMS_URL } from "astro:env/client"
 import { authenticatePayload } from "../authenticate"
+
+export const eventsQueryFields = `
+	id
+	title
+	description
+	date
+	time
+	location
+	image {
+		url
+	}
+	attendees {
+		name
+		id
+		profileImage {url}
+	}
+`
 
 async function loadEvents() {
 	const bearerToken = await authenticatePayload()
@@ -18,32 +34,17 @@ async function loadEvents() {
         query {
             Events {
                 docs {
-                    id 
-                    title
-                    description
-                    date
-                    time
-                    location
-                    image {
-                        url
-                    }
-                    attendees {
-                        name
-                        id
-                        profileImage {url}
-                    }
+                    ${eventsQueryFields}
                 }
             }
         }
         `,
-		headers: {
-			Authorization: `Bearer ${result.token}`,
-		},
 	})
 	const response = await fetch(`${cmsUrl.origin}/api/graphql`, {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
+			Authorization: `Bearer ${result.token}`,
 		},
 		body: query,
 	})
@@ -70,8 +71,8 @@ const eventSchema = z.object({
 	attendees: z
 		.array(
 			z.object({
+				id: z.number(),
 				name: z.string(),
-				id: z.string(),
 				profileImage: z
 					.object({
 						url: z.string(),

@@ -46,6 +46,28 @@ export default {
 				// Your preferred code font. Starlight uses system monospace fonts by default.
 				// mono: ['"IBM Plex Mono"'],
 			},
+			animation: {
+				expand: 'expand 250ms cubic-bezier(0.32,0.72,0,0.75)',
+				collapse: 'collapse 250ms cubic-bezier(0.32,0.72,0,0.75)',
+			},
+			keyframes: {
+				expand: {
+					'0%': {
+						height: '0px',
+					},
+					'100%': {
+						height: 'var(--corvu-disclosure-content-height)',
+					},
+				},
+				collapse: {
+					'0%': {
+						height: 'var(--corvu-disclosure-content-height)',
+					},
+					'100%': {
+						height: '0px',
+					},
+				},
+			},
 		},
 	},
 	plugins: [starlightPlugin(), animatePlugin, corvuPlugin],

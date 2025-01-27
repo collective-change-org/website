@@ -1,4 +1,5 @@
-import { CMS_URL, PAYLOAD_EMAIL, PAYLOAD_PASSWORD } from "astro:env/server"
+import { CMS_URL } from "astro:env/client"
+import { PAYLOAD_EMAIL, PAYLOAD_PASSWORD } from "astro:env/server"
 
 type AuthResult = {
 	message: string
@@ -52,7 +53,6 @@ export async function authenticatePayload(): Promise<{
 				throw new Error("No internet connection")
 			}
 			if (ping.ok) {
-				console.log("ping ok")
 				throw new Error("Ping OK, CMS connection failed")
 			}
 			// }
@@ -60,7 +60,6 @@ export async function authenticatePayload(): Promise<{
 			console.error(err)
 			throw new Error(JSON.stringify(err))
 		} else {
-			console.log("Unknown errorrrr")
 			throw new Error(
 				JSON.stringify({
 					url: `${cmsUrl.origin}/api/users/login`,

@@ -28,7 +28,6 @@ export default function SignUpForm() {
 			// Logged In
 			navigate("/")
 		}
-		console.log(data, error)
 	}
 
 	const [accountVerified, setAccountVerified] = createSignal(false)

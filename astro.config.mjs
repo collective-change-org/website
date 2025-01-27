@@ -17,7 +17,7 @@ export default defineConfig({
         schema: {
             PAYLOAD_EMAIL: envField.string({ context: "server", access: "secret" }),
             PAYLOAD_PASSWORD: envField.string({ context: "server", access: "secret" }),
-            CMS_URL: envField.string({ context: "server", access: "public" }),
+            CMS_URL: envField.string({ context: "client", access: "public" }),
         },
     },
 

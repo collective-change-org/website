@@ -5,7 +5,6 @@ import EventCard from "./EventCard.astro"
 const props = Astro.props
 
 const events = await getCollection("events")
-console.log(events)
 ---
 
 <script>
@@ -29,7 +28,7 @@ console.log(events)
 </script>
 
 <div class="contents">
-	<div class="!col-start-1 !col-end-4 overflow-clip">
+	<div class="!col-start-1 !col-end-4 overflow-x-clip">
 		<div class="inline-flex" id="upcoming">
 			<span class="typestyle-h3 min-w-fit text-black">
 				{props.title}
