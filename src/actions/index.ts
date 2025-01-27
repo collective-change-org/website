@@ -173,7 +173,7 @@ export const server = {
 		input: z.object({
 			id: z.string(),
 		}),
-		handler: async ({ id }) => {
+		handler: async ({ id }, ctx) => {
 			const bearerToken = await authenticatePayload()
 			const res = await fetch(`${cmsUrl.origin}/api/graphql`, {
 				method: "POST",
@@ -183,7 +183,7 @@ export const server = {
 				},
 				body: JSON.stringify({
 					query: `{
-						Event(id: 1) {
+						Event(id: ${id}) {
 							${eventsQueryFields}
 						}
 					}`,
@@ -199,14 +199,36 @@ export const server = {
 				})
 			}
 
+			const headers = new Headers({
+				"Content-Type": "application/json",
+				Authorization: ctx.cookies.get("payload-token")?.value
+					? `JWT ${ctx.cookies.get("payload-token")!.value}`
+					: "",
+			})
+
+			const userRes = await fetch(`${cmsUrl.origin}/api/users/me`, {
+				method: "GET",
+				headers,
+			})
+
+			const body = (await userRes.json()) as {
+				user: User | undefined
+				message: "Account"
+			}
+
+			let isParticipating = false
+
+			if (body.user) {
+				if (!event.attendees) return
+				isParticipating = event.attendees?.some(
+					(a) => a.id === body.user?.id,
+				)
+			}
+
 			return {
-				...event,
-				attendees: event.attendees ? event.attendees.map((attendee) => ({
-					name: attendee.name,
-					id: attendee.id,
-					profileImage: attendee.profileImage,
-				})) : null,
-			} satisfies Event
+				event,
+				isParticipating
+			}
 		},
 	}),
 	attendEvent: defineAction({
@@ -231,7 +253,32 @@ export const server = {
 					message: data.statusText,
 				})
 			}
-			return data
+			return data.ok
+		},
+	}),
+	cancelEvent: defineAction({
+		input: z.object({
+			id: z.number(),
+		}),
+		handler: async ({ id }, ctx) => {
+			const res = await fetch(`${cmsUrl.origin}/api/events/${id}/attend`, {
+				method: "DELETE",
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: ctx.cookies.get("payload-token")?.value
+						? `JWT ${ctx.cookies.get("payload-token")!.value}`
+						: "",
+				},
+			})
+			const data = await res
+			console.log(data)
+			if (res.status !== 200) {
+				throw new ActionError({
+					code: "BAD_REQUEST",
+					message: data.statusText,
+				})
+			}
+			return data.ok
 		},
 	}),
 }

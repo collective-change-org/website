@@ -1,31 +1,40 @@
 import Disclosure from "@corvu/disclosure"
-import type { VoidComponent } from "solid-js"
+import type { Component, JSX, VoidComponent } from "solid-js"
 import type { Event } from "../../content/loaders/payload/pages/getEvents"
+import { cn } from "../../lib/cn"
 
-export const EventMoreInfo: VoidComponent<Event> = (props) => {
+export const EventMoreInfo: Component<{ children: JSX.Element[] }> = (
+	componentProps,
+) => {
 	return (
-		<div class="w-full border-t-2 border-dashed border-t-green-black/30">
+		<div>
 			<Disclosure collapseBehavior="hide">
 				{(props) => (
 					<>
-						<Disclosure.Trigger class="flex w-full cursor-pointer bg-transparent px-5 py-2">
-							{props.expanded && (
-								<>
-									<p class="font-sans text-base text-green-black">
-										Weniger anzeigen
-									</p>
-								</>
-							)}
-							{!props.expanded && (
-								<>
-									<p class="font-sans text-base text-green-black">
-										Mehr anzeigen
-									</p>
-								</>
-							)}
-						</Disclosure.Trigger>
-						<Disclosure.Content class="corvu-expanded:animate-expand corvu-collapsed:animate-collapse mt-1 space-y-1 overflow-hidden px-5 pb-2">
-							Haha infos
+						<div class="p-3">
+							<Disclosure.Trigger class="flex w-full cursor-pointer items-center justify-center rounded bg-transparent bg-yellow-neon px-5 py-2 ring-2 ring-inset ring-black/10">
+								<svg
+									width="32"
+									height="32"
+									viewBox="0 0 32 32"
+									fill="none"
+									xmlns="http://www.w3.org/2000/svg"
+									class={cn(
+										"text-green-black transition-transform",
+										!props.expanded && "rotate-180",
+									)}>
+									<path
+										d="M6 20L16 10L26 20"
+										stroke="#001A15"
+										stroke-width="2"
+										stroke-linecap="round"
+										stroke-linejoin="round"
+									/>
+								</svg>
+							</Disclosure.Trigger>
+						</div>
+						<Disclosure.Content class="space-y-1 overflow-hidden bg-green-dark text-off-white corvu-expanded:animate-expand corvu-collapsed:animate-collapse">
+							<div class="p-5">{componentProps.children}</div>
 						</Disclosure.Content>
 					</>
 				)}

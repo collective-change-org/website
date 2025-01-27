@@ -86,13 +86,6 @@ const baseContainerLayouts = `
 ... on UpcomingEvents {
   blockType
   title
-  events {
-    title
-    description
-    date
-    time
-    location
-  }
 }
 `
 

@@ -13,6 +13,7 @@ import type { User } from "../../actions"
 import { navigate } from "astro:transitions/client"
 import { Avatars } from "./Avatars"
 import { CMS_URL } from "astro:env/client"
+import createImageUrl from "../../lib/createImageUrl"
 
 export const Participate: VoidComponent<Event> = (props) => {
 	const [event, setEvent] = createSignal<Event>(props)
@@ -27,7 +28,7 @@ export const Participate: VoidComponent<Event> = (props) => {
 			console.error(eventRes.error)
 			return
 		}
-		setEvent(eventRes.data)
+		setEvent(eventRes.data?.event!)
 
 		const userRes = await actions.verify({})
 		if (userRes.error) {
@@ -36,26 +37,12 @@ export const Participate: VoidComponent<Event> = (props) => {
 		}
 		setUser(userRes.data)
 
-		// Check if user is participating
-		const tempUser = user()
-		if (!tempUser) {
-			return
-		}
-		const isParticipating = event().attendees?.some(
-			(attendee) => attendee.id === tempUser.id,
-		)
-		if (isParticipating) {
+		if (eventRes.data?.isParticipating) {
 			setParticipating(true)
 		}
-	})
 
-	function userToAttendee(user: User) {
-		return {
-			id: user.id.toString(),
-			name: user.name,
-			profileImage: user.profileImage,
-		}
-	}
+		console.log("User", user())
+	})
 
 	async function participate(e: MouseEvent) {
 		const tempUser = user()
@@ -71,25 +58,18 @@ export const Participate: VoidComponent<Event> = (props) => {
 		})
 
 		await actions.attendEvent({ id: parseInt(event().id) })
-		// actions.participate({id: event().id});
 	}
 
-	function cancelParticipation() {
+	async function cancelParticipation() {
 		const tempUser = user()
 		setParticipating(false)
-		setEvent({
-			...event(),
-			attendees: event().attendees!.filter(
-				(attendee) => attendee.id !== tempUser?.id,
-			),
-		})
-		// actions.cancelParticipation({id: event().id});
+
+		await actions.cancelEvent({ id: parseInt(event().id) })
 	}
 
 	// TODO:
 	// - Implement Participate and Cancel Participation actions
 	// - Error state
-	// - Show attendee Avatars
 
 	return (
 		<div class="flex items-center gap-4">
@@ -100,20 +80,8 @@ export const Participate: VoidComponent<Event> = (props) => {
 					Teilnehmen
 					{/* <Icon name="ph:calendar-heart" /> */}
 				</button>
-				<div>
-					<Avatars attendees={event().attendees} />
-
-					{event().attendees && event().attendees!.length > 0 ? (
-						<p>{event().attendees?.length} Personen nehmen teil</p>
-					) : (
-						<p class="uppercase opacity-50">
-							Sei die erste Person die Teilnimmt!
-						</p>
-					)}
-				</div>
 			</Show>
 			<Show when={participating()}>
-				<Avatars attendees={event().attendees} />
 				<ConfettiExplosion
 					colors={[
 						"#002922",
@@ -125,17 +93,18 @@ export const Participate: VoidComponent<Event> = (props) => {
 					]}
 					class="absolute"
 				/>
-				<Show
-					when={
-						event().attendees?.length &&
-						event().attendees?.length! > 1
-					}
-					fallback={<p>Aktuell nimmst nur du teil.</p>}>
-					<p>
-						Du und {(event().attendees?.length || 0) - 1} weitere
-						Personen nehmen teil
-					</p>
-				</Show>
+				<div class="flex flex-row gap-2">
+					<img
+						src={
+							user()?.profileImage
+								? createImageUrl(user()!.profileImage!.url)
+								: "/Profile.png"
+						}
+						alt={user()?.name}
+						class="h-8 w-8 rounded-full"
+					/>
+					<p>Du nimmst teil!</p>
+				</div>
 
 				<button
 					onClick={cancelParticipation}

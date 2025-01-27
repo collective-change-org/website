@@ -50,7 +50,7 @@
 	.typestyle-h5 {
 		@apply hyphens-auto text-balance font-poppins text-[1.5rem] font-bold leading-none lg:text-[2rem] lg:leading-[1.2];
 	}
-	
+
 	.typestyle-h6 {
 		@apply hyphens-auto text-balance font-poppins text-[1.25rem] leading-none lg:text-[1.5rem] lg:leading-[1.2];
 	}

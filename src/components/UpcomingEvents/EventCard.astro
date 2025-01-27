@@ -1,5 +1,6 @@
 ---
 import type { Event } from "../../content/loaders/payload/pages/getEvents"
+import LexicalRenderer from "../LexicalRenderer.astro"
 import { EventMoreInfo } from "./EventMoreInfo"
 import { Participate } from "./Participate"
 export interface Props extends Event {}
@@ -21,10 +22,10 @@ const date = new Date(props.date).toLocaleDateString("de-DE", {
 			<h3 class="typestyle-text-m">{date}</h3>
 			<h3 class="typestyle-h6">{props.title}</h3>
 		</div>
-		<div>
+		<div class="line-clamp-2 typestyle-text-m">
 			{
 				props.description ? (
-					<p>{props.description}</p>
+				<LexicalRenderer {...props.description.root} />
 				) : (
 					<p>Für dieses Event gibt es keinen Beschribungstext</p>
 				)
@@ -32,5 +33,24 @@ const date = new Date(props.date).toLocaleDateString("de-DE", {
 		</div>
 		<Participate {...props} client:load />
 	</div>
-	<EventMoreInfo {...props} client:load />
+	<EventMoreInfo {...props} client:load>
+		<div class="flex flex-col gap-6">
+			{
+				props.description && (
+					<div>
+						<LexicalRenderer {...props.description.root} />
+					</div>
+					<hr class="h-[1px] bg-off-white" />
+				)
+			}
+			<div class="flex">
+				<div class="basis-1/2">
+					<LexicalRenderer {...props.left.root} />
+				</div>
+				<div class="basis-1/2">
+					<LexicalRenderer {...props.right.root} />
+				</div>
+			</div>
+		</div>
+	</EventMoreInfo>
 </div>

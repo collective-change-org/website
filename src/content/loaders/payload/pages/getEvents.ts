@@ -1,6 +1,7 @@
 import { defineCollection, z } from "astro:content"
 import { CMS_URL } from "astro:env/client"
 import { authenticatePayload } from "../authenticate"
+import { lexicalRootContainer } from "../schemas/lexical"
 
 export const eventsQueryFields = `
 	id
@@ -8,7 +9,8 @@ export const eventsQueryFields = `
 	description
 	date
 	time
-	location
+	left
+	right
 	image {
 		url
 	}
@@ -59,10 +61,11 @@ async function loadEvents() {
 const eventSchema = z.object({
 	id: z.string(),
 	title: z.string(),
-	description: z.string().nullable(),
+	description: lexicalRootContainer,
 	date: z.string(),
 	time: z.string().nullable(),
-	location: z.string().nullable(),
+	left: lexicalRootContainer,
+	right: lexicalRootContainer,
 	image: z
 		.object({
 			url: z.string(),
