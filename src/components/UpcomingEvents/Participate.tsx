@@ -14,12 +14,14 @@ import { navigate } from "astro:transitions/client"
 import { Avatars } from "./Avatars"
 import { CMS_URL } from "astro:env/client"
 import createImageUrl from "../../lib/createImageUrl"
+import { Spinner } from "./Spinner"
 
 export const Participate: VoidComponent<Event> = (props) => {
 	const [event, setEvent] = createSignal<Event>(props)
 	const [participating, setParticipating] = createSignal(false)
 	const [user, setUser] = createSignal<User | undefined>()
-	const [userAction, setUserAction] = createSignal(false)
+	const [loading, setLoading] = createSignal(false)
+	const [error, setError] = createSignal<string>()
 
 	onMount(async () => {
 		// Load Event
@@ -40,8 +42,6 @@ export const Participate: VoidComponent<Event> = (props) => {
 		if (eventRes.data?.isParticipating) {
 			setParticipating(true)
 		}
-
-		console.log("User", user())
 	})
 
 	async function participate(e: MouseEvent) {
@@ -51,20 +51,37 @@ export const Participate: VoidComponent<Event> = (props) => {
 			console.error("No user found")
 			return
 		}
-		setParticipating(true)
+		setLoading(true)
 		setEvent({
 			...event(),
 			attendees: [...event().attendees!, tempUser],
 		})
 
-		await actions.attendEvent({ id: parseInt(event().id) })
+		const { data, error } = await actions.attendEvent({
+			id: parseInt(event().id),
+		})
+		setLoading(false)
+		if (error) {
+			console.error(error)
+			setError(error.message)
+			return
+		}
+		setParticipating(true)
 	}
 
 	async function cancelParticipation() {
-		const tempUser = user()
-		setParticipating(false)
+		setLoading(true)
 
-		await actions.cancelEvent({ id: parseInt(event().id) })
+		const { data, error } = await actions.cancelEvent({
+			id: parseInt(event().id),
+		})
+		setLoading(false)
+		if (error) {
+			console.error(error)
+			setError(error.message)
+			return
+		}
+		setParticipating(false)
 	}
 
 	// TODO:
@@ -72,45 +89,56 @@ export const Participate: VoidComponent<Event> = (props) => {
 	// - Error state
 
 	return (
-		<div class="flex items-center gap-4">
-			<Show when={!participating()}>
-				<button
-					class={button({ size: "small", intent: "green" })}
-					onClick={participate}>
-					Teilnehmen
-					{/* <Icon name="ph:calendar-heart" /> */}
-				</button>
-			</Show>
-			<Show when={participating()}>
-				<ConfettiExplosion
-					colors={[
-						"#002922",
-						"#338073",
-						"#EB742F",
-						"#FF8640",
-						"#F1FF86",
-						"#E3FF0C",
-					]}
-					class="absolute"
-				/>
-				<div class="flex flex-row gap-2">
-					<img
-						src={
-							user()?.profileImage
-								? createImageUrl(user()!.profileImage!.url)
-								: "/Profile.png"
-						}
-						alt={user()?.name}
-						class="h-8 w-8 rounded-full"
+		<div class="flex flex-col gap-2">
+			<div class="flex items-center gap-4">
+				<Show when={!participating()}>
+					<button
+						class={button({ size: "small", intent: "green" })}
+						onClick={participate}>
+						<Show
+							when={!loading()}
+							fallback={<Spinner class="fill-off-white" />}>
+							Teilnehmen
+						</Show>
+						{/* <Icon name="ph:calendar-heart" /> */}
+					</button>
+				</Show>
+				<Show when={participating()}>
+					<ConfettiExplosion
+						colors={[
+							"#002922",
+							"#338073",
+							"#EB742F",
+							"#FF8640",
+							"#F1FF86",
+							"#E3FF0C",
+						]}
+						class="absolute"
 					/>
-					<p>Du nimmst teil!</p>
-				</div>
+					<div class="flex flex-row gap-2">
+						<img
+							src={
+								user()?.profileImage
+									? createImageUrl(user()!.profileImage!.url)
+									: "/Profile.png"
+							}
+							alt={user()?.name}
+							class="h-8 w-8 rounded-full"
+						/>
+						<p>Du nimmst teil!</p>
+					</div>
 
-				<button
-					onClick={cancelParticipation}
-					class="ml-auto h-[44px] cursor-pointer rounded-full bg-transparent px-4 text-green-black/75 ring-1 ring-black/10 hover:text-green-black hover:ring-black/30">
-					Teilnahme absagen
-				</button>
+					<button
+						onClick={cancelParticipation}
+						class="ml-auto h-[44px] cursor-pointer rounded-full bg-transparent px-4 text-green-black/75 ring-1 ring-black/10 hover:text-green-black hover:ring-black/30">
+						<Show when={!loading()} fallback={<Spinner />}>
+							Teilnahme absagen
+						</Show>
+					</button>
+				</Show>
+			</div>
+			<Show when={error()}>
+				<p class="text-orange-dark">{error()}</p>
 			</Show>
 		</div>
 	)
