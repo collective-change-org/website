@@ -7,7 +7,7 @@ import {
 	required,
 	type SubmitHandler,
 } from "@modular-forms/solid"
-import { button } from "./Button.astro"
+import { button } from "./button/button"
 import { actions } from "astro:actions"
 import { TextInput } from "./TextInput"
 import { navigate } from "astro:transitions/client"

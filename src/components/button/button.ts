@@ -1,6 +1,4 @@
----
-import type { HTMLAttributes } from "astro/types"
-import { cva, type VariantProps } from "cva"
+import { cva } from "cva"
 
 export const button = cva({
 	base: "rounded-full ring-white/10 ring-2 ring-inset uppercase flex items-center gap-1.5 cursor-pointer no-underline min-w-fit",
@@ -20,27 +18,3 @@ export const button = cva({
 		},
 	},
 })
-
-export interface Props
-	extends Omit<HTMLAttributes<"button">, "disabled">,
-		VariantProps<typeof button> {}
-
-const {
-	class: className,
-	intent = "black",
-	size = "large",
-	disabled = false,
-} = Astro.props
----
-
-<button
-	class={button({
-		intent,
-		size,
-		disabled,
-		className,
-	})}
-	disabled={disabled}
->
-	<slot />
-</button>

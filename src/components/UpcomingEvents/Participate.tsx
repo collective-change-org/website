@@ -6,7 +6,7 @@ import {
 	type VoidComponent,
 } from "solid-js"
 import type { Event } from "../../content/loaders/payload/pages/getEvents"
-import { button } from "../Button.astro"
+import { button } from "../button/button"
 import { actions } from "astro:actions"
 import { ConfettiExplosion } from "solid-confetti-explosion"
 import type { User } from "../../actions"
