@@ -36,7 +36,7 @@
 	}
 
 	.typestyle-h2 {
-		@apply hyphens-auto text-balance font-poppins text-[6.25rem] font-black uppercase leading-none lg:text-[6.26rem] lg:leading-[1.25];
+		@apply hyphens-auto text-balance font-poppins text-[6.25rem] font-black uppercase leading-none lg:text-[6.26rem];
 	}
 
 	.typestyle-h3 {
@@ -56,7 +56,7 @@
 	}
 
 	.typestyle-text-l {
-		@apply hyphens-auto text-balance font-sans text-2xl leading-[1.5];
+		@apply hyphens-auto text-balance font-sans text-2xl leading-[1.3];
 	}
 
 	.typestyle-text-m {

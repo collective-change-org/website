@@ -46,7 +46,9 @@ const { children } = Astro.props
 			case "text":
 				switch (child.format) {
 					case 1: // bold
-						return <strong>{child.text}</strong>
+						return (
+							<strong class="font-semibold">{child.text}</strong>
+						)
 					case 2: // italic
 						return <em>{child.text}</em>
 					case 3: // strikethrough
