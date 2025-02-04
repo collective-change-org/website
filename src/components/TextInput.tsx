@@ -46,32 +46,31 @@ export const TextInput: VoidComponent<TextInputProps> = (props) => {
 		"",
 	)
 	return (
-		<div class="relative flex flex-col gap-2 pb-4">
-			<label for={props.name} class="text-green-black">
-				{props.label}
-			</label>
-			<input
-				{...inputProps}
-				id={props.name}
-				value={getValue()}
-				aria-invalid={!!props.error}
-				aria-errormessage={`${props.name}-error`}
-				aria-describedby={props.helpText && `${props.name}-help`}
-				class={cn(
-					"h-11 rounded-full bg-white px-6 text-[1.25rem] text-green-dark ring-2 ring-inset ring-black/10 focus:outline-none focus:ring-green-dark active:ring-green-dark",
-					props.error && "ring-orange-dark",
-				)}
-			/>
+		<div class={cn("flex flex-col pb-2", props.error && "pb-0")}>
+			<div class="flex flex-col gap-2">
+				<label for={props.name} class="text-green-black">
+					{props.label}
+				</label>
+				<input
+					{...inputProps}
+					id={props.name}
+					value={getValue()}
+					aria-invalid={!!props.error}
+					aria-errormessage={`${props.name}-error`}
+					aria-describedby={props.helpText && `${props.name}-help`}
+					class={cn(
+						"h-11 w-full rounded-full bg-white px-6 text-[1.25rem] text-green-dark",
+						"ring-2 ring-inset ring-black/10 focus:outline-none focus:ring-green-dark active:ring-green-dark",
+						props.error && "ring-orange-dark",
+					)}
+				/>
+			</div>
 			<Switch>
 				<Match when={props.error}>
-					<p class="absolute -bottom-1 text-sm text-orange-dark">
-						{props.error}
-					</p>
+					<p class="text-sm text-orange-dark">{props.error}</p>
 				</Match>
 				<Match when={props.helpText}>
-					<p
-						id={`${props.name}-help`}
-						class="absolute -bottom-1 text-sm opacity-80">
+					<p id={`${props.name}-help`} class="text-sm opacity-70">
 						{props.helpText}
 					</p>
 				</Match>

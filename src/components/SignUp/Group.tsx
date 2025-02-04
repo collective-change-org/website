@@ -25,7 +25,7 @@ export function RadioGroup(props: RadioGroupProps) {
 		["ref", "onInput", "onChange", "onBlur"],
 	)
 	return (
-		<div {...rootProps} class="relative pb-5">
+		<div {...rootProps} class={cn("pb-5", props.error && "pb-0")}>
 			<div class="flex flex-col gap-2">
 				<For each={props.options}>
 					{(option) => (
@@ -49,9 +49,7 @@ export function RadioGroup(props: RadioGroupProps) {
 					)}
 				</For>
 			</div>
-			<p class="absolute bottom-0 text-sm text-orange-dark">
-				{props.error}
-			</p>
+			<p class="text-sm text-orange-dark">{props.error}</p>
 		</div>
 	)
 }
