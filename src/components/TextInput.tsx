@@ -46,7 +46,7 @@ export const TextInput: VoidComponent<TextInputProps> = (props) => {
 		"",
 	)
 	return (
-		<div class="flex flex-col gap-2">
+		<div class="relative flex flex-col gap-2 pb-4">
 			<label for={props.name} class="text-green-black">
 				{props.label}
 			</label>
@@ -64,10 +64,14 @@ export const TextInput: VoidComponent<TextInputProps> = (props) => {
 			/>
 			<Switch>
 				<Match when={props.error}>
-					<p class="text-sm text-orange-dark">{props.error}</p>
+					<p class="absolute -bottom-1 text-sm text-orange-dark">
+						{props.error}
+					</p>
 				</Match>
 				<Match when={props.helpText}>
-					<p id={`${props.name}-help`} class="text-sm">
+					<p
+						id={`${props.name}-help`}
+						class="absolute -bottom-1 text-sm opacity-80">
 						{props.helpText}
 					</p>
 				</Match>

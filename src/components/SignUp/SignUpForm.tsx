@@ -12,12 +12,15 @@ import { actions } from "astro:actions"
 import { TextInput } from "../TextInput"
 import { navigate } from "astro:transitions/client"
 import { createSignal, Match, Switch } from "solid-js"
+import { cn } from "../../lib/cn"
+import { RadioGroup } from "./Group"
 
 export type SignUpFormType = {
 	name: string
 	email: string
 	password: string
 	verifyPassword: string
+	newsletter: "newsletter" | "no-newsletter"
 }
 
 export default function SignUpForm() {
@@ -38,8 +41,10 @@ export default function SignUpForm() {
 
 	const [success, setSuccess] = createSignal(false)
 
+	const [checkbox, setCheckbox] = createSignal<HTMLInputElement>()
+
 	return (
-		<div class="flex w-full flex-col gap-8 text-green-black">
+		<div class="flex w-full max-w-[400px] flex-col gap-8 text-green-black">
 			<Switch>
 				<Match when={success()}>
 					<div class="">
@@ -132,6 +137,62 @@ export default function SignUpForm() {
 									error={field.error}
 									type="password"
 									label="Passwort wiederholen"
+									required
+								/>
+							)}
+						</Field>
+						<Field
+							name="newsletter"
+							type="string"
+							validate={[
+								required(
+									"Du musst auswählen, ob du den Newsletter erhalten möchtest",
+								),
+							]}>
+							{(field, props) => (
+								<RadioGroup
+									{...props}
+									label="Framework"
+									options={[
+										{
+											label: (
+												<div class="flex flex-col">
+													<h5 class="typestyle-text-s font-bold">
+														Newsletter abonnieren
+													</h5>
+													<div class="flex flex-wrap gap-1">
+														<span class="textstyle-text-xs rotate-[1.13deg] bg-pink-light px-2">
+															Nächste Events
+														</span>
+														<span class="textstyle-text-xs rotate-[-2.58deg] bg-pink-light px-2">
+															Neue Beiträge
+														</span>
+														<span class="textstyle-text-xs rotate-[-.58deg] bg-pink-light px-2">
+															Max. 1 × im Monat
+														</span>
+														<span class="textstyle-text-xs rotate-[.58deg] bg-pink-light px-2">
+															Neue
+															Wissens-Einträge
+														</span>
+													</div>
+												</div>
+											),
+											value: "newsletter",
+										},
+										{
+											label: (
+												<div class="flex flex-col">
+													<h5 class="typestyle-text-s font-bold">
+														Account erstellen ohne
+														Newsletter
+													</h5>
+												</div>
+											),
+											value: "no-newsletter",
+										},
+									]}
+									value={field.value}
+									error={field.error}
 									required
 								/>
 							)}

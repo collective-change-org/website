@@ -87,7 +87,7 @@ const { children, slug } = Astro.props
 					)
 				case "columnContainerBlock":
 					return (
-						<div class="flex flex-col gap-8 lg:flex-row">
+						<div class="flex flex-col items-start gap-8 lg:flex-row">
 							{child.columns.map((column) => {
 								return (
 									<div class="lg:base-1/2 flex w-full flex-col items-start justify-center gap-4">

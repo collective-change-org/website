@@ -121,8 +121,9 @@ export const server = {
 			name: z.string(),
 			email: z.string().email(),
 			password: z.string(),
+			newsletter: z.union([z.literal("newsletter"), z.literal("no-newsletter")]),
 		}),
-		handler: async ({ name, email, password }) => {
+		handler: async ({ name, email, password, newsletter }) => {
 			const res = await fetch(`${cmsUrl.origin}/api/users`, {
 				method: "POST",
 				headers: {
@@ -142,6 +143,44 @@ export const server = {
 					message: data.message,
 				})
 			}
+
+			console.log(data)
+			const bearerToken = await authenticatePayload()
+			if (newsletter === "newsletter") {
+				const res = await fetch(`${cmsUrl.origin}/api/notification-settings`, {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+						Authorization: `Bearer ${bearerToken.result?.token}`,
+					},
+					body: JSON.stringify({
+						user: data.doc.id,
+						type: "newsletter",
+					}),
+				}).catch((e) => {
+					throw new ActionError({
+						code: "BAD_REQUEST",
+						message: e,
+					})
+				})
+			}
+			await fetch(`${cmsUrl.origin}/api/notification-settings`, {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${bearerToken.result?.token}`,
+				},
+				body: JSON.stringify({
+					user: data.doc.id,
+					type: "event",
+				}),
+			}).catch((e) => {
+				throw new ActionError({
+					code: "BAD_REQUEST",
+					message: e,
+				})
+			})
+
 			return data
 		},
 	}),

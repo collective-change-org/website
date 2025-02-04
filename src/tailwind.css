@@ -62,6 +62,14 @@
 	.typestyle-text-m {
 		@apply hyphens-auto text-balance font-sans text-[1.25rem] leading-[1.5];
 	}
+
+	.typestyle-text-s {
+		@apply hyphens-auto text-balance font-sans text-[1rem] leading-[1.5];
+	}
+
+	.typestyle-text-xs {
+		@apply hyphens-auto text-balance font-sans text-[0.8125rem] leading-[1.4];
+	}
 }
 
 :root {
