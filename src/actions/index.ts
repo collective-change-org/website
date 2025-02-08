@@ -327,8 +327,9 @@ export const server = {
 	// Email, Name, Pssworrt, Bild, ggf. Pronomen
 	modifyAccount: defineAction({
 		input: z.object({
-			email: z.string().email(),
-			name: z.string(),
+			userId: z.number(),
+			email: z.string().email().optional(),
+			name: z.string().optional(),
 			profileImage: z
 				.any()
 				.refine((files) => files?.length == 1, "Image is required.")
@@ -336,9 +337,15 @@ export const server = {
 				.refine(
 					(files) => ACCEPTED_IMAGE_TYPES.includes(files?.[0]?.type),
 					".jpg, .jpeg, .png and .webp files are accepted."
-				),
+				).optional(),
 		}),
-		handler: async ({ name, email, profileImage }, ctx) => {
+		handler: async ({ userId, name, email, profileImage }, ctx) => {
+			const blob = new Blob([profileImage[0]], { type: profileImage[0].type })
+
+			const res = await fetch(`${cmsUrl.origin}/api/users/${userId}`, {
+				method: "PUT",
+			})
+
 			return true
 		},
 	}),
