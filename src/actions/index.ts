@@ -340,11 +340,47 @@ export const server = {
 				).optional(),
 		}),
 		handler: async ({ userId, name, email, profileImage }, ctx) => {
-			const blob = new Blob([profileImage[0]], { type: profileImage[0].type })
+			let body
+			if (name) {
+				body = { name }
+			}
+			if (email) {
+				body = {
+					...body,
+					email
+				}
+			}
+			if (profileImage) {
+				const formData = new FormData();
+				formData.append('file', profileImage[0]);
+				const res = await fetch(`${cmsUrl.origin}/api/media`, {
+					method: "POST",
+					body: formData,
+				})
+				const data = await res.json()
+
+				body = {
+					...body,
+					profileImage: data.doc.id
+				}
+			}
 
 			const res = await fetch(`${cmsUrl.origin}/api/users/${userId}`, {
 				method: "PUT",
+				body: JSON.stringify(body),
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: ctx.cookies.get("payload-token")?.value
+						? `JWT ${ctx.cookies.get("payload-token")!.value}`
+						: "",
+				},
 			})
+			if (res.status !== 200) {
+				throw new ActionError({
+					code: "BAD_REQUEST",
+					message: res.statusText,
+				})
+			}
 
 			return true
 		},
