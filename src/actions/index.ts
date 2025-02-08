@@ -14,6 +14,9 @@ export type User = {
 	} | null
 }
 
+const MAX_FILE_SIZE = 5 * 1024 * 1024
+const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/png", "image/webp"]
+
 const cmsUrl = new URL(CMS_URL)
 export const server = {
 	login: defineAction({
@@ -318,6 +321,25 @@ export const server = {
 				})
 			}
 			return data.ok
+		},
+	}),
+	// Modify Account
+	// Email, Name, Pssworrt, Bild, ggf. Pronomen
+	modifyAccount: defineAction({
+		input: z.object({
+			email: z.string().email(),
+			name: z.string(),
+			profileImage: z
+				.any()
+				.refine((files) => files?.length == 1, "Image is required.")
+				.refine((files) => files?.[0]?.size <= MAX_FILE_SIZE, `Max file size is 5MB.`)
+				.refine(
+					(files) => ACCEPTED_IMAGE_TYPES.includes(files?.[0]?.type),
+					".jpg, .jpeg, .png and .webp files are accepted."
+				),
+		}),
+		handler: async ({ name, email, profileImage }, ctx) => {
+			return true
 		},
 	}),
 }
