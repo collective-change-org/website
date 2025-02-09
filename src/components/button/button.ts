@@ -7,6 +7,7 @@ export const button = cva({
 			green: ["bg-green-lighter hover:bg-green-dark text-white"],
 			black: ["bg-green-black hover:bg-black text-white"],
 			orange: ["bg-orange-light hover:bg-orange-dark text-black"],
+			red: ["bg-transparent  hover:bg-red-light hover:text-black text-red-light font-medium ring-0"]
 		},
 		size: {
 			small: ["text-base", "h-11", "px-5"],

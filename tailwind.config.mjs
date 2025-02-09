@@ -27,6 +27,9 @@ export default {
 			},
 			pink: {
 				light: '#FCCDFF',
+			},
+			red: {
+				light: "#F65917",
 			}
 		},
 		extend: {
