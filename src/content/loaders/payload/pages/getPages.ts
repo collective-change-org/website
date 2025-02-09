@@ -87,6 +87,9 @@ const baseContainerLayouts = `
   blockType
   title
 }
+... on AccountBlock {
+  blockType  
+}
 `
 
 export async function getPages(): Promise<Page[]> {

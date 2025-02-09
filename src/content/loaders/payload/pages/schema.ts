@@ -65,6 +65,10 @@ const upcomingEventsBlock = z.object({
 	title: z.string(),
 })
 
+const accountBlock = z.object({
+	blockType: z.literal("accountBlock"),
+})
+
 const baseContainerLayouts = z.discriminatedUnion("blockType", [
 	h1Block,
 	h2Block,
@@ -75,6 +79,7 @@ const baseContainerLayouts = z.discriminatedUnion("blockType", [
 	loginBlock,
 	signUpBlock,
 	upcomingEventsBlock,
+	accountBlock,
 ])
 export type BaseContainerLayouts = z.infer<typeof baseContainerLayouts>
 

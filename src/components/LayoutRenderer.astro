@@ -9,6 +9,7 @@ import { cn } from "../lib/cn"
 import Login from "./Login.tsx"
 import SignUp from "./SignUp/SignUp.astro"
 import UpcomingEvents from "./UpcomingEvents/UpcomingEvents.astro"
+import Account from "./Account/Account.astro"
 
 export interface Props {
 	children: ContainerLayouts[]
@@ -117,6 +118,8 @@ const { children, slug } = Astro.props
 					return <SignUp />
 				case "upcomingEvents":
 					return <UpcomingEvents {...child} />
+				case "accountBlock":
+					return <Account server:defer/>
 				default:
 					return (
 						<p class="text-white mix-blend-difference">
