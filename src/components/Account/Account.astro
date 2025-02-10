@@ -1,0 +1,85 @@
+---
+import { createSignal } from "solid-js"
+import { button } from "../Button.astro"
+import AccountEdit from "./AccountEdit.astro"
+import { actions } from "astro:actions"
+import AccountView from "./AccountView.astro"
+
+export const prerender = false // Not needed in 'server' mode
+
+const { data, error } = await Astro.callAction(actions.verify, {})
+
+---
+
+<script>
+	const editAcc = document.getElementById("editAccount");
+	const viewAcc = document.getElementById("viewAccount");
+	const editBut = document.getElementById("edit_account");
+	const saveBut = document.getElementById("save_account");
+
+	editBut?.addEventListener('click', () => {
+		editAcc?.setAttribute("style", "display:none");
+		viewAcc?.setAttribute("style", "display:block");
+		editBut?.setAttribute("style", "display:none");
+		saveBut?.setAttribute("style", "display:block");
+	})
+	saveBut?.addEventListener('click', () => {
+		viewAcc?.setAttribute("style", "display:none");
+		editAcc?.setAttribute("style", "display:block");
+		saveBut?.setAttribute("style", "display:none");
+		editBut?.setAttribute("style", "display:block");
+	})
+</script>
+
+<div class="min-h-[500px]">
+	<div id="editAccount">
+		<AccountView/>
+	</div>
+	<div id="viewAccount" class="hidden">
+		<!-- <AccountEdit > -->
+	</div>
+</div>
+
+<div class="flex full-w place-content-between ">
+	<button
+		id="edit_account"
+		type="button"
+	
+		class={button({
+			intent: "green",
+			size: "small",
+		})}
+		>
+		Account bearbeiten
+	</button>
+	<button
+		id="save_account"
+		type="button"
+		style="display: none;"
+		class={button({
+			intent: "green",
+			size: "small",
+		})}
+		>
+		Änderungen speichern
+	</button>
+	<button
+		id="delete_account"
+		type="button"
+		class={button({
+			intent: "red",
+			size: "small",
+		})}
+		onclick="() => {console.log('click!!!!')}"
+		>
+		Account Löschen
+	</button>
+</div>
+
+
+
+
+
+
+
+
