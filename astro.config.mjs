@@ -24,7 +24,6 @@ export default defineConfig({
 			CMS_URL: envField.string({ context: "client", access: "public" }),
 		},
 	},
-
 	integrations: [
 		starlight({
 			title: "Collective Change",

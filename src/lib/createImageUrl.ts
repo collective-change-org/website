@@ -1,6 +1,9 @@
-import { CMS_URL } from "astro:env/client";
+import { CMS_URL } from "astro:env/server"
 
-export default function createImageUrl(url: string) {
-	const cmsUrl = new URL(CMS_URL)
-	return `${cmsUrl.origin}${url}`
+export function createImageUrl(imageName: string): string {
+	const url = new URL(CMS_URL)
+	console.log("IMAGEURL:")
+	console.log(url)
+	// return `http://localhost:3000${imageName}`;
+	return `${url.origin}${imageName}`
 }

@@ -1,5 +1,5 @@
 import { defineCollection, z } from "astro:content"
-import { CMS_URL } from "astro:env/client"
+import { CMS_URL } from "astro:env/server"
 import { authenticatePayload } from "../authenticate"
 import { lexicalRootContainer } from "../schemas/lexical"
 

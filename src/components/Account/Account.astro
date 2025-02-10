@@ -1,13 +1,13 @@
 ---
 import { createSignal } from "solid-js"
 import { button } from "../Button.astro"
-import AccountEdit from "./AccountEdit.astro"
+import AccountEdit from "./AccountEdit"
 import { actions } from "astro:actions"
 import AccountView from "./AccountView.astro"
 
 export const prerender = false // Not needed in 'server' mode
 
-const { data, error } = await Astro.callAction(actions.verify, {})
+// const { data, error } = await Astro.callAction(actions.verify, {})
 
 ---
 
@@ -36,7 +36,7 @@ const { data, error } = await Astro.callAction(actions.verify, {})
 		<AccountView/>
 	</div>
 	<div id="viewAccount" class="hidden">
-		<!-- <AccountEdit > -->
+		<!-- <AccountEdit client:load> -->
 	</div>
 </div>
 

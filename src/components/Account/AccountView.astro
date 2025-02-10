@@ -1,6 +1,6 @@
 ---
 import { actions } from "astro:actions";
-import AccountData from "./AccountData";
+import { createImageUrl } from "../../lib/createImageUrl";
 const { data, error } = await Astro.callAction(actions.verify, {})
 console.log(data?.profileImage?.url)
 ---
@@ -8,7 +8,7 @@ console.log(data?.profileImage?.url)
 	data ? (
         <div class="flex fit-content items-center gap-4">
              <img
-                src={data.profileImage ? (data.profileImage.url) : "Profile.png"}
+                src={data.profileImage ? (createImageUrl(data.profileImage.url)) : "Profile.png"}
                 class="h-40 w-40 rounded-full border-2 border-green-black"
             />
             <div class="text-green-black">

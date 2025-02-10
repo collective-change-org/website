@@ -1,4 +1,4 @@
-import { CMS_URL } from "astro:env/client"
+import { CMS_URL } from "astro:env/server"
 import { authenticatePayload } from "./authenticate"
 import type { LexicalRootContainer } from "./schemas/lexical"
 import type { Badge } from "../../../schemas/badge"

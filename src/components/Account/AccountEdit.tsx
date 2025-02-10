@@ -50,6 +50,7 @@ export default async function accountEdit() {
 
 	return (
 		<div class="flex w-full flex-col gap-8 text-green-black">
+			<p>Huhu</p>
 			
 			{/* <Switch> */}
 				{/* <Match when={!success()}> */}

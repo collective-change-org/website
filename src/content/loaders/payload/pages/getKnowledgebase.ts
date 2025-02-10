@@ -1,4 +1,4 @@
-import { CMS_URL } from "astro:env/client"
+import { CMS_URL } from "astro:env/server"
 import { authenticatePayload } from "../authenticate"
 import { headingToSlug, generateToC } from "../generateToC"
 import type { PayloadPageResponseItem } from "../getSidebar"

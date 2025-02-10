@@ -1,4 +1,4 @@
-import { CMS_URL } from "astro:env/client"
+import { CMS_URL } from "astro:env/server"
 import { PAYLOAD_EMAIL, PAYLOAD_PASSWORD } from "astro:env/server"
 
 type AuthResult = {
