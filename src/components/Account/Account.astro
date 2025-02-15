@@ -4,6 +4,7 @@ import { button } from "../button/button"
 import AccountEdit from "./AccountEdit"
 import { actions } from "astro:actions"
 import AccountView from "./AccountView.astro"
+import { Icon } from "astro-icon/components"
 
 export const prerender = false // Not needed in 'server' mode
 
@@ -18,58 +19,34 @@ export const prerender = false // Not needed in 'server' mode
 
 	editBut?.addEventListener("click", () => {
 		editAcc?.setAttribute("style", "display:none")
-		viewAcc?.setAttribute("style", "display:block")
+		viewAcc?.setAttribute("style", "display:flex")
 		editBut?.setAttribute("style", "display:none")
-		saveBut?.setAttribute("style", "display:block")
+		saveBut?.setAttribute("style", "display:flex")
 	})
 	saveBut?.addEventListener("click", () => {
 		viewAcc?.setAttribute("style", "display:none")
-		editAcc?.setAttribute("style", "display:block")
+		editAcc?.setAttribute("style", "display:flex")
 		saveBut?.setAttribute("style", "display:none")
-		editBut?.setAttribute("style", "display:block")
+		editBut?.setAttribute("style", "display:flex")
 	})
 </script>
 
-<div class="min-h-[500px]">
-	<div id="editAccount">
+<div class="flex min-h-[500px] flex-col gap-8">
+	<div id="editAccount" class="flex flex-col items-start gap-4">
 		<AccountView />
+		<button
+			id="edit_account"
+			type="button"
+			class={button({
+				intent: "green",
+				size: "small",
+			})}
+		>
+			<Icon name="ph:pencil-simple" />
+			Profil bearbeiten
+		</button>
 	</div>
 	<div id="viewAccount" class="hidden">
-		<!-- <AccountEdit client:load> -->
+		<AccountEdit client:load />
 	</div>
-</div>
-
-<div class="full-w flex place-content-between">
-	<button
-		id="edit_account"
-		type="button"
-		class={button({
-			intent: "green",
-			size: "small",
-		})}
-	>
-		Account bearbeiten
-	</button>
-	<button
-		id="save_account"
-		type="button"
-		style="display: none;"
-		class={button({
-			intent: "green",
-			size: "small",
-		})}
-	>
-		Änderungen speichern
-	</button>
-	<button
-		id="delete_account"
-		type="button"
-		class={button({
-			intent: "red",
-			size: "small",
-		})}
-		onclick="() => {console.log('click!!!!')}"
-	>
-		Account Löschen
-	</button>
 </div>

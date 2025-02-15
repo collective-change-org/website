@@ -21,13 +21,16 @@ const { data, error } = await Astro.callAction(actions.verify, {})
 
 {
 	data ? (
-		<p
-			class="cursor-pointer bg-transparent px-6 text-2xl uppercase text-white"
-			id="logout"
-			role="button"
-			aria-label="Logout">
-			Logout
-		</p>
+		// <p
+		// 	class="cursor-pointer bg-transparent px-6 text-2xl uppercase text-white"
+		// 	id="logout"
+		// 	role="button"
+		// 	aria-label="Logout">
+		// 	Logout
+		// </p>
+		<a class="px-6 text-2xl text-white no-underline" href="/account">
+			Account
+		</a>
 	) : (
 		<a class="px-6 text-2xl text-white no-underline" href="/login">
 			Einloggen
