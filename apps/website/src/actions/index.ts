@@ -4,7 +4,7 @@ import { CMS_URL } from "astro:env/client"
 import { eventsQueryFields, type Event } from "../content/loaders/payload/pages/getEvents"
 import { authenticatePayload } from "../content/loaders/payload/authenticate"
 import { getPayload } from 'payload'
-import { config } from '@collectivechange/payload'
+import { config, type User as PayloadUser } from '@collectivechange/payload'
 
 export type User = {
 	id: number
@@ -27,6 +27,7 @@ export const server = {
 			password: z.string(),
 		}),
 		handler: async ({ email, password }, ctx) => {
+			console.log("LOGGING ING")
 			const headers = new Headers({
 				"Content-Type": "application/json",
 			})
@@ -328,23 +329,21 @@ export const server = {
 	// Modify Account
 	// Email, Name, Pssworrt, Bild, ggf. Pronomen
 	modifyAccount: defineAction({
-		accept: "form",
 		input: z.object({
 			userId: z.number(),
 			email: z.string().email().optional(),
 			name: z.string().optional(),
 			profileImage: z
 				.any()
-				.refine((file) => file?.size <= MAX_FILE_SIZE, `Max file size is 5MB.`)
+				.refine((files) => files?.length == 1, "Image is required.")
+				.refine((files) => files?.[0]?.size <= MAX_FILE_SIZE, `Max file size is 5MB.`)
 				.refine(
-					(file) => ACCEPTED_IMAGE_TYPES.includes(file.type),
+					(files) => ACCEPTED_IMAGE_TYPES.includes(files?.[0]?.type),
 					".jpg, .jpeg, .png and .webp files are accepted."
 				).optional(),
 		}),
 		handler: async ({ userId, name, email, profileImage }, ctx) => {
 			const image = profileImage as File | undefined
-
-			const payload = await getPayload({ config })
 
 			let body
 			if (name) {
@@ -356,37 +355,64 @@ export const server = {
 					email
 				}
 			}
-			if (profileImage) {
-				const formData = new FormData();
-				formData.append('file', profileImage[0]);
-				const res = await fetch(`${cmsUrl.origin}/api/media`, {
-					method: "POST",
-					body: formData,
-				})
-				const data = await res.json()
 
-				body = {
-					...body,
-					profileImage: data.doc.id
-				}
-			}
+			// const payload = await getPayload({ config })
 
-			const res = await fetch(`${cmsUrl.origin}/api/users/${userId}`, {
-				method: "PUT",
-				body: JSON.stringify(body),
-				headers: {
-					"Content-Type": "application/json",
-					Authorization: ctx.cookies.get("payload-token")?.value
-						? `JWT ${ctx.cookies.get("payload-token")!.value}`
-						: "",
-				},
-			})
-			if (res.status !== 200) {
-				throw new ActionError({
-					code: "BAD_REQUEST",
-					message: res.statusText,
-				})
-			}
+			// const user = await payload.findByID({
+			// 	id: userId,
+			// 	collection: "users",
+			// })
+
+
+			// const updateData: Partial<PayloadUser> = {}
+
+			// if (name) {
+			// 	updateData.name = name
+			// }
+
+			// if (image) {
+			// 	if (user.profileImage) {
+			// 		const buffer = await image.arrayBuffer()
+			// 		payload.update({
+			// 			collection: "media",
+			// 			file: {
+			// 				data: Buffer.from(buffer),
+			// 				mimetype: image.type,
+			// 				name: `${userId}-profile-image`,
+			// 				size: image.size,
+			// 			},
+			// 			data: {
+			// 				alt: `${name} profile image`,
+			// 				filename: `${userId}-profile-image`,
+			// 			},
+			// 			where: {
+			// 				filenmame: { equals: `${userId}-profile-image` },
+			// 			},
+			// 			overwriteExistingFiles: true
+			// 		})
+			// 	} else {
+			// 		const buffer = await image.arrayBuffer()
+			// 		const media = await payload.create({
+			// 			collection: "media",
+			// 			file: {
+			// 				data: Buffer.from(buffer),
+			// 				mimetype: image.type,
+			// 				name: `${userId}-profile-image`,
+			// 				size: image.size,
+			// 			},
+			// 			data: {
+			// 				alt: `${name} profile image`,
+			// 			},
+			// 		})
+			// 		updateData.profileImage = media
+			// 	}
+			// }
+
+			// payload.update({
+			// 	id: userId,
+			// 	collection: "users",
+			// 	data: updateData,
+			// })
 
 			return true
 		},

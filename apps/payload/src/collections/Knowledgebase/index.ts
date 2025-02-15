@@ -25,7 +25,7 @@ import {
   OverviewField,
   PreviewField,
 } from '@payloadcms/plugin-seo/fields'
-import { slugField } from '@/fields/slug'
+import { slugField } from '../../fields/slug'
 import { Group } from '@/payload-types'
 import { LinkCardBlock } from '@/blocks/LinkCard'
 
