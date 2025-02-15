@@ -16,6 +16,13 @@
 			]
 		},
 		"dev": {
+			"dependsOn": [
+				"^dev"
+			],
+			"persistent": true,
+			"cache": false
+		},
+		"website#dev": {
 			"persistent": true,
 			"cache": false
 		}

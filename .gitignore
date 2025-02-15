@@ -22,3 +22,5 @@ pnpm-debug.log*
 
 # Turbo
 .turbo/
+
+.next/
