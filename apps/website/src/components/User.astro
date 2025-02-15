@@ -1,0 +1,39 @@
+---
+import { actions } from "astro:actions"
+
+export const prerender = false // Not needed in 'server' mode
+
+const { data, error } = await Astro.callAction(actions.verify, {})
+---
+
+<script>
+	import { actions } from "astro:actions"
+
+	document.getElementById("logout")?.addEventListener("click", async () => {
+		const { data, error } = await actions.logout()
+		if (error) {
+			console.error(error)
+		} else {
+			location.reload()
+		}
+	})
+</script>
+
+{
+	data ? (
+		// <p
+		// 	class="cursor-pointer bg-transparent px-6 text-2xl uppercase text-white"
+		// 	id="logout"
+		// 	role="button"
+		// 	aria-label="Logout">
+		// 	Logout
+		// </p>
+		<a class="px-6 text-2xl text-white no-underline" href="/account">
+			Account
+		</a>
+	) : (
+		<a class="px-6 text-2xl text-white no-underline" href="/login">
+			Einloggen
+		</a>
+	)
+}

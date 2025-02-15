@@ -1,0 +1,47 @@
+{
+  "name": "capslock",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview --host 0.0.0.0",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/node": "^9.0.2",
+    "@astrojs/solid-js": "^5.0.4",
+    "@astrojs/starlight": "^0.31.1",
+    "@astrojs/starlight-tailwind": "^3.0.0",
+    "@astrojs/tailwind": "^6.0.0",
+    "@corvu/dialog": "^0.2.3",
+    "@corvu/disclosure": "^0.2.0",
+    "@corvu/tailwind": "^0.1.5",
+    "@fontsource/poppins": "^5.1.1",
+    "@modular-forms/solid": "^0.25.0",
+    "@phosphor-icons/webcomponents": "^2.1.5",
+    "@types/react": "^19.0.8",
+    "@types/react-dom": "^19.0.3",
+    "astro": "^5.2.3",
+    "astro-icon": "^1.1.5",
+    "clsx": "^2.1.1",
+    "cva": "1.0.0-beta.2",
+    "motion": "^12.0.5",
+    "react-dom": "^19.0.0",
+    "sharp": "^0.32.6",
+    "solid-confetti-explosion": "^1.1.8",
+    "solid-js": "^1.9.3",
+    "tailwind-merge": "^2.6.0",
+    "tailwindcss": "^3.4.17",
+    "tailwindcss-animate": "^1.0.7",
+    "payload": "3.22.0",
+    "@collectivechange/payload": "workspace:*"
+  },
+  "devDependencies": {
+    "@iconify-json/ph": "^1.2.2",
+    "prettier": "^3.4.2",
+    "prettier-plugin-astro": "^0.14.1",
+    "prettier-plugin-tailwindcss": "^0.6.9"
+  }
+}
