@@ -3,6 +3,8 @@ import { z } from "astro:schema"
 import { CMS_URL } from "astro:env/client"
 import { eventsQueryFields, type Event } from "../content/loaders/payload/pages/getEvents"
 import { authenticatePayload } from "../content/loaders/payload/authenticate"
+import { getPayload } from 'payload'
+import { config } from '@collectivechange/payload'
 
 export type User = {
 	id: number
@@ -341,6 +343,9 @@ export const server = {
 		}),
 		handler: async ({ userId, name, email, profileImage }, ctx) => {
 			const image = profileImage as File | undefined
+
+			const payload = await getPayload({ config })
+
 			let body
 			if (name) {
 				body = { name }

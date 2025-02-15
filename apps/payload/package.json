@@ -1,9 +1,16 @@
 {
-	"name": "payload",
+	"name": "@collectivechange/payload",
 	"version": "1.0.0",
 	"description": "Website template for Payload",
 	"license": "MIT",
 	"type": "module",
+	"exports": {
+		".": {
+			"import": "./src/index.ts",
+			"types": "./src/index.ts",
+			"default": "./src/index.ts"
+		}
+	},
 	"scripts": {
 		"build": "cross-env NODE_OPTIONS=--no-deprecation next build",
 		"postbuild": "next-sitemap --config next-sitemap.config.cjs",

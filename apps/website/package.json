@@ -34,7 +34,9 @@
     "solid-js": "^1.9.3",
     "tailwind-merge": "^2.6.0",
     "tailwindcss": "^3.4.17",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "payload": "3.22.0",
+    "@collectivechange/payload": "workspace:*"
   },
   "devDependencies": {
     "@iconify-json/ph": "^1.2.2",
