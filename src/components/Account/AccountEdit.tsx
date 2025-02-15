@@ -39,14 +39,27 @@ export default function accountEdit() {
 	const [accountEdit, { Form, Field, FieldArray }] =
 		createForm<AccountEditType>()
 
-	// const handleLogin: SubmitHandler<AccountEditType> = async (values, event) => {
-	// 		const { data, error } = await actions.ericsnewaction(values)
+	const handleSave: SubmitHandler<AccountEditType> = async (
+		values,
+		event,
+	) => {
+		const localUser = user()
+		if (!localUser) return
+		console.log("picture", values.picture)
 
-	// 		if (!error) {
-	// 			// Logged In
-	// 			navigate("/")
-	// 		}
-	// 	}
+		const formData = new FormData()
+		formData.append("userId", localUser.id.toString())
+		formData.append("name", values.name)
+		formData.append("email", values.email)
+		formData.append("profileImage", values.picture)
+
+		const { data, error } = await actions.modifyAccount(formData)
+
+		if (!error) {
+			// Logged In
+			return
+		}
+	}
 
 	createEffect(() => {
 		setValues(
@@ -65,9 +78,7 @@ export default function accountEdit() {
 		<div class="flex w-full flex-col items-start gap-8 text-green-black">
 			{/* <Switch> */}
 			{/* <Match when={!success()}> */}
-			<Form
-				// onSubmit={handleAccountSubmit}
-				class="flex flex-col items-start gap-8">
+			<Form onSubmit={handleSave} class="flex flex-col items-start gap-8">
 				<div class="flex items-center">
 					<img
 						src={
@@ -141,28 +152,26 @@ export default function accountEdit() {
 							})}>
 							Änderungen speichern
 						</button> */}
+				<button
+					type="submit"
+					class={button({
+						intent: "green",
+						size: "small",
+					})}>
+					Änderungen speichern
+				</button>
+				<button
+					id="delete_account"
+					type="button"
+					class={button({
+						intent: "red",
+						size: "small",
+					})}>
+					Account Löschen
+				</button>
 			</Form>
 			{/* </Match> */}
 			{/* </Switch> */}
-			<button
-				id="save_account"
-				type="button"
-				style="display: none;"
-				class={button({
-					intent: "green",
-					size: "small",
-				})}>
-				Änderungen speichern
-			</button>
-			<button
-				id="delete_account"
-				type="button"
-				class={button({
-					intent: "red",
-					size: "small",
-				})}>
-				Account Löschen
-			</button>
 		</div>
 	)
 }
