@@ -1,6 +1,6 @@
 import { ActionError, defineAction } from "astro:actions"
 import { z } from "astro:schema"
-import { CMS_URL } from "astro:env/server"
+import { CMS_URL } from "astro:env/client"
 import { eventsQueryFields, type Event } from "../content/loaders/payload/pages/getEvents"
 import { authenticatePayload } from "../content/loaders/payload/authenticate"
 
