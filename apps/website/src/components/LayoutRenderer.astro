@@ -1,0 +1,132 @@
+---
+import { Icon } from "astro-icon/components"
+import type { ContainerLayouts } from "../content/loaders/payload/pages/schema"
+import Button from "./button/Button.astro"
+import { button } from "./button/button"
+import LexicalRenderer from "./LexicalRenderer.astro"
+import ManifestBlock from "./ManifestBlock.astro"
+import { cn } from "../lib/cn"
+import Login from "./Login.tsx"
+import SignUp from "./SignUp/SignUp.astro"
+import UpcomingEvents from "./UpcomingEvents/UpcomingEvents.astro"
+import Account from "./Account/Account.astro"
+
+export interface Props {
+	children: ContainerLayouts[]
+	slug: string
+}
+
+const { children, slug } = Astro.props
+---
+
+{
+	children.map((child) => {
+		if ("blockType" in child) {
+			switch (child.blockType) {
+				case "h1Block":
+					return (
+						<h1
+							class={cn(
+								slug === "/"
+									? "typestyle-hero-h1 text-yellow-300"
+									: "typestyle-h1 text-off-white",
+							)}>
+							{child.title}
+						</h1>
+					)
+				case "h2Block":
+					return (
+						<h2 class="typestyle-h2 group-data-[color=green]:text-off-white group-data-[color=white]:text-green-lighter">
+							{child.title}
+						</h2>
+					)
+				case "emphasizedParagraph":
+					return (
+						<div class="[&>p]:typestyle-hero-p group-data-[color=green]:text-off-white group-data-[color=white]:text-green-black">
+							<LexicalRenderer
+								children={child.richText.root.children}
+							/>
+						</div>
+					)
+				case "indentedContainer":
+					return (
+						<div class="flex flex-col items-start gap-4 lg:ml-[25%]">
+							<Astro.self children={child.layout} slug={slug} />
+						</div>
+					)
+				case "buttonBlock":
+					let url
+					if (child.link.type === "reference") {
+						if (child.link.reference.relationTo === "pages") {
+							url =
+								child.link.reference.value.slug === "home"
+									? "/"
+									: child.link.reference.value.slug
+						} else if (
+							child.link.reference.relationTo === "knowledgebase"
+						) {
+							url = child.link.reference.value.slugWithGroup
+						}
+					} else {
+						url = child.link.url
+					}
+					return (
+						<a
+							class={button({
+								size: child.size,
+								intent: child.variant,
+							})}
+							href={url}>
+							{child.hasLeftIcon && (
+								<Icon name={`ph:${child.iconLeft}`} />
+							)}
+							{child.link.label}
+							{child.hasRightIcon && (
+								<Icon name={`ph:${child.iconRight}`} />
+							)}
+						</a>
+					)
+				case "columnContainerBlock":
+					return (
+						<div class="flex flex-col items-start gap-8 lg:flex-row">
+							{child.columns.map((column) => {
+								return (
+									<div class="lg:base-1/2 flex w-full flex-col items-start justify-center gap-4">
+										<Astro.self
+											children={column.layout}
+											slug={slug}
+										/>
+									</div>
+								)
+							})}
+						</div>
+					)
+				case "largeRichTextBlock":
+					return (
+						<div class="[&>p]:typestyle-text-l flex flex-col items-start gap-4 group-data-[color=green]:text-off-white group-data-[color=white]:text-green-black">
+							<h4 class="typestyle-h4">{child.title}</h4>
+							<LexicalRenderer
+								children={child.richText.root.children}
+							/>
+						</div>
+					)
+				case "manifestBlock":
+					return <ManifestBlock sections={child.sections} />
+				case "loginBlock":
+					return <Login client:load />
+				case "signupBlock":
+					return <SignUp />
+				case "upcomingEvents":
+					return <UpcomingEvents {...child} />
+				case "accountBlock":
+					return <Account server:defer/>
+				default:
+					return (
+						<p class="text-white mix-blend-difference">
+							{JSON.stringify(child)}
+						</p>
+					)
+			}
+		}
+	})
+}

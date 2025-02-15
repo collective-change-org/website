@@ -1,0 +1,30 @@
+---
+import type { Props } from "@astrojs/starlight/props"
+
+import EditLink from "@astrojs/starlight/components/EditLink.astro"
+import LastUpdated from "@astrojs/starlight/components/LastUpdated.astro"
+import Pagination from "@astrojs/starlight/components/Pagination.astro"
+import { getCollection } from "astro:content"
+
+const navlinks = await getCollection("footer").then((collection) => {
+	return collection.map((item) => {
+		return item.data
+	})
+})
+---
+
+<footer class="inset-x-0 bottom-0 z-10 px-4 py-6 mix-blend-difference">
+	{
+		navlinks.map((link) => (
+			<a
+				class="px-6 text-2xl"
+				href={link.href}
+				target={link.newTab ? "_blank" : ""}
+				rel={link.newTab ? "noopener noreferrer" : ""}>
+				{link.label}
+			</a>
+		))
+	}
+	<EditLink {...Astro.props} />
+	<LastUpdated {...Astro.props} />
+</footer>

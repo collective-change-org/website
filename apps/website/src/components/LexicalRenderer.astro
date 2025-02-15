@@ -1,0 +1,188 @@
+---
+import { Aside, Badge, Code, LinkCard } from "@astrojs/starlight/components"
+import type { LexicalComponents } from "../content/loaders/payload/schemas/lexical"
+import { button } from "./button/button"
+import { Icon } from "astro-icon/components"
+
+export interface Props {
+	children: LexicalComponents[]
+}
+
+const { children } = Astro.props
+---
+
+{
+	children.map((child) => {
+		switch (child.type) {
+			case "heading":
+				switch (child.tag) {
+					case "h1":
+						return (
+							<h1 class="font-poppins text-[50px] font-bold uppercase leading-none lg:text-[75px] xl:text-[100px]">
+								<Astro.self children={child.children} />
+							</h1>
+						)
+					case "h2":
+						return (
+							<h2>
+								<Astro.self children={child.children} />
+							</h2>
+						)
+					case "h3":
+						return (
+							<h3>
+								<Astro.self children={child.children} />
+							</h3>
+						)
+					case "h4":
+						return (
+							<h4>
+								<Astro.self children={child.children} />
+							</h4>
+						)
+					default:
+						return <Astro.self children={child.children} /> ?? ""
+				}
+			case "text":
+				switch (child.format) {
+					case 1: // bold
+						return (
+							<strong class="font-semibold">{child.text}</strong>
+						)
+					case 2: // italic
+						return <em>{child.text}</em>
+					case 3: // strikethrough
+						return <s>{child.text}</s>
+					case 4: // underline
+						return <u>{child.text}</u>
+					case 5: // code
+						return <code>{child.text}</code>
+					case 6: // subscript
+						return <sub>{child.text}</sub>
+					case 7: // superscript
+						return <sup>{child.text}</sup>
+					default:
+						return child.text ?? ""
+				}
+			case "link":
+				switch (child.fields.linkType) {
+					case "internal":
+						const url =
+							child.fields.doc.relationTo === "knowledgebase"
+								? `/knowledgebase/${child.fields.doc.value.slugWithGroup}`
+								: `/${child.fields.doc.value.slugWithGroup}`
+						return (
+							<a
+								href={url}
+								target={
+									child.fields.newTab ? "_blank" : "_self"
+								}
+								class="text-red-400">
+								<Astro.self children={child.children} />
+							</a>
+						)
+					case "custom":
+						return (
+							<a
+								class="text-red-400"
+								href={child.fields.url}
+								target={
+									child.fields.newTab ? "_blank" : "_self"
+								}
+								rel={
+									child.fields.newTab
+										? "noopener noreferrer"
+										: ""
+								}>
+								<Astro.self children={child.children} />
+							</a>
+						)
+				}
+			case "linebreak":
+				return <br />
+			case "paragraph":
+				return (
+					<p>
+						<Astro.self children={child.children} />
+					</p>
+				)
+			case "block":
+				switch (child.fields.blockType) {
+					case "code":
+						return (
+							<Code
+								code={child.fields.code}
+								lang={child.fields.language}
+							/>
+						)
+					case "badge":
+						return (
+							<Badge
+								text={child.fields.text}
+								variant={child.fields.variant}
+								size={child.fields.size}
+							/>
+						)
+					case "aside":
+						return (
+							<Aside
+								type={child.fields.type}
+								title={child.fields.title}>
+								<Astro.self
+									children={
+										child.fields.content.root.children
+									}
+								/>
+							</Aside>
+						)
+					case "buttonBlock":
+						let url
+						if (child.fields.link.type === "reference") {
+							if (
+								child.fields.link.relationTo === "knowledgebase"
+							) {
+								url = `/knowledgebase/${child.fields.link.reference.value.slugWithGroup}`
+							} else {
+								url = `/${child.fields.link.reference.value.slug}`
+							}
+						}
+						return (
+							<a
+								href={url}
+								class={button({
+									intent: child.fields.variant,
+									size: child.fields.size,
+								})}>
+								{child.fields.hasLeftIcon && (
+									<Icon
+										size={
+											child.fields.size === "small"
+												? 24
+												: 32
+										}
+										name={`ph:${child.fields.iconLeft}`}
+									/>
+								)}
+								{child.fields.link.label}
+								{child.fields.hasRightIcon && (
+									<Icon
+										size={
+											child.fields.size === "small"
+												? 24
+												: 32
+										}
+										name={`ph:${child.fields.iconRight}`}
+									/>
+								)}
+							</a>
+						)
+					case "linkCardBlock":
+						return <LinkCard {...child.fields} />
+					default:
+						return JSON.stringify(child)
+				}
+			default:
+				return JSON.stringify(child)
+		}
+	})
+}

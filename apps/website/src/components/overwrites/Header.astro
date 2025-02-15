@@ -1,0 +1,34 @@
+---
+import Default from "@astrojs/starlight/components/Header.astro"
+import { getCollection } from "astro:content"
+import User from "../User.astro"
+import Logo from "../../assets/Logo.svg"
+
+const navlinks = await getCollection("header").then((collection) => {
+	return collection.map((item) => {
+		return item.data
+	})
+})
+---
+
+<header
+	class="absolute z-10 flex w-full flex-col items-center justify-between px-4 py-3 mix-blend-difference sm:flex-row"
+>
+	<a href="/"><Logo class="text-white" height={80} width={190} /></a>
+	<div class="inline-flex pb-6 uppercase">
+		{
+			navlinks.map((link) => (
+				<a
+					class="px-6 text-2xl text-white no-underline"
+					href={link.href}
+					target={link.newTab ? "_blank" : ""}
+					rel={link.newTab ? "noopener noreferrer" : ""}>
+					{link.label}
+				</a>
+			))
+		}
+		<!-- <slot /> -->
+
+		<User server:defer />
+	</div>
+</header>

@@ -1,0 +1,29 @@
+---
+import { propsToFilename } from "astro/assets/utils"
+import type { LexicalComponents } from "../content/loaders/payload/schemas/lexical"
+import LexicalRenderer from "./LexicalRenderer.astro"
+
+export interface Props {
+	title: string
+	layoutElement: {
+		richText: {
+			root: {
+				children: LexicalComponents[]
+			}
+		}
+	}
+}
+
+const props = Astro.props as Props
+---
+
+<div
+	class="[&>p]:typestyle-hero-p flex flex-col items-start justify-center gap-4 pt-[20svh]"
+>
+	<h1 class="typestyle-hero-h1 text-yellow-300">{props.title}</h1>
+	<div>
+		<LexicalRenderer
+			children={props.layoutElement.richText.root.children}
+		/>
+	</div>
+</div>

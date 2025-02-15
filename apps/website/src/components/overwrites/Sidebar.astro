@@ -1,0 +1,33 @@
+---
+import type { Props } from "@astrojs/starlight/props"
+import Default from "@astrojs/starlight/components/Sidebar.astro"
+import { getCollection } from "astro:content"
+import type { SidebarEntry } from "../../content/loaders/payload/getSidebar"
+
+const { slug } = Astro.params
+
+const sidebar = await getCollection("sidebar").then((collection) => {
+	return collection.map((item) => {
+		checkActive(slug || "", item.data)
+		return item.data
+	})
+})
+
+function checkActive(path: string, item: SidebarEntry) {
+	if (item.type === "group") {
+		for (const child of item.entries) {
+			checkActive(path, child)
+		}
+	} else {
+		if (item.id === path) {
+			item.isCurrent = true
+		}
+	}
+}
+
+Astro.props.sidebar = sidebar
+---
+
+<Default {...Astro.props}>
+	<!-- <slot /> -->
+</Default>

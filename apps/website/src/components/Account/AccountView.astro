@@ -1,0 +1,32 @@
+---
+import { actions } from "astro:actions";
+import { createImageUrl } from "../../lib/createImageUrl";
+const { data, error } = await Astro.callAction(actions.verify, {})
+console.log(data?.profileImage?.url)
+---
+{
+	data ? (
+        <div class="flex fit-content items-center gap-4">
+             <img
+                src={data.profileImage ? (createImageUrl(data.profileImage.url)) : "Profile.png"}
+                class="h-40 w-40 rounded-full border-2 border-green-black"
+            />
+            <div class="text-green-black">
+                <p class="font-bold text-xl">Du bist angemeldet als: </p>
+                <p class="font-bold text-3xl text-green-lighter">{data.name}</p>
+            </div>
+        </div>
+        <div class="text-green-black ml-44">
+            <p>E-Mail Adresse</p>
+            <p class="font-bold text-xl">{data.email}</p>
+            <p class="text-sm">Deine E-Mail Adresse ist für alle Mitglieder öffentlich. Somit erlaubst du ihnen dich zu kontaktiern.</p>
+        </div>
+
+	) : (
+		<a class="px-6 text-2xl text-white no-underline" href="/login">
+			Einloggen
+		</a>
+	)
+}
+
+
