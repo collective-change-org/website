@@ -80,4 +80,14 @@ export default buildConfig({
       },
     },
   }),
+  endpoints: [
+    {
+      path: "health",
+      method: "get",
+      handler: async () => {
+        const res = new Response("ok")
+        return res
+      },
+    },
+  ],
 })
