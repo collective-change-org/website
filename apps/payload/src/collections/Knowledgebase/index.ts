@@ -29,7 +29,7 @@ import { slugField } from '../../fields/slug'
 import { Group } from '../../payload-types'
 import { LinkCardBlock } from '../../blocks/LinkCard'
 
-async function getGroupSlug(groupId: number, payload: Payload) {
+async function getGroupSlug(groupId: number, payload: Payload): Promise<string | null | undefined> {
   const group = await payload.findByID({
     collection: 'groups',
     id: groupId,
