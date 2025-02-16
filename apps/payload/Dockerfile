@@ -44,4 +44,8 @@ COPY --from=installer --chown=nextjs:nodejs /app/apps/payload/public ./apps/payl
 
 ENV PORT 3000
 
-CMD HOSTNAME="0.0.0.0" node apps/payload/server.js
+RUN ls -la ./apps/
+
+RUN ls -la
+
+CMD HOSTNAME="0.0.0.0" node ./apps/payload/server.js
