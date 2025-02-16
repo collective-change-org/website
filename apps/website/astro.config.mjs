@@ -9,6 +9,10 @@ import node from "@astrojs/node"
 
 import icon from "astro-icon"
 
+import { loadEnv } from 'payload/node'
+
+loadEnv()
+
 // https://astro.build/config
 export default defineConfig({
 	env: {
@@ -53,7 +57,9 @@ export default defineConfig({
 		tailwind({
 			applyBaseStyles: false,
 		}),
-		solidJs(),
+		solidJs({
+			exclude: ["@collectivechange/payload", "../payload/*"],
+		}),
 		icon(),
 	],
 
@@ -68,4 +74,14 @@ export default defineConfig({
 	adapter: node({
 		mode: "standalone",
 	}),
+	vite: {
+		optimizeDeps: {
+			exclude: ["@collectivechange/payload"],
+		},
+		build: {
+			rollupOptions: {
+				external: ["/^@repo\/payload/"]
+			}
+		}
+	}
 })

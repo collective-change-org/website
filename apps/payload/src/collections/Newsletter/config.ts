@@ -1,10 +1,10 @@
-import { H1Block } from "@/blocks/Headings/H1"
-import { H2Block } from "@/blocks/Headings/H2"
+import { H1Block } from "../../blocks/Headings/H1"
+import { H2Block } from "../../blocks/Headings/H2"
 import type { CollectionConfig } from "payload"
 import { sendNewsletter } from "./sendNewsletter"
 import crypto from "crypto"
-import { User } from "@/payload-types"
-import { PlainRichTextBlock } from "@/blocks/RichText/PlainRichTextBlock"
+import { User } from "../../payload-types"
+import { PlainRichTextBlock } from "../../blocks/RichText/PlainRichTextBlock"
 
 export const Newsletter: CollectionConfig<"newsletter"> = {
 	slug: "newsletter",

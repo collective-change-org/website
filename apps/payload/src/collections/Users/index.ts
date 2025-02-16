@@ -1,9 +1,9 @@
 import type { CollectionConfig } from "payload"
 
-import { authenticated } from "@/access/authenticated"
-import { renderSignup } from "@/emails/signup"
+import { authenticated } from "../../access/authenticated"
+import { renderSignup } from "../../emails/signup"
 import { z } from "zod"
-import { User } from "@/payload-types"
+import { User } from "../../payload-types"
 
 const modifySchema = z.object({
 	name: z.string().optional(),

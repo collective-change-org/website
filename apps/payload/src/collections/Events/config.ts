@@ -1,4 +1,4 @@
-import { authenticated } from '@/access/authenticated'
+import { authenticated } from '../../access/authenticated'
 import {
   lexicalEditor,
   FixedToolbarFeature,

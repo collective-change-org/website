@@ -26,8 +26,8 @@ import {
   PreviewField,
 } from '@payloadcms/plugin-seo/fields'
 import { slugField } from '../../fields/slug'
-import { Group } from '@/payload-types'
-import { LinkCardBlock } from '@/blocks/LinkCard'
+import { Group } from '../../payload-types'
+import { LinkCardBlock } from '../../blocks/LinkCard'
 
 async function getGroupSlug(groupId: number, payload: Payload) {
   const group = await payload.findByID({

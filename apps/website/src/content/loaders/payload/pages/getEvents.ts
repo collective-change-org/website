@@ -2,6 +2,8 @@ import { defineCollection, z } from "astro:content"
 import { CMS_URL } from "astro:env/client"
 import { authenticatePayload } from "../authenticate"
 import { lexicalRootContainer } from "../schemas/lexical"
+import { getPayload } from 'payload'
+import { config } from '@collectivechange/payload'
 
 export const eventsQueryFields = `
 	id
@@ -30,29 +32,12 @@ async function loadEvents() {
 		return []
 	}
 
-	const cmsUrl = new URL(CMS_URL)
-	const query = JSON.stringify({
-		query: `
-        query {
-            Events {
-                docs {
-                    ${eventsQueryFields}
-                }
-            }
-        }
-        `,
+	const payload = await getPayload({ config })
+	const events = await payload.find({
+		collection: 'events',
 	})
-	const response = await fetch(`${cmsUrl.origin}/api/graphql`, {
-		method: "POST",
-		headers: {
-			"Content-Type": "application/json",
-			Authorization: `Bearer ${result.token}`,
-		},
-		body: query,
-	})
-	const body = await response.json()
 
-	return body.data.Events.docs.map((event: any) => ({
+	return events.docs.map((event: any) => ({
 		...event,
 		id: event.id.toString(),
 	}))

@@ -1,5 +1,5 @@
-import { Newsletter, User } from "@/payload-types"
-import { renderNewsletter } from "@/emails/newsletter"
+import { Newsletter, User } from "../../payload-types"
+import { renderNewsletter } from "../../emails/newsletter"
 import { CollectionAfterOperationHook } from "payload"
 import crypto from "crypto"
 

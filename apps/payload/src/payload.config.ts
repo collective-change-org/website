@@ -1,7 +1,5 @@
-// storage-adapter-import-placeholder
 import { postgresAdapter } from "@payloadcms/db-postgres"
-
-import sharp from "sharp" // sharp-import
+import sharp from "sharp"
 import path from "path"
 import { buildConfig } from "payload"
 import { fileURLToPath } from "url"
@@ -14,7 +12,7 @@ import { Users } from "./collections/Users"
 import { Footer } from "./Footer/config"
 import { Header } from "./Header/config"
 import { plugins } from "./plugins"
-import { defaultLexical } from "@/fields/defaultLexical"
+import { defaultLexical } from "./fields/defaultLexical"
 import { getServerSideURL } from "./utilities/getURL"
 import { Badge } from "./collections/Badge"
 import { migrations } from "./migrations"
@@ -31,35 +29,11 @@ export default buildConfig({
     admin: "/",
   },
   admin: {
-    components: {},
     importMap: {
       baseDir: path.resolve(dirname),
     },
     user: Users.slug,
-    // livePreview: {
-    //   breakpoints: [
-    //     {
-    //       label: 'Mobile',
-    //       name: 'mobile',
-    //       width: 375,
-    //       height: 667,
-    //     },
-    //     {
-    //       label: 'Tablet',
-    //       name: 'tablet',
-    //       width: 768,
-    //       height: 1024,
-    //     },
-    //     {
-    //       label: 'Desktop',
-    //       name: 'desktop',
-    //       width: 1440,
-    //       height: 900,
-    //     },
-    //   ],
-    // },
   },
-  // This config helps us configure global or default features that the other editors can inherit
   editor: defaultLexical,
   db: postgresAdapter({
     pool: {
@@ -82,10 +56,8 @@ export default buildConfig({
   globals: [Header, Footer],
   plugins: [
     ...plugins,
-    // storage-adapter-placeholder
   ],
   secret: process.env.PAYLOAD_SECRET,
-
   sharp,
   typescript: {
     outputFile: path.resolve(dirname, "payload-types.ts"),
