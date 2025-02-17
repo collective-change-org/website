@@ -11,7 +11,6 @@ RUN corepack enable pnpm && pnpm add turbo@^2.4.2
 COPY . .
 
 # Generate a partial monorepo with a pruned lockfile for a target workspace.
-# Assuming "web" is the name entered in the project's package.json: { name: "web" }
 RUN pnpm turbo prune @collectivechange/payload --docker
 
 # Add lockfile and package.json's of isolated subworkspace
@@ -44,8 +43,4 @@ COPY --from=installer --chown=nextjs:nodejs /app/apps/payload/public ./apps/payl
 
 ENV PORT 3000
 
-RUN ls -la ./apps/
-
-RUN ls -la
-
-CMD HOSTNAME="0.0.0.0" node ./apps/payload/server.js
+CMD HOSTNAME="0.0.0.0" node apps/payload/server.js

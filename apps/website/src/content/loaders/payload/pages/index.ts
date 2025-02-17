@@ -12,6 +12,7 @@ export interface KnowledgebasePage extends BaseSchema {
 	lexical: LexicalRoot
 	tableOfContents?: any
 	sidebar: CustomSidebar
+	restricted: "public" | "members"
 }
 
 export interface Page extends BaseSchema {

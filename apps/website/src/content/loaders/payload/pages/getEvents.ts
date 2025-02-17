@@ -1,37 +1,9 @@
 import { defineCollection, z } from "astro:content"
-import { CMS_URL } from "astro:env/client"
-import { authenticatePayload } from "../authenticate"
 import { lexicalRootContainer } from "../schemas/lexical"
 import { getPayload } from 'payload'
 import { config } from '@collectivechange/payload'
 
-export const eventsQueryFields = `
-	id
-	title
-	description
-	date
-	time
-	left
-	right
-	image {
-		url
-	}
-	attendees {
-		name
-		id
-		profileImage {url}
-	}
-`
-
 async function loadEvents() {
-	const bearerToken = await authenticatePayload()
-	// Auth
-	const { error, result } = bearerToken
-	if (error || !result) {
-		console.error(error)
-		return []
-	}
-
 	const payload = await getPayload({ config })
 	const events = await payload.find({
 		collection: 'events',
