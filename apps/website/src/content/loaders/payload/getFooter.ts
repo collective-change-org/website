@@ -1,96 +1,43 @@
-import { CMS_URL } from "astro:env/client"
-import { authenticatePayload } from "./authenticate"
 import { defineCollection, z } from "astro:content"
-
-type PayloadResponse = {
-    data: {
-        Footer: {
-            navItems: Array<{
-                id: string
-                link: {
-                    label: string
-                    newTab: any
-                    url: any
-                    reference: {
-                        value: {
-                            slug: string
-                            slugWithGroup: string
-                        }
-                    }
-                }
-            }>
-        }
-    }
-}
-
+import { getPayload } from "payload"
+import { config } from "@collectivechange/payload"
 
 export async function getFooter(): Promise<FooterSchema> {
-    const bearerToken = await authenticatePayload()
-    // Auth
-    const { error, result } = bearerToken
-    if (error || !result) {
-        console.error(error)
-        return []
-    }
-
-    const cmsUrl = new URL(CMS_URL)
-
-    const response = await fetch(`${cmsUrl.origin}/api/graphql`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-            query: `
-            query {
-                Footer {  
-                    navItems {
-                    id
-                    link {
-                        label
-                        newTab
-                        url
-                        reference {
-                        value {
-                            ... on Page {
-                            slug
-                            }
-                            ... on Knowledgebase {
-                            slugWithGroup
-                            }
-                        }
-                        }
-                    }
-                    }
-                }
-                }
-            `,
-            headers: {
-                Authorization: `Bearer ${result.token}`,
-            },
-        }),
+    const payload = await getPayload({ config })
+    const footer = await payload.findGlobal({
+        slug: "footer",
+        depth: 3,
     })
 
-    const data = (await response.json()) as PayloadResponse
-
-    const elements = data.data.Footer.navItems.map((navItem) => {
+    const elements = footer?.navItems?.map((navItem) => {
         let href: string
         // check if internal link
         if (navItem.link.reference) {
             // check if page or knowlegebase link
-            href = (navItem.link.reference.value.slug) ? "/" + navItem.link.reference.value.slug : "/knowledgebase/" + navItem.link.reference.value.slugWithGroup
+            const reference = navItem.link.reference.value
+            if (typeof reference === "number") {
+                href = ""
+            } else {
+                // If referemce is a page, not a knowledgebase, use the slug
+                // If it is a knowledgebase, use the slugWithGroup
+                if ("slugWithGroup" in reference) {
+                    href = reference.slugWithGroup || ""
+                } else {
+                    href = reference.slug || ""
+                }
+            }
         } else {
-            href = navItem.link.url
+            href = navItem.link.url || ""
         }
         const item: LinkSchema = {
-            id: navItem.id,
+            id: navItem.id || "",
             label: navItem.link.label,
             newTab: navItem.link.newTab,
             href: href,
         }
         return item
     })
-    return elements
+    return elements || []
 }
 
 export const linkSchema = z.object({

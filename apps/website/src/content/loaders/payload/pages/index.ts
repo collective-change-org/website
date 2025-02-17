@@ -19,6 +19,8 @@ export interface Page extends BaseSchema {
 	id: string
 	title: string
 	template: "splash"
+	tableOfContents: boolean
+	sidebar: CustomSidebar
 	layout: ContentBlock[]
 }
 

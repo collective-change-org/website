@@ -1,7 +1,4 @@
-import { CMS_URL } from "astro:env/client"
-import { authenticatePayload } from "../authenticate"
 import { headingToSlug, generateToC } from "../generateToC"
-import type { PayloadPageResponseItem } from "../getSidebar"
 import type { LexicalRoot, LexicalText } from "../schemas/lexical"
 import type { KnowledgebasePage } from "."
 import { getPayload } from "payload"
@@ -9,53 +6,11 @@ import { config, type Knowledgebase } from "@collectivechange/payload"
 
 
 export async function getKnowledgeBase(): Promise<KnowledgebasePage[]> {
-	const bearerToken = await authenticatePayload()
-	// Auth
-	const { error, result } = bearerToken
-	if (error || !result) {
-		console.error(error)
-		return []
-	}
-
-	const cmsUrl = new URL(CMS_URL)
-
-	const response = await fetch(`${cmsUrl.origin}/api/graphql`, {
-		method: "POST",
-		headers: {
-			"Content-Type": "application/json",
-		},
-		body: JSON.stringify({
-			query: `
-			query {
-				Knowledgebases(sort: "docOrder") {
-					docs {
-					id
-					title
-					group {
-						title
-						breadcrumbs{doc{slug}}
-					}
-					slug
-					content 
-					restricted
-					}
-				}
-			}
-		`,
-			headers: {
-				Authorization: `Bearer ${result.token}`,
-			},
-		}),
-	})
-
 	const payload = await getPayload({ config })
 	const pages = await payload.find({
 		collection: "knowledgebase",
 		sort: "docOrder",
 	})
-
-
-
 
 	return pages.docs.map((doc, i) => {
 		function extractTextFromLexical(textArray: LexicalText[]): string {

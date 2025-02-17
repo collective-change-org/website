@@ -108,8 +108,8 @@ const containerBlock = z.object({
 	blockType: z.literal("containerBlock"),
 	color: z.union([
 		z.literal("green"),
-		z.literal("white_1"),
-		z.literal("white_2"),
+		z.literal("white-1"),
+		z.literal("white-2"),
 	]),
 	layout: z.array(containerLayouts),
 })

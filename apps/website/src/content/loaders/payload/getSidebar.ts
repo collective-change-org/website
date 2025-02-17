@@ -1,5 +1,3 @@
-import { CMS_URL } from "astro:env/client"
-import { authenticatePayload } from "./authenticate"
 import type { LexicalRootContainer } from "./schemas/lexical"
 import type { Badge } from "../../../schemas/badge"
 import { getPageSlug } from "./pages/getKnowledgebase"
@@ -8,14 +6,8 @@ import {
 	type LinkHTMLAttributes,
 	linkHTMLAttributesSchema,
 } from "../../../schemas/sidebar"
-
-type PayloadPageResponse = {
-	data: {
-		Knowledgebases: {
-			docs: Array<PayloadPageResponseItem>
-		}
-	}
-}
+import { config, type Knowledgebase } from "@collectivechange/payload"
+import { getPayload } from "payload"
 
 export type PayloadPageResponseItem = {
 	id: number
@@ -50,12 +42,14 @@ interface OrderedGroup extends Group {
 	docOrder: number
 }
 
-function pageToLink(page: PayloadPageResponseItem): Link {
+function pageToLink(page: Knowledgebase): Link {
+	const payloadBadge = typeof page.badge === "number" ? undefined : page.badge
 	let badge: Badge | undefined
-	if (page.badge) {
+
+	if (payloadBadge) {
 		badge = {
-			text: page.badge.text,
-			variant: page.badge.variant || "default",
+			text: payloadBadge.text || "",
+			variant: payloadBadge.variant || "default",
 		}
 	}
 	return {
@@ -70,97 +64,72 @@ function pageToLink(page: PayloadPageResponseItem): Link {
 }
 
 export async function getKnowledgebaseSidebar(): Promise<SidebarEntry[]> {
-	const bearerToken = await authenticatePayload()
-	// Auth
-	const { error, result } = bearerToken
-	if (error || !result) {
-		console.error(error)
-		return []
-	}
-
-	const cmsUrl = new URL(CMS_URL)
-
-	const pageResponse = await fetch(`${cmsUrl.origin}/api/graphql`, {
-		method: "POST",
-		headers: {
-			"Content-Type": "application/json",
-		},
-		body: JSON.stringify({
-			query: `
-            query {
-                Knowledgebases {
-                    docs {
-                    id
-                    title
-                    group {
-                        title
-                        breadcrumbs{
-                            doc{
-                                title
-                                slug
-                                docOrder
-								badgeText
-								badgeVariant
-                            }
-                        }
-                    }
-                    slug
-                    content
-					badge {
-						text
-						variant
-					}
-					restricted
-                    }
-                }
-            }
-        `,
-			headers: {
-				Authorization: `Bearer ${result.token}`,
-			},
-		}),
+	const payload = await getPayload({ config })
+	const pages = await payload.find({
+		collection: "knowledgebase",
+		sort: "docOrder",
 	})
-	const pageRes = (await pageResponse.json()) as PayloadPageResponse
-	const pages = pageRes.data.Knowledgebases.docs
 
 	const sidebar: SidebarEntry[] = []
 
 	const groups: OrderedGroup[] = []
 
-	for (const page of pages) {
+	for (const page of pages.docs) {
 		if (!page.group) {
 			// Knowledgebase page is on the root level
 			sidebar.push(pageToLink(page))
 			continue
 		}
 
-		for (let i = 0; i < page.group.breadcrumbs.length; i++) {
-			const group = page.group.breadcrumbs[i]
+		if (typeof page.group === "number") {
+			continue
+		}
+
+		const breadcrumbs = page.group.breadcrumbs
+
+		if (!breadcrumbs || breadcrumbs.length === 0) {
+			continue
+		}
+
+		for (let i = 0; i < breadcrumbs.length; i++) {
+			const group = breadcrumbs[i]
+			if (typeof group.doc === "number" || !group.doc) {
+				continue
+			}
+
+			const groupDoc = group.doc
+			if (!groupDoc.slug) {
+				continue
+			}
+
+			const parentBreadcrumb = breadcrumbs[i - 1]
+			const parentSlug = typeof parentBreadcrumb.doc === "number" ? "" : parentBreadcrumb.doc?.slug
+
 			// Find the group in the list of groups
-			let tempGroup = groups.find((g) => g.slug === group.doc.slug)
+			let tempGroup = groups.find((g) => g.slug === groupDoc.slug)
 			if (!tempGroup) {
 				tempGroup = {
-					id: "knowledgebase/" + group.doc.slug,
-					docOrder: group.doc.docOrder || 0,
-					label: group.doc.title,
-					slug: group.doc.slug,
+					id: "knowledgebase/" + groupDoc.slug,
+					docOrder: groupDoc.docOrder || 0,
+					label: groupDoc.title,
+					slug: groupDoc.slug,
 					entries: [],
 					collapsed: true,
 					parentSlug:
 						i > 0
-							? page.group.breadcrumbs[i - 1].doc.slug
+							? parentSlug || ""
 							: undefined,
 					type: "group",
-					...(group.doc.badgeText && {
+					...(groupDoc.badgeText && {
 						badge: {
-							text: group.doc.badgeText,
-							variant: group.doc.badgeVariant || "default",
+							text: groupDoc.badgeText,
+							variant: groupDoc.badgeVariant || "default",
 						},
 					}),
 				}
 				groups.push(tempGroup)
 			}
-			if (i === page.group.breadcrumbs.length - 1) {
+			if (i === breadcrumbs.length - 1) {
 				tempGroup.entries.push(pageToLink(page))
 			}
 		}
