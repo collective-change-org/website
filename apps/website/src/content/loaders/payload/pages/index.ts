@@ -28,6 +28,7 @@ async function loadAllPages() {
 	const knowledgebase = getKnowledgeBase()
 	const pages = getPages()
 
+
 	return Promise.all([...(await knowledgebase), ...(await pages)])
 }
 

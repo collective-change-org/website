@@ -24,3 +24,7 @@ pnpm-debug.log*
 .turbo/
 
 .next/
+
+uploads/
+
+apps/payload/public/media

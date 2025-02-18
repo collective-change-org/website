@@ -2,6 +2,8 @@
 import Default from "@astrojs/starlight/components/PageTitle.astro"
 
 const template = Astro.locals.starlightRoute.entry.data.template
+
+console.log("template", template)
 ---
 
 {template === "doc" ? <Default {...Astro.props} /> : <slot />}

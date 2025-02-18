@@ -322,10 +322,9 @@ export const server = {
 			name: z.string().optional(),
 			profileImage: z
 				.any()
-				.refine((files) => files?.length == 1, "Image is required.")
-				.refine((files) => files?.[0]?.size <= MAX_FILE_SIZE, `Max file size is 5MB.`)
+				.refine((file) => file?.size <= MAX_FILE_SIZE, `Max file size is 5MB.`)
 				.refine(
-					(files) => ACCEPTED_IMAGE_TYPES.includes(files?.[0]?.type),
+					(file) => ACCEPTED_IMAGE_TYPES.includes(file?.type),
 					".jpg, .jpeg, .png and .webp files are accepted."
 				).optional(),
 		}),
@@ -366,7 +365,16 @@ export const server = {
 					const buffer = await image.arrayBuffer()
 					payload.logger.info("Updating existing profile image")
 					payload.logger.info(`Media Type: ${image.type}`)
-					payload.update({
+
+					// Delete existing profile image
+					await payload.delete({
+						collection: "media",
+						where: {
+							id: { equals: typeof user.profileImage === "number" ? user.profileImage : user.profileImage.id },
+						},
+					})
+
+					const newImage = await payload.create({
 						collection: "media",
 						file: {
 							data: Buffer.from(buffer),
@@ -378,11 +386,11 @@ export const server = {
 							alt: `${name} profile image`,
 							filename: `${userId}-profile-image`,
 						},
-						where: {
-							filename: { equals: `${userId}-profile-image` },
-						},
 						overwriteExistingFiles: true
 					})
+
+					// Update user with new profile image
+					updateData.profileImage = newImage
 				} else {
 					const buffer = await image.arrayBuffer()
 					payload.logger.info("Creating new profile image")
