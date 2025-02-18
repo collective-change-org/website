@@ -49,7 +49,6 @@ export default defineConfig({
 				Header: "./src/components/overwrites/Header.astro",
 				PageFrame: "./src/components/overwrites/PageFrame.astro",
 				Footer: "./src/components/overwrites/Footer.astro",
-				ContentPanel: "./src/components/overwrites/ContentPanel.astro",
 				PageTitle: "./src/components/overwrites/PageTitle.astro",
 			},
 			customCss: ["./src/tailwind.css"],

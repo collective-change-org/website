@@ -1,7 +1,0 @@
----
-import Default from "@astrojs/starlight/components/ContentPanel.astro"
-
-const template = Astro.locals.starlightRoute.entry.data.template
----
-
-{template === "doc" ? <Default /> : <slot />}
