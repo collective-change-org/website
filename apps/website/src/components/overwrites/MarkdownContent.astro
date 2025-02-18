@@ -1,5 +1,4 @@
 ---
-import type { Props } from "@astrojs/starlight/props"
 import LexicalRenderer from "../LexicalRenderer.astro"
 import type { LexicalRoot } from "../../content/loaders/payload/schemas/lexical"
 import RestrictedRenderer from "../RestrictedRenderer.astro"
@@ -7,7 +6,8 @@ import type { LayoutUnion } from "../../content/loaders/payload/pages/schema"
 import LayoutRenderer from "../LayoutRenderer.astro"
 import { cn } from "../../lib/cn"
 
-const page = Astro.props.entry.data
+const { entry } = Astro.locals.starlightRoute
+const page = entry.data
 
 let content
 if (page.template === "splash") {

@@ -1,12 +1,7 @@
 ---
-import type { Props } from "@astrojs/starlight/props"
 import Default from "@astrojs/starlight/components/PageTitle.astro"
+
+const template = Astro.locals.starlightRoute.entry.data.template
 ---
 
-{
-	Astro.props.entry.data.template === "doc" ? (
-		<Default {...Astro.props} />
-	) : (
-		<slot />
-	)
-}
+{template === "doc" ? <Default {...Astro.props} /> : <slot />}

@@ -1,13 +1,13 @@
 ---
-import type { Props } from "@astrojs/starlight/props"
 import Default from "@astrojs/starlight/components/PageSidebar.astro"
 import {
 	generateToC,
 	headingToSlug,
 } from "../../content/loaders/payload/generateToC"
 import type { LexicalText } from "../../content/loaders/payload/schemas/lexical"
+import type { MarkdownHeading } from "astro"
 
-const page = Astro.props.entry.data
+const page = Astro.locals.starlightRoute.entry.data
 
 if (page.template === "splash") {
 	console.error("returning")
@@ -18,7 +18,7 @@ function extractTextFromLexical(textArray: LexicalText[]): string {
 	return textArray.map(({ text }) => text).join("")
 }
 
-const astroHeadings = []
+const astroHeadings: MarkdownHeading[] = []
 
 for (const lexicalElements of page.lexical.children) {
 	if (lexicalElements.type === "heading") {
