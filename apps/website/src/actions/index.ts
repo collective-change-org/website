@@ -3,6 +3,8 @@ import { z } from "astro:schema"
 import { CMS_URL } from "astro:env/client"
 import { eventsQueryFields, type Event } from "../content/loaders/payload/pages/getEvents"
 import { authenticatePayload } from "../content/loaders/payload/authenticate"
+import { getPayload } from "payload"
+import { config, type User as PayloadUser } from "@collectivechange/payload"
 
 export type User = {
 	id: number
@@ -217,30 +219,13 @@ export const server = {
 			id: z.string(),
 		}),
 		handler: async ({ id }, ctx) => {
-			const bearerToken = await authenticatePayload()
-			const res = await fetch(`${cmsUrl.origin}/api/graphql`, {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-					Authorization: `Bearer ${bearerToken.result?.token}`,
-				},
-				body: JSON.stringify({
-					query: `{
-						Event(id: ${id}) {
-							${eventsQueryFields}
-						}
-					}`,
-				}),
+			const payload = await getPayload({ config })
+			const event = await payload.findByID({
+				id: parseInt(id),
+				collection: "events",
 			})
-			const data = await res.json()
-			const event = data.data.Event as Event
 
-			if (res.status !== 200) {
-				throw new ActionError({
-					code: "BAD_REQUEST",
-					message: res.statusText,
-				})
-			}
+
 
 			const headers = new Headers({
 				"Content-Type": "application/json",
@@ -264,7 +249,10 @@ export const server = {
 			if (body.user) {
 				if (!event.attendees) return
 				isParticipating = event.attendees?.some(
-					(a) => a.id === body.user?.id,
+					(attendee) => {
+						const attendeeId = typeof attendee === "number" ? attendee : attendee.id
+						return attendeeId === body.user?.id
+					},
 				)
 			}
 
@@ -354,63 +342,63 @@ export const server = {
 				}
 			}
 
-			// const payload = await getPayload({ config })
+			const payload = await getPayload({ config })
 
-			// const user = await payload.findByID({
-			// 	id: userId,
-			// 	collection: "users",
-			// })
+			const user = await payload.findByID({
+				id: userId,
+				collection: "users",
+			})
 
 
-			// const updateData: Partial<PayloadUser> = {}
+			const updateData: Partial<PayloadUser> = {}
 
-			// if (name) {
-			// 	updateData.name = name
-			// }
+			if (name) {
+				updateData.name = name
+			}
 
-			// if (image) {
-			// 	if (user.profileImage) {
-			// 		const buffer = await image.arrayBuffer()
-			// 		payload.update({
-			// 			collection: "media",
-			// 			file: {
-			// 				data: Buffer.from(buffer),
-			// 				mimetype: image.type,
-			// 				name: `${userId}-profile-image`,
-			// 				size: image.size,
-			// 			},
-			// 			data: {
-			// 				alt: `${name} profile image`,
-			// 				filename: `${userId}-profile-image`,
-			// 			},
-			// 			where: {
-			// 				filenmame: { equals: `${userId}-profile-image` },
-			// 			},
-			// 			overwriteExistingFiles: true
-			// 		})
-			// 	} else {
-			// 		const buffer = await image.arrayBuffer()
-			// 		const media = await payload.create({
-			// 			collection: "media",
-			// 			file: {
-			// 				data: Buffer.from(buffer),
-			// 				mimetype: image.type,
-			// 				name: `${userId}-profile-image`,
-			// 				size: image.size,
-			// 			},
-			// 			data: {
-			// 				alt: `${name} profile image`,
-			// 			},
-			// 		})
-			// 		updateData.profileImage = media
-			// 	}
-			// }
+			if (image) {
+				if (user.profileImage) {
+					const buffer = await image.arrayBuffer()
+					payload.update({
+						collection: "media",
+						file: {
+							data: Buffer.from(buffer),
+							mimetype: image.type,
+							name: `${userId}-profile-image`,
+							size: image.size,
+						},
+						data: {
+							alt: `${name} profile image`,
+							filename: `${userId}-profile-image`,
+						},
+						where: {
+							filenmame: { equals: `${userId}-profile-image` },
+						},
+						overwriteExistingFiles: true
+					})
+				} else {
+					const buffer = await image.arrayBuffer()
+					const media = await payload.create({
+						collection: "media",
+						file: {
+							data: Buffer.from(buffer),
+							mimetype: image.type,
+							name: `${userId}-profile-image`,
+							size: image.size,
+						},
+						data: {
+							alt: `${name} profile image`,
+						},
+					})
+					updateData.profileImage = media
+				}
+			}
 
-			// payload.update({
-			// 	id: userId,
-			// 	collection: "users",
-			// 	data: updateData,
-			// })
+			payload.update({
+				id: userId,
+				collection: "users",
+				data: updateData,
+			})
 
 			return true
 		},

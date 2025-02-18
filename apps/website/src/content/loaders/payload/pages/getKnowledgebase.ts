@@ -1,4 +1,4 @@
-import { headingToSlug, generateToC } from "../generateToC"
+import { headingToSlug, generateToC, type TocItem } from "../generateToC"
 import type { LexicalRoot, LexicalText } from "../schemas/lexical"
 import type { KnowledgebasePage } from "."
 import { getPayload } from "payload"
@@ -19,24 +19,29 @@ export async function getKnowledgeBase(): Promise<KnowledgebasePage[]> {
 
 		const astroHeadings = []
 
-		for (const lexicalElements of doc.content.root.children) {
-			if (lexicalElements.type === "heading") {
-				const tag = lexicalElements.tag as string
-				const depth = parseInt(tag.replace("h", ""))
-				const text = extractTextFromLexical(lexicalElements.children as LexicalText[])
-				astroHeadings.push({
-					depth,
-					slug: headingToSlug(text),
-					text: text,
-				})
-			}
-		}
+		let items: TocItem[] = []
 
-		const items = generateToC(astroHeadings, {
-			minHeadingLevel: 2,
-			maxHeadingLevel: 3,
-			title: doc.title,
-		})
+		if (doc.content && doc.content.root) {
+			console.log("doc.content.root", doc.content.root)
+			for (const lexicalElements of doc.content.root.children) {
+				if (lexicalElements.type === "heading") {
+					const tag = lexicalElements.tag as string
+					const depth = parseInt(tag.replace("h", ""))
+					const text = extractTextFromLexical(lexicalElements.children as LexicalText[])
+					astroHeadings.push({
+						depth,
+						slug: headingToSlug(text),
+						text: text,
+					})
+				}
+			}
+
+			items = generateToC(astroHeadings, {
+				minHeadingLevel: 2,
+				maxHeadingLevel: 3,
+				title: doc.title,
+			})
+		}
 
 		return {
 			id: "knowledgebase/" + getPageSlug(doc),

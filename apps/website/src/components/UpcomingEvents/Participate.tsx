@@ -37,6 +37,7 @@ export const Participate: VoidComponent<Event> = (props) => {
 			console.error(userRes.error)
 			return
 		}
+		console.log(userRes.data)
 		setUser(userRes.data)
 
 		if (eventRes.data?.isParticipating) {
