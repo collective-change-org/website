@@ -315,6 +315,7 @@ export const server = {
 	// Modify Account
 	// Email, Name, Pssworrt, Bild, ggf. Pronomen
 	modifyAccount: defineAction({
+		accept: "form",
 		input: z.object({
 			userId: z.number(),
 			email: z.string().email().optional(),
@@ -329,7 +330,12 @@ export const server = {
 				).optional(),
 		}),
 		handler: async ({ userId, name, email, profileImage }, ctx) => {
+			const payload = await getPayload({ config })
+
+			payload.logger.info("Modifying account")
+
 			const image = profileImage as File | undefined
+			console.log("image", image)
 
 			let body
 			if (name) {
@@ -342,7 +348,6 @@ export const server = {
 				}
 			}
 
-			const payload = await getPayload({ config })
 
 			const user = await payload.findByID({
 				id: userId,
@@ -359,6 +364,8 @@ export const server = {
 			if (image) {
 				if (user.profileImage) {
 					const buffer = await image.arrayBuffer()
+					payload.logger.info("Updating existing profile image")
+					payload.logger.info(`Media Type: ${image.type}`)
 					payload.update({
 						collection: "media",
 						file: {
@@ -372,12 +379,14 @@ export const server = {
 							filename: `${userId}-profile-image`,
 						},
 						where: {
-							filenmame: { equals: `${userId}-profile-image` },
+							filename: { equals: `${userId}-profile-image` },
 						},
 						overwriteExistingFiles: true
 					})
 				} else {
 					const buffer = await image.arrayBuffer()
+					payload.logger.info("Creating new profile image")
+					payload.logger.info(`Media Type: ${image.type}`)
 					const media = await payload.create({
 						collection: "media",
 						file: {
