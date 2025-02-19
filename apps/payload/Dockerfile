@@ -39,7 +39,7 @@ USER nextjs
 # https://nextjs.org/docs/advanced-features/output-file-tracing
 COPY --from=installer --chown=nextjs:nodejs /app/apps/payload/.next/standalone ./
 COPY --from=installer --chown=nextjs:nodejs /app/apps/payload/.next/static ./apps/payload/.next/static
-COPY --from=installer --chown=nextjs:nodejs /app/apps/payload/public ./apps/payload/public
+# COPY --from=installer --chown=nextjs:nodejs /app/apps/payload/public ./apps/payload/public
 
 ENV PORT 3000
 
