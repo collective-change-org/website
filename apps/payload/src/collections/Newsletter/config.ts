@@ -1,10 +1,11 @@
-import { H1Block } from "../../blocks/Headings/H1"
-import { H2Block } from "../../blocks/Headings/H2"
-import type { CollectionConfig } from "payload"
-import { sendNewsletter } from "./sendNewsletter"
-import crypto from "crypto"
-import { User } from "../../payload-types"
-import { PlainRichTextBlock } from "../../blocks/RichText/PlainRichTextBlock"
+import { H1Block } from "../../blocks/Headings/H1";
+import { H2Block } from "../../blocks/Headings/H2";
+import { H3Block } from "../../blocks/Headings/H3";
+import type { CollectionConfig } from "payload";
+import { sendNewsletter } from "./sendNewsletter";
+import crypto from "crypto";
+import { User } from "../../payload-types";
+import { PlainRichTextBlock } from "../../blocks/RichText/PlainRichTextBlock";
 
 export const Newsletter: CollectionConfig<"newsletter"> = {
 	slug: "newsletter",
@@ -22,7 +23,7 @@ export const Newsletter: CollectionConfig<"newsletter"> = {
 			name: "body",
 			label: "E-Mail Inhalt",
 			type: "blocks",
-			blocks: [H1Block, H2Block, PlainRichTextBlock],
+			blocks: [H1Block, H2Block, H3Block, PlainRichTextBlock],
 			required: true,
 			minRows: 2,
 		},
@@ -38,20 +39,20 @@ export const Newsletter: CollectionConfig<"newsletter"> = {
 			path: "/unsubscribe/:token",
 			method: "post",
 			handler: async (request) => {
-				const token = request.routeParams?.token as string | undefined
+				const token = request.routeParams?.token as string | undefined;
 				if (!token) {
-					return new Response("Token is required", { status: 400 })
+					return new Response("Token is required", { status: 400 });
 				}
 
-				const SECRET_KEY = process.env.PAYLOAD_SECRET
+				const SECRET_KEY = process.env.PAYLOAD_SECRET;
 				if (!SECRET_KEY) {
 					throw new Error(
 						"Notification Secret Key is not set in the environment",
-					)
+					);
 				}
 
 				try {
-					const [nonce, signature] = token.split(".")
+					const [nonce, signature] = token.split(".");
 
 					const subscription = await request.payload.find({
 						collection: "notification-settings",
@@ -59,34 +60,34 @@ export const Newsletter: CollectionConfig<"newsletter"> = {
 							nonce: { equals: nonce },
 						},
 						limit: 1,
-					})
+					});
 
 					if (subscription.docs.length === 0) {
 					}
-					const notificationSetting = subscription.docs[0]
+					const notificationSetting = subscription.docs[0];
 
-					let user: User
+					let user: User;
 					if (typeof notificationSetting.user === "number") {
 						const userDoc = await request.payload.findByID({
 							collection: "users",
 							id: notificationSetting.user,
-						})
+						});
 						if (!userDoc) {
 							return new Response("User not found", {
 								status: 404,
-							})
+							});
 						}
-						user = userDoc
+						user = userDoc;
 					} else {
-						user = notificationSetting.user
+						user = notificationSetting.user;
 					}
 
 					// Recreate the expected signature
-					const data = `${user.id}:${nonce}`
+					const data = `${user.id}:${nonce}`;
 					const expectedHmac = crypto
 						.createHmac("sha256", SECRET_KEY)
 						.update(data)
-						.digest("base64url")
+						.digest("base64url");
 
 					if (
 						!crypto.timingSafeEqual(
@@ -97,22 +98,22 @@ export const Newsletter: CollectionConfig<"newsletter"> = {
 						// Invalid signature
 						return new Response("Invalid Signature", {
 							status: 400,
-						})
+						});
 					}
 
 					// Valid token → delete the nonce to prevent reuse
-					console.log("Unsubscribing", user.name)
+					console.log("Unsubscribing", user.name);
 					request.payload.delete({
 						collection: "notification-settings",
 						where: {
 							id: { equals: notificationSetting.id },
 						},
-					})
+					});
 				} catch {
-					return new Response("Invalid token", { status: 400 })
+					return new Response("Invalid token", { status: 400 });
 				}
-				return new Response("OK")
+				return new Response("OK");
 			},
 		},
 	],
-}
+};

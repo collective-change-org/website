@@ -1,5 +1,5 @@
-import { Font, Html, Tailwind } from "@react-email/components"
-import config from "./tailwind.config"
+import { Font, Html, Tailwind } from "@react-email/components";
+import config from "./tailwind.config";
 
 export const TailwindWrapper = (props: { children: React.ReactNode }) => {
 	return (
@@ -12,7 +12,17 @@ export const TailwindWrapper = (props: { children: React.ReactNode }) => {
 						url: "https://cdn.jsdelivr.net/fontsource/fonts/poppins@latest/latin-800-normal.woff2",
 						format: "woff2",
 					}}
-					fontWeight={400}
+					fontWeight={800}
+					fontStyle="normal"
+				/>
+				<Font
+					fontFamily="Poppins"
+					fallbackFontFamily="sans-serif"
+					webFont={{
+						url: "https://cdn.jsdelivr.net/fontsource/fonts/poppins@latest/latin-700-normal.woff2",
+						format: "woff2",
+					}}
+					fontWeight={700}
 					fontStyle="normal"
 				/>
 				<Font
@@ -28,5 +38,5 @@ export const TailwindWrapper = (props: { children: React.ReactNode }) => {
 				{props.children}
 			</Html>
 		</Tailwind>
-	)
-}
+	);
+};
