@@ -4,11 +4,11 @@ import path from "path"
 import { buildConfig } from "payload"
 import { fileURLToPath } from "url"
 
-import { Groups } from "./collections/Groups"
 import { Media } from "./collections/Media"
+import { Users } from "./collections/Users"
+import { Groups } from "./collections/Groups"
 import { Pages } from "./collections/Pages"
 import { Knowledgebase } from "./collections/Knowledgebase"
-import { Users } from "./collections/Users"
 import { Footer } from "./Footer/config"
 import { Header } from "./Header/config"
 import { plugins } from "./plugins"
@@ -57,7 +57,7 @@ export default buildConfig({
   plugins: [
     ...plugins,
   ],
-  secret: process.env.PAYLOAD_SECRET,
+  secret: process.env.PAYLOAD_SECRET || "",
   sharp,
   typescript: {
     outputFile: path.resolve(dirname, "payload-types.ts"),

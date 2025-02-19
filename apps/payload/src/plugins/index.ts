@@ -3,6 +3,7 @@ import { nestedDocsPlugin } from '@payloadcms/plugin-nested-docs'
 import { seoPlugin } from '@payloadcms/plugin-seo'
 import { Plugin } from 'payload'
 import { GenerateTitle, GenerateURL } from '@payloadcms/plugin-seo/types'
+import { socialSchedule } from 'social-schedule'
 
 import { Page, Knowledgebase } from '../payload-types'
 import { getServerSideURL } from '../utilities/getURL'
@@ -25,5 +26,9 @@ export const plugins: Plugin[] = [
     generateTitle,
     generateURL,
   }),
-  payloadCloudPlugin(),
+  socialSchedule({
+    metaAccessToken: process.env.META_ACCESS_TOKEN,
+    mastodonAccessToken: process.env.MASTODON_ACCESS_TOKEN,
+  })
+  // payloadCloudPlugin(),
 ]

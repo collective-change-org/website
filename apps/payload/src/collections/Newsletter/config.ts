@@ -28,7 +28,9 @@ export const Newsletter: CollectionConfig<"newsletter"> = {
 		},
 	],
 	versions: {
-		drafts: true,
+		drafts: {
+			schedulePublish: true,
+		},
 		maxPerDoc: 25,
 	},
 	endpoints: [
