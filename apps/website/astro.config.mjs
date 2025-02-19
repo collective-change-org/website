@@ -15,6 +15,7 @@ loadEnv()
 
 // https://astro.build/config
 export default defineConfig({
+	output: "server",
 	env: {
 		schema: {
 			PAYLOAD_EMAIL: envField.string({
