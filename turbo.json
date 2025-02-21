@@ -5,7 +5,10 @@
 			"cache": true,
 			"env": [
 				"PAYLOAD_SECRET",
-				"DATABASE_URI"
+				"DATABASE_URI",
+				"CMS_URL",
+				"PAYLOAD_EMAIL",
+				"PAYLOAD_PASSWORD"
 			]
 		},
 		"check-types": {
