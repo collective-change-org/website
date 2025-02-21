@@ -81,7 +81,7 @@ export default defineConfig({
 		},
 		build: {
 			rollupOptions: {
-				external: ["/^@repo\/payload/"]
+				external: ["@collectivechange/payload"],
 			}
 		}
 	}
