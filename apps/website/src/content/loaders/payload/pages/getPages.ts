@@ -20,7 +20,6 @@ export async function getPages(): Promise<Page[]> {
   try {
 
     return pages.docs.map((doc) => {
-      console.log(doc)
       return {
         id: doc.slug === "home" ? "/" : doc.slug || "",
         title: doc.title,

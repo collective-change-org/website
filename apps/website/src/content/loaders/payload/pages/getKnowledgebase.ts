@@ -22,7 +22,6 @@ export async function getKnowledgeBase(): Promise<KnowledgebasePage[]> {
 		let items: TocItem[] = []
 
 		if (doc.content && doc.content.root) {
-			console.log("doc.content.root", doc.content.root)
 			for (const lexicalElements of doc.content.root.children) {
 				if (lexicalElements.type === "heading") {
 					const tag = lexicalElements.tag as string

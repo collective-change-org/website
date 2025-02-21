@@ -115,11 +115,9 @@ export const Events: CollectionConfig<'events'> = {
           return new Response('Event ID is required', { status: 400 })
         }
         const user = req.user
-        console.log(user)
         if (!user) {
           return new Response('Unauthorized', { status: 401 })
         }
-        console.log(user)
 
         const event = await req.payload.findByID({
           collection: 'events',
