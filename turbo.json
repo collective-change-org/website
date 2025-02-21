@@ -2,7 +2,11 @@
 	"$schema": "https://turbo.build/schema.json",
 	"tasks": {
 		"build": {
-			"cache": true
+			"cache": true,
+			"env": [
+				"PAYLOAD_SECRET",
+				"DATABASE_URI"
+			]
 		},
 		"check-types": {
 			"dependsOn": [
@@ -10,6 +14,13 @@
 			]
 		},
 		"dev": {
+			"persistent": true,
+			"cache": false
+		},
+		"preview": {
+			"dependsOn": [
+				"build"
+			],
 			"persistent": true,
 			"cache": false
 		}
