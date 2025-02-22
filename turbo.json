@@ -9,6 +9,11 @@
 				"CMS_URL",
 				"PAYLOAD_EMAIL",
 				"PAYLOAD_PASSWORD"
+			],
+			"outputs": [
+				"dist/**",
+				".next/**",
+				"!.next/cache/**"
 			]
 		},
 		"check-types": {
