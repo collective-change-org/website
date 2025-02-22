@@ -42,12 +42,6 @@ export default function Email(props: { token: string }) {
               geht&lsquo;s los!
             </Text>
           </Row>
-          <Row>
-            <Column className="border-orange-dark bg-orange-light/50 text-green-black inline-block border-0 border-l-4 border-solid px-4 py-2">
-              Wenn du dir einen Account erstellst, wirst du automatisch zur Newsletter-Liste
-              hinzugefügt. Wenn du das nicht möchtest, bestätige bitte nicht deine E-Mail-Adresse.
-            </Column>
-          </Row>
           <Row className="mt-[16px]">
             <Column>
               <EmailButton href={url} color="green" size="small">

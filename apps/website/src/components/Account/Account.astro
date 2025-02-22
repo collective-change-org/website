@@ -2,16 +2,19 @@
 import { createSignal } from "solid-js"
 import { button } from "../button/button"
 import AccountEdit from "./AccountEdit"
-import { actions } from "astro:actions"
 import AccountView from "./AccountView.astro"
 import { Icon } from "astro-icon/components"
 
 export const prerender = false // Not needed in 'server' mode
+import { actions } from "astro:actions"
 
-// const { data, error } = await Astro.callAction(actions.verify, {})
+const { data, error } = await Astro.callAction(actions.verify, {})
 ---
 
 <script>
+	import { actions } from "astro:actions"
+	import { navigate } from "astro:transitions/client"
+
 	const editAcc = document.getElementById("editAccount")
 	const viewAcc = document.getElementById("viewAccount")
 	const editBut = document.getElementById("edit_account")
@@ -29,24 +32,64 @@ export const prerender = false // Not needed in 'server' mode
 		saveBut?.setAttribute("style", "display:none")
 		editBut?.setAttribute("style", "display:flex")
 	})
+
+	const signOut = document.getElementById("sign_out")
+	signOut?.addEventListener("click", async () => {
+		const { data, error } = await actions.logout({})
+		if (!error) {
+			navigate("/")
+		}
+	})
 </script>
 
-<div class="flex min-h-[500px] flex-col gap-8">
-	<div id="editAccount" class="flex flex-col items-start gap-4">
+<div class="flex h-full min-h-[500px] flex-col gap-8">
+	{
+		data ? (<div
+		id="editAccount"
+		class="flex h-full flex-col items-start justify-between gap-4"
+	>
 		<AccountView />
-		<button
-			id="edit_account"
-			type="button"
+		<div class="flex w-full justify-between gap-4">
+			<button
+				id="edit_account"
+				type="button"
+				class={button({
+					intent: "green",
+					size: "small",
+				})}
+			>
+				<Icon name="ph:pencil-simple" />
+				Profil bearbeiten
+			</button>
+			<button
+				id="sign_out"
+				type="button"
+				class={button({
+					intent: "black",
+					size: "small",
+				})}
+			>
+				<Icon name="ph:sign-out" />
+				Abmelden
+			</button>
+		</div>
+	</div>
+	<div id="viewAccount" class="hidden">
+		<AccountEdit client:load />
+	</div>) : (
+		<div class="self-center flex flex-col gap-2">
+			<p class="text-black">
+			Du musst angemeldet sein, um dein Profil zu sehen.
+		</p>
+		<a
 			class={button({
 				intent: "green",
 				size: "small",
 			})}
-		>
-			<Icon name="ph:pencil-simple" />
-			Profil bearbeiten
-		</button>
-	</div>
-	<div id="viewAccount" class="hidden">
-		<AccountEdit client:load />
-	</div>
+			href="/login">
+			Einloggen
+			</a>
+		</div>
+	)
+	}
 </div>

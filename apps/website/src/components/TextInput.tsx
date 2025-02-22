@@ -46,7 +46,7 @@ export const TextInput: VoidComponent<TextInputProps> = (props) => {
 		"",
 	)
 	return (
-		<div class={cn("flex flex-col pb-2", props.error && "pb-0")}>
+		<div class={cn("flex w-full flex-col pb-2", props.error && "pb-0")}>
 			<div class="flex flex-col gap-2">
 				<label for={props.name} class="text-green-black">
 					{props.label}
@@ -60,7 +60,7 @@ export const TextInput: VoidComponent<TextInputProps> = (props) => {
 					aria-describedby={props.helpText && `${props.name}-help`}
 					class={cn(
 						"h-11 w-full rounded-full bg-white px-6 text-[1.25rem] text-green-dark",
-						"ring-2 ring-inset ring-black/10 focus:outline-none focus:ring-green-dark active:ring-green-dark",
+						"ring-2 ring-inset ring-black/20 focus:outline-none focus:ring-green-dark active:ring-green-dark",
 						props.error && "ring-orange-dark",
 					)}
 				/>
