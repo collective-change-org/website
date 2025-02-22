@@ -77,10 +77,5 @@ export default defineConfig({
 		optimizeDeps: {
 			exclude: ["@collectivechange/payload"],
 		},
-		build: {
-			rollupOptions: {
-				external: ["@collectivechange/payload"],
-			}
-		}
 	}
 })
