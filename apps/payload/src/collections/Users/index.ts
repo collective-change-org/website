@@ -1,7 +1,7 @@
 import type { CollectionConfig } from "payload"
 
 import { authenticated } from "../../access/authenticated"
-// import { renderSignup } from "../../emails/signup"
+import { renderSignup } from "../../emails/signup"
 import { z } from "zod"
 import { User } from "../../payload-types"
 
@@ -27,10 +27,9 @@ export const Users: CollectionConfig = {
 		verify: {
 			generateEmailHTML: async ({ req, token, user }) => {
 				// Use the token provided to allow your user to verify their account
-				// const emailHtml = await renderSignup(token)
+				const emailHtml = await renderSignup(token)
 
-				// return emailHtml
-				return ""
+				return emailHtml
 			},
 		},
 	},

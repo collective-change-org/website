@@ -1,5 +1,5 @@
 import { Newsletter, User } from "../../payload-types"
-// import { renderNewsletter } from "../../emails/newsletter"
+import { renderNewsletter } from "../../emails/newsletter"
 import { CollectionAfterOperationHook } from "payload"
 import crypto from "crypto"
 
@@ -53,8 +53,7 @@ export const sendNewsletter: CollectionAfterOperationHook<
             .digest("base64url")
 
           const token = `${nonce}.${hmac}`
-          // const emailBody = await renderNewsletter(body, token)
-          const emailBody = "This is a placeholder for the email body"
+          const emailBody = await renderNewsletter(body, token)
 
           req.payload.logger.info(`Sending newsletter to ${user.email}`)
 
