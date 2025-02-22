@@ -62,7 +62,6 @@ export default defineConfig({
 		}),
 		icon(),
 	],
-
 	site: "https://changecollective.woven.design",
 	experimental: {
 		svg: true,
@@ -78,10 +77,10 @@ export default defineConfig({
 		optimizeDeps: {
 			exclude: ["@collectivechange/payload"],
 		},
-		// build: {
-		// 	rollupOptions: {
-		// 		external: ["@collectivechange/payload"],
-		// 	}
-		// }
+		build: {
+			rollupOptions: {
+				external: ["@collectivechange/payload"],
+			}
+		}
 	}
 })

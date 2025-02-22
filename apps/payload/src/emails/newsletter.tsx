@@ -12,6 +12,7 @@ import {
 import { TailwindWrapper } from './TailwindWrapper'
 import { Newsletter } from '../payload-types'
 import { EmailButton } from './Button'
+import React from 'react'
 
 export const renderNewsletter = (body: Newsletter['body'], token: string) =>
   render(<Email body={body} token={token} />)
