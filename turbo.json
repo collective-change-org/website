@@ -5,7 +5,6 @@
 			"dependsOn": [
 				"^build"
 			],
-			"cache": true,
 			"env": [
 				"PAYLOAD_SECRET",
 				"DATABASE_URI",
