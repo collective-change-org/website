@@ -13,6 +13,20 @@ export const Newsletter: CollectionConfig<"newsletter"> = {
 		afterOperation: [sendNewsletter],
 	},
 	admin: {
+		livePreview: {
+			url: ({ data }) => {
+				const id = data?.id
+				if (!id) return ""
+				const encodedParams = new URLSearchParams({
+					slug: id as string,
+					collection: "newsletter",
+					path: `/preview/${id}`,
+					previewSecret: process.env.PREVIEW_SECRET || ''
+				})
+
+				return `/preview?${encodedParams.toString()}`
+			}
+		},
 		components: {
 			edit: {
 				PublishButton: "/collections/Newsletter/PublishButton"
@@ -37,6 +51,9 @@ export const Newsletter: CollectionConfig<"newsletter"> = {
 	],
 	versions: {
 		drafts: {
+			autosave: {
+				interval: 375,
+			},
 			schedulePublish: true,
 		},
 		maxPerDoc: 25,

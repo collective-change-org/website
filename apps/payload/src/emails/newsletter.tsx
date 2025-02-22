@@ -82,7 +82,10 @@ function blockTypeToComponent(block: BlockType) {
         </Heading>
       )
     case 'plainRichTextBlock':
-      return lexicalToJSX(block.richText.root.children)
+      if (!block.richText) {
+        return null
+      }
+      return lexicalToJSX(block.richText.root?.children)
     default:
       return null
   }
