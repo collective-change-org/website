@@ -2,8 +2,6 @@ import { ActionError, defineAction } from "astro:actions"
 import { z } from "astro:schema"
 import { CMS_URL } from "astro:env/client"
 import { authenticatePayload } from "../content/loaders/payload/authenticate"
-import { getPayload } from "payload"
-import { config, type User as PayloadUser } from "@collectivechange/payload"
 
 export type User = {
 	id: number
@@ -214,55 +212,55 @@ export const server = {
 			return data
 		},
 	}),
-	getEventById: defineAction({
-		input: z.object({
-			id: z.string(),
-		}),
-		handler: async ({ id }, ctx) => {
-			return false
-			// const payload = await getPayload({ config })
-			// const event = await payload.findByID({
-			// 	id: parseInt(id),
-			// 	collection: "events",
-			// })
+	// getEventById: defineAction({
+	// 	input: z.object({
+	// 		id: z.string(),
+	// 	}),
+	// 	handler: async ({ id }, ctx) => {
+	// 		return false
+	// 		// const payload = await getPayload({ config })
+	// 		// const event = await payload.findByID({
+	// 		// 	id: parseInt(id),
+	// 		// 	collection: "events",
+	// 		// })
 
 
 
-			// const headers = new Headers({
-			// 	"Content-Type": "application/json",
-			// 	Authorization: ctx.cookies.get("payload-token")?.value
-			// 		? `JWT ${ctx.cookies.get("payload-token")!.value}`
-			// 		: "",
-			// })
+	// 		// const headers = new Headers({
+	// 		// 	"Content-Type": "application/json",
+	// 		// 	Authorization: ctx.cookies.get("payload-token")?.value
+	// 		// 		? `JWT ${ctx.cookies.get("payload-token")!.value}`
+	// 		// 		: "",
+	// 		// })
 
-			// const userRes = await fetch(`${cmsUrl.origin}/api/users/me`, {
-			// 	method: "GET",
-			// 	headers,
-			// })
+	// 		// const userRes = await fetch(`${cmsUrl.origin}/api/users/me`, {
+	// 		// 	method: "GET",
+	// 		// 	headers,
+	// 		// })
 
-			// const body = (await userRes.json()) as {
-			// 	user: User | undefined
-			// 	message: "Account"
-			// }
+	// 		// const body = (await userRes.json()) as {
+	// 		// 	user: User | undefined
+	// 		// 	message: "Account"
+	// 		// }
 
-			// let isParticipating = false
+	// 		// let isParticipating = false
 
-			// if (body.user) {
-			// 	if (!event.attendees) return
-			// 	isParticipating = event.attendees?.some(
-			// 		(attendee) => {
-			// 			const attendeeId = typeof attendee === "number" ? attendee : attendee.id
-			// 			return attendeeId === body.user?.id
-			// 		},
-			// 	)
-			// }
+	// 		// if (body.user) {
+	// 		// 	if (!event.attendees) return
+	// 		// 	isParticipating = event.attendees?.some(
+	// 		// 		(attendee) => {
+	// 		// 			const attendeeId = typeof attendee === "number" ? attendee : attendee.id
+	// 		// 			return attendeeId === body.user?.id
+	// 		// 		},
+	// 		// 	)
+	// 		// }
 
-			// return {
-			// 	event,
-			// 	isParticipating
-			// }
-		},
-	}),
+	// 		// return {
+	// 		// 	event,
+	// 		// 	isParticipating
+	// 		// }
+	// 	},
+	// }),
 	attendEvent: defineAction({
 		input: z.object({
 			id: z.number(),

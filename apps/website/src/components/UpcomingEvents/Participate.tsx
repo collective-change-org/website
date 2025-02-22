@@ -24,13 +24,13 @@ export const Participate: VoidComponent<Event> = (props) => {
 	const [error, setError] = createSignal<string>()
 
 	onMount(async () => {
-		// Load Event
-		const eventRes = await actions.getEventById({ id: event().id })
-		if (eventRes.error) {
-			console.error(eventRes.error)
-			return
-		}
-		setEvent(eventRes.data?.event!)
+		// // Load Event
+		// const eventRes = await actions.getEventById({ id: event().id })
+		// if (eventRes.error) {
+		// 	console.error(eventRes.error)
+		// 	return
+		// }
+		// setEvent(eventRes.data?.event!)
 
 		const userRes = await actions.verify({})
 		if (userRes.error) {
@@ -40,7 +40,11 @@ export const Participate: VoidComponent<Event> = (props) => {
 		console.log(userRes.data)
 		setUser(userRes.data)
 
-		if (eventRes.data?.isParticipating) {
+		const participating = event().attendees?.some(
+			(attendee) => attendee.id === userRes.data?.id,
+		)
+
+		if (participating) {
 			setParticipating(true)
 		}
 	})
