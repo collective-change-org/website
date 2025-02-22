@@ -12,7 +12,6 @@ export type ContentBlock = {
 }
 
 export async function getPages(): Promise<Page[]> {
-  return []
   const payload = await getPayload({ config })
   const pages = await payload.find({
     collection: "pages",
