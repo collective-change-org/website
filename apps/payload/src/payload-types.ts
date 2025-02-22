@@ -74,8 +74,6 @@ export interface Config {
     events: Event;
     'notification-settings': NotificationSetting;
     newsletter: Newsletter;
-    'social-schedule-posts': SocialSchedulePost;
-    'social-schedule-media': SocialScheduleMedia;
     'payload-jobs': PayloadJob;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -96,8 +94,6 @@ export interface Config {
     events: EventsSelect<false> | EventsSelect<true>;
     'notification-settings': NotificationSettingsSelect<false> | NotificationSettingsSelect<true>;
     newsletter: NewsletterSelect<false> | NewsletterSelect<true>;
-    'social-schedule-posts': SocialSchedulePostsSelect<false> | SocialSchedulePostsSelect<true>;
-    'social-schedule-media': SocialScheduleMediaSelect<false> | SocialScheduleMediaSelect<true>;
     'payload-jobs': PayloadJobsSelect<false> | PayloadJobsSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -1044,6 +1040,12 @@ export interface Newsletter {
         blockType: 'h2Block';
       }
     | {
+        title: string;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'h3Block';
+      }
+    | {
         richText: {
           root: {
             type: string;
@@ -1067,61 +1069,6 @@ export interface Newsletter {
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "social-schedule-posts".
- */
-export interface SocialSchedulePost {
-  id: number;
-  title?: string | null;
-  platforms?: {
-    instagram?: boolean | null;
-    mastodon?: boolean | null;
-  };
-  mediaItems?:
-    | {
-        media: number | SocialScheduleMedia;
-        id?: string | null;
-      }[]
-    | null;
-  content?: {
-    root: {
-      type: string;
-      children: {
-        type: string;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  updatedAt: string;
-  createdAt: string;
-  _status?: ('draft' | 'published') | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "social-schedule-media".
- */
-export interface SocialScheduleMedia {
-  id: number;
-  alt: string;
-  updatedAt: string;
-  createdAt: string;
-  url?: string | null;
-  thumbnailURL?: string | null;
-  filename?: string | null;
-  mimeType?: string | null;
-  filesize?: number | null;
-  width?: number | null;
-  height?: number | null;
-  focalX?: number | null;
-  focalY?: number | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1257,14 +1204,6 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'newsletter';
         value: number | Newsletter;
-      } | null)
-    | ({
-        relationTo: 'social-schedule-posts';
-        value: number | SocialSchedulePost;
-      } | null)
-    | ({
-        relationTo: 'social-schedule-media';
-        value: number | SocialScheduleMedia;
       } | null)
     | ({
         relationTo: 'payload-jobs';
@@ -2003,6 +1942,13 @@ export interface NewsletterSelect<T extends boolean = true> {
               id?: T;
               blockName?: T;
             };
+        h3Block?:
+          | T
+          | {
+              title?: T;
+              id?: T;
+              blockName?: T;
+            };
         plainRichTextBlock?:
           | T
           | {
@@ -2014,47 +1960,6 @@ export interface NewsletterSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "social-schedule-posts_select".
- */
-export interface SocialSchedulePostsSelect<T extends boolean = true> {
-  title?: T;
-  platforms?:
-    | T
-    | {
-        instagram?: T;
-        mastodon?: T;
-      };
-  mediaItems?:
-    | T
-    | {
-        media?: T;
-        id?: T;
-      };
-  content?: T;
-  updatedAt?: T;
-  createdAt?: T;
-  _status?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "social-schedule-media_select".
- */
-export interface SocialScheduleMediaSelect<T extends boolean = true> {
-  alt?: T;
-  updatedAt?: T;
-  createdAt?: T;
-  url?: T;
-  thumbnailURL?: T;
-  filename?: T;
-  mimeType?: T;
-  filesize?: T;
-  width?: T;
-  height?: T;
-  focalX?: T;
-  focalY?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -2231,15 +2136,10 @@ export interface TaskSchedulePublish {
   input: {
     type?: ('publish' | 'unpublish') | null;
     locale?: string | null;
-    doc?:
-      | ({
-          relationTo: 'newsletter';
-          value: number | Newsletter;
-        } | null)
-      | ({
-          relationTo: 'social-schedule-posts';
-          value: number | SocialSchedulePost;
-        } | null);
+    doc?: {
+      relationTo: 'newsletter';
+      value: number | Newsletter;
+    } | null;
     global?: string | null;
     user?: (number | null) | User;
   };

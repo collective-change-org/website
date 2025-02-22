@@ -1,10 +1,9 @@
 import { ActionError, defineAction } from "astro:actions"
 import { z } from "astro:schema"
 import { CMS_URL } from "astro:env/client"
-import { eventsQueryFields, type Event } from "../content/loaders/payload/pages/getEvents"
 import { authenticatePayload } from "../content/loaders/payload/authenticate"
-import { getPayload } from "payload"
-import { config, type User as PayloadUser } from "@collectivechange/payload"
+// import { getPayload } from "payload"
+// import { config, type User as PayloadUser } from "@collectivechange/payload"
 
 export type User = {
 	id: number
@@ -88,6 +87,7 @@ export const server = {
 	}),
 	verify: defineAction({
 		handler: async (_, ctx) => {
+			console.log("VERIFYING USER")
 			const headers = new Headers({
 				"Content-Type": "application/json",
 				Authorization: ctx.cookies.get("payload-token")?.value
@@ -219,47 +219,48 @@ export const server = {
 			id: z.string(),
 		}),
 		handler: async ({ id }, ctx) => {
-			const payload = await getPayload({ config })
-			const event = await payload.findByID({
-				id: parseInt(id),
-				collection: "events",
-			})
+			return false
+			// const payload = await getPayload({ config })
+			// const event = await payload.findByID({
+			// 	id: parseInt(id),
+			// 	collection: "events",
+			// })
 
 
 
-			const headers = new Headers({
-				"Content-Type": "application/json",
-				Authorization: ctx.cookies.get("payload-token")?.value
-					? `JWT ${ctx.cookies.get("payload-token")!.value}`
-					: "",
-			})
+			// const headers = new Headers({
+			// 	"Content-Type": "application/json",
+			// 	Authorization: ctx.cookies.get("payload-token")?.value
+			// 		? `JWT ${ctx.cookies.get("payload-token")!.value}`
+			// 		: "",
+			// })
 
-			const userRes = await fetch(`${cmsUrl.origin}/api/users/me`, {
-				method: "GET",
-				headers,
-			})
+			// const userRes = await fetch(`${cmsUrl.origin}/api/users/me`, {
+			// 	method: "GET",
+			// 	headers,
+			// })
 
-			const body = (await userRes.json()) as {
-				user: User | undefined
-				message: "Account"
-			}
+			// const body = (await userRes.json()) as {
+			// 	user: User | undefined
+			// 	message: "Account"
+			// }
 
-			let isParticipating = false
+			// let isParticipating = false
 
-			if (body.user) {
-				if (!event.attendees) return
-				isParticipating = event.attendees?.some(
-					(attendee) => {
-						const attendeeId = typeof attendee === "number" ? attendee : attendee.id
-						return attendeeId === body.user?.id
-					},
-				)
-			}
+			// if (body.user) {
+			// 	if (!event.attendees) return
+			// 	isParticipating = event.attendees?.some(
+			// 		(attendee) => {
+			// 			const attendeeId = typeof attendee === "number" ? attendee : attendee.id
+			// 			return attendeeId === body.user?.id
+			// 		},
+			// 	)
+			// }
 
-			return {
-				event,
-				isParticipating
-			}
+			// return {
+			// 	event,
+			// 	isParticipating
+			// }
 		},
 	}),
 	attendEvent: defineAction({
@@ -329,95 +330,96 @@ export const server = {
 				).optional(),
 		}),
 		handler: async ({ userId, name, email, profileImage }, ctx) => {
-			const payload = await getPayload({ config })
+			return false
+			// const payload = await getPayload({ config })
 
-			payload.logger.info("Modifying account")
+			// payload.logger.info("Modifying account")
 
-			const image = profileImage as File | undefined
-			console.log("image", image)
+			// const image = profileImage as File | undefined
+			// console.log("image", image)
 
-			let body
-			if (name) {
-				body = { name }
-			}
-			if (email) {
-				body = {
-					...body,
-					email
-				}
-			}
-
-
-			const user = await payload.findByID({
-				id: userId,
-				collection: "users",
-			})
+			// let body
+			// if (name) {
+			// 	body = { name }
+			// }
+			// if (email) {
+			// 	body = {
+			// 		...body,
+			// 		email
+			// 	}
+			// }
 
 
-			const updateData: Partial<PayloadUser> = {}
+			// const user = await payload.findByID({
+			// 	id: userId,
+			// 	collection: "users",
+			// })
 
-			if (name) {
-				updateData.name = name
-			}
 
-			if (image) {
-				if (user.profileImage) {
-					const buffer = await image.arrayBuffer()
-					payload.logger.info("Updating existing profile image")
-					payload.logger.info(`Media Type: ${image.type}`)
+			// const updateData: Partial<PayloadUser> = {}
 
-					// Delete existing profile image
-					await payload.delete({
-						collection: "media",
-						where: {
-							id: { equals: typeof user.profileImage === "number" ? user.profileImage : user.profileImage.id },
-						},
-					})
+			// if (name) {
+			// 	updateData.name = name
+			// }
 
-					const newImage = await payload.create({
-						collection: "media",
-						file: {
-							data: Buffer.from(buffer),
-							mimetype: image.type,
-							name: `${userId}-profile-image`,
-							size: image.size,
-						},
-						data: {
-							alt: `${name} profile image`,
-							filename: `${userId}-profile-image`,
-						},
-						overwriteExistingFiles: true
-					})
+			// if (image) {
+			// 	if (user.profileImage) {
+			// 		const buffer = await image.arrayBuffer()
+			// 		payload.logger.info("Updating existing profile image")
+			// 		payload.logger.info(`Media Type: ${image.type}`)
 
-					// Update user with new profile image
-					updateData.profileImage = newImage
-				} else {
-					const buffer = await image.arrayBuffer()
-					payload.logger.info("Creating new profile image")
-					payload.logger.info(`Media Type: ${image.type}`)
-					const media = await payload.create({
-						collection: "media",
-						file: {
-							data: Buffer.from(buffer),
-							mimetype: image.type,
-							name: `${userId}-profile-image`,
-							size: image.size,
-						},
-						data: {
-							alt: `${name} profile image`,
-						},
-					})
-					updateData.profileImage = media
-				}
-			}
+			// 		// Delete existing profile image
+			// 		await payload.delete({
+			// 			collection: "media",
+			// 			where: {
+			// 				id: { equals: typeof user.profileImage === "number" ? user.profileImage : user.profileImage.id },
+			// 			},
+			// 		})
 
-			payload.update({
-				id: userId,
-				collection: "users",
-				data: updateData,
-			})
+			// 		const newImage = await payload.create({
+			// 			collection: "media",
+			// 			file: {
+			// 				data: Buffer.from(buffer),
+			// 				mimetype: image.type,
+			// 				name: `${userId}-profile-image`,
+			// 				size: image.size,
+			// 			},
+			// 			data: {
+			// 				alt: `${name} profile image`,
+			// 				filename: `${userId}-profile-image`,
+			// 			},
+			// 			overwriteExistingFiles: true
+			// 		})
 
-			return true
+			// 		// Update user with new profile image
+			// 		updateData.profileImage = newImage
+			// 	} else {
+			// 		const buffer = await image.arrayBuffer()
+			// 		payload.logger.info("Creating new profile image")
+			// 		payload.logger.info(`Media Type: ${image.type}`)
+			// 		const media = await payload.create({
+			// 			collection: "media",
+			// 			file: {
+			// 				data: Buffer.from(buffer),
+			// 				mimetype: image.type,
+			// 				name: `${userId}-profile-image`,
+			// 				size: image.size,
+			// 			},
+			// 			data: {
+			// 				alt: `${name} profile image`,
+			// 			},
+			// 		})
+			// 		updateData.profileImage = media
+			// 	}
+			// }
+
+			// payload.update({
+			// 	id: userId,
+			// 	collection: "users",
+			// 	data: updateData,
+			// })
+
+			// return true
 		},
 	}),
 }
