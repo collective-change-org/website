@@ -1,7 +1,7 @@
 {
 	"extends": "astro/tsconfigs/strict",
 	"include": [".astro/types.d.ts", "./*"],
-	"exclude": ["dist", "@collectivechange/payload"],
+	"exclude": ["dist"],
 	"compilerOptions": {
 		"jsx": "preserve",
 		"jsxImportSource": "solid-js",
