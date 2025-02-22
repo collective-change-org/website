@@ -1,5 +1,4 @@
 import type { Block } from 'payload'
-import { ContainerLayoutField } from './ContainerLayoutField'
 import { H1Block } from '../Headings/H1'
 import { H2Block } from '../Headings/H2'
 import { HeroBlock } from '../Hero'
