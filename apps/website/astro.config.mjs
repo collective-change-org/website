@@ -4,7 +4,6 @@ import starlight from "@astrojs/starlight"
 import tailwind from "@astrojs/tailwind"
 
 import solidJs from "@astrojs/solid-js"
-import react from "@vitejs/plugin-react"
 
 import node from "@astrojs/node"
 
@@ -75,7 +74,6 @@ export default defineConfig({
 		mode: "standalone",
 	}),
 	vite: {
-		plugins: [react()],
 		optimizeDeps: {
 			exclude: ["@collectivechange/payload"],
 		},
