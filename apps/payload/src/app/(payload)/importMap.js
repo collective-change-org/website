@@ -15,6 +15,7 @@ import { MetaTitleComponent as MetaTitleComponent_a8a977ebc872c5d5ea7ee689724c08
 import { MetaImageComponent as MetaImageComponent_a8a977ebc872c5d5ea7ee689724c0860 } from '@payloadcms/plugin-seo/client'
 import { MetaDescriptionComponent as MetaDescriptionComponent_a8a977ebc872c5d5ea7ee689724c0860 } from '@payloadcms/plugin-seo/client'
 import { PreviewComponent as PreviewComponent_a8a977ebc872c5d5ea7ee689724c0860 } from '@payloadcms/plugin-seo/client'
+import { default as default_34f120a5632237713baaf391ce23dbd8 } from 'src/collections/Newsletter/PublishButton'
 import { RowLabel as RowLabel_35c4f07b94077a54ab0db31fba2fa85b } from 'src/Header/RowLabel'
 import { RowLabel as RowLabel_99ace43f5a41891c30907eecb39f5a40 } from 'src/Footer/RowLabel'
 
@@ -36,6 +37,7 @@ export const importMap = {
   "@payloadcms/plugin-seo/client#MetaImageComponent": MetaImageComponent_a8a977ebc872c5d5ea7ee689724c0860,
   "@payloadcms/plugin-seo/client#MetaDescriptionComponent": MetaDescriptionComponent_a8a977ebc872c5d5ea7ee689724c0860,
   "@payloadcms/plugin-seo/client#PreviewComponent": PreviewComponent_a8a977ebc872c5d5ea7ee689724c0860,
+  "/collections/Newsletter/PublishButton#default": default_34f120a5632237713baaf391ce23dbd8,
   "/Header/RowLabel#RowLabel": RowLabel_35c4f07b94077a54ab0db31fba2fa85b,
   "/Footer/RowLabel#RowLabel": RowLabel_99ace43f5a41891c30907eecb39f5a40
 }

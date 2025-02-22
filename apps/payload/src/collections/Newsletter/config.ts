@@ -12,6 +12,13 @@ export const Newsletter: CollectionConfig<"newsletter"> = {
 	hooks: {
 		afterOperation: [sendNewsletter],
 	},
+	admin: {
+		components: {
+			edit: {
+				PublishButton: "/collections/Newsletter/PublishButton"
+			}
+		}
+	},
 	fields: [
 		{
 			name: "subject",
