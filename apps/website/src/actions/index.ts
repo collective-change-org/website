@@ -2,8 +2,8 @@ import { ActionError, defineAction } from "astro:actions"
 import { z } from "astro:schema"
 import { CMS_URL } from "astro:env/client"
 import { authenticatePayload } from "../content/loaders/payload/authenticate"
-// import { getPayload } from "payload"
-// import { config, type User as PayloadUser } from "@collectivechange/payload"
+import { getPayload } from "payload"
+import { config, type User as PayloadUser } from "@collectivechange/payload"
 
 export type User = {
 	id: number
