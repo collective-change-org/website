@@ -24,7 +24,6 @@ export const server = {
 			password: z.string(),
 		}),
 		handler: async ({ email, password }, ctx) => {
-			console.log("LOGGING ING")
 			const headers = new Headers({
 				"Content-Type": "application/json",
 			})
@@ -85,7 +84,6 @@ export const server = {
 	}),
 	verify: defineAction({
 		handler: async (_, ctx) => {
-			console.log("VERIFYING USER")
 			const headers = new Headers({
 				"Content-Type": "application/json",
 				Authorization: ctx.cookies.get("payload-token")?.value
@@ -148,7 +146,6 @@ export const server = {
 				})
 			}
 
-			console.log(data)
 			const bearerToken = await authenticatePayload()
 			if (newsletter === "newsletter") {
 				const res = await fetch(`${cmsUrl.origin}/api/notification-settings`, {
@@ -301,7 +298,6 @@ export const server = {
 				},
 			})
 			const data = await res
-			console.log(data)
 			if (res.status !== 200) {
 				throw new ActionError({
 					code: "BAD_REQUEST",

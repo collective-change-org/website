@@ -15,7 +15,6 @@ if (page.template === "splash") {
 } else if (page.template === "doc") {
 	content = page.lexical as LexicalRoot
 }
-console.log(entry)
 ---
 
 <div class="default-layout font-sans">
@@ -26,10 +25,8 @@ console.log(entry)
 			</div>
 		) : (
 			() => {
-				console.log("here")
 				switch (page.template) {
 					case "splash":
-						console.log("Splash")
 						return page.layout.map((layoutElement, i) => {
 							switch (layoutElement.blockType) {
 								case "containerBlock":
@@ -65,7 +62,6 @@ console.log(entry)
 							}
 						})
 					case "doc":
-						console.log("Doc")
 						return page.restricted !== "public" ? (
 							<RestrictedRenderer
 								server:defer

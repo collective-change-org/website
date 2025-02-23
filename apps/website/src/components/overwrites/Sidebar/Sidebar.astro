@@ -1,7 +1,11 @@
 ---
 import Default from "@astrojs/starlight/components/Sidebar.astro"
 import { getCollection } from "astro:content"
-import type { SidebarEntry } from "../../content/loaders/payload/getSidebar"
+import SidebarPersister from "@astrojs/starlight/components/SidebarPersister.astro"
+import SidebarSublist from "./SidebarSublist.astro"
+import type { SidebarEntry } from "@website/src/content/loaders/payload/getSidebar"
+import MobileMenuFooter from "./MobileMenuFooter.astro"
+import Search from "./Search.astro"
 
 const { slug } = Astro.params
 
@@ -28,6 +32,11 @@ function checkActive(path: string, item: SidebarEntry) {
 Astro.locals.starlightRoute.sidebar = sidebar
 ---
 
-<Default>
-	<!-- <slot /> -->
-</Default>
+<SidebarPersister>
+	<Search />
+	<SidebarSublist sublist={sidebar} />
+</SidebarPersister>
+
+<div class="md:sl-hidden">
+	<MobileMenuFooter />
+</div>

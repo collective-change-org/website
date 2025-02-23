@@ -7,7 +7,7 @@ import {
 	linkHTMLAttributesSchema,
 } from "../../../schemas/sidebar"
 import { config, type Knowledgebase } from "@collectivechange/payload"
-import { getPayload } from "payload"
+import { getPayload, type Payload } from "payload"
 
 export type PayloadPageResponseItem = {
 	id: number
@@ -42,7 +42,7 @@ interface OrderedGroup extends Group {
 	docOrder: number
 }
 
-function pageToLink(page: Knowledgebase): Link {
+async function pageToLink(page: Knowledgebase, payload: Payload): Promise<Link> {
 	const payloadBadge = typeof page.badge === "number" ? undefined : page.badge
 	let badge: Badge | undefined
 
@@ -53,10 +53,10 @@ function pageToLink(page: Knowledgebase): Link {
 		}
 	}
 	return {
-		id: "knowledgebase/" + getPageSlug(page),
+		id: "knowledgebase/" + await getPageSlug(page, payload),
 		type: "link",
 		label: page.restricted === "members" ? "🔒 " + page.title : page.title,
-		href: "/knowledgebase/" + getPageSlug(page),
+		href: "/knowledgebase/" + await getPageSlug(page, payload),
 		isCurrent: false,
 		attrs: {},
 		badge: badge,
@@ -77,33 +77,57 @@ export async function getKnowledgebaseSidebar(): Promise<SidebarEntry[]> {
 	for (const page of pages.docs) {
 		if (!page.group) {
 			// Knowledgebase page is on the root level
-			sidebar.push(pageToLink(page))
+			sidebar.push(await pageToLink(page, payload))
 			continue
 		}
 
 		if (typeof page.group === "number") {
+			console.log("page.group is a number")
 			continue
 		}
 
 		const breadcrumbs = page.group.breadcrumbs
 
 		if (!breadcrumbs || breadcrumbs.length === 0) {
+			console.log("no breadcrumbs")
 			continue
 		}
 
 		for (let i = 0; i < breadcrumbs.length; i++) {
 			const group = breadcrumbs[i]
-			if (typeof group.doc === "number" || !group.doc) {
+			if (!group.doc || !group) {
+				console.log("no group.doc")
 				continue
+			}
+			if (typeof group.doc === "number") {
+				const g = await payload.findByID({
+					collection: "groups",
+					id: group.doc,
+				})
+				group.doc = g
 			}
 
 			const groupDoc = group.doc
 			if (!groupDoc.slug) {
+				console.log("no groupDoc.slug")
 				continue
 			}
 
 			const parentBreadcrumb = breadcrumbs[i - 1]
-			const parentSlug = typeof parentBreadcrumb.doc === "number" ? "" : parentBreadcrumb.doc?.slug
+			let parentSlug
+			if (parentBreadcrumb) {
+				if (typeof parentBreadcrumb.doc === "number") {
+					const g = await payload.findByID({
+						collection: "groups",
+						id: parentBreadcrumb.doc,
+					})
+					if (g) {
+						parentSlug = g.slug
+					}
+				} else {
+					parentSlug = parentBreadcrumb.doc?.slug
+				}
+			}
 
 			// Find the group in the list of groups
 			let tempGroup = groups.find((g) => g.slug === groupDoc.slug)
@@ -130,7 +154,7 @@ export async function getKnowledgebaseSidebar(): Promise<SidebarEntry[]> {
 				groups.push(tempGroup)
 			}
 			if (i === breadcrumbs.length - 1) {
-				tempGroup.entries.push(pageToLink(page))
+				tempGroup.entries.push(await pageToLink(page, payload))
 			}
 		}
 	}

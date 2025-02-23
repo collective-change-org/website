@@ -45,7 +45,7 @@ export default defineConfig({
 				MarkdownContent:
 					"./src/components/overwrites/MarkdownContent.astro",
 				PageSidebar: "./src/components/overwrites/PageSidebar.astro",
-				Sidebar: "./src/components/overwrites/Sidebar.astro",
+				Sidebar: "./src/components/overwrites/Sidebar/Sidebar.astro",
 				Header: "./src/components/overwrites/Header.astro",
 				PageFrame: "./src/components/overwrites/PageFrame.astro",
 				Footer: "./src/components/overwrites/Footer.astro",

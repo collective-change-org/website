@@ -4,7 +4,6 @@ import { cn } from "@website/src/lib/cn"
 
 const { hasSidebar } = Astro.locals.starlightRoute
 const isDoc = Astro.locals.starlightRoute.entry.collection === "docs"
-console.log(Astro.locals.starlightRoute.entry.collection)
 ---
 
 <div class={cn("page sl-flex", isDoc && "bg-green-dark")}>
@@ -45,8 +44,8 @@ console.log(Astro.locals.starlightRoute.entry.collection)
 		inset-block: var(--sl-nav-height) 0;
 		inset-inline-start: 0;
 		width: 100%;
-		background-color: var(--sl-color-black);
 		overflow-y: auto;
+		@apply bg-green-lighter;
 	}
 
 	:global([aria-expanded="true"]) ~ .sidebar-pane {
@@ -80,8 +79,7 @@ console.log(Astro.locals.starlightRoute.entry.collection)
 		.sidebar-pane {
 			--sl-sidebar-visibility: visible;
 			width: var(--sl-sidebar-width);
-			background-color: var(--sl-color-bg-sidebar);
-			border-inline-end: 1px solid var(--sl-color-hairline-shade);
+			@apply bg-green-lighter;
 		}
 	}
 </style>

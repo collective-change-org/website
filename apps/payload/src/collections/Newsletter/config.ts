@@ -126,7 +126,6 @@ export const Newsletter: CollectionConfig<"newsletter"> = {
 					}
 
 					// Valid token → delete the nonce to prevent reuse
-					console.log("Unsubscribing", user.name);
 					request.payload.delete({
 						collection: "notification-settings",
 						where: {

@@ -23,7 +23,6 @@ export const UpcomingEvents: Block = {
             const events = await req.payload.find({
               collection: 'events',
             })
-            console.log(`Got ${events.docs.length} events`)
             return events.docs
           },
         ],

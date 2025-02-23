@@ -1,8 +1,8 @@
 import { headingToSlug, generateToC, type TocItem } from "../generateToC"
 import type { LexicalRoot, LexicalText } from "../schemas/lexical"
 import type { KnowledgebasePage } from "."
-import { getPayload } from "payload"
-import { config, type Knowledgebase } from "@collectivechange/payload"
+import { getPayload, type Payload } from "payload"
+import { config, type Group, type Knowledgebase } from "@collectivechange/payload"
 
 
 export async function getKnowledgeBase(): Promise<KnowledgebasePage[]> {
@@ -16,9 +16,8 @@ export async function getKnowledgeBase(): Promise<KnowledgebasePage[]> {
 			}
 		}
 	})
-	console.log("pages", pages)
 
-	return pages.docs.map((doc, i) => {
+	const knowledgebasePages = await Promise.all(pages.docs.map(async (doc, i) => {
 		function extractTextFromLexical(textArray: LexicalText[]): string {
 			return textArray.map(({ text }) => text).join("")
 		}
@@ -48,8 +47,10 @@ export async function getKnowledgeBase(): Promise<KnowledgebasePage[]> {
 			})
 		}
 
+		const pageSlug = await getPageSlug(doc, payload)
+
 		return {
-			id: "knowledgebase/" + getPageSlug(doc),
+			id: "knowledgebase/" + pageSlug,
 			title: doc.title || "<no title>",
 			template: "doc",
 			lexical: doc.content ? doc.content.root as LexicalRoot : { type: "root", children: [], version: 1 },
@@ -59,13 +60,21 @@ export async function getKnowledgeBase(): Promise<KnowledgebasePage[]> {
 			},
 			restricted: doc.restricted ?? "public",
 		} satisfies KnowledgebasePage
-	})
+	}))
+	return knowledgebasePages
 }
 
-export function getPageSlug(page: Knowledgebase): string {
-	if (typeof page.group === "number") { return page.group.toString() }
-	const baseSlug = page.group
-		? page.group.breadcrumbs?.map((b) => typeof b?.doc === "number" ? b?.doc : b?.doc?.slug || "").join("/") || ""
-		: ""
+export async function getPageSlug(page: Knowledgebase, payload: Payload): Promise<string> {
+	let group: Group | undefined
+	if (typeof page.group === "number") {
+		group = await payload.findByID({
+			collection: "groups",
+			id: page.group,
+		})
+	} else if (typeof page.group === "object" && page.group !== null) {
+		group = page.group
+	}
+
+	const baseSlug = group?.slug
 	return baseSlug ? `${baseSlug}/${page.slug}` : page.slug || ""
 }

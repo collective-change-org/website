@@ -19,8 +19,6 @@ export default async function Page({
 
   const { isEnabled: isDraftMode } = await draftMode()
 
-  console.log(slug)
-
   const payload = await getPayload({ config })
 
   const newsletter = await payload
