@@ -1,0 +1,9 @@
+{
+	"compilerOptions": {
+		"baseUrl": ".",
+		"paths": {
+			"@payload/*": ["apps/payload/*"],
+			"@website/*": ["apps/website/*"],
+		},
+	},
+}
