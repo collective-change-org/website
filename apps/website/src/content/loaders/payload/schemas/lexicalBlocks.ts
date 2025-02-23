@@ -55,13 +55,13 @@ const internalLink = z.object({
 	}),
 })
 
-// const linkCardBlock = z.object({
-// 	type: z.literal("linkCardBlock"),
-// 	title: z.string(),
-// 	href: z.string(),
-// 	description: z.string().optional(),
-// })
-const linkCardBlock = z.any()
+const linkCardBlock = z.object({
+	blockType: z.literal("linkCardBlock"),
+	title: z.string(),
+	href: z.string(),
+	description: z.string().optional(),
+})
+export type LinkCardBlock = z.infer<typeof linkCardBlock>
 
 export const lexicalBlock = z.object({
 	version: z.number(),

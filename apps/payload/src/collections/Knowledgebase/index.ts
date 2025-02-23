@@ -289,7 +289,7 @@ export const Knowledgebase: CollectionConfig<'knowledgebase'> = {
   versions: {
     drafts: {
       autosave: {
-        interval: 100, // We set this interval for optimal live preview
+        interval: 350, // We set this interval for optimal live preview
       },
     },
     maxPerDoc: 50,

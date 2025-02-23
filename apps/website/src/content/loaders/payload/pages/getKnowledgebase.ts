@@ -10,7 +10,13 @@ export async function getKnowledgeBase(): Promise<KnowledgebasePage[]> {
 	const pages = await payload.find({
 		collection: "knowledgebase",
 		sort: "docOrder",
+		where: {
+			_status: {
+				equals: "published",
+			}
+		}
 	})
+	console.log("pages", pages)
 
 	return pages.docs.map((doc, i) => {
 		function extractTextFromLexical(textArray: LexicalText[]): string {
@@ -21,7 +27,7 @@ export async function getKnowledgeBase(): Promise<KnowledgebasePage[]> {
 
 		let items: TocItem[] = []
 
-		if (doc.content && doc.content.root) {
+		if (doc.content && doc.content?.root) {
 			for (const lexicalElements of doc.content.root.children) {
 				if (lexicalElements.type === "heading") {
 					const tag = lexicalElements.tag as string
@@ -38,15 +44,15 @@ export async function getKnowledgeBase(): Promise<KnowledgebasePage[]> {
 			items = generateToC(astroHeadings, {
 				minHeadingLevel: 2,
 				maxHeadingLevel: 3,
-				title: doc.title,
+				title: doc.title || "<no title>",
 			})
 		}
 
 		return {
 			id: "knowledgebase/" + getPageSlug(doc),
-			title: doc.title,
+			title: doc.title || "<no title>",
 			template: "doc",
-			lexical: doc.content.root as LexicalRoot,
+			lexical: doc.content ? doc.content.root as LexicalRoot : { type: "root", children: [], version: 1 },
 			tableOfContents: { items },
 			sidebar: {
 				order: i,

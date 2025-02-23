@@ -1,11 +1,13 @@
 ---
 import MobileMenuToggle from "@astrojs/starlight/components/MobileMenuToggle.astro"
+import { cn } from "@website/src/lib/cn"
 
 const { hasSidebar } = Astro.locals.starlightRoute
-console.log("frame")
+const isDoc = Astro.locals.starlightRoute.entry.collection === "docs"
+console.log(Astro.locals.starlightRoute.entry.collection)
 ---
 
-<div class="page sl-flex">
+<div class={cn("page sl-flex", isDoc && "bg-green-dark")}>
 	<slot name="header" />
 	{
 		hasSidebar && (

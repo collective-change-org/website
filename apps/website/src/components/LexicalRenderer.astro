@@ -1,8 +1,9 @@
 ---
-import { Aside, Badge, Code, LinkCard } from "@astrojs/starlight/components"
+import { Aside, Badge, Code } from "@astrojs/starlight/components"
 import type { LexicalComponents } from "../content/loaders/payload/schemas/lexical"
 import { button } from "./button/button"
 import { Icon } from "astro-icon/components"
+import LinkCard from "./Knowledgebase/LinkCard.astro"
 
 export interface Props {
 	children: LexicalComponents[]
@@ -136,47 +137,47 @@ console.log(children)
 								/>
 							</Aside>
 						)
-					case "buttonBlock":
-						let url
-						if (child.fields.link.type === "reference") {
-							if (
-								child.fields.link.relationTo === "knowledgebase"
-							) {
-								url = `/knowledgebase/${child.fields.link.reference.value.slugWithGroup}`
-							} else {
-								url = `/${child.fields.link.reference.value.slug}`
-							}
-						}
-						return (
-							<a
-								href={url}
-								class={button({
-									intent: child.fields.variant,
-									size: child.fields.size,
-								})}>
-								{child.fields.hasLeftIcon && (
-									<Icon
-										size={
-											child.fields.size === "small"
-												? 24
-												: 32
-										}
-										name={`ph:${child.fields.iconLeft}`}
-									/>
-								)}
-								{child.fields.link.label}
-								{child.fields.hasRightIcon && (
-									<Icon
-										size={
-											child.fields.size === "small"
-												? 24
-												: 32
-										}
-										name={`ph:${child.fields.iconRight}`}
-									/>
-								)}
-							</a>
-						)
+					// case "buttonBlock":
+					// 	let url
+					// 	if (child.fields.link.type === "reference") {
+					// 		if (
+					// 			child.fields.link.relationTo === "knowledgebase"
+					// 		) {
+					// 			url = `/knowledgebase/${child.fields.link.reference.value.slugWithGroup}`
+					// 		} else {
+					// 			url = `/${child.fields.link.reference.value.slug}`
+					// 		}
+					// 	}
+					// 	return (
+					// 		<a
+					// 			href={url}
+					// 			class={button({
+					// 				intent: child.fields.variant,
+					// 				size: child.fields.size,
+					// 			})}>
+					// 			{child.fields.hasLeftIcon && (
+					// 				<Icon
+					// 					size={
+					// 						child.fields.size === "small"
+					// 							? 24
+					// 							: 32
+					// 					}
+					// 					name={`ph:${child.fields.iconLeft}`}
+					// 				/>
+					// 			)}
+					// 			{child.fields.link.label}
+					// 			{child.fields.hasRightIcon && (
+					// 				<Icon
+					// 					size={
+					// 						child.fields.size === "small"
+					// 							? 24
+					// 							: 32
+					// 					}
+					// 					name={`ph:${child.fields.iconRight}`}
+					// 				/>
+					// 			)}
+					// 		</a>
+					// 	)
 					case "linkCardBlock":
 						return <LinkCard {...child.fields} />
 					default:

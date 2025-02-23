@@ -1,0 +1,22 @@
+---
+import type { LinkCardBlock } from "@website/src/content/loaders/payload/schemas/lexicalBlocks"
+import { Icon } from "astro-icon/components"
+
+// export interface Props extends LinkCardBlock {}
+export type Props = LinkCardBlock
+
+const props = Astro.props
+---
+
+<a
+	href={props.href}
+	class="hover:bg-green flex rounded-lg border border-green-lighter p-4 text-white no-underline hover:border-off-white"
+	target="_blank"
+	rel="noopener noreferrer"
+>
+	<div class="flex flex-col gap-3">
+		<p class="typestyle-text-l font-bold">{props.title}</p>
+		<p class="typestyle-text-m">{props.description}</p>
+	</div>
+	<Icon name="ph:arrow-right" class="h-6 w-6 shrink-0" />
+</a>
