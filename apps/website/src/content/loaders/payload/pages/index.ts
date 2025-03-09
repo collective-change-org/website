@@ -1,9 +1,10 @@
 import { defineCollection, z, type BaseSchema } from "astro:content"
 import { getKnowledgeBase } from "./getKnowledgebase"
 import { getPages, type ContentBlock } from "./getPages"
-import { pagesSchema } from "./schema"
+import { HeadConfigSchema, pagesSchema } from "./schema"
 import type { LexicalRoot } from "../schemas/lexical"
 import type { CustomSidebar } from "../getSidebar"
+import type { Media } from "@payload/src"
 
 export interface KnowledgebasePage extends BaseSchema {
 	id: string
@@ -19,6 +20,8 @@ export interface Page extends BaseSchema {
 	id: string
 	title: string
 	template: "splash"
+	head: z.input<ReturnType<typeof HeadConfigSchema>>,
+	meta?: { title?: string | null | undefined; image?: number | Media | null | undefined; description?: string | null | undefined; },
 	tableOfContents: boolean
 	sidebar: CustomSidebar
 	layout: ContentBlock[]

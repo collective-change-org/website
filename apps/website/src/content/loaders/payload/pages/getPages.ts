@@ -2,6 +2,7 @@ import type { LexicalRootContainer } from "../schemas/lexical"
 import type { Page } from "."
 import { getPayload } from "payload"
 import { config } from "@collectivechange/payload"
+import { createImageUrl } from "@website/src/lib/createImageUrl"
 
 export type ContentBlock = {
   id: string
@@ -18,13 +19,39 @@ export async function getPages(): Promise<Page[]> {
   })
 
   try {
-
     return pages.docs.map((doc) => {
+      const head: Page["head"] = [];
+      if (doc.meta?.title) {
+        head.push({
+          tag: "title",
+          content: doc.meta.title,
+        })
+      }
+      if (doc.meta?.description) {
+        head.push({
+          tag: "meta",
+          attrs: {
+            name: "description",
+            content: doc.meta.description,
+          },
+        })
+      }
+      if (doc.meta?.image && typeof doc.meta.image !== "number" && doc.meta.image.url) {
+        head.push({
+          tag: "meta",
+          attrs: {
+            property: "og:image",
+            content: createImageUrl(doc.meta.image.url),
+          },
+        })
+      }
+
       return {
         id: doc.slug === "home" ? "/" : doc.slug || "",
         title: doc.title,
         template: "splash",
         layout: doc.layout as unknown as ContentBlock[],
+        head,
         tableOfContents: false,
         sidebar: {
           order: 0,

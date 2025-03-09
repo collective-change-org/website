@@ -118,6 +118,20 @@ export const layoutUnion = containerBlock
 
 export type LayoutUnion = z.infer<typeof layoutUnion>
 
+export const HeadConfigSchema = () =>
+	z
+		.array(
+			z.object({
+				/** Name of the HTML tag to add to `<head>`, e.g. `'meta'`, `'link'`, or `'script'`. */
+				tag: z.enum(['title', 'base', 'link', 'style', 'meta', 'script', 'noscript', 'template']),
+				/** Attributes to set on the tag, e.g. `{ rel: 'stylesheet', href: '/custom.css' }`. */
+				attrs: z.record(z.union([z.string(), z.boolean(), z.undefined()])).default({}),
+				/** Content to place inside the tag (optional). */
+				content: z.string().default(''),
+			})
+		)
+		.default([]);
+
 export const pagesSchema = docsSchema({
 	extend: z.union([
 		z.object({
@@ -129,6 +143,7 @@ export const pagesSchema = docsSchema({
 		}),
 		z.object({
 			template: z.literal("splash"),
+			head: HeadConfigSchema(),
 			layout: z.array(layoutUnion),
 		}),
 	]),
