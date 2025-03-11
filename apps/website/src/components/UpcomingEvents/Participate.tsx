@@ -23,14 +23,6 @@ export const Participate: VoidComponent<Event> = (props) => {
 	const [error, setError] = createSignal<string>()
 
 	onMount(async () => {
-		// // Load Event
-		// const eventRes = await actions.getEventById({ id: event().id })
-		// if (eventRes.error) {
-		// 	console.error(eventRes.error)
-		// 	return
-		// }
-		// setEvent(eventRes.data?.event!)
-
 		const userRes = await actions.verify({})
 		if (userRes.error) {
 			console.error(userRes.error)
@@ -88,10 +80,6 @@ export const Participate: VoidComponent<Event> = (props) => {
 		setParticipating(false)
 	}
 
-	// TODO:
-	// - Implement Participate and Cancel Participation actions
-	// - Error state
-
 	return (
 		<div class="flex flex-col gap-2">
 			<div class="flex items-center gap-4">
@@ -102,7 +90,19 @@ export const Participate: VoidComponent<Event> = (props) => {
 						<Show
 							when={!loading()}
 							fallback={<Spinner class="fill-off-white" />}>
-							Teilnehmen
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								width="24"
+								height="24"
+								fill="currentColor"
+								viewBox="0 0 256 256">
+								<path d="M208,32H184V24a8,8,0,0,0-16,0v8H88V24a8,8,0,0,0-16,0v8H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32Zm0,176H48V48H72v8a8,8,0,0,0,16,0V48h80v8a8,8,0,0,0,16,0V48h24V208ZM152,88a31.91,31.91,0,0,0-24,10.86A32,32,0,0,0,72,120c0,36.52,50.28,62.08,52.42,63.16a8,8,0,0,0,7.16,0C133.72,182.08,184,156.52,184,120A32,32,0,0,0,152,88Zm-24,78.93c-13.79-7.79-40-26.75-40-46.93a16,16,0,0,1,32,0,8,8,0,0,0,16,0,16,16,0,0,1,32,0C168,140.19,141.79,159.15,128,166.93Z"></path>
+							</svg>
+							<Show
+								when={user()}
+								fallback="Einloggen und Teilnehmen">
+								Teilnehmen
+							</Show>
 						</Show>
 						{/* <Icon name="ph:calendar-heart" /> */}
 					</button>
