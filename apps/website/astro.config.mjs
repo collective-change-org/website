@@ -58,7 +58,7 @@ export default defineConfig({
 			applyBaseStyles: false,
 		}),
 		solidJs({
-			exclude: ["@collectivechange/payload", "../payload/*"],
+			exclude: ["@collectivechange/payload", "/apps/payload/**/*", "**/emails/**/*"],
 		}),
 		icon(),
 	],
@@ -77,8 +77,5 @@ export default defineConfig({
 		optimizeDeps: {
 			exclude: ["@collectivechange/payload"],
 		},
-		resolve: {
-			external: ["@collectivechange/payload"],
-		}
 	}
 })
