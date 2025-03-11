@@ -1,22 +1,23 @@
-import type { LexicalRootContainer } from "../schemas/lexical"
-import type { Page } from "."
-import { getPayload } from "payload"
-import { config } from "@collectivechange/payload"
-import { createImageUrl } from "@website/src/lib/createImageUrl"
+import type { LexicalRootContainer } from "../schemas/lexical";
+import type { Page } from ".";
+import { getPayload } from "payload";
+import { config } from "@collectivechange/payload";
+import { createImageUrl } from "@website/src/lib/createImageUrl";
 
 export type ContentBlock = {
-  id: string
+  id: string;
   columns: Array<{
-    size: number
-    richText: LexicalRootContainer
-  }>
-}
+    size: number;
+    richText: LexicalRootContainer;
+  }>;
+};
 
 export async function getPages(): Promise<Page[]> {
-  const payload = await getPayload({ config })
+  const payload = await getPayload({ config });
   const pages = await payload.find({
     collection: "pages",
-  })
+  });
+  // console.dir(pages, { depth: Infinity });
 
   try {
     return pages.docs.map((doc) => {
@@ -25,7 +26,7 @@ export async function getPages(): Promise<Page[]> {
         head.push({
           tag: "title",
           content: doc.meta.title,
-        })
+        });
       }
       if (doc.meta?.description) {
         head.push({
@@ -34,16 +35,19 @@ export async function getPages(): Promise<Page[]> {
             name: "description",
             content: doc.meta.description,
           },
-        })
+        });
       }
-      if (doc.meta?.image && typeof doc.meta.image !== "number" && doc.meta.image.url) {
+      if (
+        doc.meta?.image && typeof doc.meta.image !== "number" &&
+        doc.meta.image.url
+      ) {
         head.push({
           tag: "meta",
           attrs: {
             property: "og:image",
             content: createImageUrl(doc.meta.image.url),
           },
-        })
+        });
       }
 
       return {
@@ -56,10 +60,10 @@ export async function getPages(): Promise<Page[]> {
         sidebar: {
           order: 0,
         },
-      } satisfies Page
-    })
+      } satisfies Page;
+    });
   } catch (error) {
-    console.error(error)
-    return []
+    console.error(error);
+    return [];
   }
 }

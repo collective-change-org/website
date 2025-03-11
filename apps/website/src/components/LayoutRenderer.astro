@@ -27,7 +27,7 @@ const { children, slug } = Astro.props
 					return (
 						<h1
 							class={cn(
-								slug === "index"
+								slug === "index" || slug === ""
 									? "typestyle-hero-h1 text-yellow-300"
 									: "typestyle-h1 text-off-white",
 							)}>
@@ -36,7 +36,7 @@ const { children, slug } = Astro.props
 					)
 				case "h2Block":
 					return (
-						<h2 class="typestyle-h2 group-data-[color=green]:text-off-white group-data-[color=white]:text-green-lighter">
+						<h2 class="typestyle-h2 group-data-[color=green]:text-off-white group-data-[color=white]:text-green-lightest">
 							{child.title}
 						</h2>
 					)
@@ -50,7 +50,7 @@ const { children, slug } = Astro.props
 					)
 				case "indentedContainer":
 					return (
-						<div class="flex flex-col items-start gap-4 lg:ml-[25%]">
+						<div class="flex flex-col items-start gap-10 lg:ml-[25%]">
 							<Astro.self children={child.layout} slug={slug} />
 						</div>
 					)
@@ -91,7 +91,7 @@ const { children, slug } = Astro.props
 						<div class="flex flex-col items-start gap-8 lg:flex-row">
 							{child.columns.map((column) => {
 								return (
-									<div class="lg:base-1/2 flex w-full flex-col items-start justify-center gap-4">
+									<div class="lg:base-1/2 flex w-full flex-col items-start justify-center gap-8">
 										<Astro.self
 											children={column.layout}
 											slug={slug}

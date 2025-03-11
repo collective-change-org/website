@@ -28,35 +28,35 @@ const events = await getCollection("events")
 </script>
 
 <div class="contents">
-	<div class="!col-start-1 !col-end-4 overflow-x-clip">
-		<div class="inline-flex" id="upcoming">
-			<span class="typestyle-h3 min-w-fit text-black">
+	<div class="!col-start-1  !col-end-4 overflow-x-clip pt-32">
+		<div class="inline-flex text-green-lightest" id="upcoming">
+			<span class="typestyle-h3 min-w-fit ">
 				{props.title}
 			</span>
-			<span class="typestyle-h3 min-w-fit text-black">
+			<span class="typestyle-h3 min-w-fit">
 				{props.title}
 			</span>
-			<span class="typestyle-h3 min-w-fit text-black">
+			<span class="typestyle-h3 min-w-fit">
 				{props.title}
 			</span>
-			<span class="typestyle-h3 min-w-fit text-black">
+			<span class="typestyle-h3 min-w-fit">
 				{props.title}
 			</span>
-			<span class="typestyle-h3 min-w-fit text-black">
+			<span class="typestyle-h3 min-w-fit">
 				{props.title}
 			</span>
-			<span class="typestyle-h3 min-w-fit text-black">
+			<span class="typestyle-h3 min-w-fit">
 				{props.title}
 			</span>
-			<span class="typestyle-h3 min-w-fit text-black">
+			<span class="typestyle-h3 min-w-fit">
 				{props.title}
 			</span>
-			<span class="typestyle-h3 min-w-fit text-black">
+			<span class="typestyle-h3 min-w-fit">
 				{props.title}
 			</span>
 		</div>
 	</div>
-	<div>
+	<div class="flex flex-row justify-center gap-4 flex-wrap w-full">
 		{events.map((event) => <EventCard {...event.data} />)}
 	</div>
 </div>
