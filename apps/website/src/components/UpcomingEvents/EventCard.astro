@@ -37,20 +37,36 @@ const date = new Date(props.date).toLocaleDateString("de-DE", {
 		<div class="flex flex-col gap-6">
 			{
 				props.description && (
-					<div>
+					<div class="lexicalContainer">
 						<LexicalRenderer {...props.description.root} />
 					</div>
 					<hr class="h-[1px] bg-off-white" />
 				)
 			}
 			<div class="flex">
-				<div class="basis-1/2">
+				<div class="basis-1/2 lexicalContainer">
 					<LexicalRenderer {...props.left.root} />
 				</div>
-				<div class="basis-1/2">
+				<div class="basis-1/2 lexicalContainer">
 					<LexicalRenderer {...props.right.root} />
 				</div>
 			</div>
 		</div>
 	</EventMoreInfo>
 </div>
+
+<style is:global>
+	.lexicalContainer {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+		line-height: 1.5;
+		
+		& em {
+			font-variation-settings: 'ital' 11;
+		}
+		& strong {
+			font-variation-settings: 'wght' 700;
+		}
+	}
+</style>

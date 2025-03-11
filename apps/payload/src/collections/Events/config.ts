@@ -112,10 +112,12 @@ export const Events: CollectionConfig<'events'> = {
       handler: async (req) => {
         const eventId = req.routeParams?.id as string | undefined
         if (!eventId) {
+          req.payload.logger.error('User Attending Event: Event ID is required')
           return new Response('Event ID is required', { status: 400 })
         }
         const user = req.user
         if (!user) {
+          req.payload.logger.error('User Attending Event: Unauthorized')
           return new Response('Unauthorized', { status: 401 })
         }
 
@@ -124,6 +126,7 @@ export const Events: CollectionConfig<'events'> = {
           id: eventId,
         })
         if (!event) {
+          req.payload.logger.error('User Attending Event: Event not found')
           return new Response('Event not found', { status: 404 })
         }
 
@@ -136,6 +139,7 @@ export const Events: CollectionConfig<'events'> = {
             return attendee.id === user.id
           })
         ) {
+          req.payload.logger.error('User Attending Event: User already attending')
           return new Response('Already attending', { status: 409 })
         }
 
@@ -156,10 +160,12 @@ export const Events: CollectionConfig<'events'> = {
       handler: async (req) => {
         const eventId = req.routeParams?.id as string | undefined
         if (!eventId) {
+          req.payload.logger.error('User Canceling Attending Event: Event ID is required')
           return new Response('Event ID is required', { status: 400 })
         }
         const user = req.user
         if (!user) {
+          req.payload.logger.error('User Canceling Attending Event: Unauthorized')
           return new Response('Unauthorized', { status: 401 })
         }
 
@@ -168,8 +174,12 @@ export const Events: CollectionConfig<'events'> = {
           id: eventId,
         })
         if (!event) {
+          req.payload.logger.error('User Canceling Attending Event: Event not found')
           return new Response('Event not found', { status: 404 })
         }
+        console.dir(event, {
+          depth: Infinity
+        })
 
         const attendees = event.attendees || []
         const index = attendees.findIndex((attendee) => {
@@ -179,6 +189,7 @@ export const Events: CollectionConfig<'events'> = {
           return attendee.id === user.id
         })
         if (index === -1) {
+          req.payload.logger.error('User Canceling Attending Event: User not attending to begin with')
           return new Response('Not attending', { status: 409 })
         }
 
