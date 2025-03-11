@@ -8,13 +8,18 @@ export interface Props extends Event {}
 
 const props = Astro.props
 
-const date = new Date(props.beginDate).toLocaleDateString("de-DE", {
+const date = new Date(props.beginDate)
+
+const dateString = date.toLocaleDateString("de-DE", {
 	month: "numeric",
 	day: "numeric",
 	year: "numeric",
+	hour: "numeric",
+	minute: "numeric",
+	timeZone: "Europe/Berlin",
 })
 
-const startDate = new Date(props.beginDate)
+const startDate = date
 const endDate = new Date(props.endDate)
 
 const event: VEvent = {
@@ -47,73 +52,69 @@ const eventContent = generateIcsCalendar(calendar)
 ---
 
 <div
-	class="relative flex flex-col gap-[20px] overflow-clip rounded-xl bg-white pt-5 text-green-black lg:w-[45%] w-[80%] h-fit"
+	class="relative flex h-fit w-[80%] flex-col gap-[20px] overflow-clip rounded-xl bg-white pt-5 text-green-black lg:w-[45%]"
 >
 	<div class="flex w-full flex-col gap-4 px-5">
 		<div class="flex w-full flex-col gap-[2px]">
-			<h3 class="typestyle-text-m">{date}</h3>
-			<h3 class="typestyle-h5">{props.title}</h3>
-
-		<div class="flex w-full flex-col">
 			<div class="flex flex-wrap items-center gap-2">
-				<h3 class="typestyle-text-m">{date}</h3>
+				<h3 class="typestyle-text-m">{dateString}</h3>
 				<a
 					href={`data:text/calendar;charset=utf-8,${encodeURIComponent(eventContent)}`}
 					download={`${props.title}.ics`}
 					class="typestyle-text-s tracking-wider text-black"
 				>
-					Kalendereintrag herunterladen
+					Zum Kalender hinzufügen
 				</a>
 			</div>
-			<h3 class="typestyle-h6">{props.title}</h3>
+			<h3 class="typestyle-h5">{props.title}</h3>
+			<div class="typestyle-text-m line-clamp-2">
+				{
+					props.description ? (
+						<LexicalRenderer {...props.description.root} />
+					) : (
+						<p>Für dieses Event gibt es keinen Beschribungstext</p>
+					)
+				}
+			</div>
+			<Participate {...props} client:load />
 		</div>
-		<div class="typestyle-text-m line-clamp-2">
-			{
-				props.description ? (
-					<LexicalRenderer {...props.description.root} />
-				) : (
-					<p>Für dieses Event gibt es keinen Beschribungstext</p>
-				)
-			}
-		</div>
-		<Participate {...props} client:load />
-	</div>
-	<EventMoreInfo {...props} client:load>
-		<div class="flex flex-col gap-6">
-			{
-				props.description && (
-					<>
-						<div class="lexicalContainer">
-							<LexicalRenderer {...props.description.root} />
-						</div>
-						<hr class="h-[1px] bg-off-white" />
-					</>
-				)
-			}
-			<div class="flex">
-				<div class="lexicalContainer basis-1/2 flex flex-col gap-3">
-					<LexicalRenderer {...props.left.root} />
-				</div>
-				<div class="lexicalContainer basis-1/2 flex flex-col gap-3">
-					<LexicalRenderer {...props.right.root} />
+		<EventMoreInfo {...props} client:load>
+			<div class="flex flex-col gap-6">
+				{
+					props.description && (
+						<>
+							<div class="lexicalContainer">
+								<LexicalRenderer {...props.description.root} />
+							</div>
+							<hr class="h-[1px] bg-off-white" />
+						</>
+					)
+				}
+				<div class="flex">
+					<div class="lexicalContainer flex basis-1/2 flex-col gap-3">
+						<LexicalRenderer {...props.left.root} />
+					</div>
+					<div class="lexicalContainer flex basis-1/2 flex-col gap-3">
+						<LexicalRenderer {...props.right.root} />
+					</div>
 				</div>
 			</div>
-		</div>
-	</EventMoreInfo>
+		</EventMoreInfo>
+	</div>
+
+	<style is:global>
+		.lexicalContainer {
+			display: flex;
+			flex-direction: column;
+			gap: 0.5rem;
+			line-height: 1.5;
+
+			& em {
+				font-variation-settings: "ital" 11;
+			}
+			& strong {
+				font-variation-settings: "wght" 700;
+			}
+		}
+	</style>
 </div>
-
-<style is:global>
-	.lexicalContainer {
-		display: flex;
-		flex-direction: column;
-		gap: 0.5rem;
-		line-height: 1.5;
-
-		& em {
-			font-variation-settings: "ital" 11;
-		}
-		& strong {
-			font-variation-settings: "wght" 700;
-		}
-	}
-</style>
