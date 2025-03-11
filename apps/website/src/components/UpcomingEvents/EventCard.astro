@@ -3,20 +3,19 @@ import type { Event } from "../../content/loaders/payload/pages/getEvents"
 import LexicalRenderer from "../LexicalRenderer.astro"
 import { EventMoreInfo } from "./EventMoreInfo"
 import { Participate } from "./Participate"
-import { generateIcsCalendar, type VEvent, type VCalendar } from "ts-ics";
+import { generateIcsCalendar, type VEvent, type VCalendar } from "ts-ics"
 export interface Props extends Event {}
 
 const props = Astro.props
 
-const date = new Date(props.date).toLocaleDateString("de-DE", {
+const date = new Date(props.beginDate).toLocaleDateString("de-DE", {
 	month: "numeric",
 	day: "numeric",
 	year: "numeric",
 })
 
-const startDate = new Date(props.date);
-const endDate = new Date(props.date);
-endDate.setHours(endDate.getHours() + 2); // Default 2-hour duration
+const startDate = new Date(props.beginDate)
+const endDate = new Date(props.endDate)
 
 const event: VEvent = {
 	start: {
@@ -33,16 +32,16 @@ const event: VEvent = {
 	},
 	uid: props.id.toString(),
 	summary: props.title,
-};
+}
 
 const calendar: VCalendar = {
 	prodId: "-//Collective Change//DE",
 	version: "2.0",
 	events: [event],
-};
+}
 
 // Generate event content
-const eventContent = generateIcsCalendar(calendar);
+const eventContent = generateIcsCalendar(calendar)
 
 // Create a complete valid iCalendar file by wrapping the event in VCALENDAR
 ---
@@ -52,17 +51,22 @@ const eventContent = generateIcsCalendar(calendar);
 >
 	<div class="flex w-full flex-col gap-4 px-5">
 		<div class="flex w-full flex-col">
-			<h3 class="typestyle-text-m">{date}</h3>
-			<a href={`data:text/calendar;charset=utf-8,${encodeURIComponent(eventContent)}`}
-			download={`${props.title}.ics`}>
-				<button class="typestyle-text-m">Kalendereintrag herunterladen</button>
-			</a>
+			<div class="flex flex-wrap items-center gap-2">
+				<h3 class="typestyle-text-m">{date}</h3>
+				<a
+					href={`data:text/calendar;charset=utf-8,${encodeURIComponent(eventContent)}`}
+					download={`${props.title}.ics`}
+					class="typestyle-text-s tracking-wider text-black"
+				>
+					Kalendereintrag herunterladen
+				</a>
+			</div>
 			<h3 class="typestyle-h6">{props.title}</h3>
 		</div>
-		<div class="line-clamp-2 typestyle-text-m">
+		<div class="typestyle-text-m line-clamp-2">
 			{
 				props.description ? (
-				<LexicalRenderer {...props.description.root} />
+					<LexicalRenderer {...props.description.root} />
 				) : (
 					<p>Für dieses Event gibt es keinen Beschribungstext</p>
 				)
@@ -74,17 +78,19 @@ const eventContent = generateIcsCalendar(calendar);
 		<div class="flex flex-col gap-6">
 			{
 				props.description && (
-					<div class="lexicalContainer">
-						<LexicalRenderer {...props.description.root} />
-					</div>
-					<hr class="h-[1px] bg-off-white" />
+					<>
+						<div class="lexicalContainer">
+							<LexicalRenderer {...props.description.root} />
+						</div>
+						<hr class="h-[1px] bg-off-white" />
+					</>
 				)
 			}
 			<div class="flex">
-				<div class="basis-1/2 lexicalContainer">
+				<div class="lexicalContainer basis-1/2">
 					<LexicalRenderer {...props.left.root} />
 				</div>
-				<div class="basis-1/2 lexicalContainer">
+				<div class="lexicalContainer basis-1/2">
 					<LexicalRenderer {...props.right.root} />
 				</div>
 			</div>
@@ -98,12 +104,12 @@ const eventContent = generateIcsCalendar(calendar);
 		flex-direction: column;
 		gap: 0.5rem;
 		line-height: 1.5;
-		
+
 		& em {
-			font-variation-settings: 'ital' 11;
+			font-variation-settings: "ital" 11;
 		}
 		& strong {
-			font-variation-settings: 'wght' 700;
+			font-variation-settings: "wght" 700;
 		}
 	}
 </style>

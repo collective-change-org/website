@@ -19,8 +19,8 @@ export const eventSchema = z.object({
 	id: z.number(),
 	title: z.string(),
 	description: lexicalRootContainer,
-	date: z.string(),
-	time: z.string().nullable(),
+	beginDate: z.string(),
+	endDate: z.string(),
 	left: lexicalRootContainer,
 	right: lexicalRootContainer,
 	image: z

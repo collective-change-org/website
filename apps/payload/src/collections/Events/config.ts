@@ -43,28 +43,30 @@ export const Events: CollectionConfig<'events'> = {
           type: 'row',
           fields: [
             {
-              name: 'date',
+              name: 'beginDate',
               type: 'date',
               admin: {
                 date: {
-                  pickerAppearance: 'dayOnly',
-                  displayFormat: 'd.M.yyy',
+                  pickerAppearance: 'dayAndTime',
+                  displayFormat: 'd.M.yyy HH:mm',
+                  timeFormat: 'HH:mm',
                 },
                 width: '50%',
               },
               required: true,
             },
             {
-              name: 'time',
+              name: 'endDate',
               type: 'date',
               admin: {
                 date: {
-                  pickerAppearance: 'timeOnly',
-                  displayFormat: 'HH:mm',
+                  pickerAppearance: 'dayAndTime',
+                  displayFormat: 'd.M.yyy HH:mm',
                   timeFormat: 'HH:mm',
                 },
                 width: '50%',
               },
+              required: true,
             },
           ],
         },
