@@ -15,12 +15,12 @@ async function loadEvents() {
 	}))
 }
 
-const eventSchema = z.object({
-	id: z.string(),
+export const eventSchema = z.object({
+	id: z.number(),
 	title: z.string(),
 	description: lexicalRootContainer,
-	date: z.string(),
-	time: z.string().nullable(),
+	beginDate: z.string(),
+	endDate: z.string(),
 	left: lexicalRootContainer,
 	right: lexicalRootContainer,
 	image: z
@@ -29,17 +29,7 @@ const eventSchema = z.object({
 		})
 		.nullable(),
 	attendees: z
-		.array(
-			z.object({
-				id: z.number(),
-				name: z.string(),
-				profileImage: z
-					.object({
-						url: z.string(),
-					})
-					.nullable(),
-			}),
-		)
+		.array(z.number())
 		.nullable(),
 })
 export type Event = z.infer<typeof eventSchema>

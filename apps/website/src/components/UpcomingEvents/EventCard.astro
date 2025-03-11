@@ -3,15 +3,47 @@ import type { Event } from "../../content/loaders/payload/pages/getEvents"
 import LexicalRenderer from "../LexicalRenderer.astro"
 import { EventMoreInfo } from "./EventMoreInfo"
 import { Participate } from "./Participate"
+import { generateIcsCalendar, type VEvent, type VCalendar } from "ts-ics"
 export interface Props extends Event {}
 
 const props = Astro.props
 
-const date = new Date(props.date).toLocaleDateString("de-DE", {
+const date = new Date(props.beginDate).toLocaleDateString("de-DE", {
 	month: "numeric",
 	day: "numeric",
 	year: "numeric",
 })
+
+const startDate = new Date(props.beginDate)
+const endDate = new Date(props.endDate)
+
+const event: VEvent = {
+	start: {
+		date: startDate,
+		type: "DATE-TIME",
+	},
+	end: {
+		date: endDate,
+		type: "DATE-TIME",
+	},
+	stamp: {
+		date: new Date(),
+		type: "DATE-TIME",
+	},
+	uid: props.id.toString(),
+	summary: props.title,
+}
+
+const calendar: VCalendar = {
+	prodId: "-//Collective Change//DE",
+	version: "2.0",
+	events: [event],
+}
+
+// Generate event content
+const eventContent = generateIcsCalendar(calendar)
+
+// Create a complete valid iCalendar file by wrapping the event in VCALENDAR
 ---
 
 <div
@@ -19,13 +51,22 @@ const date = new Date(props.date).toLocaleDateString("de-DE", {
 >
 	<div class="flex w-full flex-col gap-4 px-5">
 		<div class="flex w-full flex-col">
-			<h3 class="typestyle-text-m">{date}</h3>
+			<div class="flex flex-wrap items-center gap-2">
+				<h3 class="typestyle-text-m">{date}</h3>
+				<a
+					href={`data:text/calendar;charset=utf-8,${encodeURIComponent(eventContent)}`}
+					download={`${props.title}.ics`}
+					class="typestyle-text-s tracking-wider text-black"
+				>
+					Kalendereintrag herunterladen
+				</a>
+			</div>
 			<h3 class="typestyle-h6">{props.title}</h3>
 		</div>
-		<div class="line-clamp-2 typestyle-text-m">
+		<div class="typestyle-text-m line-clamp-2">
 			{
 				props.description ? (
-				<LexicalRenderer {...props.description.root} />
+					<LexicalRenderer {...props.description.root} />
 				) : (
 					<p>Für dieses Event gibt es keinen Beschribungstext</p>
 				)
@@ -37,20 +78,38 @@ const date = new Date(props.date).toLocaleDateString("de-DE", {
 		<div class="flex flex-col gap-6">
 			{
 				props.description && (
-					<div>
-						<LexicalRenderer {...props.description.root} />
-					</div>
-					<hr class="h-[1px] bg-off-white" />
+					<>
+						<div class="lexicalContainer">
+							<LexicalRenderer {...props.description.root} />
+						</div>
+						<hr class="h-[1px] bg-off-white" />
+					</>
 				)
 			}
 			<div class="flex">
-				<div class="basis-1/2">
+				<div class="lexicalContainer basis-1/2">
 					<LexicalRenderer {...props.left.root} />
 				</div>
-				<div class="basis-1/2">
+				<div class="lexicalContainer basis-1/2">
 					<LexicalRenderer {...props.right.root} />
 				</div>
 			</div>
 		</div>
 	</EventMoreInfo>
 </div>
+
+<style is:global>
+	.lexicalContainer {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+		line-height: 1.5;
+
+		& em {
+			font-variation-settings: "ital" 11;
+		}
+		& strong {
+			font-variation-settings: "wght" 700;
+		}
+	}
+</style>

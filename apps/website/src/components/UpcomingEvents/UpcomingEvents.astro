@@ -1,65 +1,63 @@
 ---
-import { getCollection } from "astro:content"
+export const prerender = false
+import { getCollection, z } from "astro:content"
 import EventCard from "./EventCard.astro"
+import { CMS_URL } from "astro:env/client"
+import { eventSchema } from "@website/src/content/loaders/payload/pages/getEvents"
 
 const props = Astro.props
 
-const events = await getCollection("events")
+// const events = await getCollection("events")
+const url = new URL(CMS_URL)
+const eventsRequest = await fetch(`${url.origin}/api/events?depth=4`).then(
+	(res) => res.json(),
+)
+const { data: events, error } = z
+	.array(eventSchema)
+	.safeParse(eventsRequest.docs)
 ---
 
-<script>
-	// import { scroll, animate, delay, spring } from "motion"
-	// const scrollSpeedMultiplier = 0.5
-	// const scrollSpeed = 1000 * scrollSpeedMultiplier
-
-	// const animation = animate(
-	// 	"div#upcoming",
-	// 	{
-	// 		transform: [`translateX(-50%)`, `translateX(0)`],
-	// 	},
-	// 	{ ease: "linear", repeat: Infinity, duration: 8 },
-	// )
-	// scroll((_, e) => {
-	// 	const speed = (e.y.velocity + scrollSpeed) / scrollSpeed
-
-	// 	const generator = spring({ keyframes: [1, speed] })
-	// 	animation.speed = generator.next(10).value
-	// })
-</script>
-
-<div class="contents">
-	<div class="!col-start-1 !col-end-4 overflow-x-clip">
-		<div class="inline-flex" id="upcoming">
-			<span class="typestyle-h3 min-w-fit text-black">
-				{props.title}
-			</span>
-			<span class="typestyle-h3 min-w-fit text-black">
-				{props.title}
-			</span>
-			<span class="typestyle-h3 min-w-fit text-black">
-				{props.title}
-			</span>
-			<span class="typestyle-h3 min-w-fit text-black">
-				{props.title}
-			</span>
-			<span class="typestyle-h3 min-w-fit text-black">
-				{props.title}
-			</span>
-			<span class="typestyle-h3 min-w-fit text-black">
-				{props.title}
-			</span>
-			<span class="typestyle-h3 min-w-fit text-black">
-				{props.title}
-			</span>
-			<span class="typestyle-h3 min-w-fit text-black">
-				{props.title}
-			</span>
+{
+	error ? (
+		<div>{error}</div>
+	) : (
+		<div class="contents">
+			<div class="!col-start-1 !col-end-4 overflow-x-clip">
+				<div class="inline-flex" id="upcoming">
+					<span class="typestyle-h3 min-w-fit text-black">
+						{props.title}
+					</span>
+					<span class="typestyle-h3 min-w-fit text-black">
+						{props.title}
+					</span>
+					<span class="typestyle-h3 min-w-fit text-black">
+						{props.title}
+					</span>
+					<span class="typestyle-h3 min-w-fit text-black">
+						{props.title}
+					</span>
+					<span class="typestyle-h3 min-w-fit text-black">
+						{props.title}
+					</span>
+					<span class="typestyle-h3 min-w-fit text-black">
+						{props.title}
+					</span>
+					<span class="typestyle-h3 min-w-fit text-black">
+						{props.title}
+					</span>
+					<span class="typestyle-h3 min-w-fit text-black">
+						{props.title}
+					</span>
+				</div>
+			</div>
+			<div>
+				{events.map((event) => (
+					<EventCard {...event} />
+				))}
+			</div>
 		</div>
-	</div>
-	<div>
-		{events.map((event) => <EventCard {...event.data} />)}
-	</div>
-</div>
+	)
+}
 
 <style>
 	#upcoming {
