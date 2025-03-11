@@ -25,8 +25,29 @@ export default function SignUpForm() {
 		const { data, error } = await actions.login(values)
 
 		if (!error) {
-			// Logged In
-			navigate("/")
+			// Get After-Login Actions from Cookie
+			const afterLoginAction = localStorage.getItem("afterLoginAction")
+
+			let redirectPath = ""
+			// const redirectPath = `${redirect || "/"}${participate ? `?participate=${participate}` : ""}`
+
+			if (afterLoginAction) {
+				const actions = JSON.parse(afterLoginAction)
+				if (actions.redirect) {
+					redirectPath = actions.redirect
+				} else {
+					redirectPath = "/"
+				}
+
+				const urlParams = new URLSearchParams()
+				if (actions.participate) {
+					urlParams.set("participate", actions.participate)
+				}
+				redirectPath = `${redirectPath}?${urlParams.toString()}`
+				localStorage.removeItem("afterLoginAction")
+			}
+
+			navigate(redirectPath)
 		}
 	}
 
@@ -98,7 +119,7 @@ export default function SignUpForm() {
 						intent: "green",
 						size: "small",
 					})}>
-					Anmelden
+					Einloggen
 				</button>
 			</Form>
 		</div>
