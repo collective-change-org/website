@@ -1,9 +1,10 @@
 ---
-export const prerender = false
-import { getCollection, z } from "astro:content"
+export const prerender = false // Not needed in 'server' mode
+
+import { z } from "astro/zod"
 import EventCard from "./EventCard.astro"
 import { CMS_URL } from "astro:env/client"
-import { eventSchema } from "@website/src/content/loaders/payload/pages/getEvents"
+// import { eventSchema } from "../../content/loaders/payload/pages/getEvents"
 
 const props = Astro.props
 
@@ -12,30 +13,8 @@ const url = new URL(CMS_URL)
 const eventsRequest = await fetch(`${url.origin}/api/events?depth=4`).then(
 	(res) => res.json(),
 )
-const { data: events, error } = z
-	.array(eventSchema)
-	.safeParse(eventsRequest.docs)
+const { data: events, error } = z.array(z.any()).safeParse(eventsRequest.docs)
 ---
-
-<script>
-	// import { scroll, animate, delay, spring } from "motion"
-	// const scrollSpeedMultiplier = 0.5
-	// const scrollSpeed = 1000 * scrollSpeedMultiplier
-
-	// const animation = animate(
-	// 	"div#upcoming",
-	// 	{
-	// 		transform: [`translateX(-50%)`, `translateX(0)`],
-	// 	},
-	// 	{ ease: "linear", repeat: Infinity, duration: 8 },
-	// )
-	// scroll((_, e) => {
-	// 	const speed = (e.y.velocity + scrollSpeed) / scrollSpeed
-
-	// 	const generator = spring({ keyframes: [1, speed] })
-	// 	animation.speed = generator.next(10).value
-	// })
-</script>
 
 {
 	error ? (
