@@ -47,9 +47,13 @@ const eventContent = generateIcsCalendar(calendar)
 ---
 
 <div
-	class="relative flex flex-col gap-4 overflow-clip rounded-xl bg-white pt-5 text-green-black"
+	class="relative flex flex-col gap-[20px] overflow-clip rounded-xl bg-white pt-5 text-green-black lg:w-[45%] w-[80%] h-fit"
 >
 	<div class="flex w-full flex-col gap-4 px-5">
+		<div class="flex w-full flex-col gap-[2px]">
+			<h3 class="typestyle-text-m">{date}</h3>
+			<h3 class="typestyle-h5">{props.title}</h3>
+
 		<div class="flex w-full flex-col">
 			<div class="flex flex-wrap items-center gap-2">
 				<h3 class="typestyle-text-m">{date}</h3>
@@ -87,10 +91,10 @@ const eventContent = generateIcsCalendar(calendar)
 				)
 			}
 			<div class="flex">
-				<div class="lexicalContainer basis-1/2">
+				<div class="lexicalContainer basis-1/2 flex flex-col gap-3">
 					<LexicalRenderer {...props.left.root} />
 				</div>
-				<div class="lexicalContainer basis-1/2">
+				<div class="lexicalContainer basis-1/2 flex flex-col gap-3">
 					<LexicalRenderer {...props.right.root} />
 				</div>
 			</div>

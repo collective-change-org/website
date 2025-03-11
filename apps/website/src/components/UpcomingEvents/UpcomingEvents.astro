@@ -17,6 +17,26 @@ const { data: events, error } = z
 	.safeParse(eventsRequest.docs)
 ---
 
+<script>
+	// import { scroll, animate, delay, spring } from "motion"
+	// const scrollSpeedMultiplier = 0.5
+	// const scrollSpeed = 1000 * scrollSpeedMultiplier
+
+	// const animation = animate(
+	// 	"div#upcoming",
+	// 	{
+	// 		transform: [`translateX(-50%)`, `translateX(0)`],
+	// 	},
+	// 	{ ease: "linear", repeat: Infinity, duration: 8 },
+	// )
+	// scroll((_, e) => {
+	// 	const speed = (e.y.velocity + scrollSpeed) / scrollSpeed
+
+	// 	const generator = spring({ keyframes: [1, speed] })
+	// 	animation.speed = generator.next(10).value
+	// })
+</script>
+
 {
 	error ? (
 		<div>{error}</div>
