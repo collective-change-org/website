@@ -38,11 +38,32 @@ export const Participate: VoidComponent<Event> = (props) => {
 		if (participating) {
 			setParticipating(true)
 		}
+
+		// Check if participate query is in URL
+		const urlParams = new URLSearchParams(window.location.search)
+		const participateQuery = urlParams.get("participate")
+
+		console.log(urlParams)
+
+		if (participateQuery === event().id.toString()) {
+			participate()
+		}
 	})
 
-	async function participate(e: MouseEvent) {
+	async function participate() {
 		const tempUser = user()
 		if (!tempUser) {
+			// Add Local Storage to redirect to event after login
+			const afterLoginAction = {
+				redirect: "/",
+				participate: event().id,
+			}
+
+			localStorage.setItem(
+				"afterLoginAction",
+				JSON.stringify(afterLoginAction),
+			)
+
 			navigate("/login")
 			console.error("No user found")
 			return
@@ -59,7 +80,11 @@ export const Participate: VoidComponent<Event> = (props) => {
 		setLoading(false)
 		if (error) {
 			console.error(error)
-			setError(error.message)
+			setError(
+				error.message === "Conflict"
+					? "Du nimmst bereits teil!"
+					: error.message,
+			)
 			return
 		}
 		setParticipating(true)

@@ -49,7 +49,7 @@ export default function SignUpForm() {
 		if (error) {
 			setLoading(false)
 			setSignupError(
-				"Huch, wir konnten dich leider nicht anmelden. Überprüfe deine E-Mail und versuche es noch einmal!",
+				"Huch, wir konnten dich leider nicht registrieren. Überprüfe deine E-Mail und versuche es noch einmal!",
 			)
 		}
 	}
