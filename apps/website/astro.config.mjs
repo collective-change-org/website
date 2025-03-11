@@ -77,5 +77,8 @@ export default defineConfig({
 		optimizeDeps: {
 			exclude: ["@collectivechange/payload"],
 		},
+		resolve: {
+			external: ["@collectivechange/payload"],
+		}
 	}
 })

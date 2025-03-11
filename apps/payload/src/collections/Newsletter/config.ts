@@ -97,6 +97,9 @@ export const Newsletter: CollectionConfig<"newsletter"> = {
 							id: notificationSetting.user,
 						});
 						if (!userDoc) {
+							request.payload.logger.error(
+								`User not found for notification setting ${notificationSetting.id}`,
+							);
 							return new Response("User not found", {
 								status: 404,
 							});
@@ -119,6 +122,7 @@ export const Newsletter: CollectionConfig<"newsletter"> = {
 							Buffer.from(expectedHmac),
 						)
 					) {
+						request.payload.logger.error(`Invalid signature for user ${user.id}`);
 						// Invalid signature
 						return new Response("Invalid Signature", {
 							status: 400,
@@ -133,6 +137,7 @@ export const Newsletter: CollectionConfig<"newsletter"> = {
 						},
 					});
 				} catch {
+					request.payload.logger.error(`Invalid token ${token}`);
 					return new Response("Invalid token", { status: 400 });
 				}
 				return new Response("OK");

@@ -9,5 +9,5 @@ export const collections = {
 	sidebar,
 	header,
 	footer,
-	events,
+	// events,
 }

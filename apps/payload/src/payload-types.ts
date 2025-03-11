@@ -839,8 +839,8 @@ export interface Event {
     };
     [k: string]: unknown;
   };
-  date: string;
-  time?: string | null;
+  beginDate: string;
+  endDate: string;
   left?: {
     root: {
       type: string;
@@ -1666,8 +1666,8 @@ export interface BadgeSelect<T extends boolean = true> {
 export interface EventsSelect<T extends boolean = true> {
   title?: T;
   description?: T;
-  date?: T;
-  time?: T;
+  beginDate?: T;
+  endDate?: T;
   left?: T;
   right?: T;
   image?: T;
