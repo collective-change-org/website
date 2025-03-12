@@ -111,7 +111,7 @@ export const Participate: VoidComponent<ParticipateProps> = (props) => {
 
 	return (
 		<div class="flex flex-col gap-2">
-			<div class="flex items-center gap-4 justify-between">
+			<div class="flex flex-row flex-wrap items-center gap-4 justify-between">
 				<Show when={!participating()}>
 					<button
 						class={button({ size: "small", intent: "green" })}
