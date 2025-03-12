@@ -22,6 +22,24 @@ const dateString = date.toLocaleDateString("de-DE", {
 const startDate = date
 const endDate = new Date(props.endDate)
 
+function lexicalToText(
+	children: Event["description"]["root"]["children"],
+): string {
+	const text = children.map((node) => {
+		switch (node.type) {
+			case "paragraph":
+				return lexicalToText(node.children) + "\r\n \r\n "
+			case "text":
+				return node.text + "\r\n "
+			case "heading":
+				return lexicalToText(node.children) + "\r\n "
+			default:
+				break
+		}
+	})
+	return text.join("")
+}
+
 const event: VEvent = {
 	start: {
 		date: startDate,
@@ -36,7 +54,8 @@ const event: VEvent = {
 		type: "DATE-TIME",
 	},
 	uid: props.id.toString(),
-	summary: props.title,
+	summary: `${props.title}—Collective Change`,
+	description: lexicalToText(props.description.root.children),
 }
 
 const calendar: VCalendar = {
