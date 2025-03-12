@@ -4,7 +4,7 @@ import { getEntry } from "astro:content"
 import { Icon } from "astro-icon/components"
 import { cn } from "@website/src/lib/cn"
 
-const isDoc = Astro.locals.starlightRoute.entry.collection === "docs"
+const isDoc = Astro.locals.starlightRoute.entry.data.template === "doc"
 
 const footerEntry = await getEntry("footer", "footer")
 const footer = footerEntry?.data

@@ -23,7 +23,7 @@ const dataAttributes: DOMStringMap = {
 		aria-keyshortcuts="Control+K"
 	>
 		<Icon name="magnifier" />
-		<span class="sl-hidden md:sl-block" aria-hidden="true"
+		<span class="sl-block" aria-hidden="true"
 			>{Astro.locals.t("search.label")}</span
 		>
 		<kbd class="sl-hidden md:sl-flex" style="display: none;">
@@ -187,12 +187,10 @@ const dataAttributes: DOMStringMap = {
 		display: flex;
 		align-items: center;
 		gap: 0.5rem;
-		border: 0;
-		background-color: transparent;
-		color: var(--sl-color-gray-1);
+		@apply rounded-full border-2 border-solid border-black/10 bg-white text-green-black;
 		cursor: pointer;
 		height: 2.5rem;
-		font-size: var(--sl-text-xl);
+		padding: 0.75rem 1.25rem;
 	}
 
 	@media (min-width: 50rem) {

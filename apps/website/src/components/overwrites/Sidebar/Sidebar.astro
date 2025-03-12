@@ -33,10 +33,7 @@ Astro.locals.starlightRoute.sidebar = sidebar
 ---
 
 <SidebarPersister>
+	<a class="md:sl-hidden" href="/"> Wissensdatenbank verlassen </a>
 	<Search />
 	<SidebarSublist sublist={sidebar} />
 </SidebarPersister>
-
-<div class="md:sl-hidden">
-	<MobileMenuFooter />
-</div>
