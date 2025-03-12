@@ -28,11 +28,11 @@ const isDoc = Astro.locals.starlightRoute.entry.data.template === "doc"
 			width={190}
 		/></a
 	>
-	<div class="hidden pb-6 mix-blend-difference items-center md:inline-flex">
+	<div class="hidden mix-blend-difference items-center md:inline-flex">
 		{
 			navlinks.map((link) => (
 				<a
-					class="px-6 typestyle-text-l font-bold text-white no-underline"
+					class="px-6 typestyle-text-l font-bold text-white hover:text-yellow-neon transition-all duration-200 no-underline"
 					href={`/${link.href}`}
 					target={link.newTab ? "_blank" : ""}
 					rel={link.newTab ? "noopener noreferrer" : ""}>
@@ -44,7 +44,7 @@ const isDoc = Astro.locals.starlightRoute.entry.data.template === "doc"
 
 		<User server:defer />
 	</div>
-	<div class="flex flex-col md:hidden bg-green-dark border-2 border-white/10">
+	<div class="flex flex-col md:hidden bg-green-dark rounded-lg overflow-hidden border-2 border-white/10">
 		{
 			isDoc ? (
 				<div class="w-8" />
@@ -59,7 +59,7 @@ const isDoc = Astro.locals.starlightRoute.entry.data.template === "doc"
 		<div
 			popover
 			id="mobile-menu"
-			class="items-start gap-0 border-2 border-white/10 pb-2 w-max"
+			class="items-start min-w-[50%] gap-0 rounded-lg overflow-hidden border-2 border-white/10 pb-2 w-max"
 		>
 			<button
 				class="bg-transparent flex -mb-4  w-full justify-end p-3 cursor-pointer"
@@ -73,7 +73,7 @@ const isDoc = Astro.locals.starlightRoute.entry.data.template === "doc"
 					? null
 					: navlinks.map((link) => (
 							<a
-								class="flex items-center gap-4 px-4 h-16 typestyle-text-l font-bold text-white no-underline"
+								class="flex items-center gap-4 px-4 h-16 typestyle-text-l font-bold text-white hover:text-yellow-neon transition-all duration-200 no-underline"
 								href={`/${link.href}`}
 								target={link.newTab ? "_blank" : ""}
 								rel={link.newTab ? "noopener noreferrer" : ""}>
