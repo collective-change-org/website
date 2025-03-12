@@ -6,24 +6,24 @@ import {
 	splitProps,
 	Switch,
 	type VoidComponent,
-} from "solid-js"
-import { cn } from "../lib/cn"
+} from "solid-js";
+import { cn } from "../lib/cn";
 
 type TextInputProps = {
-	ref: (element: HTMLInputElement) => void
-	type: "text" | "email" | "tel" | "password" | "url" | "number" | "date"
-	name: string
-	value: string | number | undefined
-	onInput: JSX.EventHandler<HTMLInputElement, InputEvent>
-	onChange: JSX.EventHandler<HTMLInputElement, Event>
-	onBlur: JSX.EventHandler<HTMLInputElement, FocusEvent>
-	required?: boolean
-	class?: string
-	label?: string
-	error?: string
-	helpText?: string
-	padding?: "none"
-}
+	ref: (element: HTMLInputElement) => void;
+	type: "text" | "email" | "tel" | "password" | "url" | "number" | "date";
+	name: string;
+	value: string | number | undefined;
+	onInput: JSX.EventHandler<HTMLInputElement, InputEvent>;
+	onChange: JSX.EventHandler<HTMLInputElement, Event>;
+	onBlur: JSX.EventHandler<HTMLInputElement, FocusEvent>;
+	required?: boolean;
+	class?: string;
+	label?: string;
+	error?: string;
+	helpText?: string;
+	padding?: "none";
+};
 
 export const TextInput: VoidComponent<TextInputProps> = (props) => {
 	// Split input element props
@@ -33,7 +33,7 @@ export const TextInput: VoidComponent<TextInputProps> = (props) => {
 		"label",
 		"error",
 		"padding",
-	])
+	]);
 
 	// Create memoized value
 	const getValue = createMemo<string | number | undefined>(
@@ -41,12 +41,17 @@ export const TextInput: VoidComponent<TextInputProps> = (props) => {
 			props.value === undefined
 				? ""
 				: !Number.isNaN(props.value)
-					? props.value
-					: prevValue,
+				? props.value
+				: prevValue,
 		"",
-	)
+	);
 	return (
-		<div class={cn("flex w-full flex-col pb-2", props.error && "pb-0")}>
+		<div
+			class={cn(
+				"flex w-full max-w-[500px] flex-col pb-2",
+				props.error && "pb-0",
+			)}
+		>
 			<div class="flex flex-col gap-2">
 				<label for={props.name} class="text-green-black">
 					{props.label}
@@ -76,5 +81,5 @@ export const TextInput: VoidComponent<TextInputProps> = (props) => {
 				</Match>
 			</Switch>
 		</div>
-	)
-}
+	);
+};
