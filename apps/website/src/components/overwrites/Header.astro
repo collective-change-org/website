@@ -3,16 +3,22 @@ import Default from "@astrojs/starlight/components/Header.astro"
 import { getCollection } from "astro:content"
 import User from "../User.astro"
 import Logo from "../../assets/Logo.svg"
+import { cn } from "@website/src/lib/cn"
 
 const navlinks = await getCollection("header").then((collection) => {
 	return collection.map((item) => {
 		return item.data
 	})
 })
+
+const isDoc = Astro.locals.starlightRoute.entry.collection === "docs"
 ---
 
 <header
-	class="fixed z-10 flex w-full flex-row items-center justify-between px-4 py-3 mix-blend-difference"
+	class={cn(
+		"fixed z-10 flex w-full flex-row items-center justify-between px-4 py-3",
+		isDoc ? "bg-beige-100" : "mix-blend-difference",
+	)}
 >
 	<a href="/"
 		><Logo

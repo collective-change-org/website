@@ -14,12 +14,12 @@ const { toc } = Astro.props
 		<mobile-starlight-toc
 			data-min-h={toc.minHeadingLevel}
 			data-max-h={toc.maxHeadingLevel}>
-			<nav class="fixed inset-x-0 top-[calc(var(--sl-nav-height)_-_1px)] z-[var(--sl-z-index-toc)] bg-none lg:left-[var(--sl-content-inline-start,0)]">
+			<nav class="bg-beige-100 fixed inset-x-0 top-[calc(var(--sl-nav-height)_-_1px)] z-[var(--sl-z-index-toc)] lg:left-[var(--sl-content-inline-start,0)]">
 				<details id="starlight__mobile-toc">
 					<summary
 						id="starlight__on-this-page--mobile"
 						class="flex h-[var(--sl-mobile-toc-height)] items-center gap-2 p-4 text-[var(--sl-text-xs)] outline-offset-[var(--sl-outline-offset-inside)] [&::-webkit-details-marker]:hidden [&::marker]:hidden">
-						<div class="toggle flex shrink-0 cursor-pointer select-none items-center justify-between gap-4 rounded-lg border border-[var(--sl-color-gray-5)] bg-[var(--sl-color-black)] py-2 pl-3 pr-2 leading-none">
+						<div class="toggle flex shrink-0 cursor-pointer select-none items-center justify-between gap-4 rounded-lg border border-[var(--sl-color-gray-5)] bg-green-lighter py-2 pl-3 pr-2 leading-none">
 							{Astro.locals.t("tableOfContents.onThisPage")}
 							<Icon
 								name={"right-caret"}
@@ -29,7 +29,7 @@ const { toc } = Astro.props
 						</div>
 						<span class="display-current overflow-hidden text-ellipsis whitespace-nowrap text-green-black" />
 					</summary>
-					<div class="dropdown -mt-[1px] max-h-[calc(85vh_-_var(--sl-nav-height)_-_var(--sl-mobile-toc-height))] overflow-y-auto overscroll-contain border border-[var(--sl-color-gray-6)] border-t-[var(--sl-color-hairline-shade)] bg-[var(--sl-color-black)] shadow-[var(--sl-shadow-md)]">
+					<div class="dropdown bg-beige-100 -mt-[1px] max-h-[calc(85vh_-_var(--sl-nav-height)_-_var(--sl-mobile-toc-height))] overflow-y-auto overscroll-contain border border-[var(--sl-color-gray-6)] border-t-[var(--sl-color-hairline-shade)]">
 						<TableOfContentsList toc={toc.items} isMobile />
 					</div>
 				</details>

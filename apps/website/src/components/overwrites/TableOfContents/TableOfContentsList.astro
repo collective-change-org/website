@@ -55,8 +55,7 @@ console.log(toc)
 		border-top: 1px solid var(--sl-color-gray-6);
 		border-radius: 0;
 		padding-block: 0.5rem;
-		color: var(--sl-color-text);
-		font-size: var(--sl-text-sm);
+		@apply text-green-black;
 		text-decoration: none;
 		outline-offset: var(--sl-outline-offset-inside);
 	}
@@ -66,8 +65,7 @@ console.log(toc)
 	.isMobile a[aria-current="true"],
 	.isMobile a[aria-current="true"]:hover,
 	.isMobile a[aria-current="true"]:focus {
-		color: var(--sl-color-white);
-		background-color: unset;
+		@apply bg-pink-light;
 	}
 	.isMobile a[aria-current="true"]::after {
 		content: "";
