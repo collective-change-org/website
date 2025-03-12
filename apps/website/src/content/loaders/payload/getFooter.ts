@@ -1,15 +1,12 @@
 import { defineCollection, z } from "astro:content"
 import { getPayload } from "payload"
-import { config } from "@collectivechange/payload"
+import { config, type Footer } from "@collectivechange/payload"
 
-export async function getFooter(): Promise<FooterSchema> {
-    const payload = await getPayload({ config })
-    const footer = await payload.findGlobal({
-        slug: "footer",
-        depth: 3,
-    })
-
-    const elements = footer?.navItems?.map((navItem) => {
+function linkToLinkSchema(navItems: Footer["columnOne"]): LinkSchema[] {
+    if (!navItems) {
+        return []
+    }
+    return navItems.map((navItem) => {
         let href: string
         // check if internal link
         if (navItem.link.reference) {
@@ -37,7 +34,54 @@ export async function getFooter(): Promise<FooterSchema> {
         }
         return item
     })
-    return elements || []
+}
+
+function socialLinkToSocialScheme(
+    socialLinks: Footer["socialLinks"]
+): FooterSchema["socialLinks"] {
+    if (!socialLinks) {
+        return []
+    }
+    return socialLinks.map((socialLink) => {
+        const link = linkToLinkSchema([socialLink])[0]
+        return {
+            icon: socialLink.icon,
+            link: link,
+        }
+    })
+}
+
+export async function getFooter(): Promise<FooterSchema[]> {
+    const payload = await getPayload({ config })
+    const footer = await payload.findGlobal({
+        slug: "footer",
+        depth: 3,
+    })
+
+    const columnOne = linkToLinkSchema(footer?.columnOne)
+    const columnTwo = linkToLinkSchema(footer?.columnTwo)
+    const columnThree = linkToLinkSchema(footer?.columnThree)
+    const socialLinks = socialLinkToSocialScheme(footer?.socialLinks)
+
+    console.dir([{
+        id: "footer",
+        columnOne,
+        columnTwo,
+        columnThree,
+        socialLinks,
+    }], {
+        depth: Infinity,
+    })
+
+    return [
+        {
+            id: 'footer',
+            columnOne,
+            columnTwo,
+            columnThree,
+            socialLinks,
+        }
+    ]
 }
 
 export const linkSchema = z.object({
@@ -47,10 +91,21 @@ export const linkSchema = z.object({
     href: z.string().optional().nullable(),
 })
 export type LinkSchema = z.infer<typeof linkSchema>
-const headerSchema = z.array(linkSchema)
-export type FooterSchema = z.infer<typeof headerSchema>
+const footerSchema = z.object({
+    id: z.string(),
+    columnOne: z.array(linkSchema).optional().nullable(),
+    columnTwo: z.array(linkSchema).optional().nullable(),
+    columnThree: z.array(linkSchema).optional().nullable(),
+    socialLinks: z.array(
+        z.object({
+            icon: z.string(),
+            link: linkSchema,
+        })
+    ),
+})
+export type FooterSchema = z.infer<typeof footerSchema>
 
 export const footer = defineCollection({
     loader: getFooter,
-    schema: linkSchema
+    schema: footerSchema
 })

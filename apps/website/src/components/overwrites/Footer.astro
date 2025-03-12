@@ -1,28 +1,70 @@
 ---
 import EditLink from "@astrojs/starlight/components/EditLink.astro"
 import LastUpdated from "@astrojs/starlight/components/LastUpdated.astro"
-import Pagination from "@astrojs/starlight/components/Pagination.astro"
+import Logo from "../../assets/Logo.svg"
 import { getCollection } from "astro:content"
+import { getEntry } from "astro:content"
+import { Icon } from "astro-icon/components"
 
-const navlinks = await getCollection("footer").then((collection) => {
-	return collection.map((item) => {
-		return item.data
-	})
-})
+const footerEntry = await getEntry("footer", "footer")
+const footer = footerEntry?.data
 ---
 
-<footer class="inset-x-0 bottom-0 z-10 px-4 py-6 mix-blend-difference">
-	{
-		navlinks.map((link) => (
-			<a
-				class="px-6 text-2xl"
-				href={link.href}
-				target={link.newTab ? "_blank" : ""}
-				rel={link.newTab ? "noopener noreferrer" : ""}>
-				{link.label}
-			</a>
-		))
-	}
-	<EditLink />
-	<LastUpdated />
+<footer
+	class="inset-x-0 bottom-0 z-10 grid grid-cols-1 gap-y-6 px-4 py-6 text-white lg:grid-cols-5"
+>
+	<a href="/"><Logo class="text-white" height={80} width={190} /></a>
+	<div class="flex flex-col gap-2">
+		{
+			footer?.columnOne?.map((link) => (
+				<a
+					class="typestyle-text-s bold text-white no-underline"
+					href={link.href}
+					target={link.newTab ? "_blank" : ""}
+					rel={link.newTab ? "noopener noreferrer" : ""}>
+					{link.label}
+				</a>
+			))
+		}
+	</div>
+	<div class="flex flex-col gap-2">
+		{
+			footer?.columnTwo?.map((link) => (
+				<a
+					class="typestyle-text-s bold text-white no-underline"
+					href={link.href}
+					target={link.newTab ? "_blank" : ""}
+					rel={link.newTab ? "noopener noreferrer" : ""}>
+					{link.label}
+				</a>
+			))
+		}
+	</div>
+	<div class="flex flex-col gap-2">
+		{
+			footer?.columnThree?.map((link) => (
+				<a
+					class="typestyle-text-s bold text-white no-underline"
+					href={link.href}
+					target={link.newTab ? "_blank" : ""}
+					rel={link.newTab ? "noopener noreferrer" : ""}>
+					{link.label}
+				</a>
+			))
+		}
+	</div>
+	<div class="row-[2] flex lg:row-auto lg:justify-end">
+		{
+			footer?.socialLinks?.map((social) => (
+				<a
+					class="text-4xl text-white no-underline"
+					href={social.link.href}
+					target={social.link.newTab ? "_blank" : ""}
+					rel={social.link.newTab ? "noopener noreferrer" : ""}
+					aria-label={social.link.label}>
+					<Icon name={`ph:${social.icon}`} />
+				</a>
+			))
+		}
+	</div>
 </footer>

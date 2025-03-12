@@ -10,7 +10,7 @@ export const Footer: GlobalConfig = {
   },
   fields: [
     {
-      name: 'navItems',
+      name: 'columnOne',
       type: 'array',
       fields: [
         link({
@@ -20,9 +20,56 @@ export const Footer: GlobalConfig = {
       maxRows: 6,
       admin: {
         initCollapsed: true,
-        components: {
-          RowLabel: '/Footer/RowLabel#RowLabel',
+      },
+    },
+    {
+      name: 'columnTwo',
+      type: 'array',
+      fields: [
+        link({
+          appearances: false,
+        }),
+      ],
+      maxRows: 6,
+      admin: {
+        initCollapsed: true,
+      },
+    },
+    {
+      name: 'columnThree',
+      type: 'array',
+      fields: [
+        link({
+          appearances: false,
+        }),
+      ],
+      maxRows: 6,
+      admin: {
+        initCollapsed: true,
+      },
+    },
+    {
+      name: 'socialLinks',
+      type: 'array',
+      fields: [
+        {
+          name: "icon",
+          type: "text",
+          required: true,
+          admin: {
+            description: "Use Phosphor Icon names, e.g. 'mastodon-logo'—https://phosphoricons.com/",
+          }
         },
+        link({
+          appearances: false,
+          overrides: {
+            // type: "custom",
+          }
+        }),
+      ],
+      maxRows: 6,
+      admin: {
+        initCollapsed: true,
       },
     },
   ],
