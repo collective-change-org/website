@@ -20,7 +20,27 @@ export const Events: CollectionConfig<'events'> = {
   access: {
     create: authenticated,
     delete: authenticated,
-    read: () => true,
+
+    read: ({ req }) => {
+      // If there is a user logged in,
+      // let them retrieve all documents
+      if (req.user) return true
+
+      // If there is no user,
+      // restrict the documents that are returned
+      // to only those where `_status` is equal to `published`
+      // and those where the `beginDate` is in the future
+      return {
+        or: [
+          {
+            _status: {
+              equals: 'published',
+            },
+          },
+        ],
+      }
+    },
+
     update: authenticated,
   },
   fields: [

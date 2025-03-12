@@ -1,49 +1,55 @@
 ---
-import Default from "@astrojs/starlight/components/PageSidebar.astro"
-import {
-	generateToC,
-	headingToSlug,
-} from "../../content/loaders/payload/generateToC"
-import type { LexicalText } from "../../content/loaders/payload/schemas/lexical"
-import type { MarkdownHeading } from "astro"
+import MobileTableOfContents from "./MobileTableOfContents.astro"
+import TableOfContents from "./TableOfContents.astro"
 
-const page = Astro.locals.starlightRoute.entry.data
-
-if (page.template === "splash") {
-	console.error("returning")
-	return
-}
-
-function extractTextFromLexical(textArray: LexicalText[]): string {
-	return textArray.map(({ text }) => text).join("")
-}
-
-const astroHeadings: MarkdownHeading[] = []
-
-for (const lexicalElements of page.lexical.children) {
-	if (lexicalElements.type === "heading") {
-		const tag = lexicalElements.tag
-		const depth = parseInt(tag.replace("h", ""))
-		const text = extractTextFromLexical(lexicalElements.children)
-		astroHeadings.push({
-			depth,
-			slug: headingToSlug(text),
-			text: text,
-		})
-	}
-}
-
-const items = generateToC(astroHeadings, {
-	minHeadingLevel: 2,
-	maxHeadingLevel: 3,
-	title: page.title,
-})
-
-if (Astro.props.toc) {
-	Astro.props.toc.items = items
-}
+const toc = Astro.locals.starlightRoute.entry.data.tableOfContents
 ---
 
-<Default {...Astro.props}>
-	<slot />
-</Default>
+{
+	Astro.locals.starlightRoute.toc && (
+		<>
+			<div class="lg:sl-hidden">
+				<MobileTableOfContents toc={toc} />
+			</div>
+			<div class="right-sidebar-panel sl-hidden lg:sl-block typestyle-text-l">
+				<div class="sl-container">
+					<TableOfContents toc={toc} />
+				</div>
+			</div>
+		</>
+	)
+}
+
+<style>
+	.right-sidebar-panel {
+		padding: 1rem var(--sl-sidebar-pad-x);
+	}
+	.sl-container {
+		width: calc(var(--sl-sidebar-width) - 2 * var(--sl-sidebar-pad-x));
+	}
+	.right-sidebar-panel :global(h2) {
+		@apply font-bold text-green-black;
+		margin-bottom: 0.5rem;
+	}
+	.right-sidebar-panel :global(:where(a)) {
+		@apply block text-xl text-green-black no-underline;
+		overflow-wrap: anywhere;
+	}
+	.right-sidebar-panel :global(:where(a):hover) {
+		/* color: var(--sl-color-white); */
+	}
+	@media (min-width: 72rem) {
+		.sl-container {
+			max-width: calc(
+				(
+					(
+							100vw - var(--sl-sidebar-width) - 2 *
+								var(--sl-content-pad-x) - 2 *
+								var(--sl-sidebar-pad-x)
+						) *
+						0.25 /* MAGIC NUMBER 🥲 */
+				)
+			);
+		}
+	}
+</style>

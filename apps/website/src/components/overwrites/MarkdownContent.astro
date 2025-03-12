@@ -18,69 +18,90 @@ if (page.template === "splash") {
 }
 ---
 
-<div class="default-layout font-sans">
-	{
-		page.title === "404" ? (
-			<div class="flex h-screen items-center justify-center">
-				<h1 class="text-4xl">404</h1>
-			</div>
-		) : (
-			() => {
-				switch (page.template) {
-					case "splash":
-						return page.layout.map((layoutElement, i) => {
-							switch (layoutElement.blockType) {
-								case "containerBlock":
-									return (
-										<div
-											data-color={
-												layoutElement.color === "green"
-													? "green"
-													: "white"
-											}
-											class={cn(
-												"full-bleed default-layout group gap-x-4 gap-y-[9rem] py-32",
-												i === 0 && "y-offset-hack",
-												page.layout.length === 1 &&
-													"min-h-screen",
-												layoutElement.color ===
-													"green" && "bg-green-dark",
-												layoutElement.color ===
-													"white-1" &&
-													"bg-[url('/login_bg.png')] bg-cover",
-												layoutElement.color ===
-													"white-2" &&
-													"bg-[url('/signup_bg.png')] bg-cover",
-											)}>
-											<LayoutRenderer
-												slug={entry.id}
-												children={layoutElement.layout}
-											/>
-										</div>
-									)
-								default:
-									return JSON.stringify(layoutElement)
-							}
-						})
-					case "doc":
-						return page.restricted !== "public" ? (
-							<RestrictedRenderer
-								server:defer
-								redirect={encodeURIComponent(
-									Astro.url.pathname,
-								)}>
-								<LexicalRenderer
-									children={page.lexical.children}
-								/>
-							</RestrictedRenderer>
-						) : (
-							<LexicalRenderer children={page.lexical.children} />
-						)
+<div class="min-h-screen">
+	<div
+		class={cn(
+			"default-layout font-sans",
+			page.template === "doc" && "text-black",
+		)}
+	>
+		{
+			page.title === "404" ? (
+				<div class="flex h-screen items-center justify-center">
+					<h1 class="text-4xl">404</h1>
+				</div>
+			) : (
+				() => {
+					switch (page.template) {
+						case "splash":
+							return page.layout.map((layoutElement, i) => {
+								switch (layoutElement.blockType) {
+									case "containerBlock":
+										return (
+											<div
+												data-color={
+													layoutElement.color ===
+													"green"
+														? "green"
+														: "white"
+												}
+												class={cn(
+													"full-bleed default-layout group gap-x-4 gap-y-[9rem] py-32",
+													i === 0 && "y-offset-hack",
+													page.layout.length === 1 &&
+														"min-h-screen",
+													layoutElement.color ===
+														"green" &&
+														"bg-green-dark",
+													layoutElement.color ===
+														"white-1" &&
+														"bg-[url('/login_bg.png')] bg-cover",
+													layoutElement.color ===
+														"white-2" &&
+														"bg-[url('/signup_bg.png')] bg-cover",
+												)}>
+												<LayoutRenderer
+													slug={entry.id}
+													children={
+														layoutElement.layout
+													}
+												/>
+											</div>
+										)
+									default:
+										return JSON.stringify(layoutElement)
+								}
+							})
+						case "doc":
+							return page.restricted !== "public" ? (
+								<RestrictedRenderer
+									server:defer
+									redirect={encodeURIComponent(
+										Astro.url.pathname,
+									)}>
+									<LexicalRenderer
+										children={page.lexical.children}
+									/>
+								</RestrictedRenderer>
+							) : (
+								<>
+									<h1 class="typestyle-h4 text-green-black">
+										{
+											Astro.locals.starlightRoute.entry
+												.data.title
+										}
+									</h1>
+									<LexicalRenderer
+										children={page.lexical.children}
+									/>
+								</>
+							)
 
-					default:
-						return <p>No content</p>
+						default:
+							return <p>No content</p>
+					}
 				}
-			}
-		)
-	}
+			)
+		}
+	</div>
 </div>

@@ -137,6 +137,9 @@ export const pagesSchema = docsSchema({
 		z.object({
 			template: z.literal("doc"),
 			lexical: lexicalRoot,
+			rendered: z.any(),
+			tableOfContents: z.any(),
+			toc: z.any(),
 			restricted: z
 				.union([z.literal("public"), z.literal("members")])
 				.default("public"),
