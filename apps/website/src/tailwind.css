@@ -28,12 +28,12 @@
 
 	.typestyle-hero-h1 {
 		@apply hyphens-auto text-balance font-poppins lg:text-[9.5rem]
-			md:text-[7rem] sm:text-[4.5rem] text-[3.5rem] font-black
+			md:text-[7rem] sm:text-[4.5rem] text-[3.7rem] font-black
 			leading-none uppercase;
 	}
 	.typestyle-h1 {
 		@apply hyphens-auto text-balance font-poppins lg:text-[7rem]
-			md:text-[6rem] sm:text-[4rem] text-[3rem] font-black leading-none
+			md:text-[6rem] sm:text-[4rem] text-[3.3rem] font-black leading-none
 			uppercase;
 	}
 	.typestyle-hero-p {
