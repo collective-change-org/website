@@ -66,6 +66,19 @@ export const Events: CollectionConfig<'events'> = {
                 },
                 width: '50%',
               },
+              validate: (value, context) => {
+                if (!value) {
+                  return 'End date is required'
+                }
+                const siblingData = context.siblingData as { beginDate: Date }
+                if (!siblingData.beginDate) {
+                  return 'Begin date is required'
+                }
+                if (value < siblingData.beginDate) {
+                  return 'End date must be after begin date'
+                }
+                return true
+              },
               required: true,
             },
           ],
