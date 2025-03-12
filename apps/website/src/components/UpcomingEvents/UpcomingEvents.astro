@@ -10,7 +10,7 @@ const props = Astro.props
 
 // const events = await getCollection("events")
 const url = new URL(CMS_URL)
-const eventsRequest = await fetch(`${url.origin}/api/events?depth=4`).then(
+const eventsRequest = await fetch(`${url.origin}/api/events?depth=4&draft=false`).then(
 	(res) => res.json(),
 )
 const { data: events, error } = z.array(z.any()).safeParse(eventsRequest.docs)

@@ -18,7 +18,7 @@ html {
 		display: grid;
 		grid-template-columns:
 			1fr
-			calc(min(80rem, 100%) - 4rem)
+			calc(min(95rem, 100%) - 4rem)
 			1fr;
 		/* padding: 0 2rem; */
 	}
@@ -32,11 +32,11 @@ html {
 
 	.typestyle-hero-h1 {
 		@apply hyphens-auto text-balance font-poppins text-[6rem] font-black
-			leading-none lg:text-[9.5rem];
+			leading-none lg:text-[9.5rem] uppercase;
 	}
 	.typestyle-h1 {
 		@apply hyphens-auto text-balance font-poppins text-[5rem] font-black
-			leading-none lg:text-[7rem];
+			leading-none lg:text-[7rem] uppercase;
 	}
 	.typestyle-hero-p {
 		@apply hyphens-auto text-balance font-sans text-2xl font-semibold
@@ -45,12 +45,12 @@ html {
 
 	.typestyle-h2 {
 		@apply hyphens-auto text-balance font-poppins text-[6.25rem] font-black
-			uppercase leading-none lg:text-[6.26rem];
+			uppercase leading-none lg:text-[6.26rem] ;
 	}
 
 	.typestyle-h3 {
 		@apply hyphens-auto text-balance font-poppins text-[3rem] font-black
-			leading-none lg:text-[3.5rem] lg:leading-[1.25];
+			leading-none lg:text-[3.5rem] lg:leading-[1.25] uppercase;
 	}
 
 	.typestyle-h4 {
@@ -59,7 +59,7 @@ html {
 	}
 
 	.typestyle-h5 {
-		@apply hyphens-auto text-balance font-poppins text-[1.5rem] font-semibold
+		@apply hyphens-auto text-balance font-poppins text-[1.5rem] font-bold
 			leading-none lg:text-[2rem] lg:leading-[1.2];
 	}
 
