@@ -28,11 +28,13 @@ const { data, error } = await Astro.callAction(actions.verify, {})
 		// 	aria-label="Logout">
 		// 	Logout
 		// </p>
-		<a class="px-6 text-2xl text-white no-underline" href="/account">
+		<a
+			class="px-4 text-2xl text-white no-underline lg:px-6"
+			href="/account">
 			Account
 		</a>
 	) : (
-		<a class="px-6 text-2xl text-white no-underline" href="/login">
+		<a class="x--4 text-2xl text-white no-underline lg:px-6" href="/login">
 			Einloggen
 		</a>
 	)
