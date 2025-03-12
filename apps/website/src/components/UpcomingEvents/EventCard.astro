@@ -71,22 +71,15 @@ const eventContent = generateIcsCalendar(calendar)
 ---
 
 <div
-	class="relative flex h-fit w-[80%] flex-col gap-[20px] overflow-clip rounded-xl bg-white pt-5 text-green-black lg:w-[45%]"
+	class="relative flex h-fit sm:w-[80%] w-full flex-col gap-[20px] overflow-clip rounded-lg bg-white pt-5 text-green-black lg:w-[45%]"
 >
-	<div class="flex w-full flex-col gap-4 px-5">
-		<div class="flex w-full flex-col gap-[2px]">
-			<div class="flex flex-wrap items-center gap-2">
+	<div class="flex w-full flex-col gap-4">
+		<div class="flex w-full flex-col gap-[2px] px-5">
+			<div class="flex flex-wrap items-center justify-between gap-x-2 gap-y-1">
 				<h3 class="typestyle-text-m">{dateString}</h3>
-				<a
-					href={`data:text/calendar;charset=utf-8,${encodeURIComponent(eventContent)}`}
-					download={`${props.title}.ics`}
-					class="typestyle-text-s tracking-wider text-black"
-				>
-					Zum Kalender hinzufügen
-				</a>
 			</div>
 			<h3 class="typestyle-h5">{props.title}</h3>
-			<div class="typestyle-text-m line-clamp-2">
+			<div class="typestyle-text-m line-clamp-2 mt-2 mb-5">
 				{
 					props.description ? (
 						<LexicalRenderer {...props.description.root} />
@@ -95,7 +88,14 @@ const eventContent = generateIcsCalendar(calendar)
 					)
 				}
 			</div>
-			<Participate {...props} client:load />
+			<Participate {...props} eventContent={eventContent} client:load />
+			<!-- <a
+					href={`data:text/calendar;charset=utf-8,${encodeURIComponent(eventContent)}`}
+					download={`${props.title}.ics`}
+					class="typestyle-text-s tracking-wider text-black uppercase mt-4"
+				>
+					Zum Kalender hinzufügen
+				</a> -->
 		</div>
 		<EventMoreInfo {...props} client:load>
 			<div class="flex flex-col gap-6">
