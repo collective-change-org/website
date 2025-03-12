@@ -12,10 +12,16 @@ const navlinks = await getCollection("header").then((collection) => {
 ---
 
 <header
-	class="absolute z-10 flex w-full flex-col items-center justify-between px-4 py-3 mix-blend-difference sm:flex-row"
+	class="fixed z-10 flex w-full flex-col items-center justify-between px-4 py-3 mix-blend-difference sm:flex-row"
 >
-	<a href="/"><Logo class="text-white" height={80} width={190} /></a>
-	<div class="hidden pb-6 uppercase md:inline-flex">
+	<a href="/"
+		><Logo
+			class="text-white mix-blend-difference"
+			height={80}
+			width={190}
+		/></a
+	>
+	<div class="hidden pb-6 uppercase mix-blend-difference md:inline-flex">
 		{
 			navlinks.map((link) => (
 				<a
@@ -98,9 +104,9 @@ const navlinks = await getCollection("header").then((collection) => {
 	</div>
 </header>
 
-<style is:global>
+<style scoped>
 	:popover-open {
-		position: absolute;
+		position: fixed;
 		top: 0.75rem;
 		left: 0;
 		margin-left: calc(100% - 16px);
