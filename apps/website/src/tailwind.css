@@ -27,14 +27,12 @@
 	}
 
 	.typestyle-hero-h1 {
-		@apply hyphens-auto text-balance font-poppins lg:text-[9.5rem]
-			md:text-[7rem] sm:text-[4.5rem] text-[3.7rem] font-black
-			leading-none uppercase;
+		@apply hyphens-auto text-balance font-poppins lg:text-[12svw]
+			text-[15svw] font-black leading-none uppercase;
 	}
 	.typestyle-h1 {
-		@apply hyphens-auto text-balance font-poppins lg:text-[7rem]
-			md:text-[6rem] sm:text-[4rem] text-[3.3rem] font-black leading-none
-			uppercase;
+		@apply hyphens-auto text-balance font-poppins lg:text-[10svw]
+			text-[12svw] font-black leading-none uppercase;
 	}
 	.typestyle-hero-p {
 		@apply hyphens-auto text-balance font-sans lg:text-[2.25rem]
@@ -42,8 +40,8 @@
 	}
 
 	.typestyle-h2 {
-		@apply hyphens-auto text-balance font-poppins lg:text-[6.25rem]
-			md:text-[5rem] text-[3rem] font-black uppercase leading-none;
+		@apply hyphens-auto text-balance font-poppins lg:text-[9svw]
+			text-[12svw] font-black uppercase leading-none;
 	}
 
 	.typestyle-h3 {
