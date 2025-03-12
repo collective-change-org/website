@@ -33,12 +33,9 @@ export default defineConfig({
 			title: "Collective Change",
 			locales: {
 				root: {
-					label: "English",
+					label: "Deutsch",
 					lang: "de",
 				},
-			},
-			social: {
-				github: "https://github.com/withastro/starlight",
 			},
 			components: {
 				Head: "./src/components/overwrites/Head.astro",
@@ -51,6 +48,8 @@ export default defineConfig({
 				Footer: "./src/components/overwrites/Footer.astro",
 				ContentPanel: "./src/components/overwrites/ContentPanel.astro",
 				PageTitle: "./src/components/overwrites/PageTitle.astro",
+				TableOfContents: "./src/components/overwrites/TableOfContents.astro",
+				MobileTableOfContents: "./src/components/overwrites/MobileTableOfContents.astro",
 			},
 			customCss: ["./src/tailwind.css"],
 		}),

@@ -3,6 +3,7 @@ import type { LexicalRoot, LexicalText } from "../schemas/lexical"
 import type { KnowledgebasePage } from "."
 import { getPayload, type Payload } from "payload"
 import { config, type Group, type Knowledgebase } from "@collectivechange/payload"
+import type { MarkdownHeading } from "astro"
 
 
 export async function getKnowledgeBase(): Promise<KnowledgebasePage[]> {
@@ -22,9 +23,8 @@ export async function getKnowledgeBase(): Promise<KnowledgebasePage[]> {
 			return textArray.map(({ text }) => text).join("")
 		}
 
-		const astroHeadings = []
-
 		let items: TocItem[] = []
+		const headings: MarkdownHeading[] = []
 
 		if (doc.content && doc.content?.root) {
 			for (const lexicalElements of doc.content.root.children) {
@@ -32,7 +32,7 @@ export async function getKnowledgeBase(): Promise<KnowledgebasePage[]> {
 					const tag = lexicalElements.tag as string
 					const depth = parseInt(tag.replace("h", ""))
 					const text = extractTextFromLexical(lexicalElements.children as LexicalText[])
-					astroHeadings.push({
+					headings.push({
 						depth,
 						slug: headingToSlug(text),
 						text: text,
@@ -40,7 +40,7 @@ export async function getKnowledgeBase(): Promise<KnowledgebasePage[]> {
 				}
 			}
 
-			items = generateToC(astroHeadings, {
+			items = generateToC(headings, {
 				minHeadingLevel: 2,
 				maxHeadingLevel: 3,
 				title: doc.title || "<no title>",
@@ -50,7 +50,7 @@ export async function getKnowledgeBase(): Promise<KnowledgebasePage[]> {
 		const pageSlug = await getPageSlug(doc, payload)
 
 		return {
-			id: "knowledgebase/" + pageSlug,
+			id: "wissen/" + pageSlug,
 			title: doc.title || "<no title>",
 			template: "doc",
 			lexical: doc.content ? doc.content.root as LexicalRoot : { type: "root", children: [], version: 1 },

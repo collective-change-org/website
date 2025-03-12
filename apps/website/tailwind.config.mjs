@@ -32,6 +32,9 @@ export default {
 			red: {
 				light: "#F65917",
 			},
+			beige: {
+				100: "#FFFBED",
+			}
 		},
 		extend: {
 			backgroundSize: {

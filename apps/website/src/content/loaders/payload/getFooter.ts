@@ -18,9 +18,9 @@ function linkToLinkSchema(navItems: Footer["columnOne"]): LinkSchema[] {
                 // If referemce is a page, not a knowledgebase, use the slug
                 // If it is a knowledgebase, use the slugWithGroup
                 if ("slugWithGroup" in reference) {
-                    href = reference.slugWithGroup || ""
+                    href = reference.slugWithGroup ? `wissen/${reference.slugWithGroup}` : ""
                 } else {
-                    href = reference.slug || ""
+                    href = reference.slug ? `/${reference.slug}` : ""
                 }
             }
         } else {
@@ -62,16 +62,6 @@ export async function getFooter(): Promise<FooterSchema[]> {
     const columnTwo = linkToLinkSchema(footer?.columnTwo)
     const columnThree = linkToLinkSchema(footer?.columnThree)
     const socialLinks = socialLinkToSocialScheme(footer?.socialLinks)
-
-    console.dir([{
-        id: "footer",
-        columnOne,
-        columnTwo,
-        columnThree,
-        socialLinks,
-    }], {
-        depth: Infinity,
-    })
 
     return [
         {

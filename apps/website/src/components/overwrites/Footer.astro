@@ -1,24 +1,36 @@
 ---
-import EditLink from "@astrojs/starlight/components/EditLink.astro"
-import LastUpdated from "@astrojs/starlight/components/LastUpdated.astro"
 import Logo from "../../assets/Logo.svg"
-import { getCollection } from "astro:content"
 import { getEntry } from "astro:content"
 import { Icon } from "astro-icon/components"
+import { cn } from "@website/src/lib/cn"
+
+const isDoc = Astro.locals.starlightRoute.entry.collection === "docs"
 
 const footerEntry = await getEntry("footer", "footer")
 const footer = footerEntry?.data
 ---
 
 <footer
-	class="inset-x-0 bottom-0 z-10 grid grid-cols-1 gap-y-6 px-4 py-6 text-white lg:grid-cols-5"
+	class={cn(
+		"inset-x-0 bottom-0 z-10 grid grid-cols-1 gap-y-6 px-4 gap-x-3 py-6 lg:grid-cols-5 @",
+		isDoc ? "text-black" : "text-white",
+	)}
 >
-	<a href="/"><Logo class="text-white" height={80} width={190} /></a>
+	<a href="/"
+		><Logo
+			class={cn("max-w-[80%]", isDoc ? "text-black" : "text-white")}
+			height={80}
+			width={190}
+		/></a
+	>
 	<div class="flex flex-col gap-2">
 		{
 			footer?.columnOne?.map((link) => (
 				<a
-					class="typestyle-text-s bold text-white no-underline"
+					class={cn(
+						"typestyle-text-s bold no-underline",
+						isDoc ? "text-black" : "text-white",
+					)}
 					href={link.href}
 					target={link.newTab ? "_blank" : ""}
 					rel={link.newTab ? "noopener noreferrer" : ""}>
@@ -31,7 +43,10 @@ const footer = footerEntry?.data
 		{
 			footer?.columnTwo?.map((link) => (
 				<a
-					class="typestyle-text-s bold text-white no-underline"
+					class={cn(
+						"typestyle-text-s bold no-underline",
+						isDoc ? "text-black" : "text-white",
+					)}
 					href={link.href}
 					target={link.newTab ? "_blank" : ""}
 					rel={link.newTab ? "noopener noreferrer" : ""}>
@@ -44,7 +59,10 @@ const footer = footerEntry?.data
 		{
 			footer?.columnThree?.map((link) => (
 				<a
-					class="typestyle-text-s bold text-white no-underline"
+					class={cn(
+						"typestyle-text-s bold no-underline",
+						isDoc ? "text-black" : "text-white",
+					)}
 					href={link.href}
 					target={link.newTab ? "_blank" : ""}
 					rel={link.newTab ? "noopener noreferrer" : ""}>
@@ -57,7 +75,10 @@ const footer = footerEntry?.data
 		{
 			footer?.socialLinks?.map((social) => (
 				<a
-					class="text-4xl text-white no-underline"
+					class={cn(
+						"text-4xl no-underline",
+						isDoc ? "text-black" : "text-white",
+					)}
 					href={social.link.href}
 					target={social.link.newTab ? "_blank" : ""}
 					rel={social.link.newTab ? "noopener noreferrer" : ""}

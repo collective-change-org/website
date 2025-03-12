@@ -197,19 +197,14 @@ const dataAttributes: DOMStringMap = {
 
 	@media (min-width: 50rem) {
 		button[data-open-modal] {
-			border: 1px solid var(--sl-color-gray-5);
-			border-radius: 0.5rem;
-			padding-inline-start: 0.75rem;
-			padding-inline-end: 0.5rem;
-			background-color: var(--sl-color-black);
-			color: var(--sl-color-gray-2);
-			font-size: var(--sl-text-sm);
+			@apply rounded-full border-2 border-black/10 bg-white text-xl text-green-lighter;
+			padding: 0.75rem 1.25rem;
 			width: 100%;
 			max-width: 22rem;
+			border-style: solid;
 		}
 		button[data-open-modal]:hover {
-			border-color: var(--sl-color-gray-2);
-			color: var(--sl-color-white);
+			@apply border-green-lighter;
 		}
 
 		button[data-open-modal] > :last-child {
@@ -219,14 +214,9 @@ const dataAttributes: DOMStringMap = {
 
 	button > kbd {
 		border-radius: 0.25rem;
-		font-size: var(--sl-text-2xs);
 		gap: 0.25em;
 		padding-inline: 0.375rem;
-		background-color: var(--sl-color-gray-6);
-	}
-
-	kbd {
-		font-family: var(--__sl-font);
+		@apply border-2 border-yellow-300 bg-yellow-neon font-sans text-xl font-normal text-green-black;
 	}
 
 	dialog {
@@ -523,7 +513,7 @@ const dataAttributes: DOMStringMap = {
 	}
 
 	#starlight__search .pagefind-ui__result-tags {
-		background-color: var(--sl-color-black);
+		@apply bg-white;
 		margin-top: 0;
 		padding: var(--sl-search-result-nested-pad-block)
 			var(--sl-search-result-pad-inline-end);
