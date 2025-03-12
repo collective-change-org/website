@@ -7,47 +7,47 @@ import { Fragment } from 'react'
 import { RefreshRouteOnSave } from './RefreshRouteOnSave'
 
 export default async function Page({
-  params: paramsPromise,
+	params: paramsPromise,
 }: {
-  params: Promise<{ slug: string }>
+	params: Promise<{ slug: string }>
 }) {
-  const { slug } = await paramsPromise
+	const { slug } = await paramsPromise
 
-  if (!slug) {
-    return notFound()
-  }
+	if (!slug) {
+		return notFound()
+	}
 
-  const { isEnabled: isDraftMode } = await draftMode()
+	const { isEnabled: isDraftMode } = await draftMode()
 
-  const payload = await getPayload({ config })
+	const payload = await getPayload({ config })
 
-  const newsletter = await payload
-    .find({
-      collection: 'newsletter',
-      depth: 0,
-      draft: isDraftMode,
-      limit: 1,
-      overrideAccess: isDraftMode,
-      where: {
-        id: {
-          equals: slug,
-        },
-      },
-    })
-    ?.then(({ docs }) => docs?.[0])
+	const newsletter = await payload
+		.find({
+			collection: 'newsletter',
+			depth: 0,
+			draft: isDraftMode,
+			limit: 1,
+			overrideAccess: isDraftMode,
+			where: {
+				id: {
+					equals: slug,
+				},
+			},
+		})
+		?.then(({ docs }) => docs?.[0])
 
-  if (newsletter === null) {
-    return notFound()
-  }
+	if (newsletter === null) {
+		return notFound()
+	}
 
-  return (
-    <Fragment>
-      <RefreshRouteOnSave />
-      <div
-        dangerouslySetInnerHTML={{
-          __html: await renderNewsletter(newsletter.body, ''),
-        }}
-      />
-    </Fragment>
-  )
+	return (
+		<Fragment>
+			<RefreshRouteOnSave />
+			<html
+				dangerouslySetInnerHTML={{
+					__html: await renderNewsletter(newsletter.body, ''),
+				}}
+			/>
+		</Fragment>
+	)
 }
