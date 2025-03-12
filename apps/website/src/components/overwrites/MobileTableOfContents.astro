@@ -1,0 +1,95 @@
+---
+import { Icon } from "@astrojs/starlight/components"
+import TableOfContentsList from "./TableOfContents/TableOfContentsList.astro"
+
+export interface Props {
+	toc: any
+}
+
+const { toc } = Astro.props
+---
+
+{
+	toc && (
+		<mobile-starlight-toc
+			data-min-h={toc.minHeadingLevel}
+			data-max-h={toc.maxHeadingLevel}>
+			<nav class="bg-beige-100 fixed inset-x-0 top-[calc(var(--sl-nav-height)_-_1px)] z-[var(--sl-z-index-toc)] md:left-[var(--sl-content-inline-start,0)]">
+				<details id="starlight__mobile-toc">
+					<summary
+						id="starlight__on-this-page--mobile"
+						class="flex h-[var(--sl-mobile-toc-height)] items-center gap-2 p-4 text-[var(--sl-text-xs)] outline-offset-[var(--sl-outline-offset-inside)] [&::-webkit-details-marker]:hidden [&::marker]:hidden">
+						<div class="toggle flex shrink-0 cursor-pointer select-none items-center justify-between gap-4 rounded-lg border border-[var(--sl-color-gray-5)] bg-green-lighter py-2 pl-3 pr-2 leading-none">
+							{Astro.locals.t("tableOfContents.onThisPage")}
+							<Icon
+								name={"right-caret"}
+								class="caret [dir=rtl]:rotate-180 group-[[open]]:rotate-90"
+								size="1rem"
+							/>
+						</div>
+						<span class="display-current overflow-hidden text-ellipsis whitespace-nowrap text-green-black" />
+					</summary>
+					<div class="dropdown bg-beige-100 -mt-[1px] max-h-[calc(85vh_-_var(--sl-nav-height)_-_var(--sl-mobile-toc-height))] overflow-y-auto overscroll-contain border border-[var(--sl-color-gray-6)] border-t-[var(--sl-color-hairline-shade)]">
+						<TableOfContentsList toc={toc.items} isMobile />
+					</div>
+				</details>
+			</nav>
+		</mobile-starlight-toc>
+	)
+}
+
+<script>
+	import { StarlightTOC } from "./TableOfContents/starlight-toc"
+
+	class MobileStarlightTOC extends StarlightTOC {
+		override set current(link: HTMLAnchorElement) {
+			super.current = link
+			const display = this.querySelector(
+				".display-current",
+			) as HTMLSpanElement
+			if (display) display.textContent = link.textContent
+		}
+
+		constructor() {
+			super()
+			const details = this.querySelector("details")
+			if (!details) return
+			const closeToC = () => {
+				details.open = false
+			}
+			// Close the table of contents whenever a link is clicked.
+			details.querySelectorAll("a").forEach((a) => {
+				a.addEventListener("click", closeToC)
+			})
+			// Close the table of contents when a user clicks outside of it.
+			window.addEventListener("click", (e) => {
+				if (!details.contains(e.target as Node)) closeToC()
+			})
+			// Or when they press the escape key.
+			window.addEventListener("keydown", (e) => {
+				if (e.key === "Escape" && details.open) {
+					const hasFocus = details.contains(document.activeElement)
+					closeToC()
+					if (hasFocus) {
+						const summary = details.querySelector("summary")
+						if (summary) summary.focus()
+					}
+				}
+			})
+		}
+	}
+
+	customElements.define("mobile-starlight-toc", MobileStarlightTOC)
+</script>
+
+<style is:global>
+	details[open] .toggle {
+		@apply border-[var(--sl-color-accent)] text-[var(--sl-color-white)];
+	}
+	details .toggle:hover {
+		@apply border-[var(--sl-color-gray-2)] text-[var(--sl-color-white)];
+	}
+	details[open] .caret {
+		@apply rotate-90;
+	}
+</style>

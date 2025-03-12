@@ -1,7 +1,1 @@
----
-import Default from "@astrojs/starlight/components/PageTitle.astro"
-
-const template = Astro.locals.starlightRoute.entry.data.template
----
-
-{template === "doc" ? <Default {...Astro.props} /> : <slot />}
+<slot />

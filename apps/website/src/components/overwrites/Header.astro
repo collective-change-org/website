@@ -3,16 +3,22 @@ import Default from "@astrojs/starlight/components/Header.astro"
 import { getCollection } from "astro:content"
 import User from "../User.astro"
 import Logo from "../../assets/Logo.svg"
+import { cn } from "@website/src/lib/cn"
 
 const navlinks = await getCollection("header").then((collection) => {
 	return collection.map((item) => {
 		return item.data
 	})
 })
+
+const isDoc = Astro.locals.starlightRoute.entry.data.template === "doc"
 ---
 
 <header
-	class="fixed z-10 flex w-full flex-col items-center justify-between px-4 py-3 mix-blend-difference sm:flex-row"
+	class={cn(
+		"fixed z-10 flex w-full flex-row items-center justify-between px-4 py-3",
+		isDoc ? "bg-beige-100" : "mix-blend-difference",
+	)}
 >
 	<a href="/"
 		><Logo
@@ -38,34 +44,43 @@ const navlinks = await getCollection("header").then((collection) => {
 		<User server:defer />
 	</div>
 	<div class="flex flex-col gap-2 md:hidden">
-		<button popovertarget="mobile-menu" class="border-none bg-transparent">
-			<svg
-				width="65"
-				height="65"
-				viewBox="0 0 65 65"
-				fill="none"
-				xmlns="http://www.w3.org/2000/svg"
-			>
-				<rect
-					x="0.654297"
-					y="0.75"
-					width="64"
-					height="64"
-					fill="#001A15"></rect>
-				<rect
-					x="1.6543"
-					y="1.75"
-					width="62"
-					height="62"
-					stroke="white"
-					stroke-opacity="0.1"
-					stroke-width="2"></rect>
-				<path
-					d="M44.6543 32.75C44.6543 33.0152 44.5489 33.2696 44.3614 33.4571C44.1739 33.6446 43.9195 33.75 43.6543 33.75H21.6543C21.3891 33.75 21.1347 33.6446 20.9472 33.4571C20.7597 33.2696 20.6543 33.0152 20.6543 32.75C20.6543 32.4848 20.7597 32.2304 20.9472 32.0429C21.1347 31.8554 21.3891 31.75 21.6543 31.75H43.6543C43.9195 31.75 44.1739 31.8554 44.3614 32.0429C44.5489 32.2304 44.6543 32.4848 44.6543 32.75ZM21.6543 25.75H43.6543C43.9195 25.75 44.1739 25.6446 44.3614 25.4571C44.5489 25.2696 44.6543 25.0152 44.6543 24.75C44.6543 24.4848 44.5489 24.2304 44.3614 24.0429C44.1739 23.8554 43.9195 23.75 43.6543 23.75H21.6543C21.3891 23.75 21.1347 23.8554 20.9472 24.0429C20.7597 24.2304 20.6543 24.4848 20.6543 24.75C20.6543 25.0152 20.7597 25.2696 20.9472 25.4571C21.1347 25.6446 21.3891 25.75 21.6543 25.75ZM43.6543 39.75H21.6543C21.3891 39.75 21.1347 39.8554 20.9472 40.0429C20.7597 40.2304 20.6543 40.4848 20.6543 40.75C20.6543 41.0152 20.7597 41.2696 20.9472 41.4571C21.1347 41.6446 21.3891 41.75 21.6543 41.75H43.6543C43.9195 41.75 44.1739 41.6446 44.3614 41.4571C44.5489 41.2696 44.6543 41.0152 44.6543 40.75C44.6543 40.4848 44.5489 40.2304 44.3614 40.0429C44.1739 39.8554 43.9195 39.75 43.6543 39.75Z"
-					fill="white"></path>
-			</svg>
-		</button>
-
+		{
+			isDoc ? (
+				<div class="w-10" />
+			) : (
+				<button
+					popovertarget="mobile-menu"
+					class="border-none bg-transparent">
+					<svg
+						width="65"
+						height="65"
+						viewBox="0 0 65 65"
+						fill="none"
+						xmlns="http://www.w3.org/2000/svg">
+						<rect
+							x="0.654297"
+							y="0.75"
+							width="64"
+							height="64"
+							fill="#001A15"
+						/>
+						<rect
+							x="1.6543"
+							y="1.75"
+							width="62"
+							height="62"
+							stroke="white"
+							stroke-opacity="0.1"
+							stroke-width="2"
+						/>
+						<path
+							d="M44.6543 32.75C44.6543 33.0152 44.5489 33.2696 44.3614 33.4571C44.1739 33.6446 43.9195 33.75 43.6543 33.75H21.6543C21.3891 33.75 21.1347 33.6446 20.9472 33.4571C20.7597 33.2696 20.6543 33.0152 20.6543 32.75C20.6543 32.4848 20.7597 32.2304 20.9472 32.0429C21.1347 31.8554 21.3891 31.75 21.6543 31.75H43.6543C43.9195 31.75 44.1739 31.8554 44.3614 32.0429C44.5489 32.2304 44.6543 32.4848 44.6543 32.75ZM21.6543 25.75H43.6543C43.9195 25.75 44.1739 25.6446 44.3614 25.4571C44.5489 25.2696 44.6543 25.0152 44.6543 24.75C44.6543 24.4848 44.5489 24.2304 44.3614 24.0429C44.1739 23.8554 43.9195 23.75 43.6543 23.75H21.6543C21.3891 23.75 21.1347 23.8554 20.9472 24.0429C20.7597 24.2304 20.6543 24.4848 20.6543 24.75C20.6543 25.0152 20.7597 25.2696 20.9472 25.4571C21.1347 25.6446 21.3891 25.75 21.6543 25.75ZM43.6543 39.75H21.6543C21.3891 39.75 21.1347 39.8554 20.9472 40.0429C20.7597 40.2304 20.6543 40.4848 20.6543 40.75C20.6543 41.0152 20.7597 41.2696 20.9472 41.4571C21.1347 41.6446 21.3891 41.75 21.6543 41.75H43.6543C43.9195 41.75 44.1739 41.6446 44.3614 41.4571C44.5489 41.2696 44.6543 41.0152 44.6543 40.75C44.6543 40.4848 44.5489 40.2304 44.3614 40.0429C44.1739 39.8554 43.9195 39.75 43.6543 39.75Z"
+							fill="white"
+						/>
+					</svg>
+				</button>
+			)
+		}
 		<div
 			popover
 			id="mobile-menu"
@@ -89,15 +104,17 @@ const navlinks = await getCollection("header").then((collection) => {
 				</svg>
 			</button>
 			{
-				navlinks.map((link) => (
-					<a
-						class="pl-4 text-2xl text-white no-underline"
-						href={`/${link.href}`}
-						target={link.newTab ? "_blank" : ""}
-						rel={link.newTab ? "noopener noreferrer" : ""}>
-						{link.label}
-					</a>
-				))
+				isDoc
+					? null
+					: navlinks.map((link) => (
+							<a
+								class="pl-4 text-2xl text-white no-underline"
+								href={`/${link.href}`}
+								target={link.newTab ? "_blank" : ""}
+								rel={link.newTab ? "noopener noreferrer" : ""}>
+								{link.label}
+							</a>
+						))
 			}
 			<User server:defer />
 		</div>

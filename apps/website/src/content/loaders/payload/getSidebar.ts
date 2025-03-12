@@ -53,10 +53,10 @@ async function pageToLink(page: Knowledgebase, payload: Payload): Promise<Link> 
 		}
 	}
 	return {
-		id: "knowledgebase/" + await getPageSlug(page, payload),
+		id: "wissen/" + await getPageSlug(page, payload),
 		type: "link",
 		label: page.restricted === "members" ? "🔒 " + page.title : page.title,
-		href: "/knowledgebase/" + await getPageSlug(page, payload),
+		href: "/wissen/" + await getPageSlug(page, payload),
 		isCurrent: false,
 		attrs: {},
 		badge: badge,
@@ -133,7 +133,7 @@ export async function getKnowledgebaseSidebar(): Promise<SidebarEntry[]> {
 			let tempGroup = groups.find((g) => g.slug === groupDoc.slug)
 			if (!tempGroup) {
 				tempGroup = {
-					id: "knowledgebase/" + groupDoc.slug,
+					id: "wissen/" + groupDoc.slug,
 					docOrder: groupDoc.docOrder || 0,
 					label: groupDoc.title,
 					slug: groupDoc.slug,

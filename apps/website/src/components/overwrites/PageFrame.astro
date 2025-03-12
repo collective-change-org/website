@@ -1,12 +1,12 @@
 ---
-import MobileMenuToggle from "@astrojs/starlight/components/MobileMenuToggle.astro"
 import { cn } from "@website/src/lib/cn"
+import MobileMenuToggle from "./MobileMenuToggle.astro"
 
 const { hasSidebar } = Astro.locals.starlightRoute
-const isDoc = Astro.locals.starlightRoute.entry.collection === "docs"
+const isDoc = Astro.locals.starlightRoute.entry.data.template === "doc"
 ---
 
-<div class={cn("page sl-flex", isDoc && "bg-green-dark")}>
+<div class={cn("page sl-flex", isDoc && "bg-beige-100")}>
 	<slot name="header" />
 	{
 		hasSidebar && (
@@ -14,7 +14,7 @@ const isDoc = Astro.locals.starlightRoute.entry.collection === "docs"
 				class="sidebar"
 				aria-label={Astro.locals.t("sidebarNav.accessibleLabel")}>
 				<MobileMenuToggle {...Astro.props} />
-				<div id="starlight__sidebar" class="sidebar-pane">
+				<div id="starlight__sidebar" class="sidebar-pane bg-beige-100">
 					<div class="sidebar-content sl-flex">
 						<slot name="sidebar" />
 					</div>
@@ -45,7 +45,7 @@ const isDoc = Astro.locals.starlightRoute.entry.collection === "docs"
 		inset-inline-start: 0;
 		width: 100%;
 		overflow-y: auto;
-		@apply bg-green-lighter;
+		color: black;
 	}
 
 	:global([aria-expanded="true"]) ~ .sidebar-pane {
@@ -79,7 +79,6 @@ const isDoc = Astro.locals.starlightRoute.entry.collection === "docs"
 		.sidebar-pane {
 			--sl-sidebar-visibility: visible;
 			width: var(--sl-sidebar-width);
-			@apply bg-green-lighter;
 		}
 	}
 </style>
