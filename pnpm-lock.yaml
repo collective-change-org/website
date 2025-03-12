@@ -135,6 +135,9 @@ importers:
       '@corvu/disclosure':
         specifier: ^0.2.0
         version: 0.2.1(solid-js@1.9.4)
+      '@corvu/popover':
+        specifier: ^0.2.0
+        version: 0.2.0(solid-js@1.9.4)
       '@corvu/tailwind':
         specifier: ^0.1.5
         version: 0.1.6(tailwindcss@3.4.17)
@@ -560,10 +563,20 @@ packages:
     peerDependencies:
       solid-js: ^1.8
 
+  '@corvu/popover@0.2.0':
+    resolution: {integrity: sha512-zynRWyRV7mk2uX7t/COQL4OEa6H6FBgOxxlXLQJ1BV8hTiBJwmfAN/yB/9jy+zlp0G9vp64E8VdsNn6gxUEUEQ==}
+    peerDependencies:
+      solid-js: ^1.8
+
   '@corvu/tailwind@0.1.6':
     resolution: {integrity: sha512-XO37PAgnS1vMyj0tXj5SsavVGVux9RWpIz7BZ6hRQ/w49mbiCJw9diJAxwtK2vumED6lb0HF80HP7JwRF1u79g==}
     peerDependencies:
       tailwindcss: ^3
+
+  '@corvu/utils@0.3.2':
+    resolution: {integrity: sha512-ZWlyWEE8qV9+CB9OAyo2bTrZGXQN9ZeM+JfYv89zoR+lRACKTDuoOZEdiyL8Uc7U5dUSH1uTqKhTTnaHWb+wZA==}
+    peerDependencies:
+      solid-js: ^1.8
 
   '@corvu/utils@0.4.2':
     resolution: {integrity: sha512-Ox2kYyxy7NoXdKWdHeDEjZxClwzO4SKM8plAaVwmAJPxHMqA0rLOoAsa+hBDwRLpctf+ZRnAd/ykguuJidnaTA==}
@@ -7801,9 +7814,21 @@ snapshots:
       solid-js: 1.9.4
       solid-presence: 0.2.0(solid-js@1.9.4)
 
+  '@corvu/popover@0.2.0(solid-js@1.9.4)':
+    dependencies:
+      '@corvu/dialog': 0.2.4(solid-js@1.9.4)
+      '@corvu/utils': 0.3.2(solid-js@1.9.4)
+      '@floating-ui/dom': 1.6.13
+      solid-js: 1.9.4
+
   '@corvu/tailwind@0.1.6(tailwindcss@3.4.17)':
     dependencies:
       tailwindcss: 3.4.17
+
+  '@corvu/utils@0.3.2(solid-js@1.9.4)':
+    dependencies:
+      '@floating-ui/dom': 1.6.13
+      solid-js: 1.9.4
 
   '@corvu/utils@0.4.2(solid-js@1.9.4)':
     dependencies:

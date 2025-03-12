@@ -12,10 +12,16 @@ const navlinks = await getCollection("header").then((collection) => {
 ---
 
 <header
-	class="absolute z-10 flex w-full flex-col items-center justify-between px-4 py-3 mix-blend-difference sm:flex-row"
+	class="fixed z-10 flex w-full flex-col items-center justify-between px-4 py-3 mix-blend-difference sm:flex-row"
 >
-	<a href="/"><Logo class="text-white" height={80} width={190} /></a>
-	<div class="inline-flex pb-6 uppercase">
+	<a href="/"
+		><Logo
+			class="text-white mix-blend-difference"
+			height={80}
+			width={190}
+		/></a
+	>
+	<div class="hidden pb-6 uppercase mix-blend-difference md:inline-flex">
 		{
 			navlinks.map((link) => (
 				<a
@@ -31,4 +37,87 @@ const navlinks = await getCollection("header").then((collection) => {
 
 		<User server:defer />
 	</div>
+	<div class="flex flex-col gap-2 md:hidden">
+		<button popovertarget="mobile-menu" class="border-none bg-transparent">
+			<svg
+				width="65"
+				height="65"
+				viewBox="0 0 65 65"
+				fill="none"
+				xmlns="http://www.w3.org/2000/svg"
+			>
+				<rect
+					x="0.654297"
+					y="0.75"
+					width="64"
+					height="64"
+					fill="#001A15"></rect>
+				<rect
+					x="1.6543"
+					y="1.75"
+					width="62"
+					height="62"
+					stroke="white"
+					stroke-opacity="0.1"
+					stroke-width="2"></rect>
+				<path
+					d="M44.6543 32.75C44.6543 33.0152 44.5489 33.2696 44.3614 33.4571C44.1739 33.6446 43.9195 33.75 43.6543 33.75H21.6543C21.3891 33.75 21.1347 33.6446 20.9472 33.4571C20.7597 33.2696 20.6543 33.0152 20.6543 32.75C20.6543 32.4848 20.7597 32.2304 20.9472 32.0429C21.1347 31.8554 21.3891 31.75 21.6543 31.75H43.6543C43.9195 31.75 44.1739 31.8554 44.3614 32.0429C44.5489 32.2304 44.6543 32.4848 44.6543 32.75ZM21.6543 25.75H43.6543C43.9195 25.75 44.1739 25.6446 44.3614 25.4571C44.5489 25.2696 44.6543 25.0152 44.6543 24.75C44.6543 24.4848 44.5489 24.2304 44.3614 24.0429C44.1739 23.8554 43.9195 23.75 43.6543 23.75H21.6543C21.3891 23.75 21.1347 23.8554 20.9472 24.0429C20.7597 24.2304 20.6543 24.4848 20.6543 24.75C20.6543 25.0152 20.7597 25.2696 20.9472 25.4571C21.1347 25.6446 21.3891 25.75 21.6543 25.75ZM43.6543 39.75H21.6543C21.3891 39.75 21.1347 39.8554 20.9472 40.0429C20.7597 40.2304 20.6543 40.4848 20.6543 40.75C20.6543 41.0152 20.7597 41.2696 20.9472 41.4571C21.1347 41.6446 21.3891 41.75 21.6543 41.75H43.6543C43.9195 41.75 44.1739 41.6446 44.3614 41.4571C44.5489 41.2696 44.6543 41.0152 44.6543 40.75C44.6543 40.4848 44.5489 40.2304 44.3614 40.0429C44.1739 39.8554 43.9195 39.75 43.6543 39.75Z"
+					fill="white"></path>
+			</svg>
+		</button>
+
+		<div
+			popover
+			id="mobile-menu"
+			class="items-start gap-2 border-2 border-white/10 bg-green-black pb-4"
+		>
+			<button
+				class="flex w-full justify-end bg-transparent p-4"
+				popovertarget="mobile-menu"
+				popovertargetaction="hide"
+			>
+				<svg
+					width="33"
+					height="33"
+					viewBox="0 0 33 33"
+					fill="none"
+					xmlns="http://www.w3.org/2000/svg"
+				>
+					<path
+						d="M26.3614 25.0425C26.4543 25.1354 26.528 25.2457 26.5783 25.3671C26.6286 25.4885 26.6544 25.6186 26.6544 25.75C26.6544 25.8814 26.6286 26.0115 26.5783 26.1329C26.528 26.2543 26.4543 26.3646 26.3614 26.4575C26.2685 26.5504 26.1582 26.6241 26.0368 26.6744C25.9154 26.7247 25.7853 26.7506 25.6539 26.7506C25.5225 26.7506 25.3924 26.7247 25.271 26.6744C25.1496 26.6241 25.0393 26.5504 24.9464 26.4575L16.6539 18.1637L8.36138 26.4575C8.17374 26.6451 7.91924 26.7506 7.65388 26.7506C7.38851 26.7506 7.13402 26.6451 6.94638 26.4575C6.75874 26.2699 6.65332 26.0154 6.65332 25.75C6.65332 25.4846 6.75874 25.2301 6.94638 25.0425L15.2401 16.75L6.94638 8.4575C6.75874 8.26986 6.65332 8.01536 6.65332 7.75C6.65332 7.48464 6.75874 7.23014 6.94638 7.0425C7.13402 6.85486 7.38851 6.74944 7.65388 6.74944C7.91924 6.74944 8.17374 6.85486 8.36138 7.0425L16.6539 15.3362L24.9464 7.0425C25.134 6.85486 25.3885 6.74944 25.6539 6.74944C25.9192 6.74944 26.1737 6.85486 26.3614 7.0425C26.549 7.23014 26.6544 7.48464 26.6544 7.75C26.6544 8.01536 26.549 8.26986 26.3614 8.4575L18.0676 16.75L26.3614 25.0425Z"
+						fill="white"></path>
+				</svg>
+			</button>
+			{
+				navlinks.map((link) => (
+					<a
+						class="pl-4 text-2xl text-white no-underline"
+						href={`/${link.href}`}
+						target={link.newTab ? "_blank" : ""}
+						rel={link.newTab ? "noopener noreferrer" : ""}>
+						{link.label}
+					</a>
+				))
+			}
+			<User server:defer />
+		</div>
+	</div>
 </header>
+
+<style scoped>
+	:popover-open {
+		position: fixed;
+		top: 0.75rem;
+		left: 0;
+		margin-left: calc(100% - 16px);
+		translate: -100%;
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+	}
+
+	::backdrop {
+		background: rgba(0, 0, 0, 0.5);
+		backdrop-filter: blur(3px);
+	}
+</style>

@@ -18,6 +18,7 @@
     "@collectivechange/payload": "workspace:*",
     "@corvu/dialog": "^0.2.3",
     "@corvu/disclosure": "^0.2.0",
+    "@corvu/popover": "^0.2.0",
     "@corvu/tailwind": "^0.1.5",
     "@fontsource/poppins": "^5.1.1",
     "@modular-forms/solid": "^0.25.0",
