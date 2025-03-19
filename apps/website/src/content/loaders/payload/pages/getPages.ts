@@ -32,6 +32,13 @@ export async function getPages(): Promise<Page[]> {
           tag: "title",
           content: doc.meta.title,
         });
+        head.push({
+          tag: "meta",
+          attrs: {
+            property: "og:title",
+            content: doc.meta.title,
+          },
+        });
       }
       if (doc.meta?.description) {
         head.push({
