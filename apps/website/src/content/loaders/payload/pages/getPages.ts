@@ -16,6 +16,11 @@ export async function getPages(): Promise<Page[]> {
   const payload = await getPayload({ config });
   const pages = await payload.find({
     collection: "pages",
+    where: {
+      _status: {
+        equals: "published",
+      },
+    }
   });
   // console.dir(pages, { depth: Infinity });
 
