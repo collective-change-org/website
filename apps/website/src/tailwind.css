@@ -5,6 +5,15 @@
 	font-display: swap;
 }
 
+@font-face {
+	font-family: "Adjusted Arial Fallback";
+	src: local(Arial);
+	size-adjust: 100%;
+	ascent-override: 97%;
+	descent-override: normal;
+	line-gap-override: normal;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -27,41 +36,33 @@
 	}
 
 	.typestyle-hero-h1 {
-		@apply hyphens-auto text-balance font-poppins lg:text-[12svw]
-			text-[15svw] font-black leading-none uppercase;
+		@apply hyphens-auto text-balance font-poppins text-[15svw] font-black uppercase leading-none lg:text-[12svw];
 	}
 	.typestyle-h1 {
-		@apply hyphens-auto text-balance font-poppins lg:text-[10svw]
-			text-[12svw] font-black leading-none uppercase;
+		@apply hyphens-auto text-balance font-poppins text-[12svw] font-black uppercase leading-none lg:text-[10svw];
 	}
 	.typestyle-hero-p {
-		@apply hyphens-auto text-balance font-sans lg:text-[2.25rem]
-			text-[1.5rem] font-semibold leading-[1.35] lg:leading-[1.25];
+		@apply hyphens-auto text-balance font-sans text-[1.5rem] font-semibold leading-[1.35] lg:text-[2.25rem] lg:leading-[1.25];
 	}
 
 	.typestyle-h2 {
-		@apply hyphens-auto text-balance font-poppins lg:text-[9svw]
-			text-[12svw] font-black uppercase leading-none;
+		@apply hyphens-auto text-balance font-poppins text-[12svw] font-black uppercase leading-none lg:text-[9svw];
 	}
 
 	.typestyle-h3 {
-		@apply hyphens-auto text-balance font-poppins lg:text-[3.5rem]
-			text-[2.5rem] font-black leading-none lg:leading-[1.25] uppercase;
+		@apply hyphens-auto text-balance font-poppins text-[2.5rem] font-black uppercase leading-none lg:text-[3.5rem] lg:leading-[1.25];
 	}
 
 	.typestyle-h4 {
-		@apply hyphens-auto text-balance font-poppins text-[2rem] font-bold
-			leading-none lg:text-[2.625rem] lg:leading-[1.2];
+		@apply hyphens-auto text-balance font-poppins text-[2rem] font-bold leading-none lg:text-[2.625rem] lg:leading-[1.2];
 	}
 
 	.typestyle-h5 {
-		@apply hyphens-auto text-balance font-poppins lg:text-[2rem]
-			text-[1.5rem] font-bold leading-none lg:leading-[1.2];
+		@apply hyphens-auto text-balance font-poppins text-[1.5rem] font-bold leading-none lg:text-[2rem] lg:leading-[1.2];
 	}
 
 	.typestyle-h6 {
-		@apply hyphens-auto text-balance font-poppins lg:text-[1.5rem]
-			text-[1.25rem] font-semibold leading-none lg:leading-[1.2];
+		@apply hyphens-auto text-balance font-poppins text-[1.25rem] font-semibold leading-none lg:text-[1.5rem] lg:leading-[1.2];
 	}
 
 	.typestyle-text-l {
@@ -69,8 +70,7 @@
 	}
 
 	.typestyle-text-m {
-		@apply hyphens-auto text-balance font-sans text-[1.25rem] font-normal
-			leading-[1.4];
+		@apply hyphens-auto text-balance font-sans text-[1.25rem] font-normal leading-[1.4];
 	}
 
 	.typestyle-text-s {
@@ -78,8 +78,7 @@
 	}
 
 	.typestyle-text-xs {
-		@apply hyphens-auto text-balance font-sans text-[0.8125rem]
-			leading-[1.4];
+		@apply hyphens-auto text-balance font-sans text-[0.8125rem] leading-[1.4];
 	}
 }
 
@@ -100,6 +99,7 @@
 body {
 	font-family:
 		Uncut,
+		"Adjusted Arial Fallback",
 		system-ui,
 		-apple-system,
 		BlinkMacSystemFont,
