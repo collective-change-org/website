@@ -1,23 +1,24 @@
+import type { Block } from "payload"
+
 import {
-  lexicalEditor,
-  FixedToolbarFeature,
-  InlineToolbarFeature,
-} from '@payloadcms/richtext-lexical'
-import type { Block } from 'payload'
+	FixedToolbarFeature,
+	InlineToolbarFeature,
+	lexicalEditor,
+} from "@payloadcms/richtext-lexical"
 
 export const EmphasizedParagraph: Block = {
-  slug: 'emphasizedParagraph',
-  fields: [
-    {
-      name: 'richText',
-      type: 'richText',
-      editor: lexicalEditor({
-        features: ({ rootFeatures }) => {
-          return [...rootFeatures, FixedToolbarFeature(), InlineToolbarFeature()]
-        },
-      }),
-      required: true,
-      label: false,
-    },
-  ],
+	slug: "emphasizedParagraph",
+	fields: [
+		{
+			name: "richText",
+			type: "richText",
+			editor: lexicalEditor({
+				features: ({ rootFeatures }) => {
+					return [...rootFeatures, FixedToolbarFeature(), InlineToolbarFeature()]
+				},
+			}),
+			required: true,
+			label: false,
+		},
+	],
 }

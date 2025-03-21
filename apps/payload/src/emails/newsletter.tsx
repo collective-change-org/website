@@ -8,16 +8,19 @@ import {
 	Row,
 	Section,
 	Text,
-} from '@react-email/components'
-import { TailwindWrapper } from './TailwindWrapper'
-import { Newsletter } from '../payload-types'
-import { EmailButton } from './Button'
-import React from 'react'
+} from "@react-email/components"
+import React from "react"
 
-export const renderNewsletter = (body: Newsletter['body'], token: string) =>
-	render(<Email body={body} token={token} />)
+import type { Newsletter } from "../payload-types"
 
-type BlockType = Newsletter['body'][0]
+import { EmailButton } from "./Button"
+import { TailwindWrapper } from "./TailwindWrapper"
+
+export function renderNewsletter(body: Newsletter["body"], token: string) {
+	return render(<Email body={body} token={token} />)
+}
+
+type BlockType = Newsletter["body"][0]
 type RichTextChildren = {
 	type: string
 	version: number
@@ -31,11 +34,11 @@ type RichTextChildren = {
 
 export function lexicalToJSX(children: RichTextChildren) {
 	return children.map((child, i) => {
-		if (typeof child !== 'object' || !child) {
+		if (typeof child !== "object" || !child) {
 			return
 		}
 		switch (child.type) {
-			case 'paragraph':
+			case "paragraph":
 				if (!child.children) {
 					return null
 				}
@@ -44,7 +47,7 @@ export function lexicalToJSX(children: RichTextChildren) {
 						{lexicalToJSX(child.children)}
 					</Text>
 				)
-			case 'text':
+			case "text":
 				return (
 					<>
 						{child.text}
@@ -60,7 +63,7 @@ export function lexicalToJSX(children: RichTextChildren) {
 
 export function blockTypeToComponent(block: BlockType) {
 	switch (block.blockType) {
-		case 'h1Block':
+		case "h1Block":
 			return (
 				<Heading
 					as="h2"
@@ -69,7 +72,7 @@ export function blockTypeToComponent(block: BlockType) {
 					{block.title}
 				</Heading>
 			)
-		case 'h2Block':
+		case "h2Block":
 			return (
 				<Heading
 					as="h1"
@@ -78,7 +81,7 @@ export function blockTypeToComponent(block: BlockType) {
 					{block.title}
 				</Heading>
 			)
-		case 'h3Block':
+		case "h3Block":
 			return (
 				<Heading
 					as="h2"
@@ -87,7 +90,7 @@ export function blockTypeToComponent(block: BlockType) {
 					{block.title}
 				</Heading>
 			)
-		case 'plainRichTextBlock':
+		case "plainRichTextBlock":
 			if (!block.richText) {
 				return null
 			}
@@ -97,61 +100,61 @@ export function blockTypeToComponent(block: BlockType) {
 	}
 }
 
-export default function Email(props: { body: Newsletter['body']; token: string }) {
+export default function Email(props: { body: Newsletter["body"], token: string }) {
 	const body = props.body ?? [
 		{
-			id: '67a09dd83322660f0d5540fc',
-			title: 'We are all Crew!',
+			id: "67a09dd83322660f0d5540fc",
+			title: "We are all Crew!",
 			blockName: null,
-			blockType: 'h1Block',
+			blockType: "h1Block",
 		},
 		{
-			id: '67a09de73322660f0d5540fe',
-			title: 'Aber sind wir das wirklich?',
+			id: "67a09de73322660f0d5540fe",
+			title: "Aber sind wir das wirklich?",
 			blockName: null,
-			blockType: 'h2Block',
+			blockType: "h2Block",
 		},
 		{
-			id: '67a09de73322660f0d5540fe',
-			title: 'Aber sind wir das wirklich?',
+			id: "67a09de73322660f0d5540fe",
+			title: "Aber sind wir das wirklich?",
 			blockName: null,
-			blockType: 'h3Block',
+			blockType: "h3Block",
 		},
 		{
-			id: '67a0cd9ec1b5e0770a6806e0',
+			id: "67a0cd9ec1b5e0770a6806e0",
 			richText: {
 				root: {
-					type: 'root',
-					format: '',
+					type: "root",
+					format: "",
 					indent: 0,
 					version: 1,
 					children: [
 						{
-							type: 'paragraph',
-							format: '',
+							type: "paragraph",
+							format: "",
 							indent: 0,
 							version: 1,
 							children: [
 								{
-									mode: 'normal',
-									text: 'Moining, ich schreib ma bissi was hier rein',
-									type: 'text',
-									style: '',
+									mode: "normal",
+									text: "Moining, ich schreib ma bissi was hier rein",
+									type: "text",
+									style: "",
 									detail: 0,
 									format: 0,
 									version: 1,
 								},
 							],
-							direction: 'ltr',
-							textStyle: '',
+							direction: "ltr",
+							textStyle: "",
 							textFormat: 0,
 						},
 					],
-					direction: 'ltr',
+					direction: "ltr",
 				},
 			},
 			blockName: null,
-			blockType: 'plainRichTextBlock',
+			blockType: "plainRichTextBlock",
 		},
 	]
 	return (
@@ -170,7 +173,7 @@ export default function Email(props: { body: Newsletter['body']; token: string }
 					})}
 				</Section>
 				<Section>
-					<EmailButton href={''} color={'green'} size={'small'}>
+					<EmailButton href="" color="green" size="small">
 						Newsletter abbestellen
 					</EmailButton>
 				</Section>

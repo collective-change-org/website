@@ -1,5 +1,6 @@
 import type { CollectionConfig } from "payload"
-import crypto from "crypto"
+
+import crypto from "node:crypto"
 
 export const NotificationSettings: CollectionConfig<"notification-settings"> = {
 	slug: "notification-settings",

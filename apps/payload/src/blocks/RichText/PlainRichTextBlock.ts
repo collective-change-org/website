@@ -1,9 +1,10 @@
+import type { Block } from "payload"
+
 import {
-	lexicalEditor,
 	FixedToolbarFeature,
 	InlineToolbarFeature,
+	lexicalEditor,
 } from "@payloadcms/richtext-lexical"
-import type { Block } from "payload"
 
 export const PlainRichTextBlock: Block = {
 	slug: "plainRichTextBlock",

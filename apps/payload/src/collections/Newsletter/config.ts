@@ -1,11 +1,14 @@
-import { H1Block } from "../../blocks/Headings/H1";
-import { H2Block } from "../../blocks/Headings/H2";
-import { H3Block } from "../../blocks/Headings/H3";
-import type { CollectionConfig } from "payload";
-import { sendNewsletter } from "./sendNewsletter";
-import crypto from "crypto";
-import { User } from "../../payload-types";
-import { PlainRichTextBlock } from "../../blocks/RichText/PlainRichTextBlock";
+import type { CollectionConfig } from "payload"
+
+import crypto from "node:crypto"
+
+import type { User } from "../../payload-types"
+
+import { H1Block } from "../../blocks/Headings/H1"
+import { H2Block } from "../../blocks/Headings/H2"
+import { H3Block } from "../../blocks/Headings/H3"
+import { PlainRichTextBlock } from "../../blocks/RichText/PlainRichTextBlock"
+import { sendNewsletter } from "./sendNewsletter"
 
 export const Newsletter: CollectionConfig<"newsletter"> = {
 	slug: "newsletter",
@@ -16,22 +19,23 @@ export const Newsletter: CollectionConfig<"newsletter"> = {
 		livePreview: {
 			url: ({ data }) => {
 				const id = data?.id
-				if (!id) return ""
+				if (!id)
+					return ""
 				const encodedParams = new URLSearchParams({
 					slug: id as string,
 					collection: "newsletter",
 					path: `/preview/${id}`,
-					previewSecret: process.env.PREVIEW_SECRET || ''
+					previewSecret: process.env.PREVIEW_SECRET || "",
 				})
 
 				return `/preview?${encodedParams.toString()}`
-			}
+			},
 		},
 		components: {
 			edit: {
-				PublishButton: "/collections/Newsletter/PublishButton"
-			}
-		}
+				PublishButton: "/collections/Newsletter/PublishButton",
+			},
+		},
 	},
 	fields: [
 		{
@@ -63,20 +67,20 @@ export const Newsletter: CollectionConfig<"newsletter"> = {
 			path: "/unsubscribe/:token",
 			method: "post",
 			handler: async (request) => {
-				const token = request.routeParams?.token as string | undefined;
+				const token = request.routeParams?.token as string | undefined
 				if (!token) {
-					return new Response("Token is required", { status: 400 });
+					return new Response("Token is required", { status: 400 })
 				}
 
-				const SECRET_KEY = process.env.PAYLOAD_SECRET;
+				const SECRET_KEY = process.env.PAYLOAD_SECRET
 				if (!SECRET_KEY) {
 					throw new Error(
 						"Notification Secret Key is not set in the environment",
-					);
+					)
 				}
 
 				try {
-					const [nonce, signature] = token.split(".");
+					const [nonce, signature] = token.split(".")
 
 					const subscription = await request.payload.find({
 						collection: "notification-settings",
@@ -84,37 +88,38 @@ export const Newsletter: CollectionConfig<"newsletter"> = {
 							nonce: { equals: nonce },
 						},
 						limit: 1,
-					});
+					})
 
 					if (subscription.docs.length === 0) {
 					}
-					const notificationSetting = subscription.docs[0];
+					const notificationSetting = subscription.docs[0]
 
-					let user: User;
+					let user: User
 					if (typeof notificationSetting.user === "number") {
 						const userDoc = await request.payload.findByID({
 							collection: "users",
 							id: notificationSetting.user,
-						});
+						})
 						if (!userDoc) {
 							request.payload.logger.error(
 								`User not found for notification setting ${notificationSetting.id}`,
-							);
+							)
 							return new Response("User not found", {
 								status: 404,
-							});
+							})
 						}
-						user = userDoc;
-					} else {
-						user = notificationSetting.user;
+						user = userDoc
+					}
+					else {
+						user = notificationSetting.user
 					}
 
 					// Recreate the expected signature
-					const data = `${user.id}:${nonce}`;
+					const data = `${user.id}:${nonce}`
 					const expectedHmac = crypto
 						.createHmac("sha256", SECRET_KEY)
 						.update(data)
-						.digest("base64url");
+						.digest("base64url")
 
 					if (
 						!crypto.timingSafeEqual(
@@ -122,11 +127,11 @@ export const Newsletter: CollectionConfig<"newsletter"> = {
 							Buffer.from(expectedHmac),
 						)
 					) {
-						request.payload.logger.error(`Invalid signature for user ${user.id}`);
+						request.payload.logger.error(`Invalid signature for user ${user.id}`)
 						// Invalid signature
 						return new Response("Invalid Signature", {
 							status: 400,
-						});
+						})
 					}
 
 					// Valid token → delete the nonce to prevent reuse
@@ -135,13 +140,14 @@ export const Newsletter: CollectionConfig<"newsletter"> = {
 						where: {
 							id: { equals: notificationSetting.id },
 						},
-					});
-				} catch {
-					request.payload.logger.error(`Invalid token ${token}`);
-					return new Response("Invalid token", { status: 400 });
+					})
 				}
-				return new Response("OK");
+				catch {
+					request.payload.logger.error(`Invalid token ${token}`)
+					return new Response("Invalid token", { status: 400 })
+				}
+				return new Response("OK")
 			},
 		},
 	],
-};
+}

@@ -1,29 +1,30 @@
-import { payloadCloudPlugin } from '@payloadcms/payload-cloud'
-import { nestedDocsPlugin } from '@payloadcms/plugin-nested-docs'
-import { seoPlugin } from '@payloadcms/plugin-seo'
-import { Plugin } from 'payload'
-import { GenerateTitle, GenerateURL } from '@payloadcms/plugin-seo/types'
+import type { GenerateTitle, GenerateURL } from "@payloadcms/plugin-seo/types"
+import type { Plugin } from "payload"
 
-import { Page, Knowledgebase } from '../payload-types'
-import { getServerSideURL } from '../utilities/getURL'
+import { nestedDocsPlugin } from "@payloadcms/plugin-nested-docs"
+import { seoPlugin } from "@payloadcms/plugin-seo"
+
+import type { Knowledgebase, Page } from "../payload-types"
+
+import { getServerSideURL } from "../utilities/getURL"
 
 const generateTitle: GenerateTitle<Knowledgebase | Page> = ({ doc }) => {
-  return doc?.title ? `${doc.title} | Payload Website Template` : 'Payload Website Template'
+	return doc?.title ? `${doc.title} | Payload Website Template` : "Payload Website Template"
 }
 
 const generateURL: GenerateURL<Knowledgebase | Page> = ({ doc }) => {
-  const url = getServerSideURL()
+	const url = getServerSideURL()
 
-  return doc?.slug ? `${url}/${doc.slug}` : url
+	return doc?.slug ? `${url}/${doc.slug}` : url
 }
 
 export const plugins: Plugin[] = [
-  nestedDocsPlugin({
-    collections: ['groups'],
-  }),
-  seoPlugin({
-    generateTitle,
-    generateURL,
-  }),
-  // payloadCloudPlugin(),
+	nestedDocsPlugin({
+		collections: ["groups"],
+	}),
+	seoPlugin({
+		generateTitle,
+		generateURL,
+	}),
+	// payloadCloudPlugin(),
 ]

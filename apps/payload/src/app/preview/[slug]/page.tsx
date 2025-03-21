@@ -1,10 +1,11 @@
-import { renderNewsletter } from '@/emails/newsletter'
-import { config } from '../../..'
-import { draftMode } from 'next/headers'
-import { notFound } from 'next/navigation'
-import { getPayload } from 'payload'
-import { Fragment } from 'react'
-import { RefreshRouteOnSave } from './RefreshRouteOnSave'
+import { draftMode } from "next/headers"
+import { notFound } from "next/navigation"
+import { getPayload } from "payload"
+
+import { renderNewsletter } from "@/emails/newsletter"
+
+import { config } from "../../.."
+import { RefreshRouteOnSave } from "./RefreshRouteOnSave"
 
 export default async function Page({
 	params: paramsPromise,
@@ -23,7 +24,7 @@ export default async function Page({
 
 	const newsletter = await payload
 		.find({
-			collection: 'newsletter',
+			collection: "newsletter",
 			depth: 0,
 			draft: isDraftMode,
 			limit: 1,
@@ -41,13 +42,13 @@ export default async function Page({
 	}
 
 	return (
-		<Fragment>
+		<>
 			<RefreshRouteOnSave />
 			<html
 				dangerouslySetInnerHTML={{
-					__html: await renderNewsletter(newsletter.body, ''),
+					__html: await renderNewsletter(newsletter.body, ""),
 				}}
 			/>
-		</Fragment>
+		</>
 	)
 }

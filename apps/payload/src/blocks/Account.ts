@@ -1,8 +1,8 @@
-import type { Block } from 'payload'
+import type { Block } from "payload"
 
 export const AccountBlock: Block = {
-  slug: 'accountBlock',
-  interfaceName: 'AccountBlock',
+	slug: "accountBlock",
+	interfaceName: "AccountBlock",
 
-  fields: [],
+	fields: [],
 }
