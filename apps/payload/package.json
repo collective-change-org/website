@@ -1,67 +1,69 @@
 {
-  "name": "@collectivechange/payload",
-  "version": "1.0.0",
-  "description": "A blank template to get started with Payload 3.0",
-  "license": "MIT",
-  "type": "module",
-  "exports": {
-    ".": {
-      "import": "./src/index.ts",
-      "types": "./src/index.ts",
-      "default": "./src/index.ts"
-    }
-  },
-  "scripts": {
-    "build": "cross-env NODE_OPTIONS=--no-deprecation next build",
-    "dev": "cross-env NODE_OPTIONS=--no-deprecation next dev",
-    "devsafe": "rm -rf .next && cross-env NODE_OPTIONS=--no-deprecation next dev",
-    "generate:importmap": "cross-env NODE_OPTIONS=--no-deprecation payload generate:importmap",
-    "generate:types": "cross-env NODE_OPTIONS=--no-deprecation payload generate:types",
-    "lint": "cross-env NODE_OPTIONS=--no-deprecation next lint",
-    "payload": "cross-env NODE_OPTIONS=--no-deprecation payload",
-    "start": "cross-env NODE_OPTIONS=--no-deprecation next start",
-    "email": "email dev --dir 'src/emails'"
-  },
-  "dependencies": {
-    "@payloadcms/db-postgres": "3.24.0",
-    "@payloadcms/email-nodemailer": "3.24.0",
-    "@payloadcms/live-preview-react": "^3.24.0",
-    "@payloadcms/next": "3.24.0",
-    "@payloadcms/payload-cloud": "3.24.0",
-    "@payloadcms/plugin-nested-docs": "3.24.0",
-    "@payloadcms/plugin-seo": "3.24.0",
-    "@payloadcms/richtext-lexical": "3.24.0",
-    "@payloadcms/ui": "3.24.0",
-    "@radix-ui/react-dialog": "^1.1.6",
-    "@react-email/components": "^0.0.32",
-    "@react-email/tailwind": "^1.0.4",
-    "clsx": "^2.1.1",
-    "cross-env": "^7.0.3",
-    "graphql": "^16.8.1",
-    "next": "15.1.5",
-    "payload": "3.24.0",
-    "react": "19.0.0",
-    "react-dom": "19.0.0",
-    "sharp": "0.32.6",
-    "tailwind-merge": "^3.0.1",
-    "zod": "^3.24.1"
-  },
-  "devDependencies": {
-    "@antfu/eslint-config": "^4.10.2",
-    "@eslint-react/eslint-plugin": "^1.37.0",
-    "@eslint/eslintrc": "^3.2.0",
-    "@types/node": "^22.5.4",
-    "@types/react": "19.0.7",
-    "@types/react-dom": "19.0.3",
-    "eslint": "^9.20.1",
-    "eslint-config-next": "15.1.5",
-    "eslint-plugin-react-refresh": "^0.4.19",
-    "prettier": "^3.4.2",
-    "react-email": "^3.0.7",
-    "typescript": "5.7.3"
-  },
-  "engines": {
-    "node": "^18.20.2 || >=20.9.0",
-    "pnpm": "10.4.1"
-  }
+	"name": "@collectivechange/payload",
+	"type": "module",
+	"version": "1.0.0",
+	"description": "A blank template to get started with Payload 3.0",
+	"license": "MIT",
+	"exports": {
+		".": {
+			"types": "./src/index.ts",
+			"import": "./src/index.ts",
+			"default": "./src/index.ts"
+		}
+	},
+	"engines": {
+		"node": "^18.20.2 || >=20.9.0",
+		"pnpm": "10.4.1"
+	},
+	"scripts": {
+		"build": "cross-env NODE_OPTIONS=--no-deprecation next build",
+		"dev": "cross-env NODE_OPTIONS=--no-deprecation next dev",
+		"devsafe": "rm -rf .next && cross-env NODE_OPTIONS=--no-deprecation next dev",
+		"generate:importmap": "cross-env NODE_OPTIONS=--no-deprecation payload generate:importmap",
+		"generate:types": "cross-env NODE_OPTIONS=--no-deprecation payload generate:types",
+		"lint": "cross-env NODE_OPTIONS=--no-deprecation next lint",
+		"payload": "cross-env NODE_OPTIONS=--no-deprecation payload",
+		"start": "cross-env NODE_OPTIONS=--no-deprecation next start",
+		"email": "email dev --dir 'src/emails'"
+	},
+	"dependencies": {
+		"@payloadcms/db-postgres": "3.24.0",
+		"@payloadcms/email-nodemailer": "3.24.0",
+		"@payloadcms/live-preview-react": "^3.24.0",
+		"@payloadcms/next": "3.24.0",
+		"@payloadcms/payload-cloud": "3.24.0",
+		"@payloadcms/plugin-nested-docs": "3.24.0",
+		"@payloadcms/plugin-seo": "3.24.0",
+		"@payloadcms/richtext-lexical": "3.24.0",
+		"@payloadcms/ui": "3.24.0",
+		"@radix-ui/react-dialog": "^1.1.6",
+		"@react-email/components": "^0.0.32",
+		"@react-email/tailwind": "^1.0.4",
+		"clsx": "^2.1.1",
+		"cross-env": "^7.0.3",
+		"graphql": "^16.8.1",
+		"next": "15.1.5",
+		"payload": "3.24.0",
+		"react": "19.0.0",
+		"react-dom": "19.0.0",
+		"sharp": "0.32.6",
+		"tailwind-merge": "^3.0.1",
+		"zod": "^3.24.1"
+	},
+	"devDependencies": {
+		"@antfu/eslint-config": "^4.10.2",
+		"@eslint-react/eslint-plugin": "^1.37.0",
+		"@eslint/eslintrc": "^3.2.0",
+		"@next/eslint-plugin-next": "^15.2.3",
+		"@types/node": "^22.5.4",
+		"@types/react": "19.0.7",
+		"@types/react-dom": "19.0.3",
+		"eslint": "^9.20.1",
+		"eslint-config-next": "15.1.5",
+		"eslint-plugin-format": "^1.0.1",
+		"eslint-plugin-react-refresh": "^0.4.19",
+		"prettier": "^3.4.2",
+		"react-email": "^3.0.7",
+		"typescript": "5.7.3"
+	}
 }
