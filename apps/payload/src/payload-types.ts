@@ -54,6 +54,7 @@ export type SupportedTimezones =
   | 'Asia/Singapore'
   | 'Asia/Tokyo'
   | 'Asia/Seoul'
+  | 'Australia/Brisbane'
   | 'Australia/Sydney'
   | 'Pacific/Guam'
   | 'Pacific/Noumea'
@@ -702,7 +703,7 @@ export interface Knowledgebase {
   id: number;
   slug?: string | null;
   slugLock?: boolean | null;
-  restricted?: ('public' | 'members') | null;
+  visibility?: ('public' | 'crew' | 'team') | null;
   authors?: (number | User)[] | null;
   docOrder?: number | null;
   publishedAt?: string | null;
@@ -753,9 +754,10 @@ export interface User {
   role?: ('admin' | 'team' | 'crew') | null;
   profileImage?: (number | null) | Media;
   notificationSettings?: {
-    docs?: (number | NotificationSetting)[] | null;
-    hasNextPage?: boolean | null;
-  } | null;
+    docs?: (number | NotificationSetting)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -1485,7 +1487,7 @@ export interface AccountBlockSelect<T extends boolean = true> {
 export interface KnowledgebaseSelect<T extends boolean = true> {
   slug?: T;
   slugLock?: T;
-  restricted?: T;
+  visibility?: T;
   authors?: T;
   docOrder?: T;
   publishedAt?: T;

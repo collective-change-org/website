@@ -32,7 +32,7 @@ export type PayloadPageResponseItem = {
 	}
 	slug: string
 	content: LexicalRootContainer
-	restricted: "public" | "members"
+	restricted: "public" | "crew" | "team"
 	badge?: Badge
 }
 
@@ -55,7 +55,7 @@ async function pageToLink(page: Knowledgebase, payload: Payload): Promise<Link> 
 	return {
 		id: "wissen/" + await getPageSlug(page, payload),
 		type: "link",
-		label: page.restricted === "members" ? "🔒 " + page.title : page.title,
+		label: page.visibility !== "public" ? "🔒 " + page.title : page.title,
 		href: "/wissen/" + await getPageSlug(page, payload),
 		isCurrent: false,
 		attrs: {},

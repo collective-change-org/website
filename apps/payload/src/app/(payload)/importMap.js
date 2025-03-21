@@ -15,8 +15,8 @@ import { MetaTitleComponent as MetaTitleComponent_a8a977ebc872c5d5ea7ee689724c08
 import { MetaImageComponent as MetaImageComponent_a8a977ebc872c5d5ea7ee689724c0860 } from '@payloadcms/plugin-seo/client'
 import { MetaDescriptionComponent as MetaDescriptionComponent_a8a977ebc872c5d5ea7ee689724c0860 } from '@payloadcms/plugin-seo/client'
 import { PreviewComponent as PreviewComponent_a8a977ebc872c5d5ea7ee689724c0860 } from '@payloadcms/plugin-seo/client'
-import { default as default_34f120a5632237713baaf391ce23dbd8 } from 'src/collections/Newsletter/PublishButton'
-import { RowLabel as RowLabel_35c4f07b94077a54ab0db31fba2fa85b } from 'src/Header/RowLabel'
+import { default as default_8c186cfb80eeeb90743cbcb3eb2d3d82 } from '../../collections/Newsletter/publish-button'
+import { RowLabel as RowLabel_fbd1f721ddc0b4df354322a71d976964 } from '../../Header/row-label'
 
 export const importMap = {
   "@payloadcms/richtext-lexical/rsc#RscEntryLexicalCell": RscEntryLexicalCell_44fe37237e0ebf4470c9990d8cb7b07e,
@@ -36,6 +36,6 @@ export const importMap = {
   "@payloadcms/plugin-seo/client#MetaImageComponent": MetaImageComponent_a8a977ebc872c5d5ea7ee689724c0860,
   "@payloadcms/plugin-seo/client#MetaDescriptionComponent": MetaDescriptionComponent_a8a977ebc872c5d5ea7ee689724c0860,
   "@payloadcms/plugin-seo/client#PreviewComponent": PreviewComponent_a8a977ebc872c5d5ea7ee689724c0860,
-  "/collections/Newsletter/PublishButton#default": default_34f120a5632237713baaf391ce23dbd8,
-  "/Header/RowLabel#RowLabel": RowLabel_35c4f07b94077a54ab0db31fba2fa85b
+  "/collections/Newsletter/publish-button#default": default_8c186cfb80eeeb90743cbcb3eb2d3d82,
+  "/Header/row-label#RowLabel": RowLabel_fbd1f721ddc0b4df354322a71d976964
 }

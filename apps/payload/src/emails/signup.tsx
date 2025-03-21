@@ -10,8 +10,8 @@ import {
 } from "@react-email/components"
 import React from "react"
 
-import { EmailButton } from "./Button"
-import { TailwindWrapper } from "./TailwindWrapper"
+import { EmailButton } from "./button"
+import { TailwindWrapper } from "./tailwind-wrapper"
 
 export const renderSignup = (token: string) => render(<Email token={token} />)
 

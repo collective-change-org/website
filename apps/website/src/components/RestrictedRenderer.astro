@@ -1,6 +1,7 @@
 ---
 export interface Props {
 	redirect: string
+	visibility: "public" | "crew" | "team"
 }
 
 import { actions } from "astro:actions"
@@ -8,13 +9,23 @@ import { actions } from "astro:actions"
 export const prerender = false
 
 const { data, error } = await Astro.callAction(actions.verify, {})
+
+const props = Astro.props
 ---
 
 {
 	data ? (
-		<>
+		data.role === "admin" ? (
 			<slot />
-		</>
+		) : props.visibility === "crew" ? (
+			<slot />
+		) : props.visibility === "team" && data.role === "team" ? (
+			<slot />
+		) : (
+			<a href={`/login?redirect=${Astro.props.redirect}`}>
+				Du hast leider keine Berechtigung um diese Seite zu sehen
+			</a>
+		)
 	) : (
 		<a href={`/login?redirect=${Astro.props.redirect}`}>
 			Leider musst du angemeldet sein um diese Seite sehen zu können

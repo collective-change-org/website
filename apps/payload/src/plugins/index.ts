@@ -6,7 +6,7 @@ import { seoPlugin } from "@payloadcms/plugin-seo"
 
 import type { Knowledgebase, Page } from "../payload-types"
 
-import { getServerSideURL } from "../utilities/getURL"
+import { getServerSideURL } from "../utilities/get-url"
 
 const generateTitle: GenerateTitle<Knowledgebase | Page> = ({ doc }) => {
 	return doc?.title ? `${doc.title} | Payload Website Template` : "Payload Website Template"

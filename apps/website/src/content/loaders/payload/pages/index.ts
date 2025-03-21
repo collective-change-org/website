@@ -1,7 +1,7 @@
 import { type BaseSchema, defineCollection, z } from "astro:content";
 import { getKnowledgeBase } from "./getKnowledgebase";
 import { type ContentBlock, getPages } from "./getPages";
-import { HeadConfigSchema, pagesSchema } from "./schema";
+import { HeadConfigSchema, knowledgebaseSchema, pagesSchema } from "./schema";
 import type { LexicalRoot } from "../schemas/lexical";
 import type { CustomSidebar } from "../getSidebar";
 import type { Media } from "@payload/src";
@@ -13,7 +13,7 @@ export interface KnowledgebasePage extends BaseSchema {
 	lexical: LexicalRoot;
 	tableOfContents?: any;
 	sidebar: CustomSidebar;
-	restricted: "public" | "members";
+	visibility: "public" | "crew" | "team";
 }
 
 export interface Page extends BaseSchema {

@@ -2,13 +2,12 @@ import type { CollectionConfig } from "payload"
 
 import crypto from "node:crypto"
 
-import { H1Block } from "@/blocks/headings/h1"
-import { H2Block } from "@/blocks/headings/h2"
-import { H3Block } from "@/blocks/headings/h3"
-import { PlainRichTextBlock } from "@/blocks/RichText/plain-rich-text-block"
-
 import type { User } from "../../payload-types"
 
+import { H1Block } from "../../blocks/headings/h1"
+import { H2Block } from "../../blocks/headings/h2"
+import { H3Block } from "../../blocks/headings/h3"
+import { PlainRichTextBlock } from "../../blocks/RichText/plain-rich-text-block"
 import { sendNewsletter } from "./send-newsletter"
 
 export const Newsletter: CollectionConfig<"newsletter"> = {
@@ -34,7 +33,7 @@ export const Newsletter: CollectionConfig<"newsletter"> = {
 		},
 		components: {
 			edit: {
-				PublishButton: "/collections/Newsletter/PublishButton",
+				PublishButton: "/collections/Newsletter/publish-button",
 			},
 		},
 	},

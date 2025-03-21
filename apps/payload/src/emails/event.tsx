@@ -14,7 +14,7 @@ import React from "react"
 import type { Event } from "../payload-types"
 
 import { lexicalToJSX } from "./newsletter"
-import { TailwindWrapper } from "./TailwindWrapper"
+import { TailwindWrapper } from "./tailwind-wrapper"
 
 export const renderEvent = (event: Event) => render(<Email event={event} />)
 

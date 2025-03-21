@@ -58,7 +58,7 @@ export async function getKnowledgeBase(): Promise<KnowledgebasePage[]> {
 			sidebar: {
 				order: i,
 			},
-			restricted: doc.restricted ?? "public",
+			visibility: doc.visibility ?? "public",
 		} satisfies KnowledgebasePage
 	}))
 	return knowledgebasePages

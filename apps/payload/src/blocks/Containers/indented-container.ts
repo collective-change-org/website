@@ -1,17 +1,17 @@
 import type { Block } from "payload"
 
-import { AccountBlock } from "../Account"
-import { ButtonBlock } from "../Button"
-import { EmphasizedParagraph } from "../EmphasizedParagraph"
-import { H1Block } from "../Headings/H1"
-import { H2Block } from "../Headings/H2"
-import { HeroBlock } from "../Hero"
-import { LoginBlock } from "../Login"
+import { AccountBlock } from "../account"
+import { ButtonBlock } from "../button"
+import { EmphasizedParagraph } from "../emphasized-paragraph"
+import { H1Block } from "../headings/h1"
+import { H2Block } from "../headings/h2"
+import { HeroBlock } from "../hero"
+import { LoginBlock } from "../login"
 import { ManifestBlock } from "../manifest/config"
 import { MediaBlock } from "../MediaBlock/config"
-import { LargeRichTextBlock } from "../RichText/LargeRichTextBlock"
-import { SignupBlock } from "../Signup"
-import { UpcomingEvents } from "../UpcomingEvents"
+import { LargeRichTextBlock } from "../RichText/large-rich-text-block"
+import { SignupBlock } from "../sign-up"
+import { UpcomingEvents } from "../upcoming-events"
 
 export const IndentedContainer: Block = {
 	slug: "indentedContainer",

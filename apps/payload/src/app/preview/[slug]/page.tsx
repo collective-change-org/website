@@ -2,10 +2,9 @@ import { draftMode } from "next/headers"
 import { notFound } from "next/navigation"
 import { getPayload } from "payload"
 
-import { renderNewsletter } from "@/emails/newsletter"
-
 import { config } from "../../.."
-import { RefreshRouteOnSave } from "./RefreshRouteOnSave"
+import { renderNewsletter } from "../../../emails/newsletter"
+import { RefreshRouteOnSave } from "./refresh-route-on-save"
 
 export default async function Page({
 	params: paramsPromise,

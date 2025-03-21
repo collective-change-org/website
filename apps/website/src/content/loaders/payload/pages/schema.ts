@@ -132,18 +132,21 @@ export const HeadConfigSchema = () =>
 		)
 		.default([]);
 
+export const knowledgebaseSchema = z.object({
+	template: z.literal("doc"),
+	lexical: lexicalRoot,
+	rendered: z.any(),
+	tableOfContents: z.any(),
+	toc: z.any(),
+	visibility: z
+		.union([z.literal("public"), z.literal("crew"), z.literal("team")])
+		.default("public"),
+})
+
+
 export const pagesSchema = docsSchema({
 	extend: z.union([
-		z.object({
-			template: z.literal("doc"),
-			lexical: lexicalRoot,
-			rendered: z.any(),
-			tableOfContents: z.any(),
-			toc: z.any(),
-			restricted: z
-				.union([z.literal("public"), z.literal("members")])
-				.default("public"),
-		}),
+		knowledgebaseSchema,
 		z.object({
 			template: z.literal("splash"),
 			head: HeadConfigSchema(),

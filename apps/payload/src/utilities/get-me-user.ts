@@ -3,7 +3,7 @@ import { redirect } from "next/navigation"
 
 import type { User } from "../payload-types"
 
-import { getClientSideURL } from "./getURL"
+import { getClientSideURL } from "./get-url"
 
 export async function getMeUser(args?: {
 	nullUserRedirect?: string
