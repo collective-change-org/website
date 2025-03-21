@@ -6,18 +6,11 @@ import React, { useCallback } from "react"
 
 import "./index.css"
 
-export default function MyPublishButton(props: PublishButtonClientProps) {
+export default function MyPublishButton(_: PublishButtonClientProps) {
 	const {
-		id,
-		collectionSlug,
-		docConfig,
-		globalSlug,
-		hasPublishedDoc,
-		hasPublishPermission,
 		setHasPublishedDoc,
 		setMostRecentVersionIsAutosaved,
 		setUnpublishedVersionCount,
-		unpublishedVersionCount,
 		uploadStatus,
 	} = useDocumentInfo()
 

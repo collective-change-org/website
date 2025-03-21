@@ -27,7 +27,7 @@ export const Users: CollectionConfig = {
 	},
 	auth: {
 		verify: {
-			generateEmailHTML: async ({ req, token, user }) => {
+			generateEmailHTML: async ({ token }) => {
 				// Use the token provided to allow your user to verify their account
 				const emailHtml = await renderSignup(token)
 

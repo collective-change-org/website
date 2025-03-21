@@ -9,12 +9,12 @@ import {
 	Section,
 	Text,
 } from "@react-email/components"
-import React from "react"
+import React, { Fragment } from "react"
 
 import type { Newsletter } from "../payload-types"
 
-import { EmailButton } from "./Button"
-import { TailwindWrapper } from "./TailwindWrapper"
+import { EmailButton } from "./button"
+import { TailwindWrapper } from "./tailwind-wrapper"
 
 export function renderNewsletter(body: Newsletter["body"], token: string) {
 	return render(<Email body={body} token={token} />)
@@ -35,7 +35,7 @@ type RichTextChildren = {
 export function lexicalToJSX(children: RichTextChildren) {
 	return children.map((child, i) => {
 		if (typeof child !== "object" || !child) {
-			return
+			return null
 		}
 		switch (child.type) {
 			case "paragraph":
@@ -49,10 +49,10 @@ export function lexicalToJSX(children: RichTextChildren) {
 				)
 			case "text":
 				return (
-					<>
+					<Fragment key={i}>
 						{child.text}
 						<br />
-					</>
+					</Fragment>
 				)
 			default:
 				return null

@@ -1,19 +1,15 @@
 import type { Block } from "payload"
 
-import { AccountBlock } from "../Account"
-import { ButtonBlock } from "../Button"
-import { EmphasizedParagraph } from "../EmphasizedParagraph"
-import { H1Block } from "../Headings/H1"
-import { H2Block } from "../Headings/H2"
-import { HeroBlock } from "../Hero"
-import { LoginBlock } from "../Login"
-import { ManifestBlock } from "../Manifest/config"
+import { EmphasizedParagraph } from "../emphasized-paragraph"
+import { H1Block } from "../headings/h1"
+import { H2Block } from "../headings/h2"
+import { ManifestBlock } from "../manifest/config"
 import { MediaBlock } from "../MediaBlock/config"
-import { LargeRichTextBlock } from "../RichText/LargeRichTextBlock"
-import { SignupBlock } from "../Signup"
-import { UpcomingEvents } from "../UpcomingEvents"
-import { ColumnContainerBlock } from "./ColumnContainer"
-import { IndentedContainer } from "./IndentedContainer"
+import { LargeRichTextBlock } from "../RichText/large-rich-text-block"
+import { SignupBlock } from "../sign-up"
+import { UpcomingEvents } from "../upcoming-events"
+import { ColumnContainerBlock } from "./column-container"
+import { IndentedContainer } from "./indented-container"
 
 export const ContainerBlock: Block = {
 	slug: "containerBlock",

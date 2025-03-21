@@ -8,7 +8,7 @@ export function formatSlug(val: string): string {
 }
 
 export function formatSlugHook(fallback: string): FieldHook {
-	return ({ data, operation, originalDoc, value }) => {
+	return ({ data, operation, value }) => {
 		if (typeof value === "string") {
 			return formatSlug(value)
 		}

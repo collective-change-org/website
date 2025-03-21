@@ -9,7 +9,7 @@ import {
 	lexicalEditor,
 } from "@payloadcms/richtext-lexical"
 
-import { ButtonBlock } from "./Button"
+import { ButtonBlock } from "./button"
 import { MediaBlock } from "./MediaBlock/config"
 
 export const HeroBlock: Block = {

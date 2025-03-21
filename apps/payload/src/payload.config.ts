@@ -7,19 +7,17 @@ import sharp from "sharp"
 
 import { Badge } from "./collections/Badge"
 import { Events } from "./collections/Events/config"
-import { Groups } from "./collections/Groups"
 import { Knowledgebase } from "./collections/Knowledgebase"
-import { Media } from "./collections/Media"
 import { Newsletter } from "./collections/Newsletter/config"
 import { NotificationSettings } from "./collections/NotificationSettings/config"
 import { Pages } from "./collections/Pages"
 import { Users } from "./collections/Users"
-import { defaultLexical } from "./fields/defaultLexical"
+import { defaultLexical } from "./fields/default-lexical"
 import { Footer } from "./Footer/config"
 import { Header } from "./Header/config"
 import { migrations } from "./migrations"
 import { plugins } from "./plugins"
-import { getServerSideURL } from "./utilities/getURL"
+import { getServerSideURL } from "./utilities/get-url"
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
