@@ -18,7 +18,7 @@ export const UpcomingEvents: Block = {
 			virtual: true,
 			hooks: {
 				afterRead: [
-					async ({ value, req }) => {
+					async ({ req }) => {
 						// Format date for display
 						const events = await req.payload.find({
 							collection: "events",

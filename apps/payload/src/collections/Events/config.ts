@@ -215,9 +215,6 @@ export const Events: CollectionConfig<"events"> = {
 					req.payload.logger.error("User Canceling Attending Event: Event not found")
 					return new Response("Event not found", { status: 404 })
 				}
-				console.dir(event, {
-					depth: Infinity,
-				})
 
 				const attendees = event.attendees || []
 				const index = attendees.findIndex((attendee) => {

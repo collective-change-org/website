@@ -2,13 +2,14 @@ import type { CollectionConfig } from "payload"
 
 import crypto from "node:crypto"
 
+import { H1Block } from "@/blocks/headings/h1"
+import { H2Block } from "@/blocks/headings/h2"
+import { H3Block } from "@/blocks/headings/h3"
+import { PlainRichTextBlock } from "@/blocks/RichText/plain-rich-text-block"
+
 import type { User } from "../../payload-types"
 
-import { H1Block } from "../../blocks/Headings/H1"
-import { H2Block } from "../../blocks/Headings/H2"
-import { H3Block } from "../../blocks/Headings/H3"
-import { PlainRichTextBlock } from "../../blocks/RichText/PlainRichTextBlock"
-import { sendNewsletter } from "./sendNewsletter"
+import { sendNewsletter } from "./send-newsletter"
 
 export const Newsletter: CollectionConfig<"newsletter"> = {
 	slug: "newsletter",
@@ -91,6 +92,7 @@ export const Newsletter: CollectionConfig<"newsletter"> = {
 					})
 
 					if (subscription.docs.length === 0) {
+						return new Response("Token not found", { status: 404 })
 					}
 					const notificationSetting = subscription.docs[0]
 

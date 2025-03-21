@@ -4,6 +4,7 @@ import React from "react"
 import config from "./tailwind.config"
 
 export function TailwindWrapper(props: { children: React.ReactNode }) {
+	const { children } = props
 	return (
 		<Tailwind config={config}>
 			<Html lang="de" className="bg-[#FFFBED]">
@@ -37,7 +38,7 @@ export function TailwindWrapper(props: { children: React.ReactNode }) {
 					fontWeight={400}
 					fontStyle="normal"
 				/>
-				{props.children}
+				{children}
 			</Html>
 		</Tailwind>
 	)
