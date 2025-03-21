@@ -17,6 +17,10 @@ export default {
 			'8xl': ['96px', { lineHeight: '1' }],
 			'9xl': ['144px', { lineHeight: '1' }],
 		},
+		fontFamily: {
+			poppins: ['Poppins', 'sans-serif'],
+			uncut: ['Uncut', 'sans-serif'],
+		},
 		spacing: {
 			px: '1px',
 			0: '0',
