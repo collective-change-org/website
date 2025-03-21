@@ -5,7 +5,7 @@ import type { MouseEvent } from "react"
 import { Button, FieldLabel, TextInput, useField, useForm, useFormFields } from "@payloadcms/ui"
 import React, { useCallback, useEffect } from "react"
 
-import { formatSlug } from "./formatSlug"
+import { formatSlug } from "./format-slug"
 import "./index.scss"
 
 type SlugComponentProps = {

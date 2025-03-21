@@ -19,15 +19,15 @@ import {
 import type { Group } from "../../payload-types"
 
 import { authenticated } from "../../access/authenticated"
-import { authenticatedOrPublished } from "../../access/authenticatedOrPublished"
+import { authenticatedOrPublished } from "../../access/authenticated-or-published"
 import { Aside } from "../../blocks/Aside/config"
 import { Code } from "../../blocks/Code/config"
-import { LinkCardBlock } from "../../blocks/LinkCard"
+import { LinkCardBlock } from "../../blocks/link-card"
 import { MediaBlock } from "../../blocks/MediaBlock/config"
 import { slugField } from "../../fields/slug"
-import { generatePreviewPath } from "../../utilities/generatePreviewPath"
-import { populateAuthors } from "./hooks/populateAuthors"
-import { revalidateDelete, revalidatePost } from "./hooks/revalidatePost"
+import { generatePreviewPath } from "../../utilities/generate-preview-path"
+import { populateAuthors } from "./hooks/populate-authors"
+import { revalidateDelete, revalidatePost } from "./hooks/revalidate-post"
 
 async function getGroupSlug(groupId: number, payload: Payload): Promise<string | null | undefined> {
 	const group = await payload.findByID({

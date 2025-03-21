@@ -9,12 +9,12 @@ import {
 } from "@payloadcms/plugin-seo/fields"
 
 import { authenticated } from "../../access/authenticated"
-import { authenticatedOrPublished } from "../../access/authenticatedOrPublished"
-import { ContainerBlock } from "../../blocks/Containers/Container"
+import { authenticatedOrPublished } from "../../access/authenticated-or-published"
+import { ContainerBlock } from "../../blocks/Containers/container"
 import { slugField } from "../../fields/slug"
-import { populatePublishedAt } from "../../hooks/populatePublishedAt"
-import { generatePreviewPath } from "../../utilities/generatePreviewPath"
-import { revalidatePage } from "./hooks/revalidatePage"
+import { populatePublishedAt } from "../../hooks/populate-published-at"
+import { generatePreviewPath } from "../../utilities/generate-preview-path"
+import { revalidatePage } from "./hooks/revalidate-page"
 
 export const Pages: CollectionConfig<"pages"> = {
 	slug: "pages",
