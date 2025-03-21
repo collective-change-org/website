@@ -94,7 +94,7 @@ export const Knowledgebase: CollectionConfig<"knowledgebase"> = {
 			fields: [
 				...slugField(),
 				{
-					name: "restricted",
+					name: "visibility",
 					type: "select",
 					options: [
 						{
@@ -102,8 +102,12 @@ export const Knowledgebase: CollectionConfig<"knowledgebase"> = {
 							value: "public",
 						},
 						{
-							label: "Members Only",
-							value: "members",
+							label: "Crew Only",
+							value: "crew",
+						},
+						{
+							label: "Team Only",
+							value: "team",
 						},
 					],
 					admin: {

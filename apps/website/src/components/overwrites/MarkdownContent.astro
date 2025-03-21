@@ -46,7 +46,7 @@ if (page.template === "splash") {
 														: "white"
 												}
 												class={cn(
-													"full-bleed default-layout group gap-x-4 lg:gap-y-[9rem] md:gap-y-[7rem] gap-y-[4.5rem]  py-16",
+													"full-bleed default-layout group gap-x-4 gap-y-[4.5rem] py-16 md:gap-y-[7rem] lg:gap-y-[9rem]",
 													i === 0 && "y-offset-hack",
 													page.layout.length === 1 &&
 														"min-h-screen",
@@ -73,12 +73,19 @@ if (page.template === "splash") {
 								}
 							})
 						case "doc":
-							return page.restricted !== "public" ? (
+							return page.visibility !== "public" ? (
 								<RestrictedRenderer
 									server:defer
+									visibility={page.visibility}
 									redirect={encodeURIComponent(
 										Astro.url.pathname,
 									)}>
+									<h1 class="typestyle-h4 text-green-black">
+										{
+											Astro.locals.starlightRoute.entry
+												.data.title
+										}
+									</h1>
 									<LexicalRenderer
 										children={page.lexical.children}
 									/>

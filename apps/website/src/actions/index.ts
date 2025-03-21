@@ -4,6 +4,7 @@ import { CMS_URL } from "astro:env/client"
 import { authenticatePayload } from "../content/loaders/payload/authenticate"
 
 export type User = {
+	role: "crew" | "team" | "admin"
 	id: number
 	name: string
 	email: string
