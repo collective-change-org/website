@@ -1,9 +1,11 @@
 import type { CollectionConfig } from "payload"
 
+import { z } from "zod"
+
+import type { User } from "../../payload-types"
+
 import { authenticated } from "../../access/authenticated"
 import { renderSignup } from "../../emails/signup"
-import { z } from "zod"
-import { User } from "../../payload-types"
 
 const modifySchema = z.object({
 	name: z.string().optional(),
@@ -25,7 +27,7 @@ export const Users: CollectionConfig = {
 	},
 	auth: {
 		verify: {
-			generateEmailHTML: async ({ req, token, user }) => {
+			generateEmailHTML: async ({ token }) => {
 				// Use the token provided to allow your user to verify their account
 				const emailHtml = await renderSignup(token)
 
@@ -74,7 +76,7 @@ export const Users: CollectionConfig = {
 				}
 
 				const user = await req.payload.findByID({
-					id: id,
+					id,
 					collection: "users",
 				})
 
@@ -101,7 +103,7 @@ export const Users: CollectionConfig = {
 				}
 
 				req.payload.update({
-					id: id,
+					id,
 					collection: "users",
 					data: updateData,
 				})

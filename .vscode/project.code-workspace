@@ -1,0 +1,17 @@
+{
+	"folders": [
+		{
+			"name": "ROOT",
+			"path": "../",
+		},
+		{
+			"name": "payload",
+			"path": "../apps/payload",
+		},
+		{
+			"name": "website",
+			"path": "../apps/website",
+		},
+	],
+	"settings": {},
+}

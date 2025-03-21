@@ -1,16 +1,17 @@
-import React from 'react'
 import {
-	Img,
-	Section,
-	Container,
 	Column,
-	Row,
-	Text,
+	Container,
 	Heading,
+	Img,
 	render,
-} from '@react-email/components'
-import { EmailButton } from './Button'
-import { TailwindWrapper } from './TailwindWrapper'
+	Row,
+	Section,
+	Text,
+} from "@react-email/components"
+import React from "react"
+
+import { EmailButton } from "./Button"
+import { TailwindWrapper } from "./TailwindWrapper"
 
 export const renderSignup = (token: string) => render(<Email token={token} />)
 
