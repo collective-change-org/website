@@ -54,6 +54,7 @@ export type SupportedTimezones =
   | 'Asia/Singapore'
   | 'Asia/Tokyo'
   | 'Asia/Seoul'
+  | 'Australia/Brisbane'
   | 'Australia/Sydney'
   | 'Pacific/Guam'
   | 'Pacific/Noumea'
@@ -753,9 +754,10 @@ export interface User {
   role?: ('admin' | 'team' | 'crew') | null;
   profileImage?: (number | null) | Media;
   notificationSettings?: {
-    docs?: (number | NotificationSetting)[] | null;
-    hasNextPage?: boolean | null;
-  } | null;
+    docs?: (number | NotificationSetting)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
   updatedAt: string;
   createdAt: string;
   email: string;
