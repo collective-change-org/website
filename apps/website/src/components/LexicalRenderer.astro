@@ -107,6 +107,8 @@ const { children } = Astro.props
 						<Astro.self children={child.children} />
 					</p>
 				)
+			case "tab":
+				return <span class="tab ml-4" />
 			case "block":
 				switch (child.fields.blockType) {
 					case "code":
