@@ -34,6 +34,10 @@ export default function SignUpForm() {
 			// Get After-Login Actions from Cookie
 			const afterLoginAction = localStorage.getItem("afterLoginAction")
 
+			// Get Redirect Search Params
+			const urlParams = new URLSearchParams(window.location.search)
+			const redirect = urlParams.get("redirect")
+
 			let redirectPath = "/"
 			// const redirectPath = `${redirect || "/"}${participate ? `?participate=${participate}` : ""}`
 
@@ -51,6 +55,8 @@ export default function SignUpForm() {
 				}
 				redirectPath = `${redirectPath}?${urlParams.toString()}`
 				localStorage.removeItem("afterLoginAction")
+			} else if (redirect) {
+				redirectPath = redirect
 			}
 
 			navigate(redirectPath)
