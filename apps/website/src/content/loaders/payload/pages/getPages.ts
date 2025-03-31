@@ -48,6 +48,13 @@ export async function getPages(): Promise<Page[]> {
             content: doc.meta.description,
           },
         });
+        head.push({
+          tag: "meta",
+          attrs: {
+            property: "og:description",
+            content: doc.meta.description,
+          },
+        });
       }
       if (
         doc.meta?.image && typeof doc.meta.image !== "number" &&

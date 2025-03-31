@@ -61,7 +61,7 @@ export default defineConfig({
 		}),
 		icon(),
 	],
-	site: "https://changecollective.woven.design",
+	site: "https://collective-change.de",
 	experimental: {
 		svg: true,
 	},
