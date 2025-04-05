@@ -32,7 +32,7 @@ const { sublist, nested } = Astro.props
 						aria-current={entry.isCurrent && "page"}
 						class:list={[{ large: !nested }, entry.attrs.class]}
 						{...entry.attrs}>
-						<span class="typestyle-text-m">{entry.label}</span>
+						<span class="typestyle-text-s">{entry.label}</span>
 						{entry.badge && (
 							<Badge
 								variant={entry.badge.variant}
@@ -51,7 +51,7 @@ const { sublist, nested } = Astro.props
 						<SidebarRestorePoint />
 						<summary>
 							<div class="group-label">
-								<span class="typestyle-text-m !font-bold">
+								<span class="typestyle-text-s !font-bold">
 									{entry.label}
 								</span>
 								{entry.badge && (
