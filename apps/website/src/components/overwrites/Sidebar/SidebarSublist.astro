@@ -30,7 +30,7 @@ const { sublist, nested } = Astro.props
 					<a
 						href={entry.href}
 						aria-current={entry.isCurrent && "page"}
-						class:list={[{ large: !nested }, entry.attrs.class]}
+						class:list={[{ large: !nested }, entry.attrs.class,"hover:bg-pink-dark hover:text-off-white"]}
 						{...entry.attrs}>
 						<span class="typestyle-text-s">{entry.label}</span>
 						{entry.badge && (
@@ -50,8 +50,8 @@ const { sublist, nested } = Astro.props
 						}>
 						<SidebarRestorePoint />
 						<summary>
-							<div class="group-label">
-								<span class="typestyle-text-s !font-bold">
+							<div class="group-label py-2">
+								<span class="typestyle-text-m !font-bold">
 									{entry.label}
 								</span>
 								{entry.badge && (

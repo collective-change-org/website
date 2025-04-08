@@ -26,19 +26,19 @@ const { children } = Astro.props
 						)
 					case "h2":
 						return (
-							<h2 class="pt-4 pb-2 typestyle-h5" id={headingToSlug(child.children[0].text)}>
+							<h2 class="pt-12 pb-2 typestyle-h5" id={headingToSlug(child.children[0].text)}>
 								<Astro.self children={child.children} />
 							</h2>
 						)
 					case "h3":
 						return (
-							<h3 class="pt-4 pb-2 typestyle-h6 ">
+							<h3 class="pt-6 pb-2 typestyle-h6 ">
 								<Astro.self children={child.children} />
 							</h3>
 						)
 					case "h4":
 						return (
-							<h4 class="pt-4 font-poppins text-[1.1rem] font-semibold">
+							<h4 class="pt-4 pb-2 font-poppins text-[1.1rem] font-semibold">
 								<Astro.self children={child.children} />
 							</h4>
 						)
