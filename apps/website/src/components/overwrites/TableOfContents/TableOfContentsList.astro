@@ -15,7 +15,7 @@ console.log(toc)
 	{
 		toc.map((heading) => (
 			<li>
-				<a class="typestyle-text-s" href={"#" + heading.slug}>
+				<a class="typestyle-text-s hover:bg-pink-dark hover:text-off-white" href={"#" + heading.slug}>
 					<span>{heading.text}</span>
 				</a>
 				{heading.children.length > 0 && (
