@@ -30,7 +30,7 @@ const { sublist, nested } = Astro.props
 					<a
 						href={entry.href}
 						aria-current={entry.isCurrent && "page"}
-						class:list={[{ large: !nested }, entry.attrs.class]}
+						class:list={[{ large: !nested }, entry.attrs.class,"hover:bg-pink-dark hover:text-off-white"]}
 						{...entry.attrs}>
 						<span class="typestyle-text-s">{entry.label}</span>
 						{entry.badge && (
