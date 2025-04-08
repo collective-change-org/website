@@ -28,13 +28,14 @@ export default {
 			},
 			pink: {
 				light: "#FCCDFF",
+				dark: "#CB3DD3",
 			},
 			red: {
 				light: "#F65917",
 			},
 			beige: {
 				100: "#FFFBED",
-			}
+			},
 		},
 		extend: {
 			backgroundSize: {
@@ -48,7 +49,12 @@ export default {
 			},
 			fontFamily: {
 				// Your preferred text font. Starlight uses a system font stack by default.
-				sans: ["Uncut", "Adjusted Arial Fallback", "Arial", "sans-serif"],
+				sans: [
+					"Uncut",
+					"Adjusted Arial Fallback",
+					"Arial",
+					"sans-serif",
+				],
 				poppins: ["Poppins", "sans-serif"],
 				// Your preferred code font. Starlight uses system monospace fonts by default.
 				// mono: ['"IBM Plex Mono"'],

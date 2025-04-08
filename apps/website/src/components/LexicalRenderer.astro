@@ -26,19 +26,19 @@ const { children } = Astro.props
 						)
 					case "h2":
 						return (
-							<h2 id={headingToSlug(child.children[0].text)}>
+							<h2 class="pt-4 pb-2 typestyle-h5" id={headingToSlug(child.children[0].text)}>
 								<Astro.self children={child.children} />
 							</h2>
 						)
 					case "h3":
 						return (
-							<h3>
+							<h3 class="pt-4 pb-2 typestyle-h6 ">
 								<Astro.self children={child.children} />
 							</h3>
 						)
 					case "h4":
 						return (
-							<h4>
+							<h4 class="pt-4 font-poppins text-[1.1rem] font-semibold">
 								<Astro.self children={child.children} />
 							</h4>
 						)
@@ -79,14 +79,14 @@ const { children } = Astro.props
 								target={
 									child.fields.newTab ? "_blank" : "_self"
 								}
-								class="text-red-400">
+								class="text-pink-dark">
 								<Astro.self children={child.children} />
 							</a>
 						)
 					case "custom":
 						return (
 							<a
-								class="text-red-400"
+								class="text-pink-dark"
 								href={child.fields.url}
 								target={
 									child.fields.newTab ? "_blank" : "_self"
@@ -104,12 +104,14 @@ const { children } = Astro.props
 				return <br />
 			case "paragraph":
 				return (
-					<p>
+					<p class="pb-2">
 						<Astro.self children={child.children} />
 					</p>
 				)
 			case "tab":
 				return <span class="tab ml-4" />
+			case "horizontalrule":
+				return <hr class="h-[1px] bg-green-lightest my-6"/>
 			case "block":
 				switch (child.fields.blockType) {
 					case "code":
@@ -129,15 +131,17 @@ const { children } = Astro.props
 						)
 					case "aside":
 						return (
-							<Aside
-								type={child.fields.type}
-								title={child.fields.title}>
-								<Astro.self
-									children={
-										child.fields.content.root.children
-									}
-								/>
-							</Aside>
+							<div class="my-2">
+								<Aside
+									type={child.fields.type}
+									title={child.fields.title}>
+									<Astro.self
+										children={
+											child.fields.content.root.children
+										}
+									/>
+								</Aside>
+							</div>
 						)
 					// case "buttonBlock":
 					// 	let url

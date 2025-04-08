@@ -15,7 +15,7 @@ console.log(toc)
 	{
 		toc.map((heading) => (
 			<li>
-				<a href={"#" + heading.slug}>
+				<a class="typestyle-text-s" href={"#" + heading.slug}>
 					<span>{heading.text}</span>
 				</a>
 				{heading.children.length > 0 && (
@@ -39,10 +39,11 @@ console.log(toc)
 		--pad-inline: 0.5rem;
 		display: block;
 		border-radius: 0.25rem;
-		padding-block: 0.25rem;
+		padding-block: 0.125rem;
 		padding-inline: calc(1rem * var(--depth) + var(--pad-inline))
 			var(--pad-inline);
-		line-height: 1.25;
+		line-heigtypestyle-h6ht: 1.25;
+		@apply text-sm
 	}
 	a[aria-current="true"] {
 		@apply bg-pink-light;

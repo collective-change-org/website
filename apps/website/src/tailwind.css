@@ -36,33 +36,41 @@
 	}
 
 	.typestyle-hero-h1 {
-		@apply hyphens-auto text-balance font-poppins text-[15svw] font-black uppercase leading-none lg:text-[12svw];
+		@apply hyphens-auto text-balance font-poppins text-[15svw] font-black
+			uppercase leading-none lg:text-[12svw];
 	}
 	.typestyle-h1 {
-		@apply hyphens-auto text-balance font-poppins text-[12svw] font-black uppercase leading-none lg:text-[10svw];
+		@apply hyphens-auto text-balance font-poppins text-[12svw] font-black
+			uppercase leading-none lg:text-[10svw];
 	}
 	.typestyle-hero-p {
-		@apply hyphens-auto text-balance font-sans text-[1.5rem] font-semibold leading-[1.35] lg:text-[2.25rem] lg:leading-[1.25];
+		@apply hyphens-auto text-balance font-sans text-[1.5rem] font-semibold
+			leading-[1.35] lg:text-[2.25rem] lg:leading-[1.25];
 	}
 
 	.typestyle-h2 {
-		@apply hyphens-auto text-balance font-poppins text-[12svw] font-black uppercase leading-none lg:text-[9svw];
+		@apply hyphens-auto text-balance font-poppins text-[12svw] font-black
+			uppercase leading-none lg:text-[9svw];
 	}
 
 	.typestyle-h3 {
-		@apply hyphens-auto text-balance font-poppins text-[2.5rem] font-black uppercase leading-none lg:text-[3.5rem] lg:leading-[1.25];
+		@apply hyphens-auto text-balance font-poppins text-[2.5rem] font-black
+			uppercase leading-none lg:text-[3.5rem] lg:leading-[1.25];
 	}
 
 	.typestyle-h4 {
-		@apply hyphens-auto text-balance font-poppins text-[2rem] font-bold leading-none lg:text-[2.625rem] lg:leading-[1.2];
+		@apply hyphens-auto text-balance font-poppins text-[2rem] font-bold
+			leading-none lg:text-[2.625rem] lg:leading-[1.2];
 	}
 
 	.typestyle-h5 {
-		@apply hyphens-auto text-balance font-poppins text-[1.5rem] font-bold leading-none lg:text-[2rem] lg:leading-[1.2];
+		@apply hyphens-auto text-balance font-poppins text-[1.5rem] font-bold
+			leading-none lg:text-[2rem] lg:leading-[1.2];
 	}
 
 	.typestyle-h6 {
-		@apply hyphens-auto text-balance font-poppins text-[1.25rem] font-semibold leading-none lg:text-[1.5rem] lg:leading-[1.2];
+		@apply hyphens-auto text-balance font-poppins text-[1.25rem]
+			font-semibold leading-none lg:text-[1.5rem] lg:leading-[1.2];
 	}
 
 	.typestyle-text-l {
@@ -70,7 +78,7 @@
 	}
 
 	.typestyle-text-m {
-		@apply hyphens-auto text-balance font-sans text-[1.25rem] font-normal leading-[1.4];
+		@apply hyphens-auto text-balance font-sans text-[1.25rem] leading-[1.4];
 	}
 
 	.typestyle-text-s {
@@ -78,7 +86,46 @@
 	}
 
 	.typestyle-text-xs {
-		@apply hyphens-auto text-balance font-sans text-[0.8125rem] leading-[1.4];
+		@apply hyphens-auto text-balance font-sans text-[0.8125rem]
+			leading-[1.4];
+	}
+}
+
+@layer components {
+	:global(.sl-markdown-content aside[class*="note"]) {
+		background-color: #005244 !important;
+		border-left: 4px solid #00382e !important;
+		padding: 1rem !important;
+		margin: 1rem 0 !important;
+		border-radius: 0.5rem !important;
+		color: white !important;
+	}
+
+	:global(.sl-markdown-content aside[class*="tip"]) {
+		background-color: #cb3dd3 !important;
+		border-left: 4px solid #f1c6f4 !important;
+		padding: 1rem !important;
+		margin: 1rem 0 !important;
+		border-radius: 0.5rem !important;
+		color: white !important;
+	}
+
+	:global(.sl-markdown-content aside[class*="warning"]) {
+		background-color: #f65917 !important;
+		border-left: 4px solid #ff9c55 !important;
+		padding: 1rem !important;
+		margin: 1rem 0 !important;
+		border-radius: 0.5rem !important;
+		color: white !important;
+	}
+
+	:global(.sl-markdown-content aside[class*="danger"]) {
+		background-color: #f65917 !important;
+		border-left: 4px solid #ff9c55 !important;
+		padding: 1rem !important;
+		margin: 1rem 0 !important;
+		border-radius: 0.5rem !important;
+		color: white !important;
 	}
 }
 

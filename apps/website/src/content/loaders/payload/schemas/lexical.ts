@@ -1,6 +1,5 @@
-import { z } from "astro:schema"
-import { blockBanner, blockCode, lexicalBlock } from "./lexicalBlocks"
-
+import { z } from "astro:schema";
+import { blockBanner, blockCode, lexicalBlock } from "./lexicalBlocks";
 
 const lexicalText = z.object({
 	version: z.number(),
@@ -9,9 +8,9 @@ const lexicalText = z.object({
 	mode: z.string(),
 	style: z.string(),
 	format: z.number(),
-})
+});
 
-export type LexicalText = z.infer<typeof lexicalText>
+export type LexicalText = z.infer<typeof lexicalText>;
 
 const internalLink = z.object({
 	linkType: z.literal("internal"),
@@ -22,34 +21,36 @@ const internalLink = z.object({
 		}),
 		relationTo: z.union([z.literal("knowledgebase"), z.literal("page")]),
 	}),
-})
+});
 
 export const externalLink = z.object({
 	linkType: z.literal("custom"),
 	newTab: z.boolean(),
 	url: z.string(),
-})
+});
 
 const lexicalInlineLink = z.object({
 	version: z.number(),
 	type: z.literal("link"),
 	fields: z.union([internalLink, externalLink]),
 	children: z.array(lexicalText),
-})
+});
 
 const lexicalLinebreak = z.object({
 	type: z.literal("linebreak"),
-})
+});
 
 const lexicalTab = z.object({
 	type: z.literal("tab"),
-})
+});
 
 const lexicalParagraph = z.object({
 	version: z.number(),
 	type: z.literal("paragraph"),
-	children: z.array(z.union([lexicalText, lexicalInlineLink, lexicalLinebreak, lexicalTab])),
-})
+	children: z.array(
+		z.union([lexicalText, lexicalInlineLink, lexicalLinebreak, lexicalTab]),
+	),
+});
 
 const lexicalHeading = z.object({
 	version: z.number(),
@@ -62,7 +63,11 @@ const lexicalHeading = z.object({
 		z.literal("h4"),
 	]),
 	children: z.array(lexicalText),
-})
+});
+
+const lexicalHorizontalrule = z.object({
+	type: z.literal("horizontalrule"),
+});
 
 const lexicalComponents = z.union([
 	lexicalParagraph,
@@ -71,20 +76,21 @@ const lexicalComponents = z.union([
 	lexicalBlock,
 	lexicalHeading,
 	lexicalLinebreak,
-	lexicalTab
-])
+	lexicalTab,
+	lexicalHorizontalrule,
+]);
 
-export type LexicalComponents = z.infer<typeof lexicalComponents>
+export type LexicalComponents = z.infer<typeof lexicalComponents>;
 
 export const lexicalRoot = z.object({
 	version: z.number(),
 	type: z.literal("root"),
 	children: z.array(lexicalComponents),
-})
+});
 
 export const lexicalRootContainer = z.object({
 	root: lexicalRoot,
-})
+});
 
-export type LexicalRoot = z.infer<typeof lexicalRoot>
-export type LexicalRootContainer = z.infer<typeof lexicalRootContainer>
+export type LexicalRoot = z.infer<typeof lexicalRoot>;
+export type LexicalRootContainer = z.infer<typeof lexicalRootContainer>;
