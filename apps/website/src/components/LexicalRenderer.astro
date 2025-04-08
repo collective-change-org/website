@@ -16,6 +16,7 @@ const { children } = Astro.props
 	children.map((child) => {
 		switch (child.type) {
 			case "heading":
+				if (!child.children || child.children.length === 0) return null
 				switch (child.tag) {
 					case "h1":
 						return (
