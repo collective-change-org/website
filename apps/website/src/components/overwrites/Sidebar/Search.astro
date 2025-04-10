@@ -219,20 +219,18 @@ const dataAttributes: DOMStringMap = {
 
 	dialog {
 		margin: 0;
-		background-color: var(--sl-color-gray-6);
-		border: 1px solid var(--sl-color-gray-5);
+		background-color: #FFFBED;
 		width: 100%;
 		max-width: 100%;
 		height: 100%;
 		max-height: 100%;
-		box-shadow: var(--sl-shadow-lg);
 	}
 	dialog[open] {
 		display: flex;
 	}
 
 	dialog::backdrop {
-		background-color: var(--sl-color-backdrop-overlay);
+		background-color: rgba(0, 0, 0, 0.5);
 		-webkit-backdrop-filter: blur(0.25rem);
 		backdrop-filter: blur(0.25rem);
 	}
@@ -260,12 +258,10 @@ const dataAttributes: DOMStringMap = {
 	}
 
 	#starlight__search {
-		--pagefind-ui-primary: var(--sl-color-text);
-		--pagefind-ui-text: var(--sl-color-gray-2);
+		--pagefind-ui-primary: #001A15;
+		--pagefind-ui-text: #002922;
 		--pagefind-ui-font: var(--__sl-font);
-		--pagefind-ui-background: var(--sl-color-black);
-		--pagefind-ui-border: var(--sl-color-gray-5);
-		--pagefind-ui-border-width: 1px;
+		--pagefind-ui-background: #FFFEFA;
 		--pagefind-ui-tag: var(--sl-color-gray-5);
 		--sl-search-cancel-space: 5rem;
 	}
@@ -339,21 +335,27 @@ const dataAttributes: DOMStringMap = {
 	}
 
 	#starlight__search .pagefind-ui__search-input {
-		color: var(--sl-color-white);
+		@apply text-green-black bg-off-white;
 		font-weight: 400;
 		width: calc(100% - var(--sl-search-cancel-space));
+		padding: 8px 16px;
+		border-radius: 999px;
+		border: #005244 solid 2px;
 	}
 
 	#starlight__search input:focus {
-		--pagefind-ui-border: var(--sl-color-accent);
+		--pagefind-ui-border: #001A15;
 	}
 
 	#starlight__search .pagefind-ui__search-clear {
 		inset-inline-end: var(--sl-search-cancel-space);
 		width: calc(60px * var(--pagefind-ui-scale));
-		padding: 0;
+		padding: 4px 16px;
 		background-color: transparent;
 		overflow: hidden;
+		@apply text-green-black;
+		text-decoration: underline;
+		cursor: pointer;
 	}
 	#starlight__search .pagefind-ui__search-clear:focus {
 		outline: 1px solid var(--sl-color-accent);
@@ -364,7 +366,7 @@ const dataAttributes: DOMStringMap = {
 			center / 50% no-repeat;
 		mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='m13.41 12 6.3-6.29a1 1 0 1 0-1.42-1.42L12 10.59l-6.29-6.3a1 1 0 0 0-1.42 1.42l6.3 6.29-6.3 6.29a1 1 0 0 0 .33 1.64 1 1 0 0 0 1.09-.22l6.29-6.3 6.29 6.3a1 1 0 0 0 1.64-.33 1 1 0 0 0-.22-1.09L13.41 12Z'/%3E%3C/svg%3E")
 			center / 50% no-repeat;
-		background-color: var(--sl-color-text-accent);
+		background-color: #FCCDFF;
 		display: block;
 		width: 100%;
 		height: 100%;
@@ -389,7 +391,8 @@ const dataAttributes: DOMStringMap = {
 		.pagefind-ui__result-title:not(:where(.pagefind-ui__result-nested *)),
 	#starlight__search .pagefind-ui__result-nested {
 		position: relative;
-		background-color: var(--sl-color-black);
+		padding: 16px;
+		@apply hover:bg-pink-light typestyle-text-m text-green-black no-underline;
 	}
 
 	#starlight__search
@@ -402,7 +405,7 @@ const dataAttributes: DOMStringMap = {
 		):focus-within,
 	#starlight__search .pagefind-ui__result-nested:hover,
 	#starlight__search .pagefind-ui__result-nested:focus-within {
-		outline: 1px solid var(--sl-color-accent-high);
+		outline: 2px solid #005244;
 	}
 
 	#starlight__search
@@ -438,7 +441,7 @@ const dataAttributes: DOMStringMap = {
 		inset-block: 0;
 		inset-inline-start: var(--sl-search-page-icon-inline-start);
 		width: var(--sl-search-page-icon-size);
-		background: var(--sl-color-gray-3);
+		@apply text-green-black;
 		-webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='currentColor' viewBox='0 0 24 24'%3E%3Cpath d='M9 10h1a1 1 0 1 0 0-2H9a1 1 0 0 0 0 2Zm0 2a1 1 0 0 0 0 2h6a1 1 0 0 0 0-2H9Zm11-3V8l-6-6a1 1 0 0 0-1 0H7a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V9Zm-6-4 3 3h-2a1 1 0 0 1-1-1V5Zm4 14a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h5v3a3 3 0 0 0 3 3h3v9Zm-3-3H9a1 1 0 0 0 0 2h6a1 1 0 0 0 0-2Z'/%3E%3C/svg%3E")
 			center no-repeat;
 		mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='currentColor' viewBox='0 0 24 24'%3E%3Cpath d='M9 10h1a1 1 0 1 0 0-2H9a1 1 0 0 0 0 2Zm0 2a1 1 0 0 0 0 2h6a1 1 0 0 0 0-2H9Zm11-3V8l-6-6a1 1 0 0 0-1 0H7a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V9Zm-6-4 3 3h-2a1 1 0 0 1-1-1V5Zm4 14a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h5v3a3 3 0 0 0 3 3h3v9Zm-3-3H9a1 1 0 0 0 0 2h6a1 1 0 0 0 0-2Z'/%3E%3C/svg%3E")
@@ -452,12 +455,16 @@ const dataAttributes: DOMStringMap = {
 
 	#starlight__search .pagefind-ui__result-link {
 		position: unset;
-		--pagefind-ui-text: var(--sl-color-white);
+		--pagefind-ui-text: #001A15;
 		font-weight: 600;
+		@apply text-green-black;
+		padding: 0 16px;
+		text-decoration: none;
 	}
 
 	#starlight__search .pagefind-ui__result-link:hover {
 		text-decoration: none;
+		font-weight: 600;
 	}
 
 	#starlight__search
@@ -472,7 +479,7 @@ const dataAttributes: DOMStringMap = {
 		inset-block: 0;
 		inset-inline-start: var(--sl-search-tree-diagram-inline-start);
 		width: var(--sl-search-tree-diagram-size);
-		background: var(--sl-color-gray-4);
+		@apply text-green-black;
 		-webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' stroke='currentColor' stroke-linecap='round' viewBox='0 0 16 1000' preserveAspectRatio='xMinYMin slice'%3E%3Cpath d='M8 0v1000m6-988H8'/%3E%3C/svg%3E")
 			0% 0% / 100% no-repeat;
 		mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' stroke='currentColor' stroke-linecap='round' viewBox='0 0 16 1000' preserveAspectRatio='xMinYMin slice'%3E%3Cpath d='M8 0v1000m6-988H8'/%3E%3C/svg%3E")
@@ -496,13 +503,13 @@ const dataAttributes: DOMStringMap = {
 	}
 
 	#starlight__search .pagefind-ui__result-excerpt {
-		font-size: calc(1rem * var(--pagefind-ui-scale));
+		@apply text-green-black typestyle-text-s font-bold;
 		overflow-wrap: anywhere;
+		font-weight: 400
 	}
 
 	#starlight__search mark {
-		color: var(--sl-color-gray-2);
-		background-color: transparent;
+		@apply text-green-black bg-pink-light;
 		font-weight: 600;
 	}
 
@@ -516,4 +523,31 @@ const dataAttributes: DOMStringMap = {
 		padding: var(--sl-search-result-nested-pad-block)
 			var(--sl-search-result-pad-inline-end);
 	}
+
+	#starlight__search .pagefind-ui__message {
+		@apply text-green-black;
+		padding: 8px 16px;
+	}
+
+	#starlight__search .pagefind-ui__result-link::before {
+		@apply text-green-black;
+	}
+		
+	#starlight__search ol {
+		padding: 0;
+		text-decoration: none;
+	}
+
+	#starlight__search li {
+		padding: 16px;
+		border: rgba(0, 0, 0, 0.2s);
+		/* @apply bg-off-white */
+	}
+
+	#starlight__search li::before {
+		@apply text-green-black;
+		opacity: 1 !important;
+		padding: 4px 16px;
+	}
+
 </style>

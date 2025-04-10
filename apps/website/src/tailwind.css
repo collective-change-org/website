@@ -163,6 +163,10 @@ body {
 	/* background-color: #ceb2d7; */
 }
 
+::selection {
+	background-color: #fccdff;
+}
+
 input[type="radio"] {
 	appearance: none;
 	margin: 0;
