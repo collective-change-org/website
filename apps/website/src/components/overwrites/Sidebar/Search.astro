@@ -277,7 +277,6 @@ const dataAttributes: DOMStringMap = {
 
 		dialog {
 			margin: 4rem auto auto;
-			border-radius: 0.5rem;
 			width: 90%;
 			max-width: 40rem;
 			height: max-content;
@@ -405,7 +404,7 @@ const dataAttributes: DOMStringMap = {
 		):focus-within,
 	#starlight__search .pagefind-ui__result-nested:hover,
 	#starlight__search .pagefind-ui__result-nested:focus-within {
-		outline: 2px solid #005244;
+		/* outline: 2px solid #005244; */
 	}
 
 	#starlight__search
@@ -526,7 +525,7 @@ const dataAttributes: DOMStringMap = {
 
 	#starlight__search .pagefind-ui__message {
 		@apply text-green-black;
-		padding: 8px 16px;
+		padding: 8px 16px 8px 16px;
 	}
 
 	#starlight__search .pagefind-ui__result-link::before {
@@ -548,6 +547,7 @@ const dataAttributes: DOMStringMap = {
 		@apply text-green-black;
 		opacity: 1 !important;
 		padding: 4px 16px;
+		display: none;
 	}
 
 </style>
