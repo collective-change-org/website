@@ -6,6 +6,7 @@ import SidebarSublist from "./SidebarSublist.astro"
 import type { SidebarEntry } from "@website/src/content/loaders/payload/getSidebar"
 import MobileMenuFooter from "./MobileMenuFooter.astro"
 import Search from "./Search.astro"
+import { Icon } from "astro-icon/components"
 
 const { slug } = Astro.params
 
@@ -33,7 +34,9 @@ Astro.locals.starlightRoute.sidebar = sidebar
 ---
 
 <SidebarPersister>
-	<a class="md:sl-hidden" href="/"> Wissensdatenbank verlassen </a>
+	<a class="flex gap-1 pr-2 justify-center text-green-black self-start hover:bg-pink-dark hover:text-off-white rounded-sm" href="/"> 
+		<Icon class="mt-1" name="ph:caret-left" size={20} />
+		Wissensdatenbank verlassen </a>
 	<Search />
 	<SidebarSublist sublist={sidebar} />
 </SidebarPersister>

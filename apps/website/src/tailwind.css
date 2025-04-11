@@ -37,11 +37,11 @@
 
 	.typestyle-hero-h1 {
 		@apply hyphens-auto text-balance font-poppins text-[15svw] font-black
-			uppercase leading-none lg:text-[12svw];
+			uppercase leading-none lg:text-[12svw] xl:text-[11rem];
 	}
 	.typestyle-h1 {
 		@apply hyphens-auto text-balance font-poppins text-[12svw] font-black
-			uppercase leading-none lg:text-[10svw];
+			uppercase leading-none lg:text-[10svw] xl:text-[10rem];
 	}
 	.typestyle-hero-p {
 		@apply hyphens-auto text-balance font-sans text-[1.5rem] font-semibold
@@ -50,7 +50,7 @@
 
 	.typestyle-h2 {
 		@apply hyphens-auto text-balance font-poppins text-[12svw] font-black
-			uppercase leading-none lg:text-[9svw];
+			uppercase leading-none lg:text-[9svw] xl:text-[9rem];
 	}
 
 	.typestyle-h3 {
@@ -161,6 +161,10 @@ body {
 	/* nur zum testen: */
 	background-color: #002922;
 	/* background-color: #ceb2d7; */
+}
+
+::selection {
+	background-color: #fccdff;
 }
 
 input[type="radio"] {

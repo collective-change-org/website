@@ -80,7 +80,7 @@ if (page.template === "splash") {
 									redirect={encodeURIComponent(
 										Astro.url.pathname,
 									)}>
-									<h1 class="typestyle-h4 text-green-black pb-4">
+									<h1 class="typestyle-h4 text-green-black pb-4 lg:pt-4 pt-8">
 										{
 											Astro.locals.starlightRoute.entry
 												.data.title
@@ -92,7 +92,7 @@ if (page.template === "splash") {
 								</RestrictedRenderer>
 							) : (
 								<>
-									<h1 class="typestyle-h4 text-green-black  pb-4">
+									<h1 class="typestyle-h4 text-green-black pb-4 lg:pt-4 pt-8">
 										{
 											Astro.locals.starlightRoute.entry
 												.data.title

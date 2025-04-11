@@ -14,12 +14,12 @@ const { toc } = Astro.props
 		<mobile-starlight-toc
 			data-min-h={toc.minHeadingLevel}
 			data-max-h={toc.maxHeadingLevel}>
-			<nav class="bg-beige-100 fixed inset-x-0 top-[calc(var(--sl-nav-height)_-_1px)] z-[var(--sl-z-index-toc)] md:left-[var(--sl-content-inline-start,0)]">
+			<nav class="bg-beige-100 fixed inset-x-0 top-[calc(var(--sl-nav-height)_-_1px)] z-[var(--sl-z-index-toc)] md:left-[var(--sl-content-inline-start,0)] pb-4">
 				<details id="starlight__mobile-toc">
 					<summary
 						id="starlight__on-this-page--mobile"
 						class="flex h-[var(--sl-mobile-toc-height)] items-center gap-2 p-4 text-[var(--sl-text-xs)] outline-offset-[var(--sl-outline-offset-inside)] [&::-webkit-details-marker]:hidden [&::marker]:hidden">
-						<div class="toggle flex shrink-0 cursor-pointer select-none items-center justify-between gap-4 rounded-lg border border-[var(--sl-color-gray-5)] bg-green-lighter py-2 pl-3 pr-2 leading-none">
+						<div class="toggle flex shrink-0 cursor-pointer select-none items-center justify-between gap-4 rounded-lg border border-[var(--sl-color-gray-5)] text-off-white bg-green-lighter py-2 pl-3 pr-2 leading-none">
 							{Astro.locals.t("tableOfContents.onThisPage")}
 							<Icon
 								name={"right-caret"}
