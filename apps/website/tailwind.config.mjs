@@ -1,5 +1,5 @@
 import starlightPlugin from "@astrojs/starlight-tailwind";
-import colors, { transparent } from "tailwindcss/colors";
+import colors from "tailwindcss/colors";
 import corvuPlugin from "@corvu/tailwind";
 import animatePlugin from "tailwindcss-animate";
 
