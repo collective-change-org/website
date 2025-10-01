@@ -1,3 +1,104 @@
+@layer base, starlight, theme, components, utilities;
+
+@import '@astrojs/starlight-tailwind';
+@import 'tailwindcss/theme.css' layer(theme);
+@import 'tailwindcss/utilities.css' layer(utilities);
+
+@theme {
+	/* Color palette */
+	--color-off-white: #FFFEFA;
+	--color-transparent: transparent;
+	--color-white: #FFFFFF;
+	--color-black: #000000;
+
+	/* Green palette */
+	--color-green-black: #001A15;
+	--color-green-dark: #002922;
+	--color-green-lighter: #005244;
+	--color-green-lightest: #338073;
+
+	/* Orange palette */
+	--color-orange-dark: #EB742F;
+	--color-orange-light: #FF8640;
+
+	/* Yellow palette */
+	--color-yellow-neon: #F1FF86;
+	--color-yellow-300: #E3FF0C;
+
+	/* Pink palette */
+	--color-pink-light: #FCCDFF;
+	--color-pink-dark: #CB3DD3;
+
+	/* Red palette */
+	--color-red-light: #F65917;
+
+	/* Beige palette */
+	--color-beige-100: #FFFBED;
+
+	/* Starlight colors */
+	--color-accent-50: rgb(238 242 255);
+	--color-accent-100: rgb(224 231 255);
+	--color-accent-200: rgb(199 210 254);
+	--color-accent-300: rgb(165 180 252);
+	--color-accent-400: rgb(129 140 248);
+	--color-accent-500: rgb(99 102 241);
+	--color-accent-600: rgb(79 70 229);
+	--color-accent-700: rgb(67 56 202);
+	--color-accent-800: rgb(55 48 163);
+	--color-accent-900: rgb(49 46 129);
+	--color-accent-950: rgb(30 27 75);
+
+	--color-gray-50: rgb(250 250 250);
+	--color-gray-100: rgb(244 244 245);
+	--color-gray-200: rgb(228 228 231);
+	--color-gray-300: rgb(212 212 216);
+	--color-gray-400: rgb(161 161 170);
+	--color-gray-500: rgb(113 113 122);
+	--color-gray-600: rgb(82 82 91);
+	--color-gray-700: rgb(63 63 70);
+	--color-gray-800: rgb(39 39 42);
+	--color-gray-900: rgb(24 24 27);
+	--color-gray-950: rgb(9 9 11);
+
+	/* Font families */
+	--font-sans: Uncut, "Adjusted Arial Fallback", Arial, sans-serif;
+	--font-poppins: Poppins, sans-serif;
+
+	/* Background sizes */
+	--background-size-full: 100% 100%;
+
+	/* Animations */
+	--animate-expand: expand 250ms cubic-bezier(0.32, 0.72, 0, 0.75);
+	--animate-collapse: collapse 250ms cubic-bezier(0.32, 0.72, 0, 0.75);
+
+	/* Keyframes are defined separately as @keyframes rules */
+}
+
+@keyframes expand {
+	0% {
+		height: 0px;
+	}
+
+	100% {
+		height: var(--corvu-disclosure-content-height);
+	}
+}
+
+@keyframes collapse {
+	0% {
+		height: var(--corvu-disclosure-content-height);
+	}
+
+	100% {
+		height: 0px;
+	}
+}
+
+/*
+Add additional Tailwind styles to this file:
+https://tailwindcss.com/docs/adding-custom-styles#using-custom-css
+*/
+
 @font-face {
 	font-family: "Uncut";
 	font-weight: 100 900;
@@ -14,9 +115,6 @@
 	line-gap-override: normal;
 }
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
 
 @layer utilities {
 	.default-layout {

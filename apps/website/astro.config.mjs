@@ -1,17 +1,12 @@
 import { defineConfig, envField } from "astro/config"
 import starlight from "@astrojs/starlight"
 
-import tailwind from "@astrojs/tailwind"
-
 import solidJs from "@astrojs/solid-js"
 
 import node from "@astrojs/node"
 
 import icon from "astro-icon"
-
-// import { loadEnv } from 'payload/node'
-
-// loadEnv()
+import tailwindcss from "@tailwindcss/vite";
 
 // https://astro.build/config
 export default defineConfig({
@@ -53,18 +48,12 @@ export default defineConfig({
 			},
 			customCss: ["./src/tailwind.css"],
 		}),
-		tailwind({
-			applyBaseStyles: false,
-		}),
 		solidJs({
 			exclude: ["@collectivechange/payload", "/apps/payload/**/*", "**/emails/**/*"],
 		}),
 		icon(),
 	],
 	site: "https://collective-change.de",
-	experimental: {
-		svg: true,
-	},
 	server: {
 		port: 4321,
 		host: true,
@@ -76,5 +65,8 @@ export default defineConfig({
 		optimizeDeps: {
 			exclude: ["@collectivechange/payload"],
 		},
+		plugins: [
+			tailwindcss(),
+		]
 	}
 })
