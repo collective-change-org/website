@@ -1,7 +1,7 @@
 import { type BaseSchema, defineCollection, z } from "astro:content";
 import { getKnowledgeBase } from "./getKnowledgebase";
 import { type ContentBlock, getPages } from "./getPages";
-import { HeadConfigSchema, knowledgebaseSchema, pagesSchema } from "./schema";
+import { HeadConfigSchema, pagesSchema } from "./schema";
 import type { LexicalRoot } from "../schemas/lexical";
 import type { CustomSidebar } from "../getSidebar";
 import type { Media } from "@payload/src";

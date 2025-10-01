@@ -1,14 +1,13 @@
 import { headingToSlug, generateToC, type TocItem } from "../generateToC"
 import type { LexicalRoot, LexicalText } from "../schemas/lexical"
 import type { KnowledgebasePage } from "."
-import { getPayload, type Payload } from "payload"
-import { config, type Group, type Knowledgebase } from "@collectivechange/payload"
+import type { Group, Knowledgebase } from "@collectivechange/payload"
 import type { MarkdownHeading } from "astro"
+import { sdk } from "../sdk"
 
 
 export async function getKnowledgeBase(): Promise<KnowledgebasePage[]> {
-	const payload = await getPayload({ config })
-	const pages = await payload.find({
+	const pages = await sdk.find({
 		collection: "knowledgebase",
 		sort: "docOrder",
 		where: {
@@ -26,7 +25,7 @@ export async function getKnowledgeBase(): Promise<KnowledgebasePage[]> {
 		let items: TocItem[] = []
 		const headings: MarkdownHeading[] = []
 
-		if (doc.content && doc.content?.root) {
+		if (doc.content?.root) {
 			for (const lexicalElements of doc.content.root.children) {
 				if (lexicalElements.type === "heading") {
 					const tag = lexicalElements.tag as string
@@ -47,7 +46,7 @@ export async function getKnowledgeBase(): Promise<KnowledgebasePage[]> {
 			})
 		}
 
-		const pageSlug = await getPageSlug(doc, payload)
+		const pageSlug = await getPageSlug(doc)
 
 		return {
 			id: "wissen/" + pageSlug,
@@ -64,10 +63,10 @@ export async function getKnowledgeBase(): Promise<KnowledgebasePage[]> {
 	return knowledgebasePages
 }
 
-export async function getPageSlug(page: Knowledgebase, payload: Payload): Promise<string> {
+export async function getPageSlug(page: Knowledgebase): Promise<string> {
 	let group: Group | undefined
 	if (typeof page.group === "number") {
-		group = await payload.findByID({
+		group = await sdk.findByID({
 			collection: "groups",
 			id: page.group,
 		})

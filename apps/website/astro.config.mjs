@@ -9,9 +9,9 @@ import node from "@astrojs/node"
 
 import icon from "astro-icon"
 
-import { loadEnv } from 'payload/node'
+// import { loadEnv } from 'payload/node'
 
-loadEnv()
+// loadEnv()
 
 // https://astro.build/config
 export default defineConfig({

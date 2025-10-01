@@ -6,8 +6,10 @@ import {
 	type LinkHTMLAttributes,
 	linkHTMLAttributesSchema,
 } from "../../../schemas/sidebar"
-import { config, type Knowledgebase } from "@collectivechange/payload"
-import { getPayload, type Payload } from "payload"
+import type { Knowledgebase } from "@collectivechange/payload"
+import type { PayloadSDK } from "@payloadcms/sdk"
+import type { Config } from "@collectivechange/payload"
+import { sdk } from "./sdk"
 
 export type PayloadPageResponseItem = {
 	id: number
@@ -42,7 +44,7 @@ interface OrderedGroup extends Group {
 	docOrder: number
 }
 
-async function pageToLink(page: Knowledgebase, payload: Payload): Promise<Link> {
+async function pageToLink(page: Knowledgebase, sdk: PayloadSDK<Config>): Promise<Link> {
 	const payloadBadge = typeof page.badge === "number" ? undefined : page.badge
 	let badge: Badge | undefined
 
@@ -53,10 +55,10 @@ async function pageToLink(page: Knowledgebase, payload: Payload): Promise<Link> 
 		}
 	}
 	return {
-		id: "wissen/" + await getPageSlug(page, payload),
+		id: "wissen/" + await getPageSlug(page),
 		type: "link",
 		label: page.visibility !== "public" ? "🔒 " + page.title : page.title,
-		href: "/wissen/" + await getPageSlug(page, payload),
+		href: "/wissen/" + await getPageSlug(page),
 		isCurrent: false,
 		attrs: {},
 		badge: badge,
@@ -64,8 +66,7 @@ async function pageToLink(page: Knowledgebase, payload: Payload): Promise<Link> 
 }
 
 export async function getKnowledgebaseSidebar(): Promise<SidebarEntry[]> {
-	const payload = await getPayload({ config })
-	const pages = await payload.find({
+	const pages = await sdk.find({
 		collection: "knowledgebase",
 		sort: "docOrder",
 	})
@@ -77,7 +78,7 @@ export async function getKnowledgebaseSidebar(): Promise<SidebarEntry[]> {
 	for (const page of pages.docs) {
 		if (!page.group) {
 			// Knowledgebase page is on the root level
-			sidebar.push(await pageToLink(page, payload))
+			sidebar.push(await pageToLink(page, sdk))
 			continue
 		}
 
@@ -100,7 +101,7 @@ export async function getKnowledgebaseSidebar(): Promise<SidebarEntry[]> {
 				continue
 			}
 			if (typeof group.doc === "number") {
-				const g = await payload.findByID({
+				const g = await sdk.findByID({
 					collection: "groups",
 					id: group.doc,
 				})
@@ -117,7 +118,7 @@ export async function getKnowledgebaseSidebar(): Promise<SidebarEntry[]> {
 			let parentSlug
 			if (parentBreadcrumb) {
 				if (typeof parentBreadcrumb.doc === "number") {
-					const g = await payload.findByID({
+					const g = await sdk.findByID({
 						collection: "groups",
 						id: parentBreadcrumb.doc,
 					})
@@ -154,7 +155,7 @@ export async function getKnowledgebaseSidebar(): Promise<SidebarEntry[]> {
 				groups.push(tempGroup)
 			}
 			if (i === breadcrumbs.length - 1) {
-				tempGroup.entries.push(await pageToLink(page, payload))
+				tempGroup.entries.push(await pageToLink(page, sdk))
 			}
 		}
 	}

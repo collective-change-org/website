@@ -1,15 +1,15 @@
 import { defineCollection, z } from "astro:content"
 import { lexicalRootContainer } from "../schemas/lexical"
-import { getPayload } from 'payload'
-import { config } from '@collectivechange/payload'
+
+import { sdk } from "../sdk"
 
 async function loadEvents() {
-	const payload = await getPayload({ config })
-	const events = await payload.find({
+	// const payload = await sdk({ config })
+	const events = await sdk.find({
 		collection: 'events',
 	})
 
-	return events.docs.map((event: any) => ({
+	return events.docs.map((event) => ({
 		...event,
 		id: event.id.toString(),
 	}))

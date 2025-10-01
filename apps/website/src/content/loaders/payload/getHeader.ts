@@ -1,15 +1,11 @@
 import { defineCollection, z } from "astro:content"
-import { getPayload } from "payload"
-import { config } from "@collectivechange/payload"
+import { sdk } from "./sdk"
 
 export async function getHeader(): Promise<HeaderSchema> {
-	const payload = await getPayload({ config })
-	const header = await payload.findGlobal({
+	const header = await sdk.findGlobal({
 		slug: "header",
 		depth: 3,
 	})
-
-	console.log(header)
 
 	const elements = header.navItems?.map((navItem) => {
 		let href: string
