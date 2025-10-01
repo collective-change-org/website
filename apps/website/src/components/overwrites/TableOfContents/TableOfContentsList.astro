@@ -15,7 +15,9 @@ console.log(toc)
 	{
 		toc.map((heading) => (
 			<li>
-				<a class="typestyle-text-s hover:bg-pink-dark hover:text-off-white" href={"#" + heading.slug}>
+				<a
+					class="typestyle-text-s hover:bg-pink-dark hover:text-off-white"
+					href={"#" + heading.slug}>
 					<span>{heading.text}</span>
 				</a>
 				{heading.children.length > 0 && (
@@ -31,6 +33,7 @@ console.log(toc)
 </ul>
 
 <style define:vars={{ depth }}>
+	@reference "../../../tailwind.css";
 	ul {
 		padding: 0;
 		list-style: none;
@@ -43,7 +46,7 @@ console.log(toc)
 		padding-inline: calc(1rem * var(--depth) + var(--pad-inline))
 			var(--pad-inline);
 		line-heigtypestyle-h6ht: 1.25;
-		@apply text-sm
+		@apply text-sm;
 	}
 	a[aria-current="true"] {
 		@apply bg-pink-light;

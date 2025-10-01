@@ -30,7 +30,11 @@ const { sublist, nested } = Astro.props
 					<a
 						href={entry.href}
 						aria-current={entry.isCurrent && "page"}
-						class:list={[{ large: !nested }, entry.attrs.class,"hover:bg-pink-dark hover:text-off-white"]}
+						class:list={[
+							{ large: !nested },
+							entry.attrs.class,
+							"hover:bg-pink-dark hover:text-off-white",
+						]}
 						{...entry.attrs}>
 						<span class="typestyle-text-s">{entry.label}</span>
 						{entry.badge && (
@@ -77,6 +81,7 @@ const { sublist, nested } = Astro.props
 </ul>
 
 <style>
+	@reference "../../../tailwind.css";
 	ul {
 		--sl-sidebar-item-padding-inline: 0.5rem;
 		list-style: none;

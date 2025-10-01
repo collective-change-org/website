@@ -87,6 +87,7 @@ export default function accountEdit() {
 								: "/Profile.png"
 						}
 						class="h-40 w-40 rounded-full border-2 border-black"
+						alt="Avatar"
 					/>
 					<Field name="picture" type="File">
 						{(field, props) => (

@@ -21,6 +21,7 @@ const toc = Astro.locals.starlightRoute.entry.data.tableOfContents
 }
 
 <style>
+	@reference "../../tailwind.css";
 	.right-sidebar-panel {
 		padding: 1rem var(--sl-sidebar-pad-x);
 	}
@@ -28,11 +29,11 @@ const toc = Astro.locals.starlightRoute.entry.data.tableOfContents
 		width: calc(var(--sl-sidebar-width) - 2 * var(--sl-sidebar-pad-x));
 	}
 	.right-sidebar-panel :global(h2) {
-		@apply font-bold text-green-black;
+		@apply text-green-black font-bold;
 		margin-bottom: 0.5rem;
 	}
 	.right-sidebar-panel :global(:where(a)) {
-		@apply block text-xl text-green-black no-underline;
+		@apply text-green-black block text-xl no-underline;
 		overflow-wrap: anywhere;
 	}
 	.right-sidebar-panel :global(:where(a):hover) {

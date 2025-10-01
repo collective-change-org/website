@@ -42,7 +42,7 @@ const { children, slug } = Astro.props
 					)
 				case "emphasizedParagraph":
 					return (
-						<div class="[&>p]:typestyle-hero-p group-data-[color=green]:text-off-white group-data-[color=white]:text-green-black">
+						<div class="typestyle-hero-p group-data-[color=green]:text-off-white group-data-[color=white]:text-green-black">
 							<LexicalRenderer
 								children={child.richText.root.children}
 							/>
@@ -103,7 +103,7 @@ const { children, slug } = Astro.props
 					)
 				case "largeRichTextBlock":
 					return (
-						<div class="[&>p]:typestyle-text-l flex flex-col items-start gap-4 group-data-[color=green]:text-off-white group-data-[color=white]:text-green-black">
+						<div class="typestyle-text-l group-data-[color=green]:text-off-white group-data-[color=white]:text-green-black flex flex-col items-start gap-4">
 							<h4 class="typestyle-h4">{child.title}</h4>
 							<LexicalRenderer
 								children={child.richText.root.children}
