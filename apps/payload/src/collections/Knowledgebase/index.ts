@@ -14,6 +14,7 @@ import {
 	HorizontalRuleFeature,
 	InlineToolbarFeature,
 	lexicalEditor,
+	UploadFeature,
 } from "@payloadcms/richtext-lexical"
 
 import type { Group } from "../../payload-types"
@@ -205,6 +206,14 @@ export const Knowledgebase: CollectionConfig<"knowledgebase"> = {
 										FixedToolbarFeature(),
 										InlineToolbarFeature(),
 										HorizontalRuleFeature(),
+										UploadFeature({
+											collections: {
+												uploads: {
+													fields: [
+													],
+												},
+											},
+										}),
 									]
 								},
 							}),

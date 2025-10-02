@@ -1,0 +1,10 @@
+@font-face {
+	font-family: "Uncut";
+	font-weight: 100 900;
+	src: url("/fonts/uncut/UncutSans-Variable.woff2") format("woff2");
+	font-display: swap;
+}
+
+.rich-text-lexical .editor-container {
+	font-family: 'Uncut', sans-serif;
+}

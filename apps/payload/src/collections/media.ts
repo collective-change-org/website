@@ -25,17 +25,12 @@ export const Media: CollectionConfig = {
 	fields: [
 		{
 			name: "alt",
-			type: "text",
-			// required: true,
+			type: "textarea",
+			required: true,
 		},
 		{
 			name: "caption",
-			type: "richText",
-			editor: lexicalEditor({
-				features: ({ rootFeatures }) => {
-					return [...rootFeatures, FixedToolbarFeature(), InlineToolbarFeature()]
-				},
-			}),
+			type: "text",
 		},
 	],
 	upload: {
