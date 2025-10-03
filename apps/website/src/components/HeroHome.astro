@@ -1,5 +1,7 @@
 ---
 import Logo from "../assets/Logo.svg"
+import Divider from "./divider.astro"
+
 ---
 
 <section>
@@ -46,8 +48,8 @@ import Logo from "../assets/Logo.svg"
 			stroke="white"
 			stroke-dasharray="5 5"></path>
 	</svg>
-	<div>
-		<Logo class="text-white" height={64} width={190} />
+	<div class="center">
+		<Logo height={64} width={190} />
 		<p>Designnetzwerk für uns alle</p>
 	</div>
 	<svg
@@ -108,24 +110,32 @@ import Logo from "../assets/Logo.svg"
 		<span class="strukturen -rotate-1">gerechte Strukturen</span>
 	</div>
 </section>
+<Divider />
 
 <style>
 	@reference "../tailwind.css";
 
 	section {
-		background:
-			url(https://grainy-gradients.vercel.app/noise.svg),
-			radial-gradient(39.89% 39.89% at 50% 39.89%, #00382F 0%, #002922 100%);
-		background-blend-mode: multiply, normal;
+		background: radial-gradient(39.89% 39.89% at 50% 39.89%, #00382F 0%, #00292200 100%);
 		grid-column: 1/4;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
 		color: white;
+		padding: 4rem 2rem;
 
 		p {
 			@apply typestyle-hero-p;
+		}
+
+		>div.center {
+			color: white;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			margin: 1rem 0;
 		}
 
 		> div.pills {
@@ -214,6 +224,8 @@ import Logo from "../assets/Logo.svg"
 			@media (max-width: 1205px) {
 				&.mobile {
 					display: block;
+					height: 119px;
+					margin-bottom: -100px;
 				}
 				&.desktop {
 					display: none;
