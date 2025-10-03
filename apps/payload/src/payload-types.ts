@@ -687,15 +687,7 @@ export interface SignupBlock {
  */
 export interface Knowledgebase {
   id: number;
-  slug?: string | null;
-  slugLock?: boolean | null;
-  visibility?: ('public' | 'crew' | 'team') | null;
-  authors?: (number | User)[] | null;
-  docOrder?: number | null;
-  publishedAt?: string | null;
-  badge?: (number | null) | Badge;
   title: string;
-  group?: (number | null) | Group;
   content: {
     root: {
       type: string;
@@ -719,6 +711,17 @@ export interface Knowledgebase {
     image?: (number | null) | Media;
     description?: string | null;
   };
+  slug?: string | null;
+  slugLock?: boolean | null;
+  visibility?: ('public' | 'crew' | 'team') | null;
+  /**
+   * This page will be put in the selected group in the sidebar
+   */
+  group?: (number | null) | Group;
+  authors?: (number | User)[] | null;
+  docOrder?: number | null;
+  publishedAt?: string | null;
+  badge?: (number | null) | Badge;
   populatedAuthors?:
     | {
         id?: string | null;
@@ -729,6 +732,30 @@ export interface Knowledgebase {
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "groups".
+ */
+export interface Group {
+  id: number;
+  title: string;
+  slug?: string | null;
+  slugLock?: boolean | null;
+  docOrder?: number | null;
+  badgeText?: string | null;
+  badgeVariant: 'default' | 'note' | 'danger' | 'success' | 'caution' | 'tip';
+  parent?: (number | null) | Group;
+  breadcrumbs?:
+    | {
+        doc?: (number | null) | Group;
+        url?: string | null;
+        label?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -785,30 +812,6 @@ export interface Badge {
   text?: string | null;
   variant: 'default' | 'note' | 'danger' | 'success' | 'caution' | 'tip';
   size: 'small' | 'medium' | 'Large';
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "groups".
- */
-export interface Group {
-  id: number;
-  title: string;
-  slug?: string | null;
-  slugLock?: boolean | null;
-  docOrder?: number | null;
-  badgeText?: string | null;
-  badgeVariant: 'default' | 'note' | 'danger' | 'success' | 'caution' | 'tip';
-  parent?: (number | null) | Group;
-  breadcrumbs?:
-    | {
-        doc?: (number | null) | Group;
-        url?: string | null;
-        label?: string | null;
-        id?: string | null;
-      }[]
-    | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1478,15 +1481,7 @@ export interface AccountBlockSelect<T extends boolean = true> {
  * via the `definition` "knowledgebase_select".
  */
 export interface KnowledgebaseSelect<T extends boolean = true> {
-  slug?: T;
-  slugLock?: T;
-  visibility?: T;
-  authors?: T;
-  docOrder?: T;
-  publishedAt?: T;
-  badge?: T;
   title?: T;
-  group?: T;
   content?: T;
   meta?:
     | T
@@ -1495,6 +1490,14 @@ export interface KnowledgebaseSelect<T extends boolean = true> {
         image?: T;
         description?: T;
       };
+  slug?: T;
+  slugLock?: T;
+  visibility?: T;
+  group?: T;
+  authors?: T;
+  docOrder?: T;
+  publishedAt?: T;
+  badge?: T;
   populatedAuthors?:
     | T
     | {

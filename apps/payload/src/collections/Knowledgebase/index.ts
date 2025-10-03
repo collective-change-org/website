@@ -87,95 +87,6 @@ export const Knowledgebase: CollectionConfig<"knowledgebase"> = {
 	},
 	fields: [
 		{
-			type: "collapsible",
-			label: "Technisches",
-			admin: {
-				position: "sidebar",
-			},
-			fields: [
-				...slugField(),
-				{
-					name: "visibility",
-					type: "select",
-					options: [
-						{
-							label: "Public",
-							value: "public",
-						},
-						{
-							label: "Crew Only",
-							value: "crew",
-						},
-						{
-							label: "Team Only",
-							value: "team",
-						},
-					],
-					admin: {
-						position: "sidebar",
-					},
-					defaultValue: "public",
-				},
-			],
-		},
-		{
-			type: "collapsible",
-			label: "Viselles",
-			admin: {
-				position: "sidebar",
-			},
-			fields: [
-				{
-					name: "authors",
-					type: "relationship",
-					admin: {
-						position: "sidebar",
-					},
-					hasMany: true,
-					relationTo: "users",
-				},
-				{
-					name: "docOrder",
-					label: "Document Order",
-					type: "number",
-					admin: {
-						position: "sidebar",
-					},
-					hooks: {},
-				},
-				{
-					name: "publishedAt",
-					type: "date",
-					admin: {
-						date: {
-							pickerAppearance: "dayAndTime",
-						},
-						position: "sidebar",
-					},
-					hooks: {
-						beforeChange: [
-							({ siblingData, value }) => {
-								if (siblingData._status === "published" && !value) {
-									return new Date()
-								}
-								return value
-							},
-						],
-					},
-				},
-				{
-					name: "badge",
-					label: "Badge",
-					type: "relationship",
-					relationTo: "badge",
-					hasMany: false,
-					admin: {
-						position: "sidebar",
-					},
-				},
-			],
-		},
-		{
 			name: "title",
 			type: "text",
 			required: true,
@@ -185,15 +96,6 @@ export const Knowledgebase: CollectionConfig<"knowledgebase"> = {
 			tabs: [
 				{
 					fields: [
-						{
-							name: "group",
-							type: "relationship",
-							admin: {
-								position: "sidebar",
-							},
-							hasMany: false,
-							relationTo: "groups",
-						},
 						{
 							name: "content",
 							type: "richText",
@@ -250,6 +152,92 @@ export const Knowledgebase: CollectionConfig<"knowledgebase"> = {
 						}),
 					],
 				},
+				{
+					label: "Settings",
+					fields: [
+						...slugField(),
+						{
+							name: "visibility",
+							type: "select",
+							options: [
+								{
+									label: "Public",
+									value: "public",
+								},
+								{
+									label: "Crew Only",
+									value: "crew",
+								},
+								{
+									label: "Team Only",
+									value: "team",
+								},
+							],
+							admin: {
+								width: "50%"
+							},
+							defaultValue: "public",
+						},
+						{
+							name: "group",
+							type: "relationship",
+							admin: {
+								description: "This page will be put in the selected group in the sidebar",
+								width: "50%"
+							},
+							hasMany: false,
+							relationTo: "groups",
+						},
+						{
+							name: "authors",
+							type: "relationship",
+							hasMany: true,
+							admin: {
+								width: "50%"
+							},
+							relationTo: "users",
+						},
+						{
+							name: "docOrder",
+							label: "Document Order",
+							type: "number",
+							admin: {
+								width: "50%"
+							},
+							hooks: {},
+						},
+						{
+							name: "publishedAt",
+							type: "date",
+							admin: {
+								date: {
+									pickerAppearance: "dayAndTime",
+								},
+								width: "50%"
+							},
+							hooks: {
+								beforeChange: [
+									({ siblingData, value }) => {
+										if (siblingData._status === "published" && !value) {
+											return new Date()
+										}
+										return value
+									},
+								],
+							},
+						},
+						{
+							name: "badge",
+							label: "Badge",
+							type: "relationship",
+							relationTo: "badge",
+							admin: {
+								width: "50%"
+							},
+							hasMany: false,
+						},
+					]
+				}
 			],
 		},
 		{
@@ -279,7 +267,6 @@ export const Knowledgebase: CollectionConfig<"knowledgebase"> = {
 			admin: {
 				readOnly: true,
 				hidden: true,
-				position: "sidebar",
 			},
 			hooks: {
 				beforeChange: [
