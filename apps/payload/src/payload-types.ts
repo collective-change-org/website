@@ -152,414 +152,423 @@ export interface UserAuthOperations {
 export interface Page {
   id: number;
   title: string;
-  layout: {
-    color: 'green' | 'white-1' | 'white-2';
-    layout: (
-      | {
-          title: string;
-          id?: string | null;
-          blockName?: string | null;
-          blockType: 'h1Block';
-        }
-      | {
-          title: string;
-          id?: string | null;
-          blockName?: string | null;
-          blockType: 'h2Block';
-        }
-      | {
-          title: string;
-          richText: {
-            root: {
-              type: string;
-              children: {
-                type: any;
-                version: number;
-                [k: string]: unknown;
+  layout: (
+    | {
+        color: 'green' | 'white-1' | 'white-2';
+        layout: (
+          | {
+              title: string;
+              id?: string | null;
+              blockName?: string | null;
+              blockType: 'h1Block';
+            }
+          | {
+              title: string;
+              id?: string | null;
+              blockName?: string | null;
+              blockType: 'h2Block';
+            }
+          | {
+              title: string;
+              id?: string | null;
+              blockName?: string | null;
+              blockType: 'heroBlock';
+            }
+          | MediaBlock
+          | LoginBlock
+          | SignupBlock
+          | {
+              sections: {
+                subtitle: string;
+                listItem?:
+                  | {
+                      title: string;
+                      description: string;
+                      id?: string | null;
+                    }[]
+                  | null;
+                id?: string | null;
               }[];
-              direction: ('ltr' | 'rtl') | null;
-              format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-              indent: number;
-              version: number;
-            };
-            [k: string]: unknown;
-          };
-          id?: string | null;
-          blockName?: string | null;
-          blockType: 'heroBlock';
-        }
-      | MediaBlock
-      | LoginBlock
-      | SignupBlock
-      | {
-          sections: {
-            subtitle: string;
-            listItem?:
-              | {
-                  title: string;
-                  description: string;
-                  id?: string | null;
-                }[]
-              | null;
-            id?: string | null;
-          }[];
-          id?: string | null;
-          blockName?: string | null;
-          blockType: 'manifestBlock';
-        }
-      | {
-          layout: (
-            | {
-                title: string;
-                id?: string | null;
-                blockName?: string | null;
-                blockType: 'h1Block';
-              }
-            | {
-                title: string;
-                id?: string | null;
-                blockName?: string | null;
-                blockType: 'h2Block';
-              }
-            | {
-                title: string;
-                richText: {
-                  root: {
-                    type: string;
-                    children: {
-                      type: any;
-                      version: number;
-                      [k: string]: unknown;
+              id?: string | null;
+              blockName?: string | null;
+              blockType: 'manifestBlock';
+            }
+          | {
+              layout: (
+                | {
+                    title: string;
+                    id?: string | null;
+                    blockName?: string | null;
+                    blockType: 'h1Block';
+                  }
+                | {
+                    title: string;
+                    id?: string | null;
+                    blockName?: string | null;
+                    blockType: 'h2Block';
+                  }
+                | {
+                    title: string;
+                    id?: string | null;
+                    blockName?: string | null;
+                    blockType: 'heroBlock';
+                  }
+                | MediaBlock
+                | LoginBlock
+                | SignupBlock
+                | {
+                    sections: {
+                      subtitle: string;
+                      listItem?:
+                        | {
+                            title: string;
+                            description: string;
+                            id?: string | null;
+                          }[]
+                        | null;
+                      id?: string | null;
                     }[];
-                    direction: ('ltr' | 'rtl') | null;
-                    format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-                    indent: number;
-                    version: number;
-                  };
-                  [k: string]: unknown;
-                };
-                id?: string | null;
-                blockName?: string | null;
-                blockType: 'heroBlock';
-              }
-            | MediaBlock
-            | LoginBlock
-            | SignupBlock
-            | {
-                sections: {
-                  subtitle: string;
-                  listItem?:
-                    | {
-                        title: string;
-                        description: string;
-                        id?: string | null;
-                      }[]
-                    | null;
-                  id?: string | null;
-                }[];
-                id?: string | null;
-                blockName?: string | null;
-                blockType: 'manifestBlock';
-              }
-            | {
-                link: {
-                  type?: ('reference' | 'custom') | null;
-                  newTab?: boolean | null;
-                  reference?:
-                    | ({
-                        relationTo: 'pages';
-                        value: number | Page;
-                      } | null)
-                    | ({
-                        relationTo: 'knowledgebase';
-                        value: number | Knowledgebase;
-                      } | null);
-                  url?: string | null;
-                  label: string;
-                };
-                hasLeftIcon: boolean;
-                iconLeft?: string | null;
-                hasRightIcon: boolean;
-                iconRight?: string | null;
-                variant: 'green' | 'orange' | 'black';
-                size: 'small' | 'large';
-                id?: string | null;
-                blockName?: string | null;
-                blockType: 'buttonBlock';
-              }
-            | {
-                richText: {
-                  root: {
-                    type: string;
-                    children: {
-                      type: any;
-                      version: number;
+                    id?: string | null;
+                    blockName?: string | null;
+                    blockType: 'manifestBlock';
+                  }
+                | {
+                    link: {
+                      type?: ('reference' | 'custom') | null;
+                      newTab?: boolean | null;
+                      reference?:
+                        | ({
+                            relationTo: 'pages';
+                            value: number | Page;
+                          } | null)
+                        | ({
+                            relationTo: 'knowledgebase';
+                            value: number | Knowledgebase;
+                          } | null);
+                      url?: string | null;
+                      label: string;
+                    };
+                    hasLeftIcon: boolean;
+                    iconLeft?: string | null;
+                    hasRightIcon: boolean;
+                    iconRight?: string | null;
+                    variant: 'green' | 'orange' | 'black';
+                    size: 'small' | 'large';
+                    id?: string | null;
+                    blockName?: string | null;
+                    blockType: 'buttonBlock';
+                  }
+                | {
+                    richText: {
+                      root: {
+                        type: string;
+                        children: {
+                          type: any;
+                          version: number;
+                          [k: string]: unknown;
+                        }[];
+                        direction: ('ltr' | 'rtl') | null;
+                        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                        indent: number;
+                        version: number;
+                      };
                       [k: string]: unknown;
-                    }[];
-                    direction: ('ltr' | 'rtl') | null;
-                    format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-                    indent: number;
-                    version: number;
-                  };
-                  [k: string]: unknown;
-                };
-                id?: string | null;
-                blockName?: string | null;
-                blockType: 'emphasizedParagraph';
-              }
-            | {
-                title?: string | null;
-                richText: {
-                  root: {
-                    type: string;
-                    children: {
-                      type: any;
-                      version: number;
+                    };
+                    id?: string | null;
+                    blockName?: string | null;
+                    blockType: 'emphasizedParagraph';
+                  }
+                | {
+                    title?: string | null;
+                    richText: {
+                      root: {
+                        type: string;
+                        children: {
+                          type: any;
+                          version: number;
+                          [k: string]: unknown;
+                        }[];
+                        direction: ('ltr' | 'rtl') | null;
+                        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                        indent: number;
+                        version: number;
+                      };
                       [k: string]: unknown;
-                    }[];
-                    direction: ('ltr' | 'rtl') | null;
-                    format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-                    indent: number;
+                    };
+                    id?: string | null;
+                    blockName?: string | null;
+                    blockType: 'largeRichTextBlock';
+                  }
+                | {
+                    title: string;
+                    events?: (number | null) | Event;
+                    id?: string | null;
+                    blockName?: string | null;
+                    blockType: 'upcomingEvents';
+                  }
+                | AccountBlock
+              )[];
+              id?: string | null;
+              blockName?: string | null;
+              blockType: 'indentedContainer';
+            }
+          | {
+              link: {
+                type?: ('reference' | 'custom') | null;
+                newTab?: boolean | null;
+                reference?:
+                  | ({
+                      relationTo: 'pages';
+                      value: number | Page;
+                    } | null)
+                  | ({
+                      relationTo: 'knowledgebase';
+                      value: number | Knowledgebase;
+                    } | null);
+                url?: string | null;
+                label: string;
+              };
+              hasLeftIcon: boolean;
+              iconLeft?: string | null;
+              hasRightIcon: boolean;
+              iconRight?: string | null;
+              variant: 'green' | 'orange' | 'black';
+              size: 'small' | 'large';
+              id?: string | null;
+              blockName?: string | null;
+              blockType: 'buttonBlock';
+            }
+          | {
+              richText: {
+                root: {
+                  type: string;
+                  children: {
+                    type: any;
                     version: number;
-                  };
-                  [k: string]: unknown;
+                    [k: string]: unknown;
+                  }[];
+                  direction: ('ltr' | 'rtl') | null;
+                  format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                  indent: number;
+                  version: number;
                 };
-                id?: string | null;
-                blockName?: string | null;
-                blockType: 'largeRichTextBlock';
-              }
-            | {
-                title: string;
-                events?: (number | null) | Event;
-                id?: string | null;
-                blockName?: string | null;
-                blockType: 'upcomingEvents';
-              }
-            | AccountBlock
-          )[];
-          id?: string | null;
-          blockName?: string | null;
-          blockType: 'indentedContainer';
-        }
-      | {
-          link: {
-            type?: ('reference' | 'custom') | null;
-            newTab?: boolean | null;
-            reference?:
-              | ({
-                  relationTo: 'pages';
-                  value: number | Page;
-                } | null)
-              | ({
-                  relationTo: 'knowledgebase';
-                  value: number | Knowledgebase;
-                } | null);
-            url?: string | null;
-            label: string;
-          };
-          hasLeftIcon: boolean;
-          iconLeft?: string | null;
-          hasRightIcon: boolean;
-          iconRight?: string | null;
-          variant: 'green' | 'orange' | 'black';
-          size: 'small' | 'large';
-          id?: string | null;
-          blockName?: string | null;
-          blockType: 'buttonBlock';
-        }
-      | {
-          richText: {
-            root: {
-              type: string;
-              children: {
-                type: any;
-                version: number;
                 [k: string]: unknown;
-              }[];
-              direction: ('ltr' | 'rtl') | null;
-              format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-              indent: number;
-              version: number;
-            };
-            [k: string]: unknown;
-          };
-          id?: string | null;
-          blockName?: string | null;
-          blockType: 'emphasizedParagraph';
-        }
-      | {
-          columns?:
-            | {
-                layout: (
-                  | {
-                      title: string;
-                      id?: string | null;
-                      blockName?: string | null;
-                      blockType: 'h1Block';
-                    }
-                  | {
-                      title: string;
-                      id?: string | null;
-                      blockName?: string | null;
-                      blockType: 'h2Block';
-                    }
-                  | {
-                      title: string;
-                      richText: {
-                        root: {
-                          type: string;
-                          children: {
-                            type: any;
-                            version: number;
-                            [k: string]: unknown;
+              };
+              id?: string | null;
+              blockName?: string | null;
+              blockType: 'emphasizedParagraph';
+            }
+          | {
+              columns?:
+                | {
+                    layout: (
+                      | {
+                          title: string;
+                          id?: string | null;
+                          blockName?: string | null;
+                          blockType: 'h1Block';
+                        }
+                      | {
+                          title: string;
+                          id?: string | null;
+                          blockName?: string | null;
+                          blockType: 'h2Block';
+                        }
+                      | {
+                          title: string;
+                          id?: string | null;
+                          blockName?: string | null;
+                          blockType: 'heroBlock';
+                        }
+                      | MediaBlock
+                      | LoginBlock
+                      | SignupBlock
+                      | {
+                          sections: {
+                            subtitle: string;
+                            listItem?:
+                              | {
+                                  title: string;
+                                  description: string;
+                                  id?: string | null;
+                                }[]
+                              | null;
+                            id?: string | null;
                           }[];
-                          direction: ('ltr' | 'rtl') | null;
-                          format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-                          indent: number;
-                          version: number;
-                        };
-                        [k: string]: unknown;
-                      };
-                      id?: string | null;
-                      blockName?: string | null;
-                      blockType: 'heroBlock';
-                    }
-                  | MediaBlock
-                  | LoginBlock
-                  | SignupBlock
-                  | {
-                      sections: {
-                        subtitle: string;
-                        listItem?:
-                          | {
-                              title: string;
-                              description: string;
-                              id?: string | null;
-                            }[]
-                          | null;
-                        id?: string | null;
-                      }[];
-                      id?: string | null;
-                      blockName?: string | null;
-                      blockType: 'manifestBlock';
-                    }
-                  | {
-                      link: {
-                        type?: ('reference' | 'custom') | null;
-                        newTab?: boolean | null;
-                        reference?:
-                          | ({
-                              relationTo: 'pages';
-                              value: number | Page;
-                            } | null)
-                          | ({
-                              relationTo: 'knowledgebase';
-                              value: number | Knowledgebase;
-                            } | null);
-                        url?: string | null;
-                        label: string;
-                      };
-                      hasLeftIcon: boolean;
-                      iconLeft?: string | null;
-                      hasRightIcon: boolean;
-                      iconRight?: string | null;
-                      variant: 'green' | 'orange' | 'black';
-                      size: 'small' | 'large';
-                      id?: string | null;
-                      blockName?: string | null;
-                      blockType: 'buttonBlock';
-                    }
-                  | {
-                      richText: {
-                        root: {
-                          type: string;
-                          children: {
-                            type: any;
-                            version: number;
+                          id?: string | null;
+                          blockName?: string | null;
+                          blockType: 'manifestBlock';
+                        }
+                      | {
+                          link: {
+                            type?: ('reference' | 'custom') | null;
+                            newTab?: boolean | null;
+                            reference?:
+                              | ({
+                                  relationTo: 'pages';
+                                  value: number | Page;
+                                } | null)
+                              | ({
+                                  relationTo: 'knowledgebase';
+                                  value: number | Knowledgebase;
+                                } | null);
+                            url?: string | null;
+                            label: string;
+                          };
+                          hasLeftIcon: boolean;
+                          iconLeft?: string | null;
+                          hasRightIcon: boolean;
+                          iconRight?: string | null;
+                          variant: 'green' | 'orange' | 'black';
+                          size: 'small' | 'large';
+                          id?: string | null;
+                          blockName?: string | null;
+                          blockType: 'buttonBlock';
+                        }
+                      | {
+                          richText: {
+                            root: {
+                              type: string;
+                              children: {
+                                type: any;
+                                version: number;
+                                [k: string]: unknown;
+                              }[];
+                              direction: ('ltr' | 'rtl') | null;
+                              format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                              indent: number;
+                              version: number;
+                            };
                             [k: string]: unknown;
-                          }[];
-                          direction: ('ltr' | 'rtl') | null;
-                          format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-                          indent: number;
-                          version: number;
-                        };
-                        [k: string]: unknown;
-                      };
-                      id?: string | null;
-                      blockName?: string | null;
-                      blockType: 'emphasizedParagraph';
-                    }
-                  | {
-                      title?: string | null;
-                      richText: {
-                        root: {
-                          type: string;
-                          children: {
-                            type: any;
-                            version: number;
+                          };
+                          id?: string | null;
+                          blockName?: string | null;
+                          blockType: 'emphasizedParagraph';
+                        }
+                      | {
+                          title?: string | null;
+                          richText: {
+                            root: {
+                              type: string;
+                              children: {
+                                type: any;
+                                version: number;
+                                [k: string]: unknown;
+                              }[];
+                              direction: ('ltr' | 'rtl') | null;
+                              format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                              indent: number;
+                              version: number;
+                            };
                             [k: string]: unknown;
-                          }[];
-                          direction: ('ltr' | 'rtl') | null;
-                          format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-                          indent: number;
-                          version: number;
-                        };
-                        [k: string]: unknown;
-                      };
-                      id?: string | null;
-                      blockName?: string | null;
-                      blockType: 'largeRichTextBlock';
-                    }
-                  | {
-                      title: string;
-                      events?: (number | null) | Event;
-                      id?: string | null;
-                      blockName?: string | null;
-                      blockType: 'upcomingEvents';
-                    }
-                  | AccountBlock
-                )[];
-                id?: string | null;
-              }[]
-            | null;
-          id?: string | null;
-          blockName?: string | null;
-          blockType: 'columnContainerBlock';
-        }
-      | {
-          title?: string | null;
-          richText: {
-            root: {
-              type: string;
-              children: {
-                type: any;
-                version: number;
+                          };
+                          id?: string | null;
+                          blockName?: string | null;
+                          blockType: 'largeRichTextBlock';
+                        }
+                      | {
+                          title: string;
+                          events?: (number | null) | Event;
+                          id?: string | null;
+                          blockName?: string | null;
+                          blockType: 'upcomingEvents';
+                        }
+                      | AccountBlock
+                    )[];
+                    id?: string | null;
+                  }[]
+                | null;
+              id?: string | null;
+              blockName?: string | null;
+              blockType: 'columnContainerBlock';
+            }
+          | {
+              title?: string | null;
+              richText: {
+                root: {
+                  type: string;
+                  children: {
+                    type: any;
+                    version: number;
+                    [k: string]: unknown;
+                  }[];
+                  direction: ('ltr' | 'rtl') | null;
+                  format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                  indent: number;
+                  version: number;
+                };
                 [k: string]: unknown;
-              }[];
-              direction: ('ltr' | 'rtl') | null;
-              format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-              indent: number;
-              version: number;
-            };
-            [k: string]: unknown;
-          };
-          id?: string | null;
-          blockName?: string | null;
-          blockType: 'largeRichTextBlock';
-        }
-      | {
-          title: string;
-          events?: (number | null) | Event;
-          id?: string | null;
-          blockName?: string | null;
-          blockType: 'upcomingEvents';
-        }
-      | AccountBlock
-    )[];
-    id?: string | null;
-    blockName?: string | null;
-    blockType: 'containerBlock';
-  }[];
+              };
+              id?: string | null;
+              blockName?: string | null;
+              blockType: 'largeRichTextBlock';
+            }
+          | {
+              title: string;
+              events?: (number | null) | Event;
+              id?: string | null;
+              blockName?: string | null;
+              blockType: 'upcomingEvents';
+            }
+          | AccountBlock
+        )[];
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'containerBlock';
+      }
+    | {
+        title: string;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'heroBlock';
+      }
+    | {
+        title: string;
+        thumbnail: number | Media;
+        articleTitle: string;
+        articleExcerpt: string;
+        link?: {
+          type?: ('reference' | 'custom') | null;
+          newTab?: boolean | null;
+          reference?:
+            | ({
+                relationTo: 'pages';
+                value: number | Page;
+              } | null)
+            | ({
+                relationTo: 'knowledgebase';
+                value: number | Knowledgebase;
+              } | null);
+          url?: string | null;
+        };
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'highlightArticleBlock';
+      }
+    | {
+        title: string;
+        thumbnail: number | Media;
+        articleTitle: string;
+        articleExcerpt: string;
+        link?: {
+          type?: ('reference' | 'custom') | null;
+          newTab?: boolean | null;
+          reference?:
+            | ({
+                relationTo: 'pages';
+                value: number | Page;
+              } | null)
+            | ({
+                relationTo: 'knowledgebase';
+                value: number | Knowledgebase;
+              } | null);
+          url?: string | null;
+        };
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'selectedWorkBlock';
+      }
+  )[];
   meta?: {
     title?: string | null;
     /**
@@ -1150,7 +1159,6 @@ export interface PagesSelect<T extends boolean = true> {
                       | T
                       | {
                           title?: T;
-                          richText?: T;
                           id?: T;
                           blockName?: T;
                         };
@@ -1200,7 +1208,6 @@ export interface PagesSelect<T extends boolean = true> {
                                   | T
                                   | {
                                       title?: T;
-                                      richText?: T;
                                       id?: T;
                                       blockName?: T;
                                     };
@@ -1330,7 +1337,6 @@ export interface PagesSelect<T extends boolean = true> {
                                         | T
                                         | {
                                             title?: T;
-                                            richText?: T;
                                             id?: T;
                                             blockName?: T;
                                           };
@@ -1424,6 +1430,49 @@ export interface PagesSelect<T extends boolean = true> {
                           blockName?: T;
                         };
                     accountBlock?: T | AccountBlockSelect<T>;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        heroBlock?:
+          | T
+          | {
+              title?: T;
+              id?: T;
+              blockName?: T;
+            };
+        highlightArticleBlock?:
+          | T
+          | {
+              title?: T;
+              thumbnail?: T;
+              articleTitle?: T;
+              articleExcerpt?: T;
+              link?:
+                | T
+                | {
+                    type?: T;
+                    newTab?: T;
+                    reference?: T;
+                    url?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        selectedWorkBlock?:
+          | T
+          | {
+              title?: T;
+              thumbnail?: T;
+              articleTitle?: T;
+              articleExcerpt?: T;
+              link?:
+                | T
+                | {
+                    type?: T;
+                    newTab?: T;
+                    reference?: T;
+                    url?: T;
                   };
               id?: T;
               blockName?: T;

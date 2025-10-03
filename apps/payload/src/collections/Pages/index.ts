@@ -15,6 +15,9 @@ import { slugField } from "../../fields/slug"
 import { populatePublishedAt } from "../../hooks/populate-published-at"
 import { generatePreviewPath } from "../../utilities/generate-preview-path"
 import { revalidatePage } from "./hooks/revalidate-page"
+import { HeroBlock } from "@/blocks/hero"
+import { HighlightArticleBlock } from "@/blocks/highlight-article"
+import { SelectedWorkBlock } from "@/blocks/selected-work"
 
 export const Pages: CollectionConfig<"pages"> = {
 	slug: "pages",
@@ -66,7 +69,7 @@ export const Pages: CollectionConfig<"pages"> = {
 						{
 							name: "layout",
 							type: "blocks",
-							blocks: [ContainerBlock],
+							blocks: [ContainerBlock, HeroBlock, HighlightArticleBlock, SelectedWorkBlock],
 							required: true,
 							admin: {
 								initCollapsed: true,
