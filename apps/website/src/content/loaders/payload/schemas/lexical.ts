@@ -29,7 +29,7 @@ export const externalLink = z.object({
 	url: z.string(),
 });
 
-const lexicalInlineLink = z.object({
+export const lexicalInlineLink = z.object({
 	version: z.number(),
 	type: z.literal("link"),
 	fields: z.union([internalLink, externalLink]),
@@ -69,6 +69,10 @@ const lexicalHorizontalrule = z.object({
 	type: z.literal("horizontalrule"),
 });
 
+const lexicalUpload = z.object({
+	type: z.literal("upload"),
+});
+
 const lexicalComponents = z.union([
 	lexicalParagraph,
 	lexicalInlineLink,
@@ -78,6 +82,7 @@ const lexicalComponents = z.union([
 	lexicalLinebreak,
 	lexicalTab,
 	lexicalHorizontalrule,
+	lexicalUpload,
 ]);
 
 export type LexicalComponents = z.infer<typeof lexicalComponents>;

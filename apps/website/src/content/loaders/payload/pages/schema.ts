@@ -1,6 +1,7 @@
 import { docsSchema } from "@astrojs/starlight/schema"
-import { lexicalRoot, lexicalRootContainer } from "../schemas/lexical"
+import { lexicalInlineLink, lexicalRoot, lexicalRootContainer } from "../schemas/lexical"
 import { z } from "astro:content"
+import { ImageUpload } from "../globalSchema"
 
 const h1Block = z.object({
 	blockType: z.literal("h1Block"),
@@ -114,7 +115,35 @@ const containerBlock = z.object({
 	layout: z.array(containerLayouts),
 })
 
-export const layoutUnion = containerBlock
+const heroBlock = z.object({
+	blockType: z.literal("heroBlock"),
+	title: z.string(),
+})
+
+const highlightArticle = z.object({
+	blockType: z.literal("highlightArticle"),
+	title: z.string(),
+	thumbnail: ImageUpload,
+	articleTitle: z.string(),
+	articleExcerpt: z.string(),
+	link: lexicalInlineLink
+})
+
+const selectedWork = z.object({
+	blockType: z.literal("selectedWork"),
+	title: z.string(),
+	thumbnail: ImageUpload,
+	articleTitle: z.string(),
+	articleExcerpt: z.string(),
+	link: lexicalInlineLink
+})
+
+export const layoutUnion = z.discriminatedUnion("blockType", [
+	containerBlock,
+	heroBlock,
+	highlightArticle,
+	selectedWork,
+])
 
 export type LayoutUnion = z.infer<typeof layoutUnion>
 
