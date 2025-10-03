@@ -1,0 +1,38 @@
+---
+type Props = {
+	background: "green" | "white-1" | "white-2"
+}
+
+const { background } = Astro.props
+
+const green = "bg-green-dark"
+const white_1 = "bg-[url('/signup_bg.png')] bg-cover"
+const white_2 = "bg-[url('/login_bg.png')] bg-cover"
+
+---
+<section class={`default-layout ${background}`}>
+	<slot />
+</section>
+
+<style>
+	section {
+		grid-column: 1/4;
+		background:
+			url(https://grainy-gradients.vercel.app/noise.svg),
+			radial-gradient(39.89% 39.89% at 50% 39.89%, #00382F 0%, #002922 100%);
+		background-blend-mode: multiply, normal;
+
+		&.white-1 {
+			background:
+				url(https://grainy-gradients.vercel.app/noise.svg),
+				url(/signup_bg.png);
+			background-blend-mode: multiply, normal;
+		}
+		&.white-2 {
+			background:
+				url(https://grainy-gradients.vercel.app/noise.svg),
+				url(/login_bg.png);
+			background-blend-mode: multiply, normal;
+		}
+	}
+</style>

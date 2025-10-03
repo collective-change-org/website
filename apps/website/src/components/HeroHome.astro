@@ -2,7 +2,7 @@
 import Logo from "../assets/Logo.svg"
 ---
 
-<div>
+<section>
 	<div class="pills recipe">
 		<span class="-rotate-1">junge Designer·innen</span>
 		<span class="studierende rotate-2">Designstudierende</span>
@@ -107,10 +107,17 @@ import Logo from "../assets/Logo.svg"
 		>
 		<span class="strukturen -rotate-1">gerechte Strukturen</span>
 	</div>
-</div>
+</section>
 
 <style>
-	div {
+	@reference "../tailwind.css";
+
+	section {
+		background:
+			url(https://grainy-gradients.vercel.app/noise.svg),
+			radial-gradient(39.89% 39.89% at 50% 39.89%, #00382F 0%, #002922 100%);
+		background-blend-mode: multiply, normal;
+		grid-column: 1/4;
 		display: flex;
 		flex-direction: column;
 		align-items: center;

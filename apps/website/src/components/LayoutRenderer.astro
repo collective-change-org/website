@@ -1,6 +1,6 @@
 ---
 import { Icon } from "astro-icon/components"
-import type { ContainerLayouts } from "../content/loaders/payload/pages/schema"
+import type { LayoutUnion } from "../content/loaders/payload/pages/schema"
 import Button from "./button/Button.astro"
 import { button } from "./button/button"
 import LexicalRenderer from "./LexicalRenderer.astro"
@@ -10,9 +10,12 @@ import Login from "./Login.tsx"
 import SignUp from "./SignUp/SignUp.astro"
 import UpcomingEvents from "./UpcomingEvents/UpcomingEvents.astro"
 import Account from "./Account/Account.astro"
+import HeroHome from "./HeroHome.astro"
+import HighlightArticle from "./highlight-article.astro"
+import SelectedWork from "./selected-work.astro"
 
 export interface Props {
-	children: ContainerLayouts[]
+	children: LayoutUnion[]
 	slug: string
 }
 
@@ -25,14 +28,19 @@ const { children, slug } = Astro.props
 			switch (child.blockType) {
 				case "h1Block":
 					return (
-						<h1
-							class={cn(
-								slug === "index" || slug === ""
-									? "typestyle-hero-h1 text-yellow-300"
-									: "typestyle-h1 text-off-white",
-							)}>
+						<h1 class={"typestyle-h1 text-off-white"}>
 							{child.title}
 						</h1>
+					)
+				case "heroBlock":
+					return <HeroHome title={child.title} />
+				case "highlightArticleBlock":
+					return (
+						<HighlightArticle {...child} />
+					)
+				case "selectedWorkBlock":
+					return (
+						<SelectedWork {...child} />
 					)
 				case "h2Block":
 					return (

@@ -1,0 +1,48 @@
+---
+import type { selectedWork } from '../content/loaders/payload/pages/schema'
+import Section from "./section.astro"
+
+import { z } from 'astro:content'
+import { createImageUrl } from '../lib/createImageUrl'
+
+type Props = z.infer<typeof selectedWork>
+
+const props = Astro.props
+---
+
+<Section background='white-1'>
+	<div class="selected-work-block">
+		<h3 class="typestyle-h3">{props.title}</h3>
+		<div class="work-content">
+			<img
+				src={createImageUrl(props.thumbnail.url)}
+				alt={props.thumbnail.alt}
+				class="work-thumbnail"
+			/>
+			<h4 class="work-title">{props.articleTitle}</h4>
+			<p class="work-excerpt">
+				{props.articleExcerpt}
+			</p>
+			<a
+				href={props.link.url}
+				target={
+					props.link.newTab ? "_blank" : "_self"
+				}
+				class="work-link">
+				View project
+			</a>
+		</div>
+	</div>
+</Section>
+
+<style>
+	div.selected-work-block {
+		color: black;
+		max-width: 65ch;
+
+		img {
+			max-width: 100%;
+			height: auto;
+		}
+	}
+</style>

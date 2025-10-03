@@ -57,12 +57,12 @@ export const ImageUpload = z.object({
 			filename: z.string()
 		}),
 		xlarge: z.object({
-			url: z.string(),
-			width: z.number(),
-			height: z.number(),
-			mimeType: z.string(),
-			filesize: z.number(),
-			filename: z.string()
+			url: z.string().nullable(),
+			width: z.number().nullable(),
+			height: z.number().nullable(),
+			mimeType: z.string().nullable(),
+			filesize: z.number().nullable(),
+			filename: z.string().nullable()
 		}),
 		og: z.object({
 			url: z.string(),
