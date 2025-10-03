@@ -10,5 +10,17 @@ import Default from "@astrojs/starlight/components/Head.astro"
 ---
 
 <Default>
+	<script
+		defer
+		data-domain="collective-change.de"
+		src="https://plausible.woven.design/js/script.outbound-links.js"
+	></script>
+	<script>
+		window.plausible =
+			window.plausible ||
+			function () {
+				;(window.plausible.q = window.plausible.q || []).push(arguments)
+			}
+	</script>
 	<slot />
 </Default>
