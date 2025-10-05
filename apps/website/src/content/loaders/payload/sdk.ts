@@ -1,6 +1,7 @@
 import { PayloadSDK } from '@payloadcms/sdk'
 import type { Config } from "@collectivechange/payload"
+import { CMS_URL } from "astro:env/client"
 
 export const sdk = new PayloadSDK<Config>({
-	baseURL: 'http://localhost:3000/api',
+	baseURL: `${CMS_URL}/api`,
 })
