@@ -9,8 +9,8 @@ export const Button: Field = {
 		link({
 			appearances: false,
 			overrides: {
-				label: false
-			}
+				label: false,
+			},
 		}),
 		{
 			name: "hasLeftIcon",

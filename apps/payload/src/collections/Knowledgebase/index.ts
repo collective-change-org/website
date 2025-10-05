@@ -174,7 +174,7 @@ export const Knowledgebase: CollectionConfig<"knowledgebase"> = {
 								},
 							],
 							admin: {
-								width: "50%"
+								width: "50%",
 							},
 							defaultValue: "public",
 						},
@@ -183,7 +183,7 @@ export const Knowledgebase: CollectionConfig<"knowledgebase"> = {
 							type: "relationship",
 							admin: {
 								description: "This page will be put in the selected group in the sidebar",
-								width: "50%"
+								width: "50%",
 							},
 							hasMany: false,
 							relationTo: "groups",
@@ -193,7 +193,7 @@ export const Knowledgebase: CollectionConfig<"knowledgebase"> = {
 							type: "relationship",
 							hasMany: true,
 							admin: {
-								width: "50%"
+								width: "50%",
 							},
 							relationTo: "users",
 						},
@@ -202,7 +202,7 @@ export const Knowledgebase: CollectionConfig<"knowledgebase"> = {
 							label: "Document Order",
 							type: "number",
 							admin: {
-								width: "50%"
+								width: "50%",
 							},
 							hooks: {},
 						},
@@ -213,7 +213,7 @@ export const Knowledgebase: CollectionConfig<"knowledgebase"> = {
 								date: {
 									pickerAppearance: "dayAndTime",
 								},
-								width: "50%"
+								width: "50%",
 							},
 							hooks: {
 								beforeChange: [
@@ -232,12 +232,12 @@ export const Knowledgebase: CollectionConfig<"knowledgebase"> = {
 							type: "relationship",
 							relationTo: "badge",
 							admin: {
-								width: "50%"
+								width: "50%",
 							},
 							hasMany: false,
 						},
-					]
-				}
+					],
+				},
 			],
 		},
 		{

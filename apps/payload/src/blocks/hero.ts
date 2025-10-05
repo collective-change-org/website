@@ -11,6 +11,6 @@ export const HeroBlock: Block = {
 		},
 	],
 	admin: {
-		disableBlockName: true
-	}
+		disableBlockName: true,
+	},
 }
