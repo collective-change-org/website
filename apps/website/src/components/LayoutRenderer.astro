@@ -11,6 +11,7 @@ import SignUp from "./SignUp/SignUp.astro"
 import UpcomingEvents from "./UpcomingEvents/UpcomingEvents.astro"
 import Account from "./Account/Account.astro"
 import HeroHome from "./HeroHome.astro"
+import Hero from "./hero/index.astro"
 import HighlightArticle from "./highlight-article.astro"
 import SelectedWork from "./selected-work.astro"
 import Divider from "./divider.astro"
@@ -40,7 +41,8 @@ const { children, slug } = Astro.props
 						</h1>
 					)
 				case "heroBlock":
-					return <HeroHome title={block.title} />
+					// return <HeroHome title={block.title} />
+					return <Hero />
 				case "highlightArticleBlock":
 					return (
 						<HighlightArticle {...block} />

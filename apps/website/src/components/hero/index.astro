@@ -1,0 +1,48 @@
+---
+
+import Desktop from "./desktop.astro"
+import Mobile from "./mobile.astro"
+
+---
+
+<section>
+	<Desktop />
+	<Mobile />
+</section>
+
+<style>
+@reference "../../tailwind.css";
+
+	section {
+		background: radial-gradient(39.89% 39.89% at 50% 39.89%, #00382F 0%, #00292200 100%);
+		grid-column: 1/4;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		color: white;
+		padding: 4rem 1rem;
+
+		svg {
+			width: 100%;
+			height: auto;
+			max-height: 60vh;
+
+			&#mobile {
+				display: block;
+			}
+			&#desktop {
+				display: none;
+			}
+
+			@media (min-width: 768px) {
+				&#mobile {
+					display: none;
+				}
+				&#desktop {
+					display: block;
+				}
+			}
+		}
+	}
+</style>
