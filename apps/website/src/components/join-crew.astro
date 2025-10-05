@@ -1,0 +1,82 @@
+---
+import type { joinCrew } from '../content/loaders/payload/pages/schema'
+import Section from "./section.astro"
+import { button } from "./button/button"
+import { Icon } from "astro-icon/components"
+
+import { z } from 'astro:content'
+
+type Props = z.infer<typeof joinCrew>
+
+const props = Astro.props
+
+let url
+if (props.button.link.type === "reference") {
+	if (props.button.link.reference?.relationTo === "pages") {
+		url =
+			props.button.link.reference.value.slug === "home"
+				? "/"
+				: props.button.link.reference.value.slug
+	} else if (
+		props.button.link.reference?.relationTo === "knowledgebase"
+	) {
+		url = props.button.link.reference.value.slugWithGroup
+	}
+} else {
+	url = props.button.link.url
+}
+
+---
+
+<Section background='white-1'>
+	<div class="join-crew-block">
+		<h2 class="typestyle-h3">{props.title}</h2>
+		<div>
+			<p class="typestyle-text-l">{props.text}</p>
+			<a
+				class={button({
+					size: props.button.size,
+					intent: props.button.variant,
+				})}
+				href={url}>
+				{props.button.hasLeftIcon && (
+					<Icon name={`ph:${props.button.iconLeft}`} />
+				)}
+				{props.button.link.label}
+				{props.button.hasRightIcon && (
+					<Icon name={`ph:${props.button.iconRight}`} />
+				)}
+			</a>
+		</div>
+	</div>
+</Section>
+
+<style>
+	div.join-crew-block {
+		margin: 2rem 0;
+		color: black;
+		display: flex;
+		gap: var(--spacing-xl);
+		flex-direction: column;
+
+		@media (min-width: 1024px) {
+			flex-direction: row;
+			align-items: center;
+
+			h2, div {
+				width: 50%;
+			}
+		}
+
+		div {
+			display: flex;
+			flex-direction: column;
+			align-items: start;
+			gap: var(--spacing-md)
+		}
+
+		h2 {
+			color: var(--color-green-lighter)
+		}
+	}
+</style>

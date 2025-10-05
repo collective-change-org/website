@@ -1,0 +1,47 @@
+---
+import type { LayoutUnion } from "@website/src/content/loaders/payload/pages/schema"
+import { button } from "./button"
+import { Icon } from "astro-icon/components";
+
+type BlockOf<T extends LayoutUnion["blockType"]> =
+	Extract<LayoutUnion, { blockType: T }>;
+type Props = {
+	block: BlockOf<"joinCrewBlock">["button"]
+}
+
+const {block} = Astro.props
+
+let url
+
+if (!block.link) throw new Error("Missing link")
+
+if (block.link.type === "reference") {
+	if (block.link.reference?.relationTo === "pages") {
+		url =
+			block.link.reference.value.slug === "home"
+				? "/"
+				: block.link.reference.value.slug
+	} else if (
+		block.link.reference?.relationTo === "knowledgebase"
+	) {
+		url = block.link.reference.value.slugWithGroup
+	}
+} else {
+	url = block.link.url
+}
+---
+
+<a
+	class={button({
+		size: block.size,
+		intent: block.variant,
+	})}
+	href={url}>
+	{block.hasLeftIcon && (
+		<Icon name={`ph:${block.iconLeft}`} />
+	)}
+	{block.link.label}
+	{block.hasRightIcon && (
+		<Icon name={`ph:${block.iconRight}`} />
+	)}
+</a>

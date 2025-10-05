@@ -14,6 +14,7 @@ import HeroHome from "./HeroHome.astro"
 import HighlightArticle from "./highlight-article.astro"
 import SelectedWork from "./selected-work.astro"
 import Divider from "./divider.astro"
+import JoinCrew from "./join-crew.astro"
 
 export interface Props {
 	children: LayoutUnion[]
@@ -47,6 +48,10 @@ const { children, slug } = Astro.props
 				case "selectedWorkBlock":
 					return (
 						<SelectedWork {...block} />
+					)
+				case "joinCrewBlock":
+					return (
+						<JoinCrew {...block} />
 					)
 				case "h2Block":
 					return (
@@ -144,7 +149,7 @@ const { children, slug } = Astro.props
 			}
 			}
 			<Divider />
-			</>
+			</J>
 		}
 	})
 }
