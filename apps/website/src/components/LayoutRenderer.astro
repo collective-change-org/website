@@ -1,7 +1,6 @@
 ---
 import { Icon } from "astro-icon/components"
-import type { LayoutUnion } from "../content/loaders/payload/pages/schema"
-import Button from "./button/Button.astro"
+import type { LayoutUnion, BaseContainerLayouts } from "../content/loaders/payload/pages/schema"
 import { button } from "./button/button"
 import LexicalRenderer from "./LexicalRenderer.astro"
 import ManifestBlock from "./ManifestBlock.astro"
@@ -16,9 +15,10 @@ import HighlightArticle from "./highlight-article.astro"
 import SelectedWork from "./selected-work.astro"
 import Divider from "./divider.astro"
 import JoinCrew from "./join-crew.astro"
+import Section from "./section.astro"
 
 export interface Props {
-	children: LayoutUnion[]
+	children: LayoutUnion[] | BaseContainerLayouts[]
 	slug: string
 }
 
@@ -34,6 +34,12 @@ const { children, slug } = Astro.props
 			{
 			() => {
 			switch (block.blockType) {
+				case "containerBlock":
+					return (
+					<Section background="green">
+						<Astro.self children={block.layout} {slug} />
+					</Section>
+					)
 				case "h1Block":
 					return (
 						<h1 class={"typestyle-h1 text-off-white"}>
