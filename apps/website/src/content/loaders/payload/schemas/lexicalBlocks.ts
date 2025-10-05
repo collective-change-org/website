@@ -44,16 +44,24 @@ const blockSteps = z.object({
 	blockType: z.literal("steps"),
 })
 
-const internalLink = z.object({
+// export const internalLink = z.object({
+// 	type: z.literal("reference"),
+// 	label: z.string(),
+// 	reference: z.object({
+// 		value: z.object({
+// 			slugWithGroup: z.string(),
+// 		}),
+// 		relationTo: z.union([z.literal("knowledgebase"), z.literal("page")]),
+// 	}),
+// })
+export const internalLink = z.object({
 	type: z.literal("reference"),
 	label: z.string(),
-	reference: z.object({
-		value: z.object({
-			slugWithGroup: z.string(),
-		}),
-		relationTo: z.union([z.literal("knowledgebase"), z.literal("page")]),
-	}),
+	reference: z.any().nullable().optional(),
+	newTab: z.boolean().nullable().optional(),
+	url: z.string().nullable().optional()
 })
+
 
 const linkCardBlock = z.object({
 	blockType: z.literal("linkCardBlock"),

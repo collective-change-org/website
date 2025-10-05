@@ -8,6 +8,11 @@ import {
 	PreviewField,
 } from "@payloadcms/plugin-seo/fields"
 
+import { HeroBlock } from "@/blocks/hero"
+import { HighlightArticleBlock } from "@/blocks/highlight-article"
+import { JoinCrewBlock } from "@/blocks/join-crew"
+import { SelectedWorkBlock } from "@/blocks/selected-work"
+
 import { authenticated } from "../../access/authenticated"
 import { authenticatedOrPublished } from "../../access/authenticated-or-published"
 import { ContainerBlock } from "../../blocks/Containers/container"
@@ -15,9 +20,6 @@ import { slugField } from "../../fields/slug"
 import { populatePublishedAt } from "../../hooks/populate-published-at"
 import { generatePreviewPath } from "../../utilities/generate-preview-path"
 import { revalidatePage } from "./hooks/revalidate-page"
-import { HeroBlock } from "@/blocks/hero"
-import { HighlightArticleBlock } from "@/blocks/highlight-article"
-import { SelectedWorkBlock } from "@/blocks/selected-work"
 
 export const Pages: CollectionConfig<"pages"> = {
 	slug: "pages",
@@ -69,7 +71,13 @@ export const Pages: CollectionConfig<"pages"> = {
 						{
 							name: "layout",
 							type: "blocks",
-							blocks: [ContainerBlock, HeroBlock, HighlightArticleBlock, SelectedWorkBlock],
+							blocks: [
+								ContainerBlock,
+								HeroBlock,
+								HighlightArticleBlock,
+								SelectedWorkBlock,
+								JoinCrewBlock,
+							],
 							required: true,
 							admin: {
 								initCollapsed: true,

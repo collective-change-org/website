@@ -568,6 +568,36 @@ export interface Page {
         blockName?: string | null;
         blockType: 'selectedWorkBlock';
       }
+    | {
+        title: string;
+        text: string;
+        button: {
+          link: {
+            type?: ('reference' | 'custom') | null;
+            newTab?: boolean | null;
+            reference?:
+              | ({
+                  relationTo: 'pages';
+                  value: number | Page;
+                } | null)
+              | ({
+                  relationTo: 'knowledgebase';
+                  value: number | Knowledgebase;
+                } | null);
+            url?: string | null;
+            label: string;
+          };
+          hasLeftIcon: boolean;
+          iconLeft?: string | null;
+          hasRightIcon: boolean;
+          iconRight?: string | null;
+          variant: 'green' | 'orange' | 'black';
+          size: 'small' | 'large';
+        };
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'joinCrewBlock';
+      }
   )[];
   meta?: {
     title?: string | null;
@@ -1473,6 +1503,33 @@ export interface PagesSelect<T extends boolean = true> {
                     newTab?: T;
                     reference?: T;
                     url?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        joinCrewBlock?:
+          | T
+          | {
+              title?: T;
+              text?: T;
+              button?:
+                | T
+                | {
+                    link?:
+                      | T
+                      | {
+                          type?: T;
+                          newTab?: T;
+                          reference?: T;
+                          url?: T;
+                          label?: T;
+                        };
+                    hasLeftIcon?: T;
+                    iconLeft?: T;
+                    hasRightIcon?: T;
+                    iconRight?: T;
+                    variant?: T;
+                    size?: T;
                   };
               id?: T;
               blockName?: T;

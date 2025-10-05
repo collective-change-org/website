@@ -13,6 +13,7 @@ import Account from "./Account/Account.astro"
 import HeroHome from "./HeroHome.astro"
 import HighlightArticle from "./highlight-article.astro"
 import SelectedWork from "./selected-work.astro"
+import Divider from "./divider.astro"
 
 export interface Props {
 	children: LayoutUnion[]
@@ -20,84 +21,89 @@ export interface Props {
 }
 
 const { children, slug } = Astro.props
+
+
 ---
 
 {
-	children.map((child) => {
-		if ("blockType" in child) {
-			switch (child.blockType) {
+	children.map((block) => {
+	if ("blockType" in block) {
+			return <>
+			{
+			() => {
+			switch (block.blockType) {
 				case "h1Block":
 					return (
 						<h1 class={"typestyle-h1 text-off-white"}>
-							{child.title}
+							{block.title}
 						</h1>
 					)
 				case "heroBlock":
-					return <HeroHome title={child.title} />
+					return <HeroHome title={block.title} />
 				case "highlightArticleBlock":
 					return (
-						<HighlightArticle {...child} />
+						<HighlightArticle {...block} />
 					)
 				case "selectedWorkBlock":
 					return (
-						<SelectedWork {...child} />
+						<SelectedWork {...block} />
 					)
 				case "h2Block":
 					return (
 						<h2 class="typestyle-h2 group-data-[color=green]:text-off-white group-data-[color=white]:text-green-lightest">
-							{child.title}
+							{block.title}
 						</h2>
 					)
 				case "emphasizedParagraph":
 					return (
 						<div class="typestyle-hero-p group-data-[color=green]:text-off-white group-data-[color=white]:text-green-black">
 							<LexicalRenderer
-								children={child.richText.root.children}
+								children={block.richText.root.children}
 							/>
 						</div>
 					)
 				case "indentedContainer":
 					return (
 						<div class="flex flex-col items-start gap-10 lg:ml-[25%]">
-							<Astro.self children={child.layout} slug={slug} />
+							<Astro.self children={block.layout} slug={slug} />
 						</div>
 					)
 				case "buttonBlock":
 					let url
-					if (child.link.type === "reference") {
-						if (child.link.reference.relationTo === "pages") {
+					if (block.link.type === "reference") {
+						if (block.link.reference.relationTo === "pages") {
 							url =
-								child.link.reference.value.slug === "home"
+								block.link.reference.value.slug === "home"
 									? "/"
-									: child.link.reference.value.slug
+									: block.link.reference.value.slug
 						} else if (
-							child.link.reference.relationTo === "knowledgebase"
+							block.link.reference.relationTo === "knowledgebase"
 						) {
-							url = child.link.reference.value.slugWithGroup
+							url = block.link.reference.value.slugWithGroup
 						}
 					} else {
-						url = child.link.url
+						url = block.link.url
 					}
 					return (
 						<a
 							class={button({
-								size: child.size,
-								intent: child.variant,
+								size: block.size,
+								intent: block.variant,
 							})}
 							href={url}>
-							{child.hasLeftIcon && (
-								<Icon name={`ph:${child.iconLeft}`} />
+							{block.hasLeftIcon && (
+								<Icon name={`ph:${block.iconLeft}`} />
 							)}
-							{child.link.label}
-							{child.hasRightIcon && (
-								<Icon name={`ph:${child.iconRight}`} />
+							{block.link.label}
+							{block.hasRightIcon && (
+								<Icon name={`ph:${block.iconRight}`} />
 							)}
 						</a>
 					)
 				case "columnContainerBlock":
 					return (
 						<div class="flex flex-col items-start gap-8 lg:flex-row">
-							{child.columns.map((column) => {
+							{block.columns.map((column) => {
 								return (
 									<div class="lg:base-1/2 flex w-full flex-col items-start justify-center gap-8">
 										<Astro.self
@@ -112,29 +118,33 @@ const { children, slug } = Astro.props
 				case "largeRichTextBlock":
 					return (
 						<div class="typestyle-text-l group-data-[color=green]:text-off-white group-data-[color=white]:text-green-black flex flex-col items-start gap-4">
-							<h4 class="typestyle-h4">{child.title}</h4>
+							<h4 class="typestyle-h4">{block.title}</h4>
 							<LexicalRenderer
-								children={child.richText.root.children}
+								children={block.richText.root.children}
 							/>
 						</div>
 					)
 				case "manifestBlock":
-					return <ManifestBlock sections={child.sections} />
+					return <ManifestBlock sections={block.sections} />
 				case "loginBlock":
 					return <Login client:load />
 				case "signupBlock":
 					return <SignUp />
 				case "upcomingEvents":
-					return <UpcomingEvents {...child} server:defer />
+					return <UpcomingEvents {...block} server:defer />
 				case "accountBlock":
 					return <Account server:defer />
 				default:
 					return (
 						<p class="text-white mix-blend-difference">
-							{JSON.stringify(child)}
+							{JSON.stringify(block)}
 						</p>
 					)
 			}
+			}
+			}
+			<Divider />
+			</>
 		}
 	})
 }

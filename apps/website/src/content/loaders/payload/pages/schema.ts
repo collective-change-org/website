@@ -2,6 +2,18 @@ import { docsSchema } from "@astrojs/starlight/schema"
 import { lexicalRoot, lexicalRootContainer } from "../schemas/lexical"
 import { z } from "astro:content"
 import { ImageUpload } from "../globalSchema"
+import type { Page } from "@payload/src/payload-types"
+import { internalLink } from "../schemas/lexicalBlocks"
+
+type BlockUnion = Page["layout"][number];
+
+type BlockOf<T extends BlockUnion["blockType"]> =
+	Extract<BlockUnion, { blockType: T }>;
+
+// 3. Usage
+type HeroBlock = BlockOf<"heroBlock">;
+type HighlightArticleBlock = BlockOf<"highlightArticleBlock">;
+type SelectedWorkBlock = BlockOf<"selectedWorkBlock">;
 
 const h1Block = z.object({
 	blockType: z.literal("h1Block"),
@@ -115,7 +127,7 @@ const containerBlock = z.object({
 	layout: z.array(containerLayouts),
 })
 
-const heroBlock = z.object({
+const heroBlock: z.ZodType<HeroBlock> = z.object({
 	blockType: z.literal("heroBlock"),
 	title: z.string(),
 })
@@ -126,7 +138,17 @@ const simpleLink = z.object({
 	url: z.string(),
 })
 
-export const highlightArticle = z.object({
+const fullLink: z.ZodType<BlockOf<"joinCrewBlock">["button"]["link"]> = z.discriminatedUnion("type", [
+	internalLink,
+	z.object({
+		type: z.literal("custom"),
+		newTab: z.boolean().optional().nullable(),
+		url: z.string(),
+		label: z.string(),
+	}),
+])
+
+export const highlightArticle: z.ZodType<BlockOf<"highlightArticleBlock">> = z.object({
 	blockType: z.literal("highlightArticleBlock"),
 	title: z.string(),
 	thumbnail: ImageUpload,
@@ -135,7 +157,7 @@ export const highlightArticle = z.object({
 	link: simpleLink
 })
 
-export const selectedWork = z.object({
+export const selectedWork: z.ZodType<BlockOf<"selectedWorkBlock">> = z.object({
 	blockType: z.literal("selectedWorkBlock"),
 	title: z.string(),
 	thumbnail: ImageUpload,
@@ -144,11 +166,33 @@ export const selectedWork = z.object({
 	link: simpleLink
 })
 
-export const layoutUnion = z.discriminatedUnion("blockType", [
+const button = z.object({
+	hasRightIcon: z.boolean(),
+	hasLeftIcon: z.boolean(),
+	iconLeft: z.string().nullable(),
+	iconRight: z.string().nullable(),
+	variant: z.union([
+		z.literal("green"),
+		z.literal("orange"),
+		z.literal("black"),
+	]),
+	size: z.union([z.literal("small"), z.literal("large")]),
+	link: fullLink,
+})
+
+export const joinCrew: z.ZodType<BlockOf<"joinCrewBlock">> = z.object({
+	blockType: z.literal("joinCrewBlock"),
+	title: z.string(),
+	text: z.string(),
+	button
+})
+
+export const layoutUnion = z.union([
 	containerBlock,
 	heroBlock,
 	highlightArticle,
 	selectedWork,
+	joinCrew
 ])
 
 export type LayoutUnion = z.infer<typeof layoutUnion>
