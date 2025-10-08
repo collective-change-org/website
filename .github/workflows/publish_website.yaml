@@ -66,6 +66,8 @@ jobs:
                   tags: |
                       ghcr.io/collective-change-org/website:custom-${{ env.DATE_STAMP }}
                       ghcr.io/collective-change-org/website:latest
+                  cache-from: type=gha
+                  cache-to: type=gha,mode=max
 
             - name: Trigger Dokploy Deployment
               run: |
