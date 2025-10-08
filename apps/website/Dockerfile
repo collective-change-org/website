@@ -37,10 +37,24 @@ RUN corepack enable pnpm && pnpm i --frozen-lockfile
 
 # Build the project
 COPY --from=builder /app/out/full/ .
+
+# Copy the missing tsconfig.base.jsonc file that turbo prune doesn't include
+COPY --from=builder /app/tsconfig.base.jsonc ./tsconfig.base.jsonc
+
 RUN corepack enable pnpm && pnpm turbo run build --filter=@collectivechange/website
 
 FROM base AS runner
 WORKDIR /app
+
+# Accept build arguments for runtime as well (for server-side variables)
+ARG PAYLOAD_EMAIL
+ARG PAYLOAD_PASSWORD
+ARG CMS_URL
+
+# Set runtime environment variables
+ENV PAYLOAD_EMAIL=$PAYLOAD_EMAIL
+ENV PAYLOAD_PASSWORD=$PAYLOAD_PASSWORD
+ENV CMS_URL=$CMS_URL
 
 # Don't run production as root
 RUN addgroup --system --gid 1001 nodejs
