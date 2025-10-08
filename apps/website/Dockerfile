@@ -8,7 +8,8 @@ WORKDIR /app
 # Replace <your-major-version> with the major version installed in your repository. For example:
 # RUN yarn global add turbo@^2
 RUN corepack enable pnpm && pnpm add turbo@^2.4.2
-COPY . .
+# Copy the entire monorepo structure
+COPY ../../ .
 
 # Generate a partial monorepo with a pruned lockfile for a target workspace.
 RUN pnpm turbo prune @collectivechange/website --docker
@@ -42,4 +43,4 @@ COPY --from=installer --chown=astrojs:nodejs /app/apps/website/dist ./
 ENV HOST=0.0.0.0
 ENV PORT=4321
 EXPOSE 4321
-CMD node ./server/entry.mjs
+CMD ["node", "./server/entry.mjs"]
