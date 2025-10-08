@@ -1,13 +1,23 @@
-# ---- Base image ----
 FROM node:23-alpine AS base
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
+# ---- Dependencies stage ----
+FROM base AS deps
+RUN corepack enable pnpm
+
+# Copy workspace files
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+COPY apps/website/package.json ./apps/website/package.json
+COPY turbo.json tsconfig.base.jsonc ./
+
+# Install all dependencies (including workspace deps)
+RUN pnpm install --frozen-lockfile
 
 # ---- Builder stage ----
-FROM base AS builder
+FROM deps AS builder
 
-# Accept build arguments for use during build
+# Accept build arguments
 ARG PAYLOAD_EMAIL
 ARG PAYLOAD_PASSWORD
 ARG CMS_URL
@@ -17,32 +27,25 @@ ENV PAYLOAD_EMAIL=$PAYLOAD_EMAIL
 ENV PAYLOAD_PASSWORD=$PAYLOAD_PASSWORD
 ENV CMS_URL=$CMS_URL
 
-# Enable pnpm
-RUN corepack enable
-
-# Copy dependency files for better caching
-COPY pnpm-workspace.yaml ./
-COPY package.json pnpm-lock.yaml ./
-
-# Copy all workspace package.json files (for caching)
-COPY apps/website/package.json ./apps/website/package.json
-# If you have other packages:
-# COPY packages/*/package.json ./packages/*/package.json
-
-# Install all dependencies
-RUN --mount=type=cache,id=pnpm-store,target=/root/.local/share/pnpm/store \
-	pnpm install --frozen-lockfile
-
-# Copy the full repository
+# Copy source code
 COPY . .
 
-# Build only the target workspace
+# Build the website
 RUN pnpm --filter @collectivechange/website build
 
+# ---- Production dependencies stage ----
+FROM base AS prod-deps
+RUN corepack enable pnpm
+
+# Copy workspace files
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+COPY apps/website/package.json ./apps/website/package.json
+
+# Install only production dependencies
+RUN pnpm install --prod --frozen-lockfile
+
 # ---- Runner stage ----
-FROM node:23-alpine AS runner
-RUN apk add --no-cache libc6-compat
-WORKDIR /app
+FROM base AS runner
 
 # Accept runtime arguments
 ARG PAYLOAD_EMAIL
@@ -57,18 +60,21 @@ ENV CMS_URL=$CMS_URL
 ENV HOST=0.0.0.0
 ENV PORT=4321
 
-# Create a non-root user
-# RUN addgroup --system --gid 1001 nodejs && adduser --system --uid 1001 astrojs
-# USER astrojs
+# Copy production dependencies
+COPY --from=prod-deps /app/node_modules ./node_modules
+COPY --from=prod-deps /app/package.json ./package.json
 
-# Copy only the built output + production deps
-COPY --from=builder /app/apps/website/dist ./
-COPY --from=builder /app/apps/website/package.json ./package.json
-COPY --from=builder /app/pnpm-lock.yaml ./pnpm-lock.yaml
+# Copy built application
+COPY --from=builder /app/apps/website/dist ./dist
 
-# Install production dependencies
-RUN corepack enable && pnpm install --frozen-lockfile --production
+# Create a non-root user and change ownership
+RUN addgroup --system --gid 1001 nodejs && \
+	adduser --system --uid 1001 astrojs && \
+	chown -R astrojs:nodejs /app
+
+# Switch to non-root user
+USER astrojs
 
 # Expose the web port and start
 EXPOSE 4321
-CMD ["node", "./server/entry.mjs"]
+CMD ["node", "./dist/server/entry.mjs"]
