@@ -39,6 +39,15 @@ COPY . .
 # Build only the target workspace
 RUN pnpm --filter @collectivechange/website build
 
+# Debug: Show what was built
+RUN echo "=== Build completed, inspecting output ===" && \
+	ls -la apps/website/ && \
+	echo "=== Contents of dist directory ===" && \
+	ls -la apps/website/dist/ && \
+	echo "=== Looking for entry files ===" && \
+	find apps/website/dist -name "*.mjs" -o -name "entry.*" && \
+	echo "=== End debug ==="
+
 
 # ---- Runner stage ----
 FROM node:23-alpine AS runner
@@ -63,9 +72,16 @@ RUN addgroup --system --gid 1001 nodejs && adduser --system --uid 1001 astrojs
 USER astrojs
 
 # Copy only the built output + production deps
-COPY --from=builder /app/apps/website/dist ./server
+COPY --from=builder /app/apps/website/dist ./
 COPY --from=builder /app/apps/website/package.json ./package.json
 COPY --from=builder /app/pnpm-lock.yaml ./pnpm-lock.yaml
+
+# Debug: Show what we copied to the runner
+RUN echo "=== Runner stage debug ===" && \
+	ls -la ./ && \
+	echo "=== Looking for entry files in runner ===" && \
+	find . -name "*.mjs" -o -name "entry.*" && \
+	echo "=== End runner debug ==="
 
 # Expose the web port and start
 EXPOSE 4321
