@@ -598,6 +598,7 @@ export interface Page {
         blockName?: string | null;
         blockType: 'joinCrewBlock';
       }
+    | DividerBlock
   )[];
   meta?: {
     title?: string | null;
@@ -922,6 +923,15 @@ export interface AccountBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'accountBlock';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "DividerBlock".
+ */
+export interface DividerBlock {
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'dividerBlock';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1534,6 +1544,7 @@ export interface PagesSelect<T extends boolean = true> {
               id?: T;
               blockName?: T;
             };
+        dividerBlock?: T | DividerBlockSelect<T>;
       };
   meta?:
     | T
@@ -1579,6 +1590,14 @@ export interface SignupBlockSelect<T extends boolean = true> {
  * via the `definition` "AccountBlock_select".
  */
 export interface AccountBlockSelect<T extends boolean = true> {
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "DividerBlock_select".
+ */
+export interface DividerBlockSelect<T extends boolean = true> {
   id?: T;
   blockName?: T;
 }

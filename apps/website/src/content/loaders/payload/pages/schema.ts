@@ -15,6 +15,10 @@ type HeroBlock = BlockOf<"heroBlock">;
 type HighlightArticleBlock = BlockOf<"highlightArticleBlock">;
 type SelectedWorkBlock = BlockOf<"selectedWorkBlock">;
 
+const dividerBlock = z.object({
+	blockType: z.literal("dividerBlock"),
+})
+
 const h1Block = z.object({
 	blockType: z.literal("h1Block"),
 	title: z.string(),
@@ -192,7 +196,8 @@ export const layoutUnion = z.union([
 	heroBlock,
 	highlightArticle,
 	selectedWork,
-	joinCrew
+	joinCrew,
+	dividerBlock,
 ])
 
 export type LayoutUnion = z.infer<typeof layoutUnion>

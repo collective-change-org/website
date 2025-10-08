@@ -20,6 +20,7 @@ import { slugField } from "../../fields/slug"
 import { populatePublishedAt } from "../../hooks/populate-published-at"
 import { generatePreviewPath } from "../../utilities/generate-preview-path"
 import { revalidatePage } from "./hooks/revalidate-page"
+import { DividerBlock } from "@/blocks/divider"
 
 export const Pages: CollectionConfig<"pages"> = {
 	slug: "pages",
@@ -77,6 +78,7 @@ export const Pages: CollectionConfig<"pages"> = {
 								HighlightArticleBlock,
 								SelectedWorkBlock,
 								JoinCrewBlock,
+								DividerBlock,
 							],
 							required: true,
 							admin: {
