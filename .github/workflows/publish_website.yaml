@@ -48,11 +48,6 @@ jobs:
               id: date
               run: echo "DATE_STAMP=$(date +%s)" > "$GITHUB_ENV"
 
-            - uses: actions/setup-node@v4
-              with:
-                  node-version: 23
-                  cache: "pnpm"
-
             - name: Build and push Docker image
               uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
               with:
