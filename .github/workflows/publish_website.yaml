@@ -69,20 +69,15 @@ jobs:
                       ghcr.io/collective-change-org/website:custom-${{ env.DATE_STAMP }}
                       ghcr.io/collective-change-org/website:latest
 
-            # - name: Build and push Docker image
-            #   uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
-            #   with:
-            #       context: .
-            #       file: apps/website/Dockerfile
-            #       push: true
-            #       tags: |
-            #           ${{ steps.meta.outputs.tags }}
-            #           ghcr.io/collective-change-org/website:latest
-            #       # Commit Hash and Latest as tags
-
-            # - name: Dokploy Deployment
-            #   uses: benbristow/dokploy-deploy-action@0.0.1
-            #   with:
-            #       auth_token: ${{ secrets.DOKPLOY_AUTH_TOKEN }}
-            #       application_id: ${{ secrets.DOKPLOY_APPLICATION_ID }}
-            #       dokploy_url: ${{ secrets.DOKPLOY_URL }}
+            - name: Trigger Dokploy Deployment
+              run: |
+                  curl -X 'POST' \
+                  '${{ secrets.DOKPLOY_URL }}/api/trpc/application.deploy' \
+                  -H 'accept: application/json' \
+                  -H 'x-api-key: ${{ secrets.DOKPLOY_AUTH_TOKEN }}' \
+                  -H 'Content-Type: application/json' \
+                  -d '{
+                      "json":{
+                          "applicationId": "${{ secrets.DOKPLOY_WEBSITE_APPLICATION_ID }}"
+                      }
+                  }'
