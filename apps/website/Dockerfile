@@ -58,8 +58,8 @@ ENV HOST=0.0.0.0
 ENV PORT=4321
 
 # Create a non-root user
-RUN addgroup --system --gid 1001 nodejs && adduser --system --uid 1001 astrojs
-USER astrojs
+# RUN addgroup --system --gid 1001 nodejs && adduser --system --uid 1001 astrojs
+# USER astrojs
 
 # Copy only the built output + production deps
 COPY --from=builder /app/apps/website/dist ./
