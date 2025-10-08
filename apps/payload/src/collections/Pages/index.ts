@@ -8,6 +8,7 @@ import {
 	PreviewField,
 } from "@payloadcms/plugin-seo/fields"
 
+import { DividerBlock } from "@/blocks/divider"
 import { HeroBlock } from "@/blocks/hero"
 import { HighlightArticleBlock } from "@/blocks/highlight-article"
 import { JoinCrewBlock } from "@/blocks/join-crew"
@@ -20,7 +21,6 @@ import { slugField } from "../../fields/slug"
 import { populatePublishedAt } from "../../hooks/populate-published-at"
 import { generatePreviewPath } from "../../utilities/generate-preview-path"
 import { revalidatePage } from "./hooks/revalidate-page"
-import { DividerBlock } from "@/blocks/divider"
 
 export const Pages: CollectionConfig<"pages"> = {
 	slug: "pages",
