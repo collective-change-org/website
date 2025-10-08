@@ -28,3 +28,5 @@ pnpm-debug.log*
 uploads/
 
 apps/payload/public/media
+
+out/

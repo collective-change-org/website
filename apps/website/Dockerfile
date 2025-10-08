@@ -8,8 +8,15 @@ WORKDIR /app
 # Replace <your-major-version> with the major version installed in your repository. For example:
 # RUN yarn global add turbo@^2
 RUN corepack enable pnpm && pnpm add turbo@^2.4.2
-# Copy the entire monorepo structure
-COPY ../../ .
+
+# Copy root workspace files
+COPY package.json ./
+COPY pnpm-lock.yaml ./
+COPY pnpm-workspace.yaml ./
+COPY turbo.json ./
+
+# Copy all apps (preserving structure)
+COPY apps/ ./apps/
 
 # Generate a partial monorepo with a pruned lockfile for a target workspace.
 RUN pnpm turbo prune @collectivechange/website --docker
