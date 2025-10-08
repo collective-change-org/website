@@ -67,10 +67,6 @@ COPY --from=builder /app/apps/website/dist ./server
 COPY --from=builder /app/apps/website/package.json ./package.json
 COPY --from=builder /app/pnpm-lock.yaml ./pnpm-lock.yaml
 
-# Install production dependencies only
-RUN corepack enable && \
-	pnpm install --prod --frozen-lockfile --ignore-scripts
-
 # Expose the web port and start
 EXPOSE 4321
 CMD ["node", "./server/entry.mjs"]
