@@ -19,9 +19,9 @@ export async function getHeader(): Promise<HeaderSchema> {
 				// If referemce is a page, not a knowledgebase, use the slug
 				// If it is a knowledgebase, use the slugWithGroup
 				if ("slugWithGroup" in reference) {
-					href = reference.slugWithGroup || ""
+					href = reference.slugWithGroup ? `/wissen/${reference.slugWithGroup}` : ""
 				} else {
-					href = reference.slug || ""
+					href = reference.slug ? `/${reference.slug}` : ""
 				}
 			}
 		} else {
