@@ -2,9 +2,9 @@ name: Create and publish a Docker image
 
 on:
     workflow_dispatch:
-    # push:
-    #     branches:
-    #         - main
+    push:
+        branches:
+            - main
 
 env:
     REGISTRY: ghcr.io
@@ -46,9 +46,9 @@ jobs:
                       ghcr.io/collective-change-org/website:latest
                   # Commit Hash and Latest as tags
 
-            - name: Dokploy Deployment
-              uses: benbristow/dokploy-deploy-action@0.0.1
-              with:
-                  auth_token: ${{ secrets.DOKPLOY_AUTH_TOKEN }}
-                  application_id: ${{ secrets.DOKPLOY_APPLICATION_ID }}
-                  dokploy_url: ${{ secrets.DOKPLOY_URL }}
+            # - name: Dokploy Deployment
+            #   uses: benbristow/dokploy-deploy-action@0.0.1
+            #   with:
+            #       auth_token: ${{ secrets.DOKPLOY_AUTH_TOKEN }}
+            #       application_id: ${{ secrets.DOKPLOY_APPLICATION_ID }}
+            #       dokploy_url: ${{ secrets.DOKPLOY_URL }}
