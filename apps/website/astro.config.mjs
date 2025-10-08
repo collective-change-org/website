@@ -32,6 +32,26 @@ export default defineConfig({
 					lang: "de",
 				},
 			},
+			head: [
+				{
+					tag: "script",
+					attrs: {
+						defer: true,
+						"data-domain": "collective-change.de",
+						src: "https://plausible.woven.design/js/script.outbound-links.js",
+					}
+				},
+				{
+					tag: 'script',
+					content: `
+						window.plausible =
+							window.plausible ||
+							function () {
+								;(window.plausible.q = window.plausible.q || []).push(arguments)
+							}
+					`,
+				},
+			],
 			components: {
 				Head: "./src/components/overwrites/Head.astro",
 				MarkdownContent:
