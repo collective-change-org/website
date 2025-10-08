@@ -51,13 +51,22 @@ jobs:
             - name: Build and push Docker image
               uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
               with:
-                  context: .
-                  file: apps/website/Dockerfile
+                  context: apps/website
                   push: true
                   tags: |
-                      ${{ steps.meta.outputs.tags }}
+                      ghcr.io/collective-change-org/website:custom-${{ env.DATE_STAMP }}
                       ghcr.io/collective-change-org/website:latest
-                  # Commit Hash and Latest as tags
+
+            # - name: Build and push Docker image
+            #   uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
+            #   with:
+            #       context: .
+            #       file: apps/website/Dockerfile
+            #       push: true
+            #       tags: |
+            #           ${{ steps.meta.outputs.tags }}
+            #           ghcr.io/collective-change-org/website:latest
+            #       # Commit Hash and Latest as tags
 
             # - name: Dokploy Deployment
             #   uses: benbristow/dokploy-deploy-action@0.0.1
