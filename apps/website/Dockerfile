@@ -67,7 +67,7 @@ COPY --from=builder /app/apps/website/package.json ./package.json
 COPY --from=builder /app/pnpm-lock.yaml ./pnpm-lock.yaml
 
 # Install production dependencies
-RUN pnpm install --frozen-lockfile --production
+RUN corepack enable && pnpm install --frozen-lockfile --production
 
 # Expose the web port and start
 EXPOSE 4321
