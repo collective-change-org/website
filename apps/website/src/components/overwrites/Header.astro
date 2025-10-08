@@ -33,7 +33,7 @@ const isDoc = Astro.locals.starlightRoute.entry.data.template === "doc"
 			navlinks.map((link) => (
 				<a
 					class="px-6 typestyle-text-l font-bold text-white hover:text-yellow-neon transition-all duration-200 no-underline"
-					href={`/${link.href}`}
+					href={link.href}
 					target={link.newTab ? "_blank" : ""}
 					rel={link.newTab ? "noopener noreferrer" : ""}>
 					{link.label}
