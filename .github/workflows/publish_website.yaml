@@ -54,6 +54,10 @@ jobs:
                   # context: apps/website
                   file: apps/website/Dockerfile
                   push: true
+                  build-args: |
+                      PAYLOAD_EMAIL=${{ secrets.PAYLOAD_EMAIL }}
+                      PAYLOAD_PASSWORD=${{ secrets.PAYLOAD_PASSWORD }}
+                      CMS_URL=${{ secrets.CMS_URL }}
                   tags: |
                       ghcr.io/collective-change-org/website:custom-${{ env.DATE_STAMP }}
                       ghcr.io/collective-change-org/website:latest

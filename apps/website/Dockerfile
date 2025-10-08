@@ -21,13 +21,23 @@ RUN apk update
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
+# Accept build arguments
+ARG PAYLOAD_EMAIL
+ARG PAYLOAD_PASSWORD
+ARG CMS_URL
+
+# Make them available as environment variables during build
+ENV PAYLOAD_EMAIL=$PAYLOAD_EMAIL
+ENV PAYLOAD_PASSWORD=$PAYLOAD_PASSWORD
+ENV CMS_URL=$CMS_URL
+
 # First install the dependencies (as they change less often)
 COPY --from=builder /app/out/json/ .
 RUN corepack enable pnpm && pnpm i --frozen-lockfile
 
 # Build the project
 COPY --from=builder /app/out/full/ .
-RUN corepack enable pnpm && pnpm turbo run build
+RUN corepack enable pnpm && pnpm turbo run build --filter=@collectivechange/website
 
 FROM base AS runner
 WORKDIR /app
