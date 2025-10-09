@@ -256,9 +256,10 @@ body {
 		"Open Sans",
 		"Helvetica Neue",
 		sans-serif;
-	background: url(https://grainy-gradients.vercel.app/noise.svg),
+	background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32'%3E%3Cfilter id='noise' x='0' y='0'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3CfeBlend mode='screen'/%3E%3C/filter%3E%3Crect width='32' height='32' filter='url(%23noise)' opacity='0.5'/%3E%3C/svg%3E"),
 		var(--color-green-dark);
 	background-blend-mode: multiply, normal;
+	background-size: 32px, 32px;
 }
 
 ::selection {
