@@ -18,5 +18,8 @@
     "onlyBuiltDependencies": [
       "sharp"
     ]
-  }
+  },
+  "workspaces": [
+    "apps/*"
+  ]
 }
