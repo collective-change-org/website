@@ -9,9 +9,9 @@ export async function getMeUser(args?: {
 	nullUserRedirect?: string
 	validUserRedirect?: string
 }): Promise<{
-		token: string
-		user: User
-	}> {
+	token: string
+	user: User
+}> {
 	const { nullUserRedirect, validUserRedirect } = args || {}
 	const cookieStore = await cookies()
 	const token = cookieStore.get("payload-token")?.value
