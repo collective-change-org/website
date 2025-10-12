@@ -255,7 +255,7 @@ const dataAttributes: DOMStringMap = {
 		border: 0;
 		background: transparent;
 		cursor: pointer;
-		color: var(--sl-color-text-accent);
+		@apply text-green-black;
 	}
 
 	#starlight__search {
@@ -354,9 +354,9 @@ const dataAttributes: DOMStringMap = {
 		padding: 4px 16px;
 		background-color: transparent;
 		overflow: hidden;
-		@apply text-green-black;
 		text-decoration: underline;
 		cursor: pointer;
+		top: 1.5rem
 	}
 	#starlight__search .pagefind-ui__search-clear:focus {
 		outline: 1px solid var(--sl-color-accent);
@@ -414,7 +414,7 @@ const dataAttributes: DOMStringMap = {
 			:where(.pagefind-ui__result-nested *)
 		):focus-within,
 	#starlight__search .pagefind-ui__result-nested:focus-within {
-		background-color: var(--sl-color-accent-low);
+		background-color: --color-bg-pink-light;
 	}
 
 	#starlight__search .pagefind-ui__result-thumb,
@@ -551,4 +551,61 @@ const dataAttributes: DOMStringMap = {
 		padding: 4px 16px;
 		display: none;
 	}
+
+
+
+	#starlight__search .pagefind-ui__result {
+		border: 2px rgba(0, 0, 0, 0.2) solid;
+		border-radius: 8px;
+		padding: 0;
+		margin: 0.5rem 0;
+		background: var(--color-off-white);
+	}
+
+	#starlight__search .pagefind-ui__result-title:not(:where(.pagefind-ui__result-nested *)),
+	#starlight__search .pagefind-ui__result-nested {
+		margin: 0 0 -2px 0;
+		border-bottom: 2px rgba(0, 0, 0, 0.2) solid;
+		padding: 1rem 2rem;
+	}
+
+	#starlight__search .pagefind-ui__result-title:not(:where(.pagefind-ui__result-nested *)):focus-within,
+	#starlight__search .pagefind-ui__result-nested:focus-within {
+		background-color: transparent;
+	}
+
+	#starlight__search .pagefind-ui__result-inner > .pagefind-ui__result-title {
+		padding: 1rem;
+		font-size: 1.25rem;
+	}
+
+	#starlight__search .pagefind-ui__result-excerpt {
+		font-size: 1rem;
+	}
+
+	#starlight__search .pagefind-ui__result-link {
+		padding: 0;
+	}
+
+	#starlight__search .pagefind-ui__result-thumb,
+	#starlight__search .pagefind-ui__result-inner {
+		overflow: hidden;
+	}
+
+	button:where(.astro-77ywzd5k)[data-close-modal] {
+		font-size: 14px;
+		top: 1.5rem;
+	}
+
+	@layer starlight.reset {
+		p, h1, h2, h3, h4, h5, h6, code {
+			font-size: 1rem;
+			margin-bottom: 0.25rem;
+		}
+	}
+
+	#starlight__search .pagefind-ui__search-clear {
+		@apply text-green-black;
+	}
+
 </style>
