@@ -9,6 +9,7 @@ RUN corepack enable pnpm
 # Copy workspace files
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 COPY apps/website/package.json ./apps/website/package.json
+COPY apps/payload/package.json ./apps/payload/package.json
 COPY turbo.json tsconfig.base.jsonc ./
 
 # Install all dependencies (including workspace deps)
@@ -33,17 +34,6 @@ COPY . .
 # Build the website
 RUN pnpm --filter @collectivechange/website build
 
-# ---- Production dependencies stage ----
-FROM base AS prod-deps
-RUN corepack enable pnpm
-
-# Copy workspace files
-COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
-COPY apps/website/package.json ./apps/website/package.json
-
-# Install only production dependencies
-RUN pnpm install --prod --frozen-lockfile
-
 # ---- Runner stage ----
 FROM base AS runner
 
@@ -60,9 +50,11 @@ ENV CMS_URL=$CMS_URL
 ENV HOST=0.0.0.0
 ENV PORT=4321
 
-# Copy production dependencies
-COPY --from=prod-deps /app/node_modules ./node_modules
-COPY --from=prod-deps /app/package.json ./package.json
+# Copy workspace configuration and all dependencies
+COPY --from=builder /app/package.json ./package.json
+COPY --from=builder /app/pnpm-workspace.yaml ./pnpm-workspace.yaml
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/apps ./apps
 
 # Copy built application
 COPY --from=builder /app/apps/website/dist ./dist
