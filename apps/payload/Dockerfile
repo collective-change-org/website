@@ -44,10 +44,19 @@ ENV NEXT_TELEMETRY_DISABLED=1
 RUN adduser --system --uid 1001 nextjs
 
 # Copy the standalone output
-COPY --from=installer /app/node_modules ./node_modules
 COPY --from=builder --chown=nextjs:bun /app/apps/payload/.next/standalone ./
 COPY --from=builder --chown=nextjs:bun /app/apps/payload/.next/static ./.next/static
 COPY --from=builder --chown=nextjs:bun /app/apps/payload/public ./public
+
+# Debug: Check what's in the builder stage
+RUN echo "=== Checking builder stage structure ==="
+COPY --from=builder /app /tmp/debug_builder
+RUN ls -la /tmp/debug_builder
+RUN ls -la /tmp/debug_builder/node_modules || echo "No node_modules in builder"
+RUN ls -la /tmp/debug_builder/.bun || echo "No .bun in builder"
+
+# Copy complete node_modules structure from builder to preserve all dependencies
+COPY --from=builder --chown=nextjs:bun /app/node_modules ./node_modules
 
 USER nextjs
 
