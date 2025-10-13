@@ -19,12 +19,12 @@ FROM base AS builder
 WORKDIR /app
 # Copy source code of isolated subworkspace
 COPY --from=pruner /app/out/full/ .
-# COPY --from=pruner /app/out/json/apps/payload/package.json .
+# COPY --from=pruner /app/out/json/package.json .
 COPY --from=pruner /app/out/json/bun.lock .
 # Copy installed dependencies
 COPY --from=installer /app/node_modules ./node_modules
 # # Install any remaining dependencies (including devDependencies needed for build)
-RUN bun install --omit dev
+RUN bun install
 
 # Set environment variables for build
 ENV NEXT_TELEMETRY_DISABLED=1
