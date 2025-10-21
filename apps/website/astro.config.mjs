@@ -25,6 +25,7 @@ export default defineConfig({
 	},
 	integrations: [
 		starlight({
+			favicon: "/favicon.png",
 			title: "Collective Change",
 			locales: {
 				root: {
