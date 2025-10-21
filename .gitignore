@@ -30,3 +30,7 @@ uploads/
 apps/payload/public/media
 
 out/
+
+# moon
+.moon/cache
+.moon/docker

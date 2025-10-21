@@ -2,21 +2,27 @@ FROM node:23-alpine AS base
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
-# ---- Dependencies stage ----
-FROM base AS deps
-RUN corepack enable pnpm
-
 # Copy workspace files
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 COPY apps/website/package.json ./apps/website/package.json
 COPY apps/payload/package.json ./apps/payload/package.json
 COPY turbo.json tsconfig.base.jsonc ./
 
+# ---- Dependencies stage ----
+FROM base AS build-deps
+RUN corepack enable pnpm
+
 # Install all dependencies (including workspace deps)
 RUN pnpm install --frozen-lockfile
 
+# ---- Production Dependencies stage ----
+FROM base AS prod-deps
+RUN corepack enable pnpm
+
+RUN pnpm install --frozen-lockfile --production
+
 # ---- Builder stage ----
-FROM deps AS builder
+FROM build-deps AS builder
 
 # Accept build arguments
 ARG PAYLOAD_EMAIL
@@ -53,8 +59,8 @@ ENV PORT=4321
 # Copy workspace configuration and all dependencies
 COPY --from=builder /app/package.json ./package.json
 COPY --from=builder /app/pnpm-workspace.yaml ./pnpm-workspace.yaml
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/apps ./apps
+COPY --from=prod-deps /app/node_modules ./node_modules
+# COPY --from=builder /app/apps ./apps
 
 # Copy built application
 COPY --from=builder /app/apps/website/dist ./dist
