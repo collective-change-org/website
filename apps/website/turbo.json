@@ -1,0 +1,26 @@
+{
+	"extends": [
+		"//"
+	],
+	"tasks": {
+		"build": {
+			"dependsOn": [
+				"check-types"
+			],
+			"outputs": [
+				".astro/**",
+				"dist/**"
+			]
+		},
+		"check-types": {
+			"dependsOn": [],
+			"inputs": [
+				"src/**/*.ts",
+				"src/**/*.tsx",
+				"**/*.astro",
+				"tsconfig.json",
+				"package.json"
+			]
+		}
+	}
+}

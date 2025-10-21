@@ -7,7 +7,6 @@
 	"tasks": {
 		"build": {
 			"dependsOn": [
-				"^build",
 				"check-types"
 			],
 			"env": [
@@ -45,9 +44,7 @@
 			"cache": false
 		},
 		"check-types": {
-			"dependsOn": [
-				"^check-types"
-			],
+			"dependsOn": [],
 			"inputs": [
 				"src/**/*.ts",
 				"src/**/*.tsx",
@@ -57,9 +54,7 @@
 			]
 		},
 		"lint": {
-			"dependsOn": [
-				"^lint"
-			],
+			"dependsOn": [],
 			"inputs": [
 				"src/**/*.ts",
 				"src/**/*.tsx",
@@ -73,9 +68,7 @@
 			"outputs": []
 		},
 		"test": {
-			"dependsOn": [
-				"^build"
-			],
+			"dependsOn": [],
 			"inputs": [
 				"src/**/*.ts",
 				"src/**/*.tsx",
