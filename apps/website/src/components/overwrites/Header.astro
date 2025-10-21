@@ -3,7 +3,7 @@ import Default from "@astrojs/starlight/components/Header.astro"
 import { getCollection } from "astro:content"
 import User from "../User.astro"
 import Logo from "../../assets/Logo.svg"
-import { cn } from "@website/src/lib/cn"
+import { cn } from "@/lib/cn"
 import { Icon } from "astro-icon/components"
 
 const navlinks = await getCollection("header").then((collection) => {

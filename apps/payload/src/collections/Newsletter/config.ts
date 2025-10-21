@@ -82,6 +82,10 @@ export const Newsletter: CollectionConfig<"newsletter"> = {
 				try {
 					const [nonce, signature] = token.split(".")
 
+					if (!nonce || !signature) {
+						return new Response("Invalid token", { status: 400 })
+					}
+
 					const subscription = await request.payload.find({
 						collection: "notification-settings",
 						where: {
@@ -90,10 +94,10 @@ export const Newsletter: CollectionConfig<"newsletter"> = {
 						limit: 1,
 					})
 
-					if (subscription.docs.length === 0) {
+					const notificationSetting = subscription.docs[0]
+					if (subscription.docs.length === 0 || !notificationSetting) {
 						return new Response("Token not found", { status: 404 })
 					}
-					const notificationSetting = subscription.docs[0]
 
 					let user: User
 					if (typeof notificationSetting.user === "number") {

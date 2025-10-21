@@ -45,7 +45,7 @@ export default async function Page({
 			<RefreshRouteOnSave />
 			<html
 				dangerouslySetInnerHTML={{
-					__html: await renderNewsletter(newsletter.body, ""),
+					__html: await renderNewsletter(newsletter?.body || [], ""),
 				}}
 			/>
 		</>
