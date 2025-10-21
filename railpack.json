@@ -1,0 +1,23 @@
+{
+	"$schema": "https://schema.railpack.com",
+	"steps": {
+		"install": {
+			"commands": [
+				"pnpm install --frozen-lockfile"
+			]
+		},
+		"build": {
+			"inputs": [
+				{
+					"step": "install"
+				}
+			],
+			"commands": [
+				"cd apps/website && pnpm build"
+			]
+		}
+	},
+	"deploy": {
+		"startCommand": "node apps/website/dist/server/entry.mjs"
+	}
+}

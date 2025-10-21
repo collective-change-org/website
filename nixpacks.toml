@@ -1,4 +1,16 @@
 providers = ["node"]
 
-[phases.install]
-cmds = ["npm install -g corepack", "corepack enable", "corepack prepare pnpm@10.4.1 --activate", "pnpm install"]
+# [phases.install]
+# cmds = ["npm install -g corepack", "corepack enable", "corepack prepare pnpm@10.4.1 --activate", "pnpm install"]
+#
+# # NIXPACKS_INSTALL_CMD="pnpm install"
+# NIXPACKS_BUILD_CMD="cd apps/website && pnpm build"
+# #NIXPACKS_BUILD_CMD="pnpm turbo build --filter=@collectivechange/website"
+# NIXPACKS_START_CMD="node apps/website/dist/server/entry.mjs"
+# NIXPACKS_NODE_VERSION=22
+
+[phases.build]
+cmds = ["cd apps/website && pnpm build"]
+
+[start]
+cmd = "node apps/website/dist/server/entry.mjs"

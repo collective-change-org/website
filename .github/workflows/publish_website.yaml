@@ -31,6 +31,11 @@ jobs:
                   key: ${{ runner.os }}-turbo-${{ github.sha }}
                   restore-keys: ${{ runner.os }}-turbo-cc-web
 
+            - name: Install Railpack CLI
+              run: |
+                  curl -sSL https://railpack.com/install.sh | sh
+                  # or download binary from GitHub releases
+
             - name: Log in to the Container registry
               uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
               with:
@@ -54,21 +59,35 @@ jobs:
                   install: true
                   driver-opts: image=moby/buildkit:latest
 
-            - name: Build and push Docker image
-              uses: docker/build-push-action@v6
-              with:
-                  # context: apps/website
-                  file: apps/website/Dockerfile
-                  push: true
-                  build-args: |
-                      PAYLOAD_EMAIL=${{ secrets.PAYLOAD_EMAIL }}
-                      PAYLOAD_PASSWORD=${{ secrets.PAYLOAD_PASSWORD }}
-                      CMS_URL=${{ secrets.CMS_URL }}
-                  tags: |
-                      ghcr.io/collective-change-org/website:custom-${{ env.DATE_STAMP }}
-                      ghcr.io/collective-change-org/website:latest
-                  cache-from: type=gha
-                  cache-to: type=gha,mode=max
+            # - name: Build and push Docker image
+            #   uses: docker/build-push-action@v6
+            #   with:
+            #       # context: apps/website
+            #       file: apps/website/Dockerfile
+            #       push: true
+            #       build-args: |
+            #           PAYLOAD_EMAIL=${{ secrets.PAYLOAD_EMAIL }}
+            #           PAYLOAD_PASSWORD=${{ secrets.PAYLOAD_PASSWORD }}
+            #           CMS_URL=${{ secrets.CMS_URL }}
+            #       tags: |
+            #           ghcr.io/collective-change-org/website:custom-${{ env.DATE_STAMP }}
+            #           ghcr.io/collective-change-org/website:latest
+            #       cache-from: type=gha
+            #       cache-to: type=gha,mode=max
+
+            - name: Run Railpack prepare
+              run: |
+                  railpack prepare . --plan-out railpack-plan.json --info-out railpack-info.json
+
+            - name: Build Docker image
+              run: |
+                  docker buildx create --use
+                  docker buildx build \
+                  --build-arg BUILDKIT_SYNTAX="ghcr.io/railwayapp/railpack-frontend" \
+                  -f ./railpack-plan.json \
+                  --tag ghcr.io/collective-change-org/website:${{ github.sha }} \
+                  --tag ghcr.io/collective-change-org/website:latest \
+                  --push .
 
             - name: Trigger Dokploy Deployment
               run: |
