@@ -7,7 +7,11 @@
 		"start": "astro dev",
 		"build": "astro build",
 		"preview": "astro preview --host 0.0.0.0",
-		"astro": "astro"
+		"astro": "astro",
+		"check-types": "astro check",
+		"clean": "rm -rf dist .astro",
+		"format": "prettier --write .",
+		"lint": "eslint . --ext .js,.ts,.astro"
 	},
 	"dependencies": {
 		"@astrojs/node": "^9.4.4",
@@ -41,6 +45,8 @@
 	},
 	"devDependencies": {
 		"@iconify-json/ph": "^1.2.2",
+		"@repo/eslint-config": "workspace:*",
+		"@repo/typescript-config": "workspace:*",
 		"eslint": "^9.22.0",
 		"prettier": "^3.4.2",
 		"prettier-plugin-astro": "^0.14.1",

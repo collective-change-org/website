@@ -21,6 +21,13 @@ RUN corepack enable pnpm
 
 RUN pnpm install --frozen-lockfile --production
 
+# RUN echo "--- /app/apps/ output ---"
+# RUN ls -la /app/apps/ | head -20
+
+# RUN echo "--- /app/apps/website/nm output ---"
+# RUN ls -la /app/apps/website/node_modules | head -20
+
+
 # ---- Builder stage ----
 FROM build-deps AS builder
 
@@ -57,10 +64,9 @@ ENV HOST=0.0.0.0
 ENV PORT=4321
 
 # Copy workspace configuration and all dependencies
-COPY --from=builder /app/package.json ./package.json
-COPY --from=builder /app/pnpm-workspace.yaml ./pnpm-workspace.yaml
-COPY --from=prod-deps /app/node_modules ./node_modules
-# COPY --from=builder /app/apps ./apps
+COPY --from=prod-deps /app/apps/website/node_modules ./node_modules
+
+RUN ls -la /app/node_modules | head -20
 
 # Copy built application
 COPY --from=builder /app/apps/website/dist ./dist

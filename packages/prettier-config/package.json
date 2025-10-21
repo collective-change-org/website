@@ -1,0 +1,21 @@
+{
+	"name": "@repo/prettier-config",
+	"version": "0.0.0",
+	"private": true,
+	"license": "MIT",
+	"main": "index.js",
+	"scripts": {
+		"build": "echo 'No build needed for Prettier config'",
+		"check-types": "echo 'No type checking needed for Prettier config'",
+		"lint": "echo 'No linting needed for Prettier config'",
+		"clean": "echo 'No cleanup needed for Prettier config'"
+	},
+	"files": [
+		"index.js"
+	],
+	"dependencies": {
+		"prettier": "^3.4.2",
+		"prettier-plugin-astro": "^0.14.1",
+		"prettier-plugin-tailwindcss": "^0.6.14"
+	}
+}

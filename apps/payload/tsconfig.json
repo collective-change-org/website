@@ -1,16 +1,7 @@
 {
+	"extends": "../../packages/typescript-config/nextjs.json",
 	"compilerOptions": {
-		"incremental": true,
-		"target": "ES2022",
-		"jsx": "preserve",
-		"lib": [
-			"DOM",
-			"DOM.Iterable",
-			"ES2022"
-		],
 		"baseUrl": ".",
-		"module": "esnext",
-		"moduleResolution": "bundler",
 		"paths": {
 			"@/*": [
 				"./src/*"
@@ -18,19 +9,7 @@
 			"@payload-config": [
 				"./src/payload.config.ts"
 			]
-		},
-		"resolveJsonModule": true,
-		"allowJs": true,
-		"strict": true,
-		"noEmit": true,
-		"esModuleInterop": true,
-		"isolatedModules": true,
-		"skipLibCheck": true,
-		"plugins": [
-			{
-				"name": "next"
-			}
-		]
+		}
 	},
 	"include": [
 		"next-env.d.ts",

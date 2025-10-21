@@ -1,6 +1,7 @@
 import type { LexicalRootContainer } from "../schemas/lexical";
 import type { Page } from ".";
-import { createImageUrl } from "@website/src/lib/createImageUrl";
+import { createImageUrl } from "@/lib/createImageUrl";
+
 import { sdk } from "../sdk";
 
 export type ContentBlock = {

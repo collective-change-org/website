@@ -1,31 +1,41 @@
 {
 	"$schema": "https://turbo.build/schema.json",
+	"globalDependencies": [
+		"**/.env.*local",
+		"**/.env"
+	],
 	"tasks": {
 		"build": {
 			"dependsOn": [
-				"^build"
+				"^build",
+				"check-types"
 			],
 			"env": [
 				"PAYLOAD_SECRET",
 				"DATABASE_URI",
 				"CMS_URL",
 				"PAYLOAD_EMAIL",
-				"PAYLOAD_PASSWORD"
+				"PAYLOAD_PASSWORD",
+				"NODE_ENV"
 			],
 			"outputs": [
 				"dist/**",
 				".next/**",
-				"!.next/cache/**"
-			]
-		},
-		"check-types": {
-			"dependsOn": [
-				"^check-types"
+				"!.next/cache/**",
+				".astro/**"
 			]
 		},
 		"dev": {
 			"persistent": true,
-			"cache": false
+			"cache": false,
+			"env": [
+				"PAYLOAD_SECRET",
+				"DATABASE_URI",
+				"CMS_URL",
+				"PAYLOAD_EMAIL",
+				"PAYLOAD_PASSWORD",
+				"NODE_ENV"
+			]
 		},
 		"preview": {
 			"dependsOn": [
@@ -33,6 +43,73 @@
 			],
 			"persistent": true,
 			"cache": false
+		},
+		"check-types": {
+			"dependsOn": [
+				"^check-types"
+			],
+			"inputs": [
+				"src/**/*.ts",
+				"src/**/*.tsx",
+				"**/*.astro",
+				"tsconfig.json",
+				"package.json"
+			]
+		},
+		"lint": {
+			"dependsOn": [
+				"^lint"
+			],
+			"inputs": [
+				"src/**/*.ts",
+				"src/**/*.tsx",
+				"src/**/*.js",
+				"src/**/*.jsx",
+				"**/*.astro",
+				".eslintrc.*",
+				"eslint.config.*",
+				"package.json"
+			],
+			"outputs": []
+		},
+		"test": {
+			"dependsOn": [
+				"^build"
+			],
+			"inputs": [
+				"src/**/*.ts",
+				"src/**/*.tsx",
+				"src/**/*.js",
+				"src/**/*.jsx",
+				"test/**/*",
+				"**/*.test.*",
+				"**/*.spec.*",
+				"jest.config.*",
+				"vitest.config.*",
+				"package.json"
+			],
+			"outputs": [
+				"coverage/**"
+			]
+		},
+		"clean": {
+			"cache": false,
+			"outputs": []
+		},
+		"format": {
+			"inputs": [
+				"src/**/*.ts",
+				"src/**/*.tsx",
+				"src/**/*.js",
+				"src/**/*.jsx",
+				"**/*.astro",
+				"**/*.json",
+				"**/*.md",
+				".prettierrc*",
+				"prettier.config.*",
+				"package.json"
+			],
+			"outputs": []
 		}
 	}
 }

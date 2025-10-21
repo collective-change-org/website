@@ -1,0 +1,27 @@
+{
+	"name": "@repo/eslint-config",
+	"version": "0.0.0",
+	"private": true,
+	"license": "MIT",
+	"main": "./index.js",
+	"scripts": {
+		"build": "echo 'No build needed for ESLint config'",
+		"check-types": "echo 'No type checking needed for ESLint config'",
+		"lint": "echo 'No linting needed for ESLint config'",
+		"clean": "echo 'No cleanup needed for ESLint config'"
+	},
+	"files": [
+		"index.js",
+		"next.js",
+		"astro.js"
+	],
+	"dependencies": {
+		"eslint-config-turbo": "^2.5.8"
+	},
+	"devDependencies": {
+		"eslint": "^9.22.0"
+	},
+	"peerDependencies": {
+		"eslint": "^9.0.0"
+	}
+}

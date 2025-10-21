@@ -1,0 +1,8 @@
+{
+	"platform": "auto",
+	"architecture": "auto",
+	"nodeVersion": "auto",
+	"packageManager": "pnpm",
+	"packageManagerVersion": "10.4.1",
+	"turborepoVersion": "2.5.8"
+}
