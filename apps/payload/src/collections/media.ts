@@ -1,13 +1,7 @@
 import type { CollectionConfig } from "payload"
 
-import path from "node:path"
-import { fileURLToPath } from "node:url"
-
 import { anyone } from "../access/anyone"
 import { authenticated } from "../access/authenticated"
-
-const filename = fileURLToPath(import.meta.url)
-const dirname = path.dirname(filename)
 
 export const Media: CollectionConfig = {
 	slug: "media",
@@ -29,8 +23,7 @@ export const Media: CollectionConfig = {
 		},
 	],
 	upload: {
-		// Upload to the public/media directory in Next.js making them publicly accessible even outside of Payload
-		staticDir: path.resolve(dirname, "../../public/media"),
+		staticDir: "media",
 		adminThumbnail: "thumbnail",
 		focalPoint: true,
 		imageSizes: [
