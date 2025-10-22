@@ -13,6 +13,7 @@ import { HeroBlock } from "@/blocks/hero"
 import { HighlightArticleBlock } from "@/blocks/highlight-article"
 import { JoinCrewBlock } from "@/blocks/join-crew"
 import { SelectedWorkBlock } from "@/blocks/selected-work"
+import { triggerDeploy } from "@/hooks/trigger-deploy"
 
 import { authenticated } from "../../access/authenticated"
 import { authenticatedOrPublished } from "../../access/authenticated-or-published"
@@ -127,7 +128,7 @@ export const Pages: CollectionConfig<"pages"> = {
 		...slugField(),
 	],
 	hooks: {
-		afterChange: [revalidatePage],
+		afterChange: [revalidatePage, triggerDeploy],
 		beforeChange: [populatePublishedAt],
 		// beforeDelete: [revalidateDelete],
 	},

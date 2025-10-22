@@ -17,6 +17,8 @@ import {
 	UploadFeature,
 } from "@payloadcms/richtext-lexical"
 
+import { triggerDeploy } from "@/hooks/trigger-deploy"
+
 import type { Group } from "../../payload-types"
 
 import { authenticated } from "../../access/authenticated"
@@ -282,7 +284,7 @@ export const Knowledgebase: CollectionConfig<"knowledgebase"> = {
 		},
 	],
 	hooks: {
-		afterChange: [revalidatePost],
+		afterChange: [revalidatePost, triggerDeploy],
 		afterRead: [populateAuthors],
 		afterDelete: [revalidateDelete],
 	},

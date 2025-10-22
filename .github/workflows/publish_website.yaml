@@ -12,6 +12,10 @@ env:
     DOCKER_BUILDKIT: 1
     COMPOSE_DOCKER_CLI_BUILD: 1
 
+concurrency:
+    group: publish-website
+    cancel-in-progress: true
+
 jobs:
     build-and-push-image:
         runs-on: ubuntu-latest
@@ -61,35 +65,6 @@ jobs:
                       ghcr.io/collective-change-org/website:custom-${{ env.DATE_STAMP }}
                       ghcr.io/collective-change-org/website:latest
                   env: NIXPACKS_NODE_VERSION=20,CMS_URL=${{ secrets.CMS_URL }},PAYLOAD_EMAIL=${{ secrets.PAYLOAD_EMAIL }},PAYLOAD_PASSWORD=${{ secrets.PAYLOAD_PASSWORD }}
-
-            # - name: Build and push Docker image
-            #   uses: docker/build-push-action@v6
-            #   with:
-            #       # context: apps/website
-            #       file: apps/website/Dockerfile
-            #       push: true
-            #       build-args: |
-            #           PAYLOAD_EMAIL=${{ secrets.PAYLOAD_EMAIL }}
-            #           PAYLOAD_PASSWORD=${{ secrets.PAYLOAD_PASSWORD }}
-            #           CMS_URL=${{ secrets.CMS_URL }}
-            #       tags: |
-            #           ghcr.io/collective-change-org/website:custom-${{ env.DATE_STAMP }}
-            #           ghcr.io/collective-change-org/website:latest
-            #       cache-from: type=gha
-            #       cache-to: type=gha,mode=max
-
-            # - name: Build Docker image
-            #   run: |
-            #       docker buildx build \
-            #       --build-arg BUILDKIT_SYNTAX="ghcr.io/railwayapp/railpack-frontend" \
-            #       --secret id=PAYLOAD_EMAIL,env=PAYLOAD_EMAIL \
-            #       --secret id=PAYLOAD_PASSWORD,env=PAYLOAD_PASSWORD \
-            #       --secret id=CMS_URL,env=CMS_URL \
-            #       -f ./railpack-plan.json \
-            #       --tag ghcr.io/collective-change-org/website:${{ github.sha }} \
-            #       --tag ghcr.io/collective-change-org/website:latest \
-            #       --push \
-            #       /home/runner/work/website/website
 
             - name: Trigger Dokploy Deployment
               run: |
