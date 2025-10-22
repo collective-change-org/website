@@ -33,7 +33,7 @@ const { children, slug } = Astro.props
 		switch (block.blockType) {
 			case "containerBlock":
 				return (
-				<Section background="green">
+				<Section background={block.color}>
 					<Astro.self children={block.layout} {slug} />
 				</Section>
 				)
@@ -145,7 +145,7 @@ const { children, slug } = Astro.props
 			case "upcomingEvents":
 				return <UpcomingEvents {...block} server:defer />
 			case "accountBlock":
-				return <Account server:defer />
+				return <Section background="white-1"><Account server:defer /></Section>
 			default:
 				return (
 					<p class="text-white mix-blend-difference">
