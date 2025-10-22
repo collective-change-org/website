@@ -75,14 +75,14 @@ jobs:
             #       cache-from: type=gha
             #       cache-to: type=gha,mode=max
 
-            # - name: Run Railpack prepare
-            #   run: |
-            #       railpack prepare . \
-            #         --plan-out railpack-plan.json \
-            #         --info-out railpack-info.json \
-            #         --env PAYLOAD_EMAIL=${{ secrets.PAYLOAD_EMAIL }} \
-            #         --env PAYLOAD_PASSWORD=${{ secrets.PAYLOAD_PASSWORD }} \
-            #         --env CMS_URL=${{ secrets.CMS_URL }}
+            - name: Run Railpack prepare
+              run: |
+                  railpack prepare . \
+                    --plan-out railpack-plan.json \
+                    --info-out railpack-info.json \
+                    --env PAYLOAD_EMAIL=${{ secrets.PAYLOAD_EMAIL }} \
+                    --env PAYLOAD_PASSWORD=${{ secrets.PAYLOAD_PASSWORD }} \
+                    --env CMS_URL=${{ secrets.CMS_URL }}
 
             # Log out current directory content
             - name: Log out current directory content
@@ -90,32 +90,23 @@ jobs:
                   pwd
                   ls -l
 
-            # # cat railpack-plan.json
-            # - name: Log out railpack-plan.json
-            #   run: |
-            #       cat railpack-plan.json
-
-            # - name: Build Docker image
-            #   run: |
-            #       docker buildx build \
-            #       --build-arg BUILDKIT_SYNTAX="ghcr.io/railwayapp/railpack-frontend" \
-            #       --secret id=PAYLOAD_EMAIL,env=PAYLOAD_EMAIL \
-            #       --secret id=PAYLOAD_PASSWORD,env=PAYLOAD_PASSWORD \
-            #       --secret id=CMS_URL,env=CMS_URL \
-            #       -f ./railpack-plan.json \
-            #       --tag ghcr.io/collective-change-org/website:${{ github.sha }} \
-            #       --tag ghcr.io/collective-change-org/website:latest \
-            #       --push .
-
-            - name: Build and push image using Railpack
+            # cat railpack-plan.json
+            - name: Log out railpack-plan.json
               run: |
-                  railpack build . \
-                    --env PAYLOAD_EMAIL=${{ secrets.PAYLOAD_EMAIL }} \
-                    --env PAYLOAD_PASSWORD=${{ secrets.PAYLOAD_PASSWORD }} \
-                    --env CMS_URL=${{ secrets.CMS_URL }} \
-                    --push \
-                    --tag ghcr.io/collective-change-org/website:${{ github.sha }} \
-                    --tag ghcr.io/collective-change-org/website:latest
+                  cat railpack-plan.json
+
+            - name: Build Docker image
+              run: |
+                  docker buildx build \
+                  --build-arg BUILDKIT_SYNTAX="ghcr.io/railwayapp/railpack-frontend" \
+                  --secret id=PAYLOAD_EMAIL,env=PAYLOAD_EMAIL \
+                  --secret id=PAYLOAD_PASSWORD,env=PAYLOAD_PASSWORD \
+                  --secret id=CMS_URL,env=CMS_URL \
+                  -f ./railpack-plan.json \
+                  --tag ghcr.io/collective-change-org/website:${{ github.sha }} \
+                  --tag ghcr.io/collective-change-org/website:latest \
+                  --push \
+                  /home/runner/work/website/website
 
             - name: Trigger Dokploy Deployment
               run: |
