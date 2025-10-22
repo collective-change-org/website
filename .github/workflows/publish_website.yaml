@@ -13,7 +13,7 @@ env:
     COMPOSE_DOCKER_CLI_BUILD: 1
 
 concurrency:
-    group: publish-website
+    group: ${{ github.workflow }}-${{ github.ref }}
     cancel-in-progress: true
 
 jobs:
