@@ -37,6 +37,7 @@ export const server = {
 					password,
 				}),
 			}).catch((e) => {
+				console.error("Login Fetch Failed", e)
 				throw new ActionError({
 					code: "UNAUTHORIZED",
 					message: e,
@@ -48,7 +49,7 @@ export const server = {
 					message: "Invalid email or password",
 				})
 			}
-			// // Log res headers
+
 			const setCookie = res.headers.get("set-cookie")
 
 			let cookie
@@ -56,8 +57,8 @@ export const server = {
 			if (!values) return
 			for (const value of values) {
 				const pair = value.split("=")
-				const key = pair[0].trim() as string | undefined
-				const val = pair[1].trim() as string | undefined
+				const key = pair[0]?.trim() as string | undefined
+				const val = pair[1]?.trim() as string | undefined
 				if (!key || !val) continue
 				if (!cookie) {
 					cookie = {
@@ -74,11 +75,14 @@ export const server = {
 					message: "Couldnt parse cookie",
 				})
 			}
+
+			const expires = cookie["Expires"] ? new Date(cookie["Expires"]) : new Date(Date.now())
+
 			ctx.cookies.set("payload-token", cookie["payload-token"], {
 				sameSite: "lax",
 				path: cookie["Path"],
 				httpOnly: true,
-				expires: new Date(cookie["Expires"]),
+				expires
 			})
 			return true
 		},
